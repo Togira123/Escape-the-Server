@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://b7ts0yd67xbb4"]
+
+[ext_resource type="PackedScene" uid="uid://cror3kqdb4d2r" path="res://A_reg.tscn" id="1_88jxs"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_67cfx"]
+size = Vector3(10, 2, 50)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_wudb2"]
+size = Vector3(10, 2, 50)
+
+[node name="Main" type="Node"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = SubResource("BoxMesh_67cfx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = SubResource("BoxShape3D_wudb2")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.853969, 0.520324, 0, -0.520324, 0.853969, 0, 5.62079, 8.78693)
+
+[node name="A_reg" parent="." instance=ExtResource("1_88jxs")]
