@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dctl13pmqv82u"]
+
+[ext_resource type="Script" path="res://player.gd" id="1_i4csm"]
+[ext_resource type="ArrayMesh" uid="uid://dnw02g81pf034" path="res://assets/graphics/player/Realistic_White_Male_Low_Poly.obj" id="1_q61nx"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s8mlq"]
+radius = 25.8881
+height = 81.1099
+
+[node name="Player" type="CharacterBody3D"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+script = ExtResource("1_i4csm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 41, 2.08165e-12)
+shape = SubResource("CapsuleShape3D_s8mlq")
+
+[node name="Pivot" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+
+[node name="RealisticWhiteMaleLowPoly" type="MeshInstance3D" parent="Pivot"]
+mesh = ExtResource("1_q61nx")
+skeleton = NodePath("")

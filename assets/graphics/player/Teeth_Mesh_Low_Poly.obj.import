@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ctqcd8cifkiu0"
+path="res://.godot/imported/Teeth_Mesh_Low_Poly.obj-23dde9bf1dc84d23a378729381d4d234.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Teeth_Mesh_Low_Poly.obj-23dde9bf1dc84d23a378729381d4d234.mesh"]
+
+source_file="res://assets/graphics/player/Teeth_Mesh_Low_Poly.obj"
+dest_files=["res://.godot/imported/Teeth_Mesh_Low_Poly.obj-23dde9bf1dc84d23a378729381d4d234.mesh", "res://.godot/imported/Teeth_Mesh_Low_Poly.obj-23dde9bf1dc84d23a378729381d4d234.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
