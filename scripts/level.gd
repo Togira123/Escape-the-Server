@@ -5,7 +5,7 @@ var loaded_modules = []
 var amount = 10
 var rng = RandomNumberGenerator.new()
 const OFFSET: int = 20
-const LOADED_MODULES_SIZE = 32
+const LOADED_MODULES_SIZE: int = 32
 var module_count: int = 0
 
 # Called when the node enters the scene tree for the first time.
