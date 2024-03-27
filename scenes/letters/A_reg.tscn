@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cror3kqdb4d2r"]
 
-[ext_resource type="Script" path="res://letter.gd" id="1_jym1k"]
+[ext_resource type="Script" path="res://scripts/letter.gd" id="1_jym1k"]
 [ext_resource type="ArrayMesh" uid="uid://p0el3754br37" path="res://assets/graphics/letters/A_regular.obj" id="1_montl"]
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_wub6w"]
