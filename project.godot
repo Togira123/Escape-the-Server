@@ -47,6 +47,7 @@ jump={
 3d_physics/layer_1="Ground"
 3d_physics/layer_2="LetterGroundCollision"
 3d_physics/layer_3="LetterPlayerCollision"
+3d_physics/layer_4="Player"
 
 [rendering]
 
