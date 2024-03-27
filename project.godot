@@ -42,6 +42,12 @@ jump={
 ]
 }
 
+[layer_names]
+
+3d_physics/layer_1="Ground"
+3d_physics/layer_2="LetterGroundCollision"
+3d_physics/layer_3="LetterPlayerCollision"
+
 [rendering]
 
 renderer/rendering_method="gl_compatibility"
