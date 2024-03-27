@@ -2,14 +2,16 @@
 
 [ext_resource type="ArrayMesh" uid="uid://b4xufxnc0ptan" path="res://assets/graphics/letters/I_regular.obj" id="1_dqqv2"]
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_l7582"]
-points = PackedVector3Array(-0.138462, 0, -1.30385, 0.138459, 0, -1.30385, -0.138462, 0, 1.35, -0.138462, 0.599992, -1.30385, 0.138459, 0.599992, -1.30385, 0.138459, 0, 1.35, -0.138462, 0.599992, 1.35, 0.138459, 0.599992, 1.35)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tnhq0"]
+points = PackedVector3Array(0.177429, 0.610795, 1.37106, -0.159562, -0.021, -1.32486, 0.177429, -0.021, -1.32486, -0.159562, -0.021, 1.37106, -0.159562, 0.610795, -1.32486, 0.177429, 0.610795, -1.32486, 0.177429, -0.021, 1.37106, -0.159562, 0.610795, 1.37106)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_b38pj"]
 data = PackedVector3Array(0.1385, 0.6, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0.6, -1.3038, 0.1385, 0.6, 1.35, -0.1385, 0.6, 1.35, 0.1385, 0.6, -1.3038, -0.1385, 0, -1.3038, -0.1385, 0, 1.35, 0.1385, 0, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0.6, -1.3038, 0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0.6, 1.35, 0.1385, 0.6, 1.35, -0.1385, 0, 1.35, -0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0, 1.35, -0.1385, 0.6, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0, -1.3038, -0.1385, 0, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0, 1.35, 0.1385, 0.6, -1.3038, -0.1385, 0.6, -1.3038, 0.1385, 0, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0.6, -1.3038, -0.1385, 0, -1.3038)
 
 [node name="I_reg" type="RigidBody3D"]
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+collision_layer = 2
+collision_mask = 3
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
@@ -19,11 +21,13 @@ mesh = ExtResource("1_dqqv2")
 skeleton = NodePath("../../PlayerDetector")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
-transform = Transform3D(5, 6.11257e-37, 6.31089e-30, 1.01885e-37, 5, 0, -7.88861e-30, -3.55271e-15, 5, 0, 0, 0)
-shape = SubResource("ConvexPolygonShape3D_l7582")
+transform = Transform3D(5, 2.35099e-37, 1.45652e-37, -1.41059e-37, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_tnhq0")
 
 [node name="PlayerDetector" type="Area3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerDetector"]
 transform = Transform3D(1, 8.22846e-38, 1.66608e-30, -1.17549e-38, 1, 5.91921e-17, -1.38051e-30, 0, 1, 0, 0, 0)
