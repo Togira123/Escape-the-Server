@@ -1,21 +1,23 @@
 extends CharacterBody3D
 
-@export var speed = 14
+@export var speed = 30
 
 @export var fall_acceleration = 75
 
 @export var jump_impulse = 20
 
+@onready var level = $"../Level"
+
 var target_velocity = Vector3.ZERO
 
 func _physics_process(delta):
 	var direction = Vector3.ZERO
-	direction.z -= 1
+	direction.z += 1
 	# Get inputs
 	if Input.is_action_pressed("move_right"):
-		direction.x += 0.5
-	if Input.is_action_pressed("move_left"):
 		direction.x -= 0.5
+	if Input.is_action_pressed("move_left"):
+		direction.x += 0.5
 
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
@@ -36,5 +38,9 @@ func _physics_process(delta):
 
 	if is_on_floor() and Input.is_action_just_pressed("jump"):
 		target_velocity.y = jump_impulse
+		
+	# make sure to spawn in new ground
+	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
+		level.spawn_module(level.module_count * level.OFFSET)
 
 	move_and_slide()

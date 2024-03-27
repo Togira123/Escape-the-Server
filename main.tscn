@@ -1,35 +1,26 @@
 [gd_scene load_steps=5 format=3 uid="uid://b7ts0yd67xbb4"]
 
+[ext_resource type="Script" path="res://level.gd" id="1_3nhe7"]
 [ext_resource type="PackedScene" uid="uid://cror3kqdb4d2r" path="res://A_reg.tscn" id="1_88jxs"]
+[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://ground.tscn" id="1_ueqbu"]
 [ext_resource type="PackedScene" uid="uid://dctl13pmqv82u" path="res://player.tscn" id="2_n0dpm"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_67cfx"]
-size = Vector3(10, 2, 50)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_wudb2"]
-size = Vector3(10, 2, 50)
 
 [node name="Main" type="Node"]
 
-[node name="Ground" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1, 2.08165e-12)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
-mesh = SubResource("BoxMesh_67cfx")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
-shape = SubResource("BoxShape3D_wudb2")
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.853969, 0.520324, 0, -0.520324, 0.853969, 0, 8.51325, 20.149)
+[node name="Level" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
+script = ExtResource("1_3nhe7")
+modules = Array[PackedScene]([ExtResource("1_ueqbu")])
 
 [node name="A_reg" parent="." instance=ExtResource("1_88jxs")]
-transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.08165e-12, 9.77235, 2.08165e-12)
+transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 2.08165e-12, 14.6617, 35.0581)
 fall = true
 GRAVITY = 1
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.738585, 0.674161, 0, -0.674161, 0.738585, 0, 9.26235, 5.96843)
+transform = Transform3D(1, 0, 0, 0, -0.78313, 0.621859, 0, -0.621859, -0.78313, 0, 27.8078, 11.246)
 
 [node name="Player" parent="." instance=ExtResource("2_n0dpm")]
-transform = Transform3D(-0.1, 0, 6.97692e-06, 0, 0.1, 0, -6.97692e-06, 0, -0.1, 0, 0, 23.2315)
+
+[node name="Camera3D" type="Camera3D" parent="Player"]
+transform = Transform3D(-9.99928, 0.0624785, -0.102541, -6.81637e-17, 8.53969, 5.20324, 0.120076, 5.20287, -8.53907, 7.5805e-14, 128.949, -238.437)
