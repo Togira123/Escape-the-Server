@@ -15,15 +15,11 @@ func _ready():
 		spawn_module(module_count * OFFSET)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 func spawn_module(n: int):
 	var instance = modules[0].instantiate()
 	instance.position.z = n
 	print("spawned at ", n)
-	var index = (n / OFFSET) % LOADED_MODULES_SIZE;
+	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE;
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
 	loaded_modules[index] = instance

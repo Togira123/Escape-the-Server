@@ -1,6 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://btp5j8qud4l7o"]
+[gd_scene load_steps=30 format=3 uid="uid://btp5j8qud4l7o"]
 
+[ext_resource type="Script" path="res://scripts/ground.gd" id="1_1dp4b"]
+[ext_resource type="PackedScene" uid="uid://t2rwy2mkkifa" path="res://scenes/letters/B_reg.tscn" id="1_6b3n7"]
 [ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_0fig3"]
+[ext_resource type="PackedScene" uid="uid://bf76ojpsvn2m2" path="res://scenes/letters/C_reg.tscn" id="4_gils6"]
+[ext_resource type="PackedScene" uid="uid://dn3alb8qkybhh" path="res://scenes/letters/D_reg.tscn" id="5_pgmy3"]
+[ext_resource type="PackedScene" uid="uid://bk75ugi2fxbgy" path="res://scenes/letters/E_reg.tscn" id="6_thg0q"]
+[ext_resource type="PackedScene" uid="uid://c2nly48hjcdgm" path="res://scenes/letters/F_reg.tscn" id="7_7c4xo"]
+[ext_resource type="PackedScene" uid="uid://76xl646j2rwt" path="res://scenes/letters/G_reg.tscn" id="8_vqswr"]
+[ext_resource type="PackedScene" uid="uid://doyg48wxv0we3" path="res://scenes/letters/H_reg.tscn" id="9_k0383"]
+[ext_resource type="PackedScene" uid="uid://bwvxyqw1aw7ey" path="res://scenes/letters/I_reg.tscn" id="10_oyeyk"]
+[ext_resource type="PackedScene" uid="uid://dlkv4knm0ljxt" path="res://scenes/letters/J_reg.tscn" id="11_6bvbb"]
+[ext_resource type="PackedScene" uid="uid://dklpo3d781hfs" path="res://scenes/letters/K_reg.tscn" id="12_vf5pw"]
+[ext_resource type="PackedScene" uid="uid://dmjwqtj3o1poo" path="res://scenes/letters/L_reg.tscn" id="13_kkoyf"]
+[ext_resource type="PackedScene" uid="uid://b6l5l7xtxcc5m" path="res://scenes/letters/M_reg.tscn" id="14_c1gln"]
+[ext_resource type="PackedScene" uid="uid://dojlqfkkxidxe" path="res://scenes/letters/N_reg.tscn" id="15_lhlal"]
+[ext_resource type="PackedScene" uid="uid://b8f83jnsk5ker" path="res://scenes/letters/O_reg.tscn" id="16_0ix2q"]
+[ext_resource type="PackedScene" uid="uid://dn0minluftepo" path="res://scenes/letters/P_reg.tscn" id="17_agkaa"]
+[ext_resource type="PackedScene" uid="uid://b40nnxqqtaiey" path="res://scenes/letters/Q_reg.tscn" id="18_w6dml"]
+[ext_resource type="PackedScene" uid="uid://b3yim8mxlx31p" path="res://scenes/letters/R_reg.tscn" id="19_5kbgf"]
+[ext_resource type="PackedScene" uid="uid://dfo1xqvctnoha" path="res://scenes/letters/S_reg.tscn" id="20_7hjft"]
+[ext_resource type="PackedScene" uid="uid://wvp18xqc0uc3" path="res://scenes/letters/T_reg.tscn" id="21_4frvx"]
+[ext_resource type="PackedScene" uid="uid://be0whj8wy0lhp" path="res://scenes/letters/U_reg.tscn" id="22_n30pc"]
+[ext_resource type="PackedScene" uid="uid://cus40yeugmum7" path="res://scenes/letters/V_reg.tscn" id="23_j6n30"]
+[ext_resource type="PackedScene" uid="uid://bh7siqx0hcae" path="res://scenes/letters/W_reg.tscn" id="24_nfqav"]
+[ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_3mhp5"]
+[ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_ykk04"]
+[ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_c6hj5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cwxa6"]
 size = Vector3(50, 2, 20)
@@ -9,11 +35,11 @@ size = Vector3(50, 2, 20)
 size = Vector3(50, 2, 20)
 
 [node name="Module" type="Node3D"]
-
-[node name="A_reg2" parent="." instance=ExtResource("2_0fig3")]
-transform = Transform3D(1, 2.13076e-38, -1.5246e-23, -1.4557e-23, -0.297225, -0.954808, -4.53149e-24, 0.954808, -0.297225, 0, 19.3076, 0)
+script = ExtResource("1_1dp4b")
+letter_scenes = Array[PackedScene]([ExtResource("2_0fig3"), ExtResource("1_6b3n7"), ExtResource("4_gils6"), ExtResource("5_pgmy3"), ExtResource("6_thg0q"), ExtResource("7_7c4xo"), ExtResource("8_vqswr"), ExtResource("9_k0383"), ExtResource("10_oyeyk"), ExtResource("11_6bvbb"), ExtResource("12_vf5pw"), ExtResource("13_kkoyf"), ExtResource("14_c1gln"), ExtResource("15_lhlal"), ExtResource("16_0ix2q"), ExtResource("17_agkaa"), ExtResource("18_w6dml"), ExtResource("19_5kbgf"), ExtResource("20_7hjft"), ExtResource("21_4frvx"), ExtResource("22_n30pc"), ExtResource("23_j6n30"), ExtResource("24_nfqav"), ExtResource("25_3mhp5"), ExtResource("26_ykk04"), ExtResource("27_c6hj5")])
 
 [node name="Ground" type="StaticBody3D" parent="."]
+collision_mask = 0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
 mesh = SubResource("BoxMesh_cwxa6")
