@@ -47,3 +47,7 @@ func _physics_process(delta):
 		level.spawn_module(level.module_count * level.OFFSET)
 
 	move_and_slide()
+
+
+func _on_hitbox_area_entered(area):
+	print("Hit letter!") # Replace with function body.
