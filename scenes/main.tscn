@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/ground.tscn" id="1_ueqbu"]
-[ext_resource type="PackedScene" uid="uid://dctl13pmqv82u" path="res://scenes/player.tscn" id="2_n0dpm"]
+[ext_resource type="PackedScene" uid="uid://b4leksxuxjlb5" path="res://scenes/new_player.tscn" id="4_dt3si"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
@@ -34,7 +34,7 @@ modules = Array[PackedScene]([ExtResource("1_ueqbu")])
 transform = Transform3D(1, 0, 0, 0, -0.43754, 0.899199, 0, -0.899199, -0.43754, 0, 34.9498, 11.246)
 shadow_enabled = true
 
-[node name="Player" parent="." instance=ExtResource("2_n0dpm")]
+[node name="Player" parent="." instance=ExtResource("4_dt3si")]
 
 [node name="Camera3D" type="Camera3D" parent="Player"]
-transform = Transform3D(-9.99928, 0.0624785, -0.102541, -6.81637e-17, 8.53969, 5.20324, 0.120076, 5.20287, -8.53907, 4.9094e-14, 90.4299, -200.374)
+transform = Transform3D(-1, -3.33142e-08, 8.08264e-08, 3.2247e-16, 0.924546, 0.38107, -8.74228e-08, 0.38107, -0.924546, 0, 2.57449, -2.0716)
