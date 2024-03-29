@@ -34,6 +34,7 @@ func _physics_process(delta):
 			velocity.y -= FALL_ACCELERATION * delta
 	else:
 		has_spinned = false
+		# make sure that character is standing normal after spinning
 		rotation.x = 0
 	# 	Handle jump
 		if Input.is_action_just_pressed("jump"):
@@ -58,9 +59,6 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
-	
-	#print(animation_tree.get("parameters/movements/blend_position"))
-	#animation_tree.set("parameters/walk_to_run/blend_position", 1)
 	
 	# make sure to spawn in new ground
 	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:

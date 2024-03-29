@@ -11,4 +11,4 @@ func _ready():
 func _process(delta):
 	position.z = player.position.z - 2
 	position.x = player.position.x
-	position.y = player.position.y + 2
+	position.y = player.position.y + 1
