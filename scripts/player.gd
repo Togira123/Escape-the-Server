@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var armature = $Armature
 @onready var animation_tree = $AnimationTree
+@onready var animation_state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @onready var level = $"../Level"
 
@@ -10,24 +11,43 @@ const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
 const FALL_ACCELERATION = 75
 
+var has_spinned = false # makes sure players can only roll once after jumping
+var is_jumping = false
 var is_rolling = false
 
 func _physics_process(delta):
-	animation_tree.set("parameters/conditions/is_jumping", false)
 	animation_tree.set("parameters/conditions/is_rolling", false)
-	animation_tree.set("parameters/conditions/is_spinning", false)
+	animation_tree.set("parameters/conditions/is_jumping", false)
 	# Add the gravity
 	if not is_on_floor():
-		velocity.y -= FALL_ACCELERATION * delta
+		if not has_spinned and is_jumping and not is_rolling and Input.is_action_just_pressed("jump"):
+			print("has_spinned ", has_spinned)
+			print("is_jumping ", is_jumping)
+			print("is_rolling ", is_rolling)
+			print("stored_is_jumping ", animation_tree.get("parameters/conditions/is_jumping"))
+			print("stored_is_rolling ", animation_tree.get("parameters/conditions/is_rolling"))
+			animation_tree.set("parameters/conditions/is_spinning", true)
+			#animation_state_machine.travel("jump_blend_tree")
+			
+			has_spinned = true
+		
+		if animation_tree.get("parameters/conditions/is_spinning"):
+			velocity.y = 0.0
+		else:
+			velocity.y -= FALL_ACCELERATION * delta
 	else:
+		has_spinned = false
+		is_jumping = false
 	# 	Handle jump
 		if Input.is_action_just_pressed("jump"):
 			animation_tree.set("parameters/conditions/is_jumping", true)
+			is_jumping = true
 			velocity.y = JUMP_VELOCITY
 
 	# Handle roll
 	if Input.is_action_just_pressed("roll"):
-			animation_tree.set("parameters/conditions/is_rolling", true)
+		animation_tree.set("parameters/conditions/is_rolling", true)
+		is_rolling = true
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -63,6 +83,11 @@ func _on_hitbox_area_entered(area):
 func _on_animation_tree_animation_started(anim_name):
 	print("started", anim_name)
 
-
 func _on_animation_tree_animation_finished(anim_name):
-	print("finished", anim_name)
+	print(anim_name)
+	if anim_name == "spin":
+		animation_tree.set("parameters/conditions/is_spinning", false)
+	elif anim_name == "jump_blend_tree":
+		is_jumping = false
+	elif anim_name == "roll":
+		is_rolling = false
