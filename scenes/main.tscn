@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/ground.tscn" id="1_ueqbu"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
-[ext_resource type="PackedScene" uid="uid://icofyso07ab5" path="res://scenes/all_animations_player.tscn" id="4_o5wrg"]
+[ext_resource type="PackedScene" uid="uid://icofyso07ab5" path="res://scenes/player.tscn" id="4_o5wrg"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
