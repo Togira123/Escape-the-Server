@@ -15,8 +15,9 @@ var has_spinned = false # makes sure players can only roll once after jumping
 
 func _physics_process(delta):
 	animation_tree.set("parameters/conditions/is_rolling", false)
-	animation_tree.set("parameters/conditions/is_jumping", false)
 	if not is_on_floor():
+		if state_machine.get_current_node() != "run":
+			animation_tree.set("parameters/conditions/is_jumping", false)
 		if state_machine.get_current_node() == "roll":
 			# Drop quickly if player is rolling
 			velocity.y -= FALL_ACCELERATION * 3 * delta
