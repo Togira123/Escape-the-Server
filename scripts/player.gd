@@ -14,6 +14,8 @@ const FALL_ACCELERATION = 75
 var has_spinned = false # makes sure players can only roll once after jumping
 
 func _physics_process(delta):
+	if animation_tree.get("parameters/conditions/has_crashed"):
+		return
 	animation_tree.set("parameters/conditions/is_rolling", false)
 	if not is_on_floor():
 		if state_machine.get_current_node() != "run":
@@ -69,6 +71,8 @@ func _physics_process(delta):
 
 func _on_hitbox_area_entered(area):
 	print("Hit letter!") # Replace with function body.
+	#animation_tree.set("parameters/conditions/has_crashed", true)
+	#velocity.z = 0
 
 
 

@@ -29,10 +29,10 @@
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_c6hj5"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_cwxa6"]
-size = Vector3(50, 2, 20)
+size = Vector3(200, 2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
-size = Vector3(50, 2, 20)
+size = Vector3(200, 2, 20)
 
 [node name="Module" type="Node3D"]
 script = ExtResource("1_1dp4b")
@@ -46,3 +46,5 @@ mesh = SubResource("BoxMesh_cwxa6")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 shape = SubResource("BoxShape3D_ebwnx")
+
+[node name="Sentence" type="Node3D" parent="."]

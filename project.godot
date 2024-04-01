@@ -20,6 +20,10 @@ config/icon="res://icon.svg"
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 
+[editor]
+
+export/convert_text_resources_to_binary=false
+
 [filesystem]
 
 import/blender/enabled=false
@@ -53,6 +57,7 @@ roll={
 3d_physics/layer_2="LetterGroundCollision"
 3d_physics/layer_3="LetterPlayerCollision"
 3d_physics/layer_4="Player"
+3d_physics/layer_5="Laser"
 
 [rendering]
 
