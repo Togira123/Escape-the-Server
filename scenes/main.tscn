@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/ground.tscn" id="1_ueqbu"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
-[ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player_with_crash.tscn" id="5_7gqat"]
+[ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/camera_3d.gd" id="5_ir8w6"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
 [ext_resource type="PackedScene" uid="uid://b8gqykwo5itxq" path="res://scenes/laser_pivot.tscn" id="7_7sp5n"]
