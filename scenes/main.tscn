@@ -3,10 +3,10 @@
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/ground.tscn" id="1_ueqbu"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
+[ext_resource type="Script" path="res://scenes/spawn_lasers.gd" id="4_n6f7b"]
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
-[ext_resource type="PackedScene" uid="uid://b8gqykwo5itxq" path="res://scenes/laser_pivot.tscn" id="7_7sp5n"]
 [ext_resource type="Script" path="res://scripts/main_light_source.gd" id="7_qb6x3"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
@@ -18,7 +18,7 @@ sky_material = SubResource("PhysicalSkyMaterial_px377")
 background_mode = 2
 sky = SubResource("Sky_3o4bv")
 glow_enabled = true
-glow_intensity = 2.22
+glow_intensity = 5.0
 fog_mode = 1
 fog_density = 1.0
 fog_depth_curve = 0.176778
@@ -45,9 +45,7 @@ script = ExtResource("1_3nhe7")
 modules = Array[PackedScene]([ExtResource("1_ueqbu")])
 
 [node name="Lasers" type="Node3D" parent="Level"]
-
-[node name="LaserPivot2" parent="Level/Lasers" instance=ExtResource("7_7sp5n")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 1, 2.08165e-12)
+script = ExtResource("4_n6f7b")
 
 [node name="Player" parent="." instance=ExtResource("5_7gqat")]
 
