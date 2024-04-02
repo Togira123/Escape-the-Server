@@ -1,6 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b3yim8mxlx31p"]
+[gd_scene load_steps=10 format=3 uid="uid://b3yim8mxlx31p"]
 
+[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_m4quh"]
+[ext_resource type="Script" path="res://scripts/dissolve_test.gd" id="1_niekf"]
 [ext_resource type="ArrayMesh" uid="uid://6qj7ie6si7ou" path="res://assets/graphics/letters/R_regular.obj" id="1_reoh7"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sdyoe"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_ag0y1"]
+sky_material = SubResource("ProceduralSkyMaterial_sdyoe")
+
+[sub_resource type="Environment" id="Environment_pbkf5"]
+background_mode = 2
+sky = SubResource("Sky_ag0y1")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_l76ps"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_m4quh")
+shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_3huyr"]
 points = PackedVector3Array(0.707143, -3.346e-17, -1.11725, 1.03151, 0.59291, 1.29474, 1.02175, -4.12044e-18, 1.28145, -0.858433, 0.6, 1.325, -0.858433, 0.6, -1.2788, -0.826455, 3.70925e-17, 1.28145, 0.969086, 0.598876, -0.828091, -0.826455, -4.12044e-18, -1.23525, 0.483279, 0.599452, -1.27646, 0.982312, 7.8373e-18, -0.645246, 0.471052, 5.45411e-17, -1.23525, 1.004, 0.597025, -0.661632, 0.890243, 0.599752, -0.993021, 0.864357, -2.20806e-17, -0.959834, 0.684902, 0.598692, -1.19201, 0.943054, -1.21832e-17, -0.802663, 0.589188, 4.64654e-17, -1.19584, 0.728234, 0.6, -1.15671, 0.604881, 0.59921, -1.23475, 0.667704, -7.50532e-18, -1.15642)
@@ -12,11 +33,16 @@ data = PackedVector3Array(-0.5943, 0.6, -1.0423, -0.8712, 0.6, 1.35, -0.8712, 0.
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
+script = ExtResource("1_niekf")
+
+[node name="Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_pbkf5")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+material_override = SubResource("ShaderMaterial_l76ps")
 mesh = ExtResource("1_reoh7")
 skeleton = NodePath("../../Hitbox")
 

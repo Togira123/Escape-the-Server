@@ -1,6 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://b40nnxqqtaiey"]
+[gd_scene load_steps=10 format=3 uid="uid://b40nnxqqtaiey"]
 
 [ext_resource type="ArrayMesh" uid="uid://cfl1fjyl3vdai" path="res://assets/graphics/letters/Q_regular.obj" id="1_7u3yk"]
+[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_jes8j"]
+[ext_resource type="Script" path="res://scripts/dissolve_test.gd" id="1_rqs6d"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_rkpar"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_rffp5"]
+sky_material = SubResource("ProceduralSkyMaterial_rkpar")
+
+[sub_resource type="Environment" id="Environment_38nqi"]
+background_mode = 2
+sky = SubResource("Sky_rffp5")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xh1y3"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_jes8j")
+shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_wldix"]
 points = PackedVector3Array(-0.981046, -3.51876e-17, -0.65188, 1.04872, 0.6, 0.371003, 1.07227, 4.23157e-17, 0.374063, -0.467663, -2.80545e-17, 1.26084, -1.00518, 0.6, 0.553732, 0.272628, 0.6, -1.22608, 0.957262, 0.6, 1.69528, 0.605334, 8.42207e-18, -1.1188, 0.97876, -2.04658e-17, 1.72805, -0.594314, 0.6, -1.08911, 0.957262, 0.6, -0.632431, -0.234403, -2.31726e-17, -1.25885, -0.457428, 0.6, 1.23832, -0.981046, -5.79308e-17, 0.700938, -1.05101, 0.6, -0.313014, 1.07227, -3.69339e-17, -0.325298, -1.07456, 4.23157e-17, 0.374063, 0.838594, -2.53273e-17, 1.72805, -0.868085, 0.6, 0.873149, -0.607619, 5.29149e-17, -1.1188, -0.868085, 0.6, -0.814874, 0.592028, 0.6, -1.08911, 0.885246, 2.11173e-17, -0.838415, 0.278769, -1.7762e-17, -1.25885, -0.229285, 0.6, -1.22608, 0.546399, 0.6, 1.60349, -1.07456, -3.69339e-17, -0.325298, 1.04872, 0.6, -0.313014, -0.701134, 1.45457e-17, 1.0743, -1.05101, 0.6, 0.371003, -0.887532, 6.84003e-17, -0.838415, 0.865799, 0.6, -0.814874)
@@ -12,11 +33,16 @@ data = PackedVector3Array(0.0558, 0.6, -1.3566, -0.0553, 0.6, -1.3566, 0, 0.6, -
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
+script = ExtResource("1_rqs6d")
+
+[node name="Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_38nqi")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+material_override = SubResource("ShaderMaterial_xh1y3")
 mesh = ExtResource("1_7u3yk")
 skeleton = NodePath("../../Hitbox")
 

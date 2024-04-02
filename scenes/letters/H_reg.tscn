@@ -1,6 +1,27 @@
-[gd_scene load_steps=4 format=3 uid="uid://doyg48wxv0we3"]
+[gd_scene load_steps=10 format=3 uid="uid://doyg48wxv0we3"]
 
 [ext_resource type="ArrayMesh" uid="uid://djtadk04pl7pw" path="res://assets/graphics/letters/H_regular.obj" id="1_3af35"]
+[ext_resource type="Script" path="res://scripts/dissolve_test.gd" id="1_16tl5"]
+[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_qnnpe"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_qi2wk"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_0utjt"]
+sky_material = SubResource("ProceduralSkyMaterial_qi2wk")
+
+[sub_resource type="Environment" id="Environment_i12fg"]
+background_mode = 2
+sky = SubResource("Sky_0utjt")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_owwtn"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_qnnpe")
+shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xdl10"]
 points = PackedVector3Array(-0.916755, -4.12044e-18, -1.23525, 0.9615, 0.599384, 1.32237, 0.931451, -4.12044e-18, 1.28145, -0.948733, 0.6, 1.325, 0.9615, 0.599384, -1.27617, -0.948733, 0.6, -1.2788, 0.931451, -4.12044e-18, -1.23525, -0.916755, -4.12044e-18, 1.28145)
@@ -12,11 +33,16 @@ data = PackedVector3Array(-0.6846, 0.6, -1.3038, -0.9615, 0.6, 1.35, -0.9615, 0.
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
 collision_layer = 2
 collision_mask = 3
+script = ExtResource("1_16tl5")
+
+[node name="Glow" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_i12fg")
 
 [node name="Pivot" type="Node3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+material_override = SubResource("ShaderMaterial_owwtn")
 mesh = ExtResource("1_3af35")
 skeleton = NodePath("../../Hitbox")
 
