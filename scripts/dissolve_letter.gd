@@ -2,7 +2,7 @@ extends RigidBody3D
 
 @onready var world_glow: WorldEnvironment = $Glow
 @onready var mesh = $Pivot/MeshInstance3D
-@onready var hitbox_collision = $Hitbox/CollisionShape3D
+@onready var hitbox_collision = $LetterHitbox/CollisionShape3D
 
 var is_dissolving = false
 
@@ -12,9 +12,15 @@ func _physics_process(delta):
 		var old_val = mesh.material_override.get_shader_parameter("dissolve_progress")
 		if old_val == 1:
 			is_dissolving = false
-		mesh.material_override.set_shader_parameter("dissolve_progress", lerp(old_val, 1.0, 0.1))
+			self.get_parent().remove_child(self)
+		mesh.material_override.set_shader_parameter("dissolve_progress", old_val + 0.05)
 
 func dissolve():
 	#world_glow.environment.glow_enabled = true
 	is_dissolving = true
-	hitbox_collision.disabled = true
+	hitbox_collision.set_deferred("disabled", true)
+
+
+func _on_letter_hitbox_area_entered(area):
+	print("Letter hit laser")
+	dissolve()

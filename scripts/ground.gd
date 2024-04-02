@@ -57,13 +57,13 @@ func _ready():
 		var letter = letter_dict[sentence[i]]
 		var instance = letter.instantiate()
 		instance.get_node("Pivot").scale = scale_vec
-		instance.get_node("Hitbox").scale = scale_vec
+		instance.get_node("LetterHitbox").scale = scale_vec
 		instance.get_node("GroundCollisionDetector").scale = scale_vec
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x)
 		
 		instance.position.x = cur_x_pos
 		cur_x_pos -= width * letter_scale + 3
-		instance.position.y = 20
+		instance.position.y = 30
 		instance.rotation.y = PI
 		instance.freeze = true
 		spawned_letters.append(instance)

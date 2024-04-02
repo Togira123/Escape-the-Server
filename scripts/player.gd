@@ -70,9 +70,9 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _on_hitbox_area_entered(area: Area3D):
-	print("Hit letter!") # Replace with function body.
-	#area.get_parent().dissolve()
-	print(area.name)
+	if area.name == "LetterHitbox":
+		print("Hit letter!")
+		area.get_parent().dissolve()
 	#animation_tree.set("parameters/conditions/has_crashed", true)
 	#velocity.z = 0
 

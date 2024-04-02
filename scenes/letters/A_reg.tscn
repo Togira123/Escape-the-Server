@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dav3g8kvapjgm"]
 
-[ext_resource type="Script" path="res://scripts/dissolve_test.gd" id="1_kgu5v"]
+[ext_resource type="Script" path="res://scripts/dissolve_letter.gd" id="1_kgu5v"]
 [ext_resource type="ArrayMesh" uid="uid://p0el3754br37" path="res://assets/graphics/letters/A_regular.obj" id="1_spgmf"]
 [ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_ure8b"]
 
@@ -45,18 +45,20 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
 material_override = SubResource("ShaderMaterial_nqvfy")
 mesh = ExtResource("1_spgmf")
-skeleton = NodePath("../../Hitbox")
+skeleton = NodePath("../../LetterHitbox")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
 transform = Transform3D(5, 2.35099e-37, 1.45652e-37, -1.41059e-37, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0, 0, 0)
 shape = SubResource("ConvexPolygonShape3D_1da3m")
 
-[node name="Hitbox" type="Area3D" parent="."]
+[node name="LetterHitbox" type="Area3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 collision_layer = 4
-collision_mask = 0
+collision_mask = 16
 input_ray_pickable = false
-monitoring = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LetterHitbox"]
 shape = SubResource("ConcavePolygonShape3D_ntl33")
+
+[connection signal="area_entered" from="LetterHitbox" to="." method="_on_letter_hitbox_area_entered"]
+[connection signal="body_entered" from="LetterHitbox" to="." method="_on_letter_hitbox_body_entered"]

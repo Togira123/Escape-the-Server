@@ -23,7 +23,7 @@ func spawn_module(n: int):
 		loaded_modules[index].queue_free()
 	loaded_modules[index] = instance
 	add_child(instance)
-	var activate_index = (index + 10) % LOADED_MODULES_SIZE;
+	var activate_index = (index + 15) % LOADED_MODULES_SIZE;
 	if loaded_modules[activate_index] and not loaded_modules[activate_index].has_dropped:
 		loaded_modules[activate_index].drop_letters()
 	module_count += 1
