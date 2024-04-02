@@ -5,15 +5,42 @@ extends CharacterBody3D
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @onready var level = $"../Level"
+@onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 
 const SPEED = 50
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
 const FALL_ACCELERATION = 75
+const PLAYER_RUN_HEIGHT = 1.9
+const PLAYER_RUN_OFFSET = -0.05
+const PLAYER_JUMP_HEIGHT = 1.5
+const PLAYER_JUMP_OFFSET = 0.1
+const PLAYER_ROLL_HEIGHT = 1
+const PLAYER_ROLL_OFFSET = -0.5
 
 var has_spinned = false # makes sure players can only roll once after jumping
 
+enum {RUN, ROLL, JUMP}
+
+# used to change hitbox of the player
+var just_changed = false
+var cur_movement = RUN
+
 func _physics_process(delta):
+	if just_changed:
+		# change hitbox
+		just_changed = false
+		match cur_movement:
+			RUN:
+				hitbox_collision_shape.shape.height = PLAYER_RUN_HEIGHT
+				hitbox_collision_shape.position.y = PLAYER_RUN_OFFSET
+			JUMP:
+				hitbox_collision_shape.shape.height = PLAYER_JUMP_HEIGHT
+				hitbox_collision_shape.position.y = PLAYER_JUMP_OFFSET
+			ROLL:
+				hitbox_collision_shape.shape.height = PLAYER_ROLL_HEIGHT
+				hitbox_collision_shape.position.y = PLAYER_ROLL_OFFSET
+	
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
 	animation_tree.set("parameters/conditions/is_rolling", false)
@@ -26,6 +53,8 @@ func _physics_process(delta):
 		elif not has_spinned and state_machine.get_current_node() == "jump_blend_tree" and Input.is_action_just_pressed("jump"):
 			animation_tree.set("parameters/conditions/is_spinning", true)
 			has_spinned = true
+			just_changed = true
+			cur_movement = RUN
 		
 		if animation_tree.get("parameters/conditions/is_spinning"):
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
@@ -43,10 +72,18 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump"):
 			animation_tree.set("parameters/conditions/is_jumping", true)
 			velocity.y = JUMP_VELOCITY
+			just_changed = true
+			cur_movement = JUMP
+		elif cur_movement == JUMP:
+			just_changed = true
+			cur_movement = RUN
+			
 
 	# Handle roll
 	if Input.is_action_just_pressed("roll"):
 		animation_tree.set("parameters/conditions/is_rolling", true)
+		just_changed = true
+		cur_movement = ROLL
 
 	var direction = Vector3.ZERO
 	direction.z += 1
@@ -85,3 +122,6 @@ func _on_animation_tree_animation_finished(anim_name):
 	print(anim_name)
 	if anim_name == "spin":
 		animation_tree.set("parameters/conditions/is_spinning", false)
+	elif anim_name == "roll":
+		just_changed = true
+		cur_movement = RUN
