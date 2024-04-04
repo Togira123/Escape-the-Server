@@ -36,18 +36,27 @@ extends Node3D
 @onready var sentence_node = $Sentence
 
 var spawned_letters = []
-var has_dropped = false
+var drop_at_z = position.z + 100000
+var dropped = false
+
+static var next_sentence_position_z = 200
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if (randi() % 4) != 1:
-		return
+	if position.z > next_sentence_position_z:
+		spawn_sentence()
+
+func _process(delta):
+	print(drop_at_z)
+	
+
+func spawn_sentence():
 	var letter_scale = (randi() % 4) + 5
 	var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)
 	var sentence = constants.get_random_sentence().to_upper()
 	var rotation_y = (40 - (randi() % 80)) * (PI / 180.0)
-	sentence_node.rotation.y = rotation_y
-	var cur_x_pos = len(sentence) * letter_scale
+	var cur_x_pos = len(sentence) * letter_scale + (50 - (randi() % 100))
+	var height = (randi() % 30) * 2 + 40
 	for i in range(len(sentence)):
 		if sentence[i] == " ":
 			cur_x_pos -= letter_scale * 1.5
@@ -59,17 +68,21 @@ func _ready():
 		instance.get_node("Pivot").scale = scale_vec
 		instance.get_node("LetterHitbox").scale = scale_vec
 		instance.get_node("GroundCollisionDetector").scale = scale_vec
-		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x)
+		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * letter_scale
 		
-		instance.position.x = cur_x_pos
-		cur_x_pos -= width * letter_scale + 3
-		instance.position.y = 30
+		instance.position.x = cur_x_pos - width / 2
+		cur_x_pos -= width + 2
+		instance.position.y = height
 		instance.rotation.y = PI
 		instance.freeze = true
 		spawned_letters.append(instance)
 		sentence_node.add_child(instance)
+	sentence_node.rotation.y = rotation_y
+	drop_at_z = (next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
+	next_sentence_position_z += 60
 
-func drop_letters():
-	has_dropped = true
-	for inst in spawned_letters:
-		inst.freeze = false
+func maybe_drop(pos):
+	if pos > drop_at_z and not dropped:
+		for inst in spawned_letters:
+			inst.freeze = false
+		dropped = true

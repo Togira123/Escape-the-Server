@@ -1,0 +1,66 @@
+[gd_scene load_steps=32 format=3 uid="uid://denknhqmnkpkc"]
+
+[ext_resource type="Script" path="res://scripts/ground.gd" id="1_nd87t"]
+[ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_10vla"]
+[ext_resource type="PackedScene" uid="uid://t2rwy2mkkifa" path="res://scenes/letters/B_reg.tscn" id="3_itmqo"]
+[ext_resource type="PackedScene" uid="uid://bf76ojpsvn2m2" path="res://scenes/letters/C_reg.tscn" id="4_23w3f"]
+[ext_resource type="PackedScene" uid="uid://dn3alb8qkybhh" path="res://scenes/letters/D_reg.tscn" id="5_qx2da"]
+[ext_resource type="PackedScene" uid="uid://bk75ugi2fxbgy" path="res://scenes/letters/E_reg.tscn" id="6_ga643"]
+[ext_resource type="PackedScene" uid="uid://c2nly48hjcdgm" path="res://scenes/letters/F_reg.tscn" id="7_m86o0"]
+[ext_resource type="PackedScene" uid="uid://76xl646j2rwt" path="res://scenes/letters/G_reg.tscn" id="8_2gft4"]
+[ext_resource type="PackedScene" uid="uid://doyg48wxv0we3" path="res://scenes/letters/H_reg.tscn" id="9_ffvmb"]
+[ext_resource type="PackedScene" uid="uid://bwvxyqw1aw7ey" path="res://scenes/letters/I_reg.tscn" id="10_aq6s6"]
+[ext_resource type="PackedScene" uid="uid://dlkv4knm0ljxt" path="res://scenes/letters/J_reg.tscn" id="11_i8tsq"]
+[ext_resource type="PackedScene" uid="uid://dklpo3d781hfs" path="res://scenes/letters/K_reg.tscn" id="12_dst7x"]
+[ext_resource type="PackedScene" uid="uid://dmjwqtj3o1poo" path="res://scenes/letters/L_reg.tscn" id="13_ht0nm"]
+[ext_resource type="PackedScene" uid="uid://b6l5l7xtxcc5m" path="res://scenes/letters/M_reg.tscn" id="14_jsn2g"]
+[ext_resource type="PackedScene" uid="uid://dojlqfkkxidxe" path="res://scenes/letters/N_reg.tscn" id="15_yqbjv"]
+[ext_resource type="PackedScene" uid="uid://b8f83jnsk5ker" path="res://scenes/letters/O_reg.tscn" id="16_0w0jj"]
+[ext_resource type="PackedScene" uid="uid://dn0minluftepo" path="res://scenes/letters/P_reg.tscn" id="17_cq3je"]
+[ext_resource type="PackedScene" uid="uid://b40nnxqqtaiey" path="res://scenes/letters/Q_reg.tscn" id="18_h58ep"]
+[ext_resource type="PackedScene" uid="uid://b3yim8mxlx31p" path="res://scenes/letters/R_reg.tscn" id="19_rfvp5"]
+[ext_resource type="PackedScene" uid="uid://dfo1xqvctnoha" path="res://scenes/letters/S_reg.tscn" id="20_yh5to"]
+[ext_resource type="PackedScene" uid="uid://wvp18xqc0uc3" path="res://scenes/letters/T_reg.tscn" id="21_xaheb"]
+[ext_resource type="PackedScene" uid="uid://be0whj8wy0lhp" path="res://scenes/letters/U_reg.tscn" id="22_xdcqe"]
+[ext_resource type="PackedScene" uid="uid://cus40yeugmum7" path="res://scenes/letters/V_reg.tscn" id="23_plk2m"]
+[ext_resource type="PackedScene" uid="uid://bh7siqx0hcae" path="res://scenes/letters/W_reg.tscn" id="24_17j74"]
+[ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_y3e66"]
+[ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_ex4ss"]
+[ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_mtjvi"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_cwxa6"]
+size = Vector3(40, 2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
+size = Vector3(40, 2, 20)
+
+[sub_resource type="BoxMesh" id="BoxMesh_f34ny"]
+size = Vector3(140, 2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtm4v"]
+size = Vector3(140, 2, 20)
+
+[node name="Module" type="Node3D"]
+script = ExtResource("1_nd87t")
+letter_scenes = Array[PackedScene]([ExtResource("2_10vla"), ExtResource("3_itmqo"), ExtResource("4_23w3f"), ExtResource("5_qx2da"), ExtResource("6_ga643"), ExtResource("7_m86o0"), ExtResource("8_2gft4"), ExtResource("9_ffvmb"), ExtResource("10_aq6s6"), ExtResource("11_i8tsq"), ExtResource("12_dst7x"), ExtResource("13_ht0nm"), ExtResource("14_jsn2g"), ExtResource("15_yqbjv"), ExtResource("16_0w0jj"), ExtResource("17_cq3je"), ExtResource("18_h58ep"), ExtResource("19_rfvp5"), ExtResource("20_yh5to"), ExtResource("21_xaheb"), ExtResource("22_xdcqe"), ExtResource("23_plk2m"), ExtResource("24_17j74"), ExtResource("25_y3e66"), ExtResource("26_ex4ss"), ExtResource("27_mtjvi")])
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_mask = 0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("BoxMesh_cwxa6")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_ebwnx")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("BoxMesh_f34ny")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 30, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_jtm4v")
+
+[node name="Sentence" type="Node3D" parent="."]

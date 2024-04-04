@@ -103,6 +103,9 @@ func _physics_process(delta):
 	# make sure to spawn in new ground
 	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
 		level.spawn_module(level.module_count * level.OFFSET)
+		for m in level.loaded_modules:
+			if m:
+				m.maybe_drop(position.z)
 
 	move_and_slide()
 

@@ -1,13 +1,20 @@
-[gd_scene load_steps=13 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=20 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
-[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/ground.tscn" id="1_ueqbu"]
+[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="1_ueqbu"]
+[ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_bxqme"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
 [ext_resource type="Script" path="res://scenes/spawn_lasers.gd" id="4_n6f7b"]
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
+[ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_f5ffr"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
+[ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground4.tscn" id="6_baf7m"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
 [ext_resource type="Script" path="res://scripts/main_light_source.gd" id="7_qb6x3"]
+[ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground5.tscn" id="7_qpwig"]
+[ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="8_qdidm"]
+[ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground7.tscn" id="9_mehfy"]
+[ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground8.tscn" id="10_gnc1r"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
@@ -45,7 +52,7 @@ script = ExtResource("4_kghnm")
 [node name="Level" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
 script = ExtResource("1_3nhe7")
-modules = Array[PackedScene]([ExtResource("1_ueqbu")])
+modules = Array[PackedScene]([ExtResource("1_ueqbu"), ExtResource("4_bxqme"), ExtResource("5_f5ffr"), ExtResource("6_baf7m"), ExtResource("7_qpwig"), ExtResource("8_qdidm"), ExtResource("9_mehfy"), ExtResource("10_gnc1r")])
 
 [node name="Lasers" type="Node3D" parent="Level"]
 script = ExtResource("4_n6f7b")

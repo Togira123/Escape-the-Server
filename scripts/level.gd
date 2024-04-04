@@ -16,14 +16,14 @@ func _ready():
 
 
 func spawn_module(n: int):
-	var instance = modules[0].instantiate()
+	var instance = modules[0 if n < 10 * OFFSET else randi() % modules.size()].instantiate()
 	instance.position.z = n - OFFSET * 5
 	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE;
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
 	loaded_modules[index] = instance
 	add_child(instance)
-	var activate_index = (index + 15) % LOADED_MODULES_SIZE;
-	if loaded_modules[activate_index] and not loaded_modules[activate_index].has_dropped:
-		loaded_modules[activate_index].drop_letters()
+	#var activate_index = (index + 15) % LOADED_MODULES_SIZE;
+	#if loaded_modules[activate_index] and not loaded_modules[activate_index].has_dropped:
+	#	loaded_modules[activate_index].drop_letters()
 	module_count += 1
