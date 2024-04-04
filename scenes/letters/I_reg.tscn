@@ -23,8 +23,8 @@ render_priority = 0
 shader = ExtResource("1_ooto5")
 shader_parameter/dissolve_progress = 0.0
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tnhq0"]
-points = PackedVector3Array(0.177429, 0.610795, 1.37106, -0.159562, -0.021, -1.32486, 0.177429, -0.021, -1.32486, -0.159562, -0.021, 1.37106, -0.159562, 0.610795, -1.32486, 0.177429, 0.610795, -1.32486, 0.177429, -0.021, 1.37106, -0.159562, 0.610795, 1.37106)
+[sub_resource type="BoxShape3D" id="BoxShape3D_njrnf"]
+size = Vector3(0.287109, 0.603027, 2.65417)
 
 [sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_b38pj"]
 data = PackedVector3Array(0.1385, 0.6, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0.6, -1.3038, 0.1385, 0.6, 1.35, -0.1385, 0.6, 1.35, 0.1385, 0.6, -1.3038, -0.1385, 0, -1.3038, -0.1385, 0, 1.35, 0.1385, 0, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0.6, -1.3038, 0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0.6, 1.35, 0.1385, 0.6, 1.35, -0.1385, 0, 1.35, -0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0, 1.35, -0.1385, 0.6, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0, -1.3038, -0.1385, 0, -1.3038, -0.1385, 0.6, 1.35, -0.1385, 0, 1.35, 0.1385, 0.6, -1.3038, -0.1385, 0.6, -1.3038, 0.1385, 0, -1.3038, 0.1385, 0, -1.3038, -0.1385, 0.6, -1.3038, -0.1385, 0, -1.3038)
@@ -47,8 +47,8 @@ mesh = ExtResource("1_dqqv2")
 skeleton = NodePath("../../LetterHitbox")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
-transform = Transform3D(5, 2.35099e-37, 1.45652e-37, -1.41059e-37, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0, 0, 0)
-shape = SubResource("ConvexPolygonShape3D_tnhq0")
+transform = Transform3D(5, 2.00351e-34, 1.45652e-37, -3.84954e-35, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0.00488281, 1.49171, 0.114441)
+shape = SubResource("BoxShape3D_njrnf")
 
 [node name="LetterHitbox" type="Area3D" parent="."]
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
