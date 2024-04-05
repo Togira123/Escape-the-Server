@@ -46,10 +46,6 @@ func _ready():
 	if position.z > next_sentence_position_z:
 		spawn_sentence()
 
-func _process(delta):
-	print(drop_at_z)
-	
-
 func spawn_sentence():
 	var letter_scale = (randi() % 4) + 5
 	var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)
@@ -64,7 +60,7 @@ func spawn_sentence():
 		if not letter_dict.has(sentence[i]):
 			continue
 		var letter = letter_dict[sentence[i]]
-		var instance = letter.instantiate()
+		var instance = letter.instantiate() 
 		instance.get_node("Pivot").scale = scale_vec
 		instance.get_node("LetterHitbox").scale = scale_vec
 		instance.get_node("GroundCollisionDetector").scale = scale_vec
