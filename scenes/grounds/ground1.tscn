@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://btp5j8qud4l7o"]
+[gd_scene load_steps=32 format=3 uid="uid://btp5j8qud4l7o"]
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_1dp4b"]
 [ext_resource type="PackedScene" uid="uid://t2rwy2mkkifa" path="res://scenes/letters/B_reg.tscn" id="1_6b3n7"]
@@ -28,7 +28,16 @@
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_ykk04"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_c6hj5"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_atomk"]
+load_path = "res://.godot/imported/d79a78716ac77d7935faff590d54279a.jpg-051357f193836514b51d29087aef7355.s3tc.ctex"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_u48ax"]
+albedo_color = Color(0.394987, 0.394987, 0.394987, 1)
+normal_enabled = true
+normal_texture = SubResource("CompressedTexture2D_atomk")
+
 [sub_resource type="BoxMesh" id="BoxMesh_cwxa6"]
+material = SubResource("StandardMaterial3D_u48ax")
 size = Vector3(200, 2, 20)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]

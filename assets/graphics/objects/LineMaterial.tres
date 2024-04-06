@@ -1,0 +1,10 @@
+[gd_resource type="StandardMaterial3D" format=3 uid="uid://cy485utbmh4vh"]
+
+[resource]
+resource_name = "LineMaterial"
+cull_mode = 2
+albedo_color = Color(0.137263, 0.73724, 0.964675, 1)
+roughness = 0.5
+emission_enabled = true
+emission = Color(0.143924, 0.764686, 1, 1)
+emission_energy_multiplier = 1.84303

@@ -10,7 +10,7 @@ const LASER_SCALE = [41.67, 33.33, 25]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	spawn_lasers(0)
+	spawn_lasers(2)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

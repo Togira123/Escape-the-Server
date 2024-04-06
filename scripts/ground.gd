@@ -60,7 +60,7 @@ func spawn_sentence():
 		if not letter_dict.has(sentence[i]):
 			continue
 		var letter = letter_dict[sentence[i]]
-		var instance = letter.instantiate() 
+		var instance = letter.instantiate()
 		instance.get_node("Pivot").scale = scale_vec
 		instance.get_node("LetterHitbox").scale = scale_vec
 		instance.get_node("GroundCollisionDetector").scale = scale_vec
@@ -74,7 +74,10 @@ func spawn_sentence():
 		spawned_letters.append(instance)
 		sentence_node.add_child(instance)
 	sentence_node.rotation.y = rotation_y
-	drop_at_z = (next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
+	if randi() % 10 == 1:
+		drop_at_z = next_sentence_position_z + 10000
+	else:
+		drop_at_z = (next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
 	next_sentence_position_z += 60
 
 func maybe_drop(pos):
