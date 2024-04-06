@@ -1,6 +1,0 @@
-[gd_resource type="StandardMaterial3D" format=3 uid="uid://mbw7r736ognw"]
-
-[resource]
-resource_name = "Procedural Metal"
-cull_mode = 2
-metallic = 1.0
