@@ -2,9 +2,9 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c4c3nbblcjqxy"
-path.s3tc="res://.godot/imported/floor_metallic3_d79a78716ac77d7935faff590d54279a.png-74ac8ab17f5fce9fc38fb7e506483eb7.s3tc.ctex"
-path.etc2="res://.godot/imported/floor_metallic3_d79a78716ac77d7935faff590d54279a.png-74ac8ab17f5fce9fc38fb7e506483eb7.etc2.ctex"
+uid="uid://bwib6y3cs3v8y"
+path.s3tc="res://.godot/imported/floor_metallic5_d79a78716ac77d7935faff590d54279a.png-652525c70bff1de6e012c9d7ab9a7774.s3tc.ctex"
+path.etc2="res://.godot/imported/floor_metallic5_d79a78716ac77d7935faff590d54279a.png-652525c70bff1de6e012c9d7ab9a7774.etc2.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
@@ -15,8 +15,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://assets/graphics/objects/floor_metallic3_d79a78716ac77d7935faff590d54279a.png"
-dest_files=["res://.godot/imported/floor_metallic3_d79a78716ac77d7935faff590d54279a.png-74ac8ab17f5fce9fc38fb7e506483eb7.s3tc.ctex", "res://.godot/imported/floor_metallic3_d79a78716ac77d7935faff590d54279a.png-74ac8ab17f5fce9fc38fb7e506483eb7.etc2.ctex"]
+source_file="res://assets/graphics/objects/ground/floor_metallic5_d79a78716ac77d7935faff590d54279a.png"
+dest_files=["res://.godot/imported/floor_metallic5_d79a78716ac77d7935faff590d54279a.png-652525c70bff1de6e012c9d7ab9a7774.s3tc.ctex", "res://.godot/imported/floor_metallic5_d79a78716ac77d7935faff590d54279a.png-652525c70bff1de6e012c9d7ab9a7774.etc2.ctex"]
 
 [params]
 

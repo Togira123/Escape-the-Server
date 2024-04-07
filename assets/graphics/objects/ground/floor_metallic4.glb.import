@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://kswl07khe2j"
-path="res://.godot/imported/floor_metallic3.glb-320ab4cf851a8014867656ce9f2937b1.scn"
+uid="uid://bsj503wo2k771"
+path="res://.godot/imported/floor_metallic4.glb-3b2b7e54c8724569a22e8e351bef12f4.scn"
 
 [deps]
 
-source_file="res://assets/graphics/objects/floor_metallic3.glb"
-dest_files=["res://.godot/imported/floor_metallic3.glb-320ab4cf851a8014867656ce9f2937b1.scn"]
+source_file="res://assets/graphics/objects/ground/floor_metallic4.glb"
+dest_files=["res://.godot/imported/floor_metallic4.glb-3b2b7e54c8724569a22e8e351bef12f4.scn"]
 
 [params]
 
