@@ -17,7 +17,7 @@ func _ready():
 
 func spawn_module(n: int):
 	var instance = modules[0 if n < 10 * OFFSET else randi() % modules.size()].instantiate()
-	instance.position.z = n - OFFSET * 5
+	instance.position.z = n
 	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE;
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
