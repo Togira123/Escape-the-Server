@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://dpeyex6snm677"]
+[gd_scene load_steps=40 format=3 uid="uid://dpeyex6snm677"]
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_sybnj"]
 [ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_l20gc"]
@@ -29,6 +29,17 @@
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_kng6f"]
 [ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_7j7ne"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_v4fpx"]
+[ext_resource type="PackedScene" uid="uid://dksd315cb654x" path="res://scenes/laser_pivot_short.tscn" id="30_0sxap"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_sguds"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dibwf"]
+albedo_color = Color(0.984314, 0.0745098, 0.258824, 0.94902)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
 size = Vector3(20, 2, 20)
@@ -103,19 +114,112 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_gd11b")
 
-[node name="Module" type="Node3D"]
+[node name="Module6" type="Node3D"]
 script = ExtResource("1_sybnj")
 letter_scenes = Array[PackedScene]([ExtResource("2_l20gc"), ExtResource("3_2jlpj"), ExtResource("4_1ugpw"), ExtResource("5_jotja"), ExtResource("6_8gayw"), ExtResource("7_npa1b"), ExtResource("8_gixxq"), ExtResource("9_1yinq"), ExtResource("10_6326m"), ExtResource("11_yk3lv"), ExtResource("12_5jhrj"), ExtResource("13_yfdg2"), ExtResource("14_do157"), ExtResource("15_0dkyu"), ExtResource("16_gwxqr"), ExtResource("17_xjl3d"), ExtResource("18_gxwy7"), ExtResource("19_f2wnp"), ExtResource("20_dyftu"), ExtResource("21_l4sa5"), ExtResource("22_vw0jp"), ExtResource("23_08fe8"), ExtResource("24_h0ex6"), ExtResource("25_6nn0p"), ExtResource("26_jk4n0"), ExtResource("27_kng6f")])
+metadata/module_number = 6
+
+[node name="HoleHintBack1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, -10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintFront1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, 10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintBack2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 30, 1.05, -10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintFront2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 30, 1.05, 10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintBack3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -30, 1.05, -10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintFront3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -30, 1.05, 10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintBack4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -70, 1.05, -10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHintFront4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -70, 1.05, 10)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 80, 1.05, 4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 60, 1.05, -4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 40, 1.05, 4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 20, 1.05, -4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint5" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -20, 1.05, 4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint6" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -40, 1.05, -4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint7" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -60, 1.05, 4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
+
+[node name="HoleHint8" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -80, 1.05, -4.37114e-07)
+mesh = SubResource("CylinderMesh_sguds")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_dibwf")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -90, 2.08165e-12, 2.08165e-12)
-shape = SubResource("BoxShape3D_ebwnx")
-
-[node name="CollisionShape3D5" type="CollisionShape3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_ebwnx")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Ground"]
@@ -130,6 +234,10 @@ shape = SubResource("BoxShape3D_om8rp")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 50, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_om8rp")
 
+[node name="CollisionShape3D5" type="CollisionShape3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_ebwnx")
+
 [node name="Cube_013" type="MeshInstance3D" parent="Ground"]
 transform = Transform3D(200, 0, 0, 0, 2, 0, 0, 0, 20, 0, 0, 0)
 mesh = SubResource("ArrayMesh_xpx07")
@@ -141,3 +249,12 @@ mesh = SubResource("ArrayMesh_c2ci5")
 skeleton = NodePath("")
 
 [node name="Sentence" type="Node3D" parent="."]
+
+[node name="LaserPivotShort" parent="." instance=ExtResource("30_0sxap")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, -7)
+
+[node name="LaserPivotShort2" parent="." instance=ExtResource("30_0sxap")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 7)
+
+[node name="LaserPivotShort3" parent="." instance=ExtResource("30_0sxap")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 2.08165e-12)

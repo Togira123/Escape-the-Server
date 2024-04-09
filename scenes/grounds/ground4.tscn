@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://denknhqmnkpkc"]
+[gd_scene load_steps=39 format=3 uid="uid://denknhqmnkpkc"]
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_nd87t"]
 [ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_10vla"]
@@ -29,6 +29,17 @@
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_mtjvi"]
 [ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_2u2eq"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_6ra87"]
+[ext_resource type="PackedScene" uid="uid://dksd315cb654x" path="res://scenes/laser_pivot_short.tscn" id="30_h0juj"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_4hsgp"]
+top_radius = 0.1
+bottom_radius = 0.1
+height = 20.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xlhpb"]
+albedo_color = Color(0.984314, 0.0745098, 0.258824, 0.94902)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
 size = Vector3(40, 2, 20)
@@ -100,9 +111,34 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_knef1")
 
-[node name="Module" type="Node3D"]
+[node name="Module4" type="Node3D"]
 script = ExtResource("1_nd87t")
 letter_scenes = Array[PackedScene]([ExtResource("2_10vla"), ExtResource("3_itmqo"), ExtResource("4_23w3f"), ExtResource("5_qx2da"), ExtResource("6_ga643"), ExtResource("7_m86o0"), ExtResource("8_2gft4"), ExtResource("9_ffvmb"), ExtResource("10_aq6s6"), ExtResource("11_i8tsq"), ExtResource("12_dst7x"), ExtResource("13_ht0nm"), ExtResource("14_jsn2g"), ExtResource("15_yqbjv"), ExtResource("16_0w0jj"), ExtResource("17_cq3je"), ExtResource("18_h58ep"), ExtResource("19_rfvp5"), ExtResource("20_yh5to"), ExtResource("21_xaheb"), ExtResource("22_xdcqe"), ExtResource("23_plk2m"), ExtResource("24_17j74"), ExtResource("25_y3e66"), ExtResource("26_ex4ss"), ExtResource("27_mtjvi")])
+metadata/module_number = 4
+
+[node name="HoleHintBack1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -50, 1.05, -10)
+mesh = SubResource("CylinderMesh_4hsgp")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_xlhpb")
+
+[node name="HoleHintFront1" type="MeshInstance3D" parent="."]
+transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -50, 1.05, 10)
+mesh = SubResource("CylinderMesh_4hsgp")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_xlhpb")
+
+[node name="HoleHint" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -40, 1.05, 4.37114e-07)
+mesh = SubResource("CylinderMesh_4hsgp")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_xlhpb")
+
+[node name="HoleHint2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -60, 1.05, -4.37114e-07)
+mesh = SubResource("CylinderMesh_4hsgp")
+skeleton = NodePath("../Ground")
+surface_material_override/0 = SubResource("StandardMaterial3D_xlhpb")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0
@@ -126,3 +162,12 @@ mesh = SubResource("ArrayMesh_dw3q1")
 skeleton = NodePath("")
 
 [node name="Sentence" type="Node3D" parent="."]
+
+[node name="LaserPivotShort" parent="." instance=ExtResource("30_h0juj")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, -7)
+
+[node name="LaserPivotShort2" parent="." instance=ExtResource("30_h0juj")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 7)
+
+[node name="LaserPivotShort3" parent="." instance=ExtResource("30_h0juj")]
+transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 2.08165e-12)

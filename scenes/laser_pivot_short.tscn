@@ -1,0 +1,55 @@
+[gd_scene load_steps=8 format=3 uid="uid://dksd315cb654x"]
+
+[ext_resource type="Script" path="res://scripts/laser_pivot.gd" id="1_dyl7a"]
+[ext_resource type="Script" path="res://scripts/laser.gd" id="2_7oq20"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_vkdpl"]
+flip_faces = true
+top_radius = 0.03
+bottom_radius = 0.03
+height = 0.01
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_i4udo"]
+transparency = 1
+albedo_color = Color(0.982612, 0.0731518, 0.260709, 0.94902)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 10.0
+
+[sub_resource type="BoxMesh" id="BoxMesh_qgloy"]
+size = Vector3(0.05, 0.05, 0.05)
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4jhha"]
+data = PackedVector3Array(-0.025, 0.025, 0.025, 0.025, 0.025, 0.025, -0.025, -0.025, 0.025, 0.025, 0.025, 0.025, 0.025, -0.025, 0.025, -0.025, -0.025, 0.025, 0.025, 0.025, -0.025, -0.025, 0.025, -0.025, 0.025, -0.025, -0.025, -0.025, 0.025, -0.025, -0.025, -0.025, -0.025, 0.025, -0.025, -0.025, 0.025, 0.025, 0.025, 0.025, 0.025, -0.025, 0.025, -0.025, 0.025, 0.025, 0.025, -0.025, 0.025, -0.025, -0.025, 0.025, -0.025, 0.025, -0.025, 0.025, -0.025, -0.025, 0.025, 0.025, -0.025, -0.025, -0.025, -0.025, 0.025, 0.025, -0.025, -0.025, 0.025, -0.025, -0.025, -0.025, 0.025, 0.025, 0.025, -0.025, 0.025, 0.025, 0.025, 0.025, -0.025, -0.025, 0.025, 0.025, -0.025, 0.025, -0.025, 0.025, 0.025, -0.025, -0.025, -0.025, 0.025, 0.025, -0.025, 0.025, -0.025, -0.025, -0.025, 0.025, -0.025, 0.025, 0.025, -0.025, -0.025, -0.025, -0.025, -0.025)
+
+[sub_resource type="Environment" id="Environment_ij4dg"]
+glow_enabled = true
+glow_intensity = 1.0
+
+[node name="LaserPivotShort" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+script = ExtResource("1_dyl7a")
+
+[node name="Laser" type="RayCast3D" parent="."]
+transform = Transform3D(25, -1.74393e-14, -7.62298e-22, 0, -1.09278e-06, 25, -1.74393e-14, -25, -1.09278e-06, 0, 0, 0)
+target_position = Vector3(2.08165e-12, -650, 2.08165e-12)
+collision_mask = 16
+script = ExtResource("2_7oq20")
+
+[node name="BeamMesh" type="MeshInstance3D" parent="Laser"]
+mesh = SubResource("CylinderMesh_vkdpl")
+surface_material_override/0 = SubResource("StandardMaterial3D_i4udo")
+
+[node name="BoxTarget" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 190)
+mesh = SubResource("BoxMesh_qgloy")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="BoxTarget"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BoxTarget/StaticBody3D"]
+shape = SubResource("ConcavePolygonShape3D_4jhha")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ij4dg")

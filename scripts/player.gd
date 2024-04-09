@@ -86,10 +86,10 @@ func _physics_process(delta):
 		cur_movement = ROLL
 
 	var direction = Vector3.ZERO
-	direction.z += 1
+	direction.z = 1
 	# Get inputs
 	if Input.is_action_pressed("move_right"):
-		direction.x -= 0.9
+		direction.x = -0.9
 	if Input.is_action_pressed("move_left"):
 		direction.x += 0.9
 
