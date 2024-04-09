@@ -37,17 +37,17 @@ func spawn_module(n: int):
 					# View in ground7.tscn how children are ordered
 					var back = instance.get_child(0)
 					back.scale.y = 0.5
-					back.position.x += 5.0
-					var front_old = prev_inst.get_child(3)
-					front_old.scale.y = 0.5
-					front_old.position.x -= 5.0
-				elif prev_module_num == 8:
-					var back = instance.get_child(0)
-					back.scale.y = 0.5
 					back.position.x -= 5.0
 					var front_old = prev_inst.get_child(3)
 					front_old.scale.y = 0.5
 					front_old.position.x += 5.0
+				elif prev_module_num == 8:
+					var back = instance.get_child(0)
+					back.scale.y = 0.5
+					back.position.x += 5.0
+					var front_old = prev_inst.get_child(3)
+					front_old.scale.y = 0.5
+					front_old.position.x -= 5.0
 			3:
 				if prev_module_num == 3:
 					instance.get_child(0).visible = false
@@ -107,10 +107,10 @@ func spawn_module(n: int):
 				elif prev_module_num == 2:
 					var back = instance.get_child(2)
 					back.scale.y = 0.5
-					back.position.x -= 5.0
+					back.position.x += 5.0
 					var front_old = prev_inst.get_child(1)
 					front_old.scale.y = 0.5
-					front_old.position.x += 5.0
+					front_old.position.x -= 5.0
 				elif prev_module_num == 3:
 					instance.get_child(4).visible = false
 					prev_inst.get_child(3).visible = false
@@ -131,10 +131,10 @@ func spawn_module(n: int):
 				elif prev_module_num == 2:
 					var back = instance.get_child(2)
 					back.scale.y = 0.5
-					back.position.x += 5.0
+					back.position.x -= 5.0
 					var front_old = prev_inst.get_child(1)
 					front_old.scale.y = 0.5
-					front_old.position.x -= 5.0
+					front_old.position.x += 5.0
 				elif prev_module_num == 3 or prev_module_num == 4:
 					instance.get_child(0).visible = false
 					prev_inst.get_child(1).visible = false
