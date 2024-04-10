@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://denknhqmnkpkc"]
+[gd_scene load_steps=38 format=3 uid="uid://denknhqmnkpkc"]
 
 [ext_resource type="Script" path="res://scripts/ground.gd" id="1_nd87t"]
 [ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_10vla"]
@@ -29,7 +29,6 @@
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_mtjvi"]
 [ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_2u2eq"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_6ra87"]
-[ext_resource type="PackedScene" uid="uid://dksd315cb654x" path="res://scenes/laser_pivot_short.tscn" id="30_h0juj"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4hsgp"]
 top_radius = 0.1
@@ -162,15 +161,3 @@ mesh = SubResource("ArrayMesh_dw3q1")
 skeleton = NodePath("")
 
 [node name="Sentence" type="Node3D" parent="."]
-
-[node name="LaserPivotShort" parent="." instance=ExtResource("30_h0juj")]
-transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, -7)
-visible = false
-
-[node name="LaserPivotShort2" parent="." instance=ExtResource("30_h0juj")]
-transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 7)
-visible = false
-
-[node name="LaserPivotShort3" parent="." instance=ExtResource("30_h0juj")]
-transform = Transform3D(-4.37114e-08, 3.48787e-16, 1, 3.48787e-16, 1, -3.48787e-16, -1, 3.48787e-16, -4.37114e-08, -95, 2.08165e-12, 2.08165e-12)
-visible = false

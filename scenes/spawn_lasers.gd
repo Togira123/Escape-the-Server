@@ -1,6 +1,7 @@
 extends Node3D
 
 @onready var player = $"../../Player"
+@onready var level = $"../../Level"
 
 const LASER_PIVOT = preload("res://scenes/laser_pivot.tscn")
 const X_OFFSET = 80
@@ -10,7 +11,7 @@ const LASER_SCALE = [41.67, 33.33, 25]
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	spawn_lasers(2)
+	spawn_lasers(level.stage)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

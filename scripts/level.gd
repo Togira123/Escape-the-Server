@@ -1,5 +1,7 @@
 extends Node3D
 
+const SHORT_LASER_PIVOT = preload("res://scenes/laser_pivot_short.tscn")
+
 @export var modules: Array[PackedScene] = []
 var loaded_modules = []
 var amount = 10
@@ -7,6 +9,8 @@ var rng = RandomNumberGenerator.new()
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
 var module_count: int = 0
+
+var stage = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -23,6 +27,24 @@ func spawn_module(n: int):
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
 	loaded_modules[index] = instance
+	# add lasers if stage > 0
+	if stage > 0:
+		var i1 = SHORT_LASER_PIVOT.instantiate()
+		var i2 = SHORT_LASER_PIVOT.instantiate()
+		var i3 = SHORT_LASER_PIVOT.instantiate()
+		i1.rotation.y = PI / 2
+		i1.position.x = -95.0
+		i1.position.z = -7.0
+		i2.rotation.y = PI / 2
+		i2.position.x = -95.0
+		i2.position.z = 0.0
+		i3.rotation.y = PI / 2
+		i3.position.x = -95.0
+		i3.position.z = 7.0
+		instance.add_child(i1)
+		instance.add_child(i2)
+		instance.add_child(i3)
+
 	# adjust hole hints
 	if loaded_modules[prev_ind]:
 		print(prev_ind)
