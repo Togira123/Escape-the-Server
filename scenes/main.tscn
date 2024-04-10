@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_gek6h"]
 [ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_dcphb"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
-[ext_resource type="Script" path="res://scenes/spawn_lasers.gd" id="4_n6f7b"]
+[ext_resource type="Script" path="res://scripts/spawn_lasers.gd" id="4_n6f7b"]
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
 [ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_k6t86"]
