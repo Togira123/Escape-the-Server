@@ -99,15 +99,16 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
-	
+
+	move_and_slide()
+
+func _process(delta):
 	# make sure to spawn in new ground
 	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
 		level.spawn_module(level.module_count * level.OFFSET)
 		for m in level.loaded_modules:
 			if m:
 				m.maybe_drop(position.z)
-
-	move_and_slide()
 
 func _on_hitbox_area_entered(area: Area3D):
 	if area.name == "LetterHitbox":
