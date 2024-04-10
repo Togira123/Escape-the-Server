@@ -78,6 +78,8 @@ monitoring = false
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
 shape = SubResource("BoxShape3D_x54t6")
 
+[node name="Tunnels" type="Node3D" parent="Level"]
+
 [node name="Player" parent="." instance=ExtResource("5_7gqat")]
 
 [node name="PlayerCamera" type="Camera3D" parent="."]
@@ -91,9 +93,8 @@ script = ExtResource("6_uk641")
 [node name="MainLightSource" type="OmniLight3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, -8)
 visible = false
-light_energy = 3.0
 shadow_enabled = true
 distance_fade_enabled = true
-omni_range = 4096.0
-omni_attenuation = 0.5
+omni_range = 500.0
+omni_attenuation = 0.1
 script = ExtResource("7_qb6x3")

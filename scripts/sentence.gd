@@ -3,6 +3,7 @@ extends Node3D
 @export var letter_scenes: Array[PackedScene] = []
 
 @onready var constants = $"../../Constants"
+@onready var level = $"../../Level"
 
 @onready var letter_dict = {
 	"A": letter_scenes[0],
@@ -78,7 +79,11 @@ func spawn_sentence():
 		drop_at_z = next_sentence_position_z + 10000
 	else:
 		drop_at_z = (next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
-	next_sentence_position_z += 60
+	
+	if level.TUNNELS[level.next_tunnel] < next_sentence_position_z + 150:
+		next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
+	else:
+		next_sentence_position_z += 60
 
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:

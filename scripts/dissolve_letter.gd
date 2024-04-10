@@ -22,5 +22,4 @@ func dissolve():
 
 
 func _on_letter_hitbox_area_entered(area):
-	print("Letter hit laser")
 	dissolve()

@@ -18,6 +18,7 @@ const PLAYER_JUMP_OFFSET = 0.1
 const PLAYER_ROLL_HEIGHT = 1
 const PLAYER_ROLL_OFFSET = -0.5
 
+
 var has_spinned = false # makes sure players can only roll once after jumping
 
 enum {RUN, ROLL, JUMP}
