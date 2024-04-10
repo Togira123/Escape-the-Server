@@ -6,7 +6,7 @@ extends Node3D
 const LASER_PIVOT = preload("res://scenes/laser_pivot.tscn")
 const X_OFFSET = 80
 const LASER_COUNT = [3, 4, 5]
-const LASER_SCALE = [41.67, 33.33, 25]
+const LASER_SCALE = [1.67, 1.33, 1]
 #const LASER_COUNT = 3
 
 # Called when the node enters the scene tree for the first time.
