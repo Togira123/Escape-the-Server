@@ -44,7 +44,7 @@ func _physics_process(delta):
 	
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
-	animation_tree.set("parameters/conditions/is_rolling", false)
+	print(state_machine.get_current_node())
 	if not is_on_floor():
 		if state_machine.get_current_node() != "run":
 			animation_tree.set("parameters/conditions/is_jumping", false)
@@ -52,12 +52,12 @@ func _physics_process(delta):
 			# Drop quickly if player is rolling
 			velocity.y -= FALL_ACCELERATION * 3 * delta
 		elif not has_spinned and state_machine.get_current_node() == "jump_blend_tree" and Input.is_action_just_pressed("jump"):
-			animation_tree.set("parameters/conditions/is_spinning", true)
+			state_machine.travel("spin_blend_tree")
 			has_spinned = true
 			just_changed = true
 			cur_movement = RUN
 		
-		if animation_tree.get("parameters/conditions/is_spinning"):
+		if state_machine.get_current_node() == "spin_blend_tree":
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.y = 0.0
 		else:
@@ -66,12 +66,13 @@ func _physics_process(delta):
 			# Gravity
 			velocity.y -= FALL_ACCELERATION * delta
 	else:
+		print("touched floor")
 		has_spinned = false
 		# make sure that character is standing normal after spinning
 		rotation.x = 0
 	# 	Handle jump
-		if Input.is_action_just_pressed("jump"):
-			animation_tree.set("parameters/conditions/is_jumping", true)
+		if Input.is_action_just_pressed("jump") and state_machine.get_current_node() != "spin_blend_tree":
+			state_machine.travel("jump_blend_tree")
 			velocity.y = JUMP_VELOCITY
 			just_changed = true
 			cur_movement = JUMP
@@ -81,8 +82,8 @@ func _physics_process(delta):
 			
 
 	# Handle roll
-	if Input.is_action_just_pressed("roll"):
-		animation_tree.set("parameters/conditions/is_rolling", true)
+	if Input.is_action_just_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
+		state_machine.travel("roll")
 		just_changed = true
 		cur_movement = ROLL
 
@@ -124,9 +125,10 @@ func _on_animation_tree_animation_started(anim_name):
 	print("started", anim_name)
 
 func _on_animation_tree_animation_finished(anim_name):
-	print(anim_name)
+	print("anim_nameee ", anim_name)
 	if anim_name == "spin":
-		animation_tree.set("parameters/conditions/is_spinning", false)
+		#animation_tree.set("parameters/conditions/is_spinning", false)
+		pass
 	elif anim_name == "roll":
 		just_changed = true
 		cur_movement = RUN
