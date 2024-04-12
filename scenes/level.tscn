@@ -1,0 +1,52 @@
+[gd_scene load_steps=13 format=3 uid="uid://neet5x4flstv"]
+
+[ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
+[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
+[ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="3_6863w"]
+[ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="4_t42tg"]
+[ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground5.tscn" id="5_qcqbi"]
+[ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground4.tscn" id="6_1pnwt"]
+[ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="7_nprn1"]
+[ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="8_e1v61"]
+[ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="9_318rk"]
+[ext_resource type="Script" path="res://scripts/spawn_lasers.gd" id="10_atip2"]
+[ext_resource type="Script" path="res://scripts/fps_counter.gd" id="11_3vxl2"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
+size = Vector3(1, 14, 660)
+
+[node name="Level" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
+script = ExtResource("1_7b6qb")
+modules = Array[PackedScene]([ExtResource("2_38keh"), ExtResource("3_6863w"), ExtResource("4_t42tg"), ExtResource("5_qcqbi"), ExtResource("6_1pnwt"), ExtResource("7_nprn1"), ExtResource("8_e1v61"), ExtResource("9_318rk")])
+
+[node name="Lasers" type="Node3D" parent="."]
+script = ExtResource("10_atip2")
+
+[node name="LaserHitboxLeft" type="Area3D" parent="Lasers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 2.08165e-12, 20)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lasers/LaserHitboxLeft"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
+shape = SubResource("BoxShape3D_x54t6")
+
+[node name="LaserHitboxRight" type="Area3D" parent="Lasers"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 2.08165e-12, 20)
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Lasers/LaserHitboxRight"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
+shape = SubResource("BoxShape3D_x54t6")
+
+[node name="Tunnels" type="Node3D" parent="."]
+
+[node name="FPS Counter" type="Label" parent="."]
+auto_translate_mode = 1
+offset_right = 40.0
+offset_bottom = 23.0
+script = ExtResource("11_3vxl2")

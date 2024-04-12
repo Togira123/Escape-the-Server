@@ -27,6 +27,13 @@ enum {RUN, ROLL, JUMP}
 var just_changed = false
 var cur_movement = RUN
 
+# speed for start up
+var startup_speed = 0.0
+
+func _ready():
+	set_process(false)
+	set_physics_process(false)
+
 func _physics_process(delta):
 	if just_changed:
 		# change hitbox
@@ -46,7 +53,7 @@ func _physics_process(delta):
 		return
 	print(state_machine.get_current_node())
 	if not is_on_floor():
-		if state_machine.get_current_node() != "run":
+		if state_machine.get_current_node() != "run_blend_tree":
 			animation_tree.set("parameters/conditions/is_jumping", false)
 		if state_machine.get_current_node() == "roll":
 			# Drop quickly if player is rolling
@@ -112,13 +119,28 @@ func _process(delta):
 			if m:
 				m.maybe_drop(position.z)
 
+func start_running(delta):
+	if state_machine.get_current_node() != "run_blend_tree":
+		state_machine.travel("run_blend_tree")
+	var direction = Vector3(0, 0, 1)
+	startup_speed += delta * 40
+	print(startup_speed)
+	if startup_speed > SPEED:
+		animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 1)
+		set_process(true)
+		set_physics_process(true)
+		return false
+	velocity.z = direction.z * startup_speed
+	animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 0.3 + startup_speed * 0.014)
+	move_and_slide()
+	return true
+
 func _on_hitbox_area_entered(area: Area3D):
 	if area.name == "LetterHitbox":
 		print("Hit letter!")
 		area.get_parent().dissolve()
 	#animation_tree.set("parameters/conditions/has_crashed", true)
 	#velocity.z = 0
-
 
 
 func _on_animation_tree_animation_started(anim_name):

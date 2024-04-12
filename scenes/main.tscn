@@ -1,20 +1,12 @@
-[gd_scene load_steps=20 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=12 format=3 uid="uid://b7ts0yd67xbb4"]
 
-[ext_resource type="Script" path="res://scripts/level.gd" id="1_3nhe7"]
-[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_gek6h"]
-[ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_dcphb"]
-[ext_resource type="Script" path="res://scripts/fps_counter.gd" id="4_kghnm"]
-[ext_resource type="Script" path="res://scripts/spawn_lasers.gd" id="4_n6f7b"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
+[ext_resource type="PackedScene" uid="uid://neet5x4flstv" path="res://scenes/level.tscn" id="2_wyg3m"]
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
-[ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_k6t86"]
-[ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground5.tscn" id="6_bcvp3"]
+[ext_resource type="PackedScene" uid="uid://bgu5iwofwwqmx" path="res://scenes/ui/main_menu.tscn" id="6_ax50e"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
-[ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground4.tscn" id="7_jtptp"]
 [ext_resource type="Script" path="res://scripts/main_light_source.gd" id="7_qb6x3"]
-[ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="8_3i1cj"]
-[ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="9_hlhc3"]
-[ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="10_ew4l0"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
@@ -32,10 +24,12 @@ fog_depth_curve = 0.176778
 fog_depth_begin = 173.4
 fog_depth_end = 1224.1
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
-size = Vector3(1, 14, 660)
+[sub_resource type="Curve" id="Curve_yk5os"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [node name="Main" type="Node"]
+script = ExtResource("1_16pgg")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(1, -3.48787e-16, 3.48787e-16, -4.39934e-16, -0.310876, 0.950451, -2.23075e-16, -0.950451, -0.310876, 2.08165e-12, 300, 2.08165e-12)
@@ -45,47 +39,16 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_006tc")
 
-[node name="FPS Counter" type="Label" parent="."]
-offset_right = 40.0
-offset_bottom = 23.0
-script = ExtResource("4_kghnm")
-
-[node name="Level" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
-script = ExtResource("1_3nhe7")
-modules = Array[PackedScene]([ExtResource("3_gek6h"), ExtResource("4_dcphb"), ExtResource("5_k6t86"), ExtResource("6_bcvp3"), ExtResource("7_jtptp"), ExtResource("8_3i1cj"), ExtResource("10_ew4l0"), ExtResource("9_hlhc3")])
-
-[node name="Lasers" type="Node3D" parent="Level"]
-script = ExtResource("4_n6f7b")
-
-[node name="LaserHitboxLeft" type="Area3D" parent="Level/Lasers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 2.08165e-12, 20)
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Lasers/LaserHitboxLeft"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
-shape = SubResource("BoxShape3D_x54t6")
-
-[node name="LaserHitboxRight" type="Area3D" parent="Level/Lasers"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -80, 2.08165e-12, 20)
-collision_layer = 16
-collision_mask = 0
-monitoring = false
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Lasers/LaserHitboxRight"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
-shape = SubResource("BoxShape3D_x54t6")
-
-[node name="Tunnels" type="Node3D" parent="Level"]
+[node name="Level" parent="." instance=ExtResource("2_wyg3m")]
 
 [node name="Player" parent="." instance=ExtResource("5_7gqat")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
 
 [node name="PlayerCamera" type="Camera3D" parent="."]
-transform = Transform3D(-1, -3.33143e-08, 8.08263e-08, -1.31362e-08, 0.971309, 0.237822, -8.64302e-08, 0.237822, -0.971309, 0, 2.57449, -2.0716)
+transform = Transform3D(-1, -8.44439e-08, 2.26267e-08, 9.02727e-17, 0.258819, 0.965926, -8.74228e-08, 0.965926, -0.258819, 2.08165e-12, 7, -2.072)
 current = true
 script = ExtResource("5_ir8w6")
+curve = SubResource("Curve_yk5os")
 
 [node name="Constants" type="Node" parent="."]
 script = ExtResource("6_uk641")
@@ -98,3 +61,7 @@ distance_fade_enabled = true
 omni_range = 500.0
 omni_attenuation = 0.1
 script = ExtResource("7_qb6x3")
+
+[node name="MainMenu" parent="." instance=ExtResource("6_ax50e")]
+
+[connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

@@ -10,7 +10,7 @@ const TUNNEL_LENGTH = 250
 @onready var tunnels = $"Tunnels"
 @export var modules: Array[PackedScene] = []
 var loaded_modules = []
-var amount = 10
+var amount = LOADED_MODULES_SIZE
 
 var next_tunnel = 0
 
