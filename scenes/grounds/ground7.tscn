@@ -28,17 +28,13 @@
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_t5imo"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_hswbh"]
 [ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_1k3vh"]
+[ext_resource type="Material" uid="uid://60mn3s8voxpt" path="res://assets/graphics/materials/LaserMaterial.tres" id="28_4mckb"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_vg3bp"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_q0kak"]
 top_radius = 0.1
 bottom_radius = 0.1
 height = 20.0
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ylnb8"]
-albedo_color = Color(0.984314, 0.0745098, 0.258824, 0.94902)
-emission_enabled = true
-emission = Color(1, 0, 0, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
 size = Vector3(40, 2, 20)
@@ -122,73 +118,73 @@ metadata/module_number = 7
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, -10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHintFront1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, 10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHintBack2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 10, 1.05, -10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHintFront2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 10, 1.05, 10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHintBack3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -50, 1.05, -10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHintFront3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -50, 1.05, 10)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 80, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 60, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 20, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 0, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint5" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -40, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="HoleHint6" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -60, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_q0kak")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = SubResource("StandardMaterial3D_ylnb8")
+surface_material_override/0 = ExtResource("28_4mckb")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0

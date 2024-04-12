@@ -47,6 +47,7 @@ func _ready():
 	if position.z > next_sentence_position_z:
 		spawn_sentence()
 
+
 func spawn_sentence():
 	var letter_scale = (randi() % 4) + 5
 	var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)

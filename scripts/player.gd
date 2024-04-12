@@ -51,7 +51,6 @@ func _physics_process(delta):
 	
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
-	print(state_machine.get_current_node())
 	if not is_on_floor():
 		if state_machine.get_current_node() != "run_blend_tree":
 			animation_tree.set("parameters/conditions/is_jumping", false)
@@ -73,7 +72,6 @@ func _physics_process(delta):
 			# Gravity
 			velocity.y -= FALL_ACCELERATION * delta
 	else:
-		print("touched floor")
 		has_spinned = false
 		# make sure that character is standing normal after spinning
 		rotation.x = 0
@@ -124,7 +122,6 @@ func start_running(delta):
 		state_machine.travel("run_blend_tree")
 	var direction = Vector3(0, 0, 1)
 	startup_speed += delta * 40
-	print(startup_speed)
 	if startup_speed > SPEED:
 		animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 1)
 		set_process(true)

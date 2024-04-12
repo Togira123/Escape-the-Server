@@ -1,12 +1,22 @@
-[gd_scene load_steps=12 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=22 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
 [ext_resource type="PackedScene" uid="uid://neet5x4flstv" path="res://scenes/level.tscn" id="2_wyg3m"]
+[ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_nlg22"]
+[ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_7yjwl"]
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
+[ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_yillh"]
 [ext_resource type="PackedScene" uid="uid://bgu5iwofwwqmx" path="res://scenes/ui/main_menu.tscn" id="6_ax50e"]
+[ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground4.tscn" id="6_k3fqj"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
+[ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground5.tscn" id="7_4tow7"]
 [ext_resource type="Script" path="res://scripts/main_light_source.gd" id="7_qb6x3"]
+[ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="8_hii8r"]
+[ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="9_1qs3k"]
+[ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
+[ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
+[ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
@@ -40,6 +50,7 @@ shadow_enabled = true
 environment = SubResource("Environment_006tc")
 
 [node name="Level" parent="." instance=ExtResource("2_wyg3m")]
+modules = Array[PackedScene]([ExtResource("3_nlg22"), ExtResource("4_7yjwl"), ExtResource("5_yillh"), ExtResource("6_k3fqj"), ExtResource("7_4tow7"), ExtResource("8_hii8r"), ExtResource("9_1qs3k"), ExtResource("10_tylsd")])
 
 [node name="Player" parent="." instance=ExtResource("5_7gqat")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
@@ -47,6 +58,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
 [node name="PlayerCamera" type="Camera3D" parent="."]
 transform = Transform3D(-1, -8.44439e-08, 2.26267e-08, 9.02727e-17, 0.258819, 0.965926, -8.74228e-08, 0.965926, -0.258819, 2.08165e-12, 7, -2.072)
 current = true
+far = 1000.0
 script = ExtResource("5_ir8w6")
 curve = SubResource("Curve_yk5os")
 
@@ -63,5 +75,8 @@ omni_attenuation = 0.1
 script = ExtResource("7_qb6x3")
 
 [node name="MainMenu" parent="." instance=ExtResource("6_ax50e")]
+
+[node name="LoadingScreen" parent="." instance=ExtResource("16_xa8kq")]
+script = ExtResource("17_umg6e")
 
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

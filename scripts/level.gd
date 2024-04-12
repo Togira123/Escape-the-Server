@@ -24,7 +24,6 @@ func _ready():
 	for n in amount:
 		spawn_module(module_count * OFFSET)
 
-
 func spawn_module(n: int):
 	var instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 13 * OFFSET) else randi() % modules.size()].instantiate()
 	instance.position.z = n
@@ -32,7 +31,6 @@ func spawn_module(n: int):
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
-	loaded_modules[index] = instance
 	# add lasers if stage > 0
 	if stage > 0:
 		var i = SHORT_LASER_PIVOT.instantiate()
@@ -158,6 +156,7 @@ func spawn_module(n: int):
 					instance.get_child(4).visible = false
 					prev_inst.get_child(7).visible = false
 					
+	loaded_modules[index] = instance
 	if next_tunnel < TUNNELS.size():
 		if n > TUNNELS[next_tunnel]:
 			# spawn tunnel
