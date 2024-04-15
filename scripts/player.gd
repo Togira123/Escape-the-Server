@@ -8,6 +8,7 @@ extends CharacterBody3D
 
 @onready var level = $"../Level"
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
+@onready var floor_collision = $FloorCollision
 
 const SPEED = 50
 const WALK_SPEED = 1.5 * 60
@@ -162,12 +163,14 @@ func _on_hitbox_area_entered(area: Area3D):
 		#area.get_parent().dissolve()
 		is_dead = true
 		player_soul.mesh.material.set_shader_parameter("turned_on", true)
+		hitbox_collision_shape.disabled = true
+		floor_collision.disabled = true
+		animation_tree.set("parameters/conditions/has_crashed", true)
 	else:
 		# collided with laser
 		print("Hit laser!")
 	#animation_tree.set("parameters/conditions/has_crashed", true)
 	#velocity.z = 0
-	# player was hit
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:
