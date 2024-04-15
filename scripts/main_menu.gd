@@ -13,12 +13,12 @@ var x = 6 - (randi() % 12)
 var z = 3 - (randi() % 6)
 
 func set_timer():
-	set_process(false)
+	set_physics_process(false)
 	await get_tree().create_timer(randi() % 3 + 1, true, true).timeout	
-	set_process(true)
+	set_physics_process(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(delta):
 	if arrived:
 		# make sure not same numbers as before are picked
 		var prev_x = x

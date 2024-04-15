@@ -10,7 +10,7 @@ extends CharacterBody3D
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 
 const SPEED = 50
-const WALK_SPEED = 1.5 * 120
+const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
 const FALL_ACCELERATION = 75
