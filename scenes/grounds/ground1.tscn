@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_3mhp5"]
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_ykk04"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_c6hj5"]
-[ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_swh8k"]
+[ext_resource type="Material" uid="uid://csng317ehiofu" path="res://assets/graphics/materials/GroundMaterialCartoon.tres" id="28_6jcec"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_ca8ho"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
@@ -55,7 +55,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 36,
 "index_data": PackedByteArray(0, 0, 9, 0, 3, 0, 0, 0, 6, 0, 9, 0, 8, 0, 21, 0, 10, 0, 8, 0, 19, 0, 21, 0, 20, 0, 17, 0, 23, 0, 20, 0, 14, 0, 17, 0, 13, 0, 4, 0, 15, 0, 13, 0, 2, 0, 4, 0, 7, 0, 12, 0, 18, 0, 7, 0, 1, 0, 12, 0, 22, 0, 5, 0, 11, 0, 22, 0, 16, 0, 5, 0),
-"material": ExtResource("28_swh8k"),
+"material": ExtResource("28_6jcec"),
 "name": "GroundMaterial",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),

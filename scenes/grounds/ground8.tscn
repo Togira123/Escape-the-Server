@@ -27,9 +27,9 @@
 [ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_4rnv0"]
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_mkcec"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_hlwfw"]
-[ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_2j7nk"]
 [ext_resource type="Material" uid="uid://60mn3s8voxpt" path="res://assets/graphics/materials/LaserMaterial.tres" id="28_3aw8w"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_4dy0y"]
+[ext_resource type="Material" uid="uid://csng317ehiofu" path="res://assets/graphics/materials/GroundMaterialCartoon.tres" id="29_v3xuv"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_p55yb"]
 top_radius = 0.1
@@ -72,7 +72,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 144,
 "index_data": PackedByteArray(14, 0, 9, 0, 16, 0, 14, 0, 7, 0, 9, 0, 8, 0, 5, 0, 11, 0, 8, 0, 2, 0, 5, 0, 13, 0, 0, 0, 6, 0, 13, 0, 19, 0, 0, 0, 10, 0, 23, 0, 17, 0, 10, 0, 4, 0, 23, 0, 26, 0, 29, 0, 32, 0, 26, 0, 35, 0, 29, 0, 1, 0, 22, 0, 3, 0, 1, 0, 20, 0, 22, 0, 21, 0, 12, 0, 15, 0, 21, 0, 18, 0, 12, 0, 38, 0, 30, 0, 43, 0, 38, 0, 25, 0, 30, 0, 37, 0, 33, 0, 24, 0, 37, 0, 46, 0, 33, 0, 31, 0, 41, 0, 44, 0, 31, 0, 28, 0, 41, 0, 34, 0, 40, 0, 27, 0, 34, 0, 47, 0, 40, 0, 45, 0, 42, 0, 39, 0, 45, 0, 36, 0, 42, 0, 62, 0, 57, 0, 64, 0, 62, 0, 55, 0, 57, 0, 56, 0, 53, 0, 59, 0, 56, 0, 50, 0, 53, 0, 61, 0, 48, 0, 54, 0, 61, 0, 67, 0, 48, 0, 58, 0, 71, 0, 65, 0, 58, 0, 52, 0, 71, 0, 49, 0, 70, 0, 51, 0, 49, 0, 68, 0, 70, 0, 69, 0, 60, 0, 63, 0, 69, 0, 66, 0, 60, 0, 86, 0, 81, 0, 88, 0, 86, 0, 79, 0, 81, 0, 80, 0, 77, 0, 83, 0, 80, 0, 74, 0, 77, 0, 85, 0, 72, 0, 78, 0, 85, 0, 91, 0, 72, 0, 82, 0, 95, 0, 89, 0, 82, 0, 76, 0, 95, 0, 73, 0, 94, 0, 75, 0, 73, 0, 92, 0, 94, 0, 93, 0, 84, 0, 87, 0, 93, 0, 90, 0, 84, 0),
-"material": ExtResource("28_2j7nk"),
+"material": ExtResource("29_v3xuv"),
 "name": "GroundMaterial",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),

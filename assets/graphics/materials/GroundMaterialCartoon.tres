@@ -1,0 +1,26 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://csng317ehiofu"]
+
+[ext_resource type="Shader" path="res://shaders/ground.gdshader" id="1_mamm0"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_3rowp"]
+frequency = 0.099
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_euy2e"]
+noise = SubResource("FastNoiseLite_3rowp")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_mamm0")
+shader_parameter/tile_color = Color(0.29219, 0.29219, 0.29219, 1)
+shader_parameter/grout_color = Color(0.212305, 0.212305, 0.212305, 1)
+shader_parameter/accent_color = Color(0.160269, 0.160269, 0.160269, 1)
+shader_parameter/roughness = 1.0
+shader_parameter/use_normal_map = true
+shader_parameter/normal_intensity = 1.0
+shader_parameter/normal_map = SubResource("NoiseTexture2D_euy2e")
+shader_parameter/rotate_45 = true
+shader_parameter/tile_scale = 0.5
+shader_parameter/diamond_size = 0.177
+shader_parameter/grout_thickness = 0.007
+shader_parameter/diamond_accent_size = 0.531
+shader_parameter/grout_accent_size = 1.0

@@ -27,9 +27,9 @@
 [ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_y3e66"]
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_ex4ss"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_mtjvi"]
-[ext_resource type="Material" uid="uid://bsckxiqwovwtk" path="res://assets/graphics/materials/FinalGroundMaterial.tres" id="28_2u2eq"]
 [ext_resource type="Material" uid="uid://60mn3s8voxpt" path="res://assets/graphics/materials/LaserMaterial.tres" id="28_htd4s"]
 [ext_resource type="Material" uid="uid://dg3r3oyvsvqs3" path="res://assets/graphics/materials/FinalLineMaterial.tres" id="29_6ra87"]
+[ext_resource type="Material" uid="uid://csng317ehiofu" path="res://assets/graphics/materials/GroundMaterialCartoon.tres" id="29_p3mo3"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_4hsgp"]
 top_radius = 0.1
@@ -64,7 +64,7 @@ _surfaces = [{
 "format": 34896613399,
 "index_count": 72,
 "index_data": PackedByteArray(0, 0, 9, 0, 3, 0, 0, 0, 6, 0, 9, 0, 46, 0, 4, 0, 39, 0, 46, 0, 2, 0, 4, 0, 43, 0, 5, 0, 11, 0, 43, 0, 40, 0, 5, 0, 14, 0, 17, 0, 20, 0, 14, 0, 23, 0, 17, 0, 26, 0, 18, 0, 31, 0, 26, 0, 13, 0, 18, 0, 25, 0, 21, 0, 12, 0, 25, 0, 34, 0, 21, 0, 19, 0, 29, 0, 32, 0, 19, 0, 16, 0, 29, 0, 22, 0, 28, 0, 15, 0, 22, 0, 35, 0, 28, 0, 8, 0, 42, 0, 10, 0, 8, 0, 37, 0, 42, 0, 7, 0, 45, 0, 36, 0, 7, 0, 1, 0, 45, 0, 38, 0, 41, 0, 44, 0, 38, 0, 47, 0, 41, 0, 33, 0, 30, 0, 27, 0, 33, 0, 24, 0, 30, 0),
-"material": ExtResource("28_2u2eq"),
+"material": ExtResource("29_p3mo3"),
 "name": "GroundMaterial",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
