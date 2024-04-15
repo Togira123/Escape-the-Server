@@ -7,7 +7,6 @@
 [ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
 [ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
 [ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_yillh"]
-[ext_resource type="PackedScene" uid="uid://bgu5iwofwwqmx" path="res://scenes/ui/main_menu.tscn" id="6_ax50e"]
 [ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground4.tscn" id="6_k3fqj"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
 [ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground5.tscn" id="7_4tow7"]
@@ -17,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
+[ext_resource type="PackedScene" uid="uid://bptlw0sxxphtu" path="res://scenes/main_menu.tscn" id="18_c77vm"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
@@ -74,9 +74,10 @@ omni_range = 500.0
 omni_attenuation = 0.1
 script = ExtResource("7_qb6x3")
 
-[node name="MainMenu" parent="." instance=ExtResource("6_ax50e")]
+[node name="MainMenu" parent="." instance=ExtResource("18_c77vm")]
 
 [node name="LoadingScreen" parent="." instance=ExtResource("16_xa8kq")]
+visible = false
 script = ExtResource("17_umg6e")
 
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

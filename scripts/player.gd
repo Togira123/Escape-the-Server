@@ -8,6 +8,7 @@ extends CharacterBody3D
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 
 const SPEED = 50
+const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
 const FALL_ACCELERATION = 75
@@ -139,6 +140,23 @@ func _on_hitbox_area_entered(area: Area3D):
 	#animation_tree.set("parameters/conditions/has_crashed", true)
 	#velocity.z = 0
 
+func move_to_random_point(x, z, delta):
+	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:
+		print("stopped")
+		state_machine.travel("idle")
+		return true
+	print("walking")
+	if state_machine.get_current_node() != "walk":
+		state_machine.travel("walk")
+	var target = Vector3(x, position.y, z)
+	var direction = target - position
+	direction = direction.normalized()
+	velocity.x = direction.x * WALK_SPEED * delta
+	velocity.z = direction.z * WALK_SPEED * delta
+	armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL / 2)
+	move_and_slide()
+	return false
+	
 
 func _on_animation_tree_animation_started(anim_name):
 	print("started", anim_name)

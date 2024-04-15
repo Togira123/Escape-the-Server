@@ -22,7 +22,6 @@ func _process(delta):
 		start_running = false
 	if move_camera_down and not player_camera.move_camera_down(delta):
 		move_camera_down = false
-		
 
 
 func _on_main_menu_game_start():
