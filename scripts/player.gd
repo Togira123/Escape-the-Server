@@ -163,8 +163,8 @@ func _on_hitbox_area_entered(area: Area3D):
 		#area.get_parent().dissolve()
 		is_dead = true
 		player_soul.mesh.material.set_shader_parameter("turned_on", true)
-		hitbox_collision_shape.disabled = true
-		floor_collision.disabled = true
+		hitbox_collision_shape.set_deferred("disabled", true)
+		floor_collision.set_deferred("disabled", true)
 		animation_tree.set("parameters/conditions/has_crashed", true)
 	else:
 		# collided with laser
