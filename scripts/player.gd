@@ -1,6 +1,8 @@
 extends CharacterBody3D
 
 @onready var armature = $Armature
+@onready var player_soul = $PlayerSoul
+@onready var mesh = $Armature/Skeleton3D/Cube
 @onready var animation_tree = $AnimationTree
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
@@ -8,7 +10,7 @@ extends CharacterBody3D
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 
 const SPEED = 50
-const WALK_SPEED = 1.5 * 60
+const WALK_SPEED = 1.5 * 120
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
 const FALL_ACCELERATION = 75
@@ -19,7 +21,9 @@ const PLAYER_JUMP_OFFSET = 0.1
 const PLAYER_ROLL_HEIGHT = 1
 const PLAYER_ROLL_OFFSET = -0.5
 
+const DEATH_BREAK_SPEED = 10
 
+var is_dead = false
 var has_spinned = false # makes sure players can only roll once after jumping
 
 enum {RUN, ROLL, JUMP}
@@ -36,6 +40,9 @@ func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
+	if is_dead:
+		die_process(delta)
+		return
 	if just_changed:
 		# change hitbox
 		just_changed = false
@@ -110,7 +117,7 @@ func _physics_process(delta):
 
 	move_and_slide()
 
-func _process(delta):
+func _process(_delta):
 	# make sure to spawn in new ground
 	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
 		level.spawn_module(level.module_count * level.OFFSET)
@@ -121,7 +128,7 @@ func _process(delta):
 func start_running(delta):
 	if state_machine.get_current_node() != "run_blend_tree":
 		state_machine.travel("run_blend_tree")
-	var direction = Vector3(0, 0, 1)
+	var direction = Vector3(-position.x, 0, 1)
 	startup_speed += delta * 40
 	if startup_speed > SPEED:
 		animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 1)
@@ -129,16 +136,38 @@ func start_running(delta):
 		set_physics_process(true)
 		return false
 	velocity.z = direction.z * startup_speed
+	velocity.x = direction.x * startup_speed / 8
+	armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL / 2)
 	animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 0.3 + startup_speed * 0.014)
 	move_and_slide()
 	return true
 
+# function to process the player death animation
+func die_process(delta):
+	var old_val = mesh.material_override.get_shader_parameter("dissolve_amount")
+	if old_val < 1:
+		mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.05)
+	else:
+			armature.visible = false
+	velocity.z -= delta * DEATH_BREAK_SPEED
+	if velocity.z < 0:
+		velocity.z = 0
+	move_and_slide()
+	
+
 func _on_hitbox_area_entered(area: Area3D):
 	if area.name == "LetterHitbox":
+		# player hit laser
 		print("Hit letter!")
-		area.get_parent().dissolve()
+		#area.get_parent().dissolve()
+		is_dead = true
+		player_soul.mesh.material.set_shader_parameter("turned_on", true)
+	else:
+		# collided with laser
+		print("Hit laser!")
 	#animation_tree.set("parameters/conditions/has_crashed", true)
 	#velocity.z = 0
+	# player was hit
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:
@@ -156,7 +185,7 @@ func move_to_random_point(x, z, delta):
 	armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL / 2)
 	move_and_slide()
 	return false
-	
+
 
 func _on_animation_tree_animation_started(anim_name):
 	print("started", anim_name)

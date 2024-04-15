@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://0hph3qbepi0b"]
+
+[ext_resource type="Shader" path="res://shaders/dissolve2.gdshader" id="1_v7s8i"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_bxsno"]
+noise_type = 0
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_88pp6"]
+noise = SubResource("FastNoiseLite_bxsno")
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_v7s8i")
+shader_parameter/albedo = Color(0.79412, 0.794121, 0.794121, 1)
+shader_parameter/emission_color = Color(1, 1, 1, 1)
+shader_parameter/emission_amount = null
+shader_parameter/burn_size = null
+shader_parameter/dissolve_amount = 0.0
+shader_parameter/dissolve_texture = SubResource("NoiseTexture2D_88pp6")

@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2nly48hjcdgm"]
+[gd_scene load_steps=9 format=3 uid="uid://c2nly48hjcdgm"]
 
 [ext_resource type="Script" path="res://scripts/dissolve_letter.gd" id="1_2j8vx"]
-[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_5xawi"]
 [ext_resource type="ArrayMesh" uid="uid://cr1ho5fwsw7au" path="res://assets/graphics/letters/F_regular.obj" id="1_vg40m"]
+[ext_resource type="Material" uid="uid://0hph3qbepi0b" path="res://assets/graphics/materials/LetterMaterial.tres" id="2_0p4tg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m1lf4"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,12 +16,6 @@ background_mode = 2
 sky = SubResource("Sky_4jfxy")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_xmuig"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("1_5xawi")
-shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_vd5jb"]
 points = PackedVector3Array(0.878689, 0.599992, -1.04251, 0.878689, 0, -1.04251, 0.878689, 0.599992, -1.30385, 0.690279, 0.599992, 0.245963, 0.878689, 0, -1.30385, 0.690279, 0, 0.245963, -0.721154, 0.599992, -1.30385, -0.444255, 0.599992, 1.35, -0.721154, 0, -1.30385, -0.444255, 0, 1.35, -0.721154, 0.599992, 1.35, -0.721154, 0, 1.35)
@@ -42,7 +36,7 @@ environment = SubResource("Environment_ur1r0")
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
-material_override = SubResource("ShaderMaterial_xmuig")
+material_override = ExtResource("2_0p4tg")
 mesh = ExtResource("1_vg40m")
 skeleton = NodePath("../../LetterHitbox")
 

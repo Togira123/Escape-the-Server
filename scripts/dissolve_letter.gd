@@ -4,20 +4,20 @@ extends RigidBody3D
 @onready var mesh = $Pivot/MeshInstance3D
 @onready var hitbox_collision = $LetterHitbox/CollisionShape3D
 
-var is_dissolving = false
+func _ready():
+	set_physics_process(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
-	if is_dissolving:
-		var old_val = mesh.material_override.get_shader_parameter("dissolve_progress")
-		if old_val == 1:
-			is_dissolving = false
-			self.get_parent().remove_child(self)
-		mesh.material_override.set_shader_parameter("dissolve_progress", old_val + 0.05)
+	var old_val = mesh.material_override.get_shader_parameter("dissolve_amount")
+	if old_val == 1:
+		set_physics_process(false)
+		self.get_parent().remove_child(self)
+	mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.025)
 
 func dissolve():
 	#world_glow.environment.glow_enabled = true
-	is_dissolving = true
+	set_physics_process(true)
 	hitbox_collision.set_deferred("disabled", true)
 
 

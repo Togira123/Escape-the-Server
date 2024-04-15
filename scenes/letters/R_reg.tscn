@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://b3yim8mxlx31p"]
+[gd_scene load_steps=9 format=3 uid="uid://b3yim8mxlx31p"]
 
-[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_m4quh"]
 [ext_resource type="Script" path="res://scripts/dissolve_letter.gd" id="1_niekf"]
 [ext_resource type="ArrayMesh" uid="uid://6qj7ie6si7ou" path="res://assets/graphics/letters/R_regular.obj" id="1_reoh7"]
+[ext_resource type="Material" uid="uid://0hph3qbepi0b" path="res://assets/graphics/materials/LetterMaterial.tres" id="2_m4snm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sdyoe"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,12 +16,6 @@ background_mode = 2
 sky = SubResource("Sky_ag0y1")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l76ps"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("1_m4quh")
-shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tqxje"]
 points = PackedVector3Array(1.04808, 0.599992, 1.35, -0.871154, 0.599992, 1.35, 1.04808, 0, 1.35, 1.00956, 0.599992, -0.55388, -0.871154, 0, 1.35, -0.871154, 0.599992, -1.30385, 1.00956, 0, -0.55388, 1.00806, 0.599992, -0.609991, -0.871154, 0, -1.30385, 0.251904, 0.599992, -1.30385, 1.00806, 0, -0.609991, 1.00374, 0.599992, -0.664284, 0.251904, 0, -1.30385, 0.307888, 0.599992, -1.30255, 1.00374, 0, -0.664284, 0.996602, 0.599992, -0.716498, 0.307888, 0, -1.30255, 0.362181, 0.599992, -1.29839, 0.996602, 0, -0.716498, 0.986457, 0.599992, -0.766894, 0.362181, 0, -1.29839, 0.414596, 0.599992, -1.29138, 0.986457, 0, -0.766894, 0.973494, 0.599992, -0.815212, 0.414596, 0, -1.29138, 0.465131, 0.599992, -1.28125, 0.973494, 0, -0.815212, 0.957526, 0.599992, -0.861712, 0.465131, 0, -1.28125, 0.513788, 0.599992, -1.26852, 0.957526, 0, -0.861712, 0.938927, 0.599992, -0.906133, 0.513788, 0, -1.26852, 0.560379, 0.599992, -1.25293, 0.938927, 0, -0.906133, 0.917135, 0.599992, -0.948995, 0.560379, 0, -1.25293, 0.605279, 0.599992, -1.23475, 0.917135, 0, -0.948995, 0.892712, 0.599992, -0.98952, 0.605279, 0, -1.23475, 0.6483, 0.599992, -1.21344, 0.892712, 0, -0.98952, 0.865284, 0.599992, -1.02849, 0.6483, 0, -1.21344, 0.68963, 0.599992, -1.18929, 0.865284, 0, -1.02849, 0.835038, 0.599992, -1.06511, 0.68963, 0, -1.18929, 0.728894, 0.599992, -1.16253, 0.835038, 0, -1.06511, 0.801786, 0.599992, -1.10018, 0.728894, 0, -1.16253, 0.766279, 0.599992, -1.13266, 0.801786, 0, -1.10018, 0.766279, 0, -1.13266)
@@ -42,7 +36,7 @@ environment = SubResource("Environment_pbkf5")
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
-material_override = SubResource("ShaderMaterial_l76ps")
+material_override = ExtResource("2_m4snm")
 mesh = ExtResource("1_reoh7")
 skeleton = NodePath("../../LetterHitbox")
 

@@ -1,8 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://di02l6g3b8mht"]
+[gd_scene load_steps=9 format=3 uid="uid://di02l6g3b8mht"]
 
 [ext_resource type="Script" path="res://scripts/dissolve_letter.gd" id="1_1i0rj"]
 [ext_resource type="ArrayMesh" uid="uid://cbidmjfg44a8d" path="res://assets/graphics/letters/Z_regular.obj" id="1_3dt3l"]
-[ext_resource type="Shader" uid="uid://c8w78brgabxhe" path="res://shaders/dissolve.tres" id="1_mecv0"]
+[ext_resource type="Material" uid="uid://0hph3qbepi0b" path="res://assets/graphics/materials/LetterMaterial.tres" id="2_ksn36"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_fu5os"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -16,12 +16,6 @@ background_mode = 2
 sky = SubResource("Sky_q7bnp")
 tonemap_mode = 2
 glow_enabled = true
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ybru"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("1_mecv0")
-shader_parameter/dissolve_progress = 0.0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_2rc43"]
 size = Vector3(1.68887, 0.612854, 2.64264)
@@ -42,7 +36,7 @@ environment = SubResource("Environment_nm1tv")
 transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
-material_override = SubResource("ShaderMaterial_3ybru")
+material_override = ExtResource("2_ksn36")
 mesh = ExtResource("1_3dt3l")
 skeleton = NodePath("../../LetterHitbox")
 

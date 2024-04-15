@@ -29,5 +29,5 @@ func move_camera_down(delta):
 		rotation.x = (-75 + (pos * 61.2)) / 180 * PI
 		#rotation.x = lerp(rotation.x, -13.8 / 180 * PI, 0.5)
 		#print(position.x)
-	position.z = lerp(position.z, player.position.z - 2, 0.5)
+	position.z = lerp(position.z, player.position.z - 2, 0.55)
 	return true
