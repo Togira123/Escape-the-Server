@@ -6,15 +6,30 @@ extends Camera3D
 @export var curve: Curve
 
 var time = 0.0
+var rotate_angle = 0.0
+
+var last_player_velocity = 0.0
 
 func _ready():
 	set_process(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	position.z = player.position.z - 2
-	position.x = player.position.x
-	position.y = player.position.y + 1
+	if player.is_dead:
+		rotate_angle = (last_player_velocity - player.velocity.z) * (PI / 2 / last_player_velocity)
+		#if rotate_angle > PI / 2:
+		#	set_process(false)
+		var sine = sin(rotate_angle)
+		#position.y = player.position.y + 1 + sine * 2
+		#position.z = player.position.z - cos(rotate_angle) * 2
+		position.y = player.position.y + 1
+		position.z = player.position.z - 2
+		#rotation.x = (-13.8 - (sine * 76.2)) / 180 * PI
+	else:
+		position.z = player.position.z - 2
+		position.x = player.position.x
+		position.y = player.position.y + 1
+		last_player_velocity = player.velocity.z
 
 func move_camera_down(delta):
 	time += delta

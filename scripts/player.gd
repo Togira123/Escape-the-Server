@@ -22,7 +22,7 @@ const PLAYER_JUMP_OFFSET = 0.1
 const PLAYER_ROLL_HEIGHT = 1
 const PLAYER_ROLL_OFFSET = -0.5
 
-const DEATH_BREAK_SPEED = 10
+const DEATH_BREAK_SPEED = 15
 
 var is_dead = false
 var has_spinned = false # makes sure players can only roll once after jumping
@@ -36,6 +36,10 @@ var cur_movement = RUN
 # speed for start up
 var startup_speed = 0.0
 
+# used to make loop in death animation
+var cur_speed = 0.0
+var cur_angle = 0.0
+
 func _ready():
 	set_process(false)
 	set_physics_process(false)
@@ -43,6 +47,9 @@ func _ready():
 func _physics_process(delta):
 	if is_dead:
 		die_process(delta)
+		return
+	if position.y < 0:
+		die()
 		return
 	if just_changed:
 		# change hitbox
@@ -143,16 +150,45 @@ func start_running(delta):
 	move_and_slide()
 	return true
 
+# initializes player death
+func die():
+	is_dead = true
+	player_soul.mesh.material.set_shader_parameter("turned_on", true)
+	hitbox_collision_shape.set_deferred("disabled", true)
+	floor_collision.set_deferred("disabled", true)
+	animation_tree.set("parameters/conditions/has_crashed", true)
+	velocity.z = SPEED
+
 # function to process the player death animation
 func die_process(delta):
 	var old_val = mesh.material_override.get_shader_parameter("dissolve_amount")
 	if old_val < 1:
 		mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.05)
 	else:
-			armature.visible = false
-	velocity.z -= delta * DEATH_BREAK_SPEED
-	if velocity.z < 0:
-		velocity.z = 0
+		armature.visible = false	
+	
+	if velocity.z < SPEED * 0.9:
+		# do loop
+		if cur_speed < 0:
+			return
+		var vel_z = cos(cur_angle)
+		var vel_y = sin(cur_angle)
+		velocity.z = vel_z * cur_speed
+		velocity.y = vel_y * cur_speed
+		cur_speed -= delta * DEATH_BREAK_SPEED
+		if cur_angle < 2.2 * PI:
+			cur_angle = (SPEED * 0.9 - cur_speed) * (2 * PI / (SPEED * 0.9)) * 2.5
+		print("z ", velocity.z)
+		print("a ", cur_angle / PI * 180)
+		#print(cur_angle / PI * 180)
+	else:
+		velocity.z -= delta * DEATH_BREAK_SPEED
+		cur_speed = velocity.z
+		velocity.x = lerp(velocity.x, 0.0, 0.8)
+		velocity.y = lerp(velocity.y, 0.0, 0.8)
+		if velocity.z < 0:
+			velocity.z = 0
+	
 	move_and_slide()
 	
 
@@ -161,11 +197,7 @@ func _on_hitbox_area_entered(area: Area3D):
 		# player hit laser
 		print("Hit letter!")
 		#area.get_parent().dissolve()
-		is_dead = true
-		player_soul.mesh.material.set_shader_parameter("turned_on", true)
-		hitbox_collision_shape.set_deferred("disabled", true)
-		floor_collision.set_deferred("disabled", true)
-		animation_tree.set("parameters/conditions/has_crashed", true)
+		die()
 	else:
 		# collided with laser
 		print("Hit laser!")
