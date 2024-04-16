@@ -20,14 +20,12 @@ func move_camera_down(delta):
 	time += delta
 	if time > 1:
 		rotation.x = -13.8 / 180 * PI
-		position.y = 2
+		position.y = 3
 		set_process(true)
 		return false
 	else:
 		var pos = curve.sample(time);
 		position.y = 7 - (pos * (7 - player.position.y - 1))
 		rotation.x = (-75 + (pos * 61.2)) / 180 * PI
-		#rotation.x = lerp(rotation.x, -13.8 / 180 * PI, 0.5)
-		#print(position.x)
-	position.z = lerp(position.z, player.position.z - 2, 0.55)
+	position.z = lerp(position.z, player.position.z - 2, 0.6)
 	return true
