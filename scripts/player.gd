@@ -24,8 +24,13 @@ const PLAYER_ROLL_OFFSET = -0.5
 
 const DEATH_BREAK_SPEED = 10
 
+const LASER_IMPULSE = 10
+const LASER_IMPULSE_BREAK_SPEED = 0.5
+
 var is_dead = false
 var has_spinned = false # makes sure players can only roll once after jumping
+
+var laser_impulse = 0.0 # holds current impulse when player touched laser
 
 enum {RUN, ROLL, JUMP}
 
@@ -119,6 +124,12 @@ func _physics_process(delta):
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
+		if laser_impulse > 0:
+			direction.x += laser_impulse
+			laser_impulse -= LASER_IMPULSE_BREAK_SPEED
+		elif laser_impulse < 0:
+			direction.x += laser_impulse
+			laser_impulse += LASER_IMPULSE_BREAK_SPEED
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
@@ -204,10 +215,12 @@ func player_was_hit(area: Area3D):
 		#area.get_parent().dissolve()
 		die()
 	else:
-		# collided with laser
 		print("Hit laser!")
-	#animation_tree.set("parameters/conditions/has_crashed", true)
-	#velocity.z = 0
+		velocity.y = LASER_IMPULSE * 4
+		if position.x > 0:
+			laser_impulse = -LASER_IMPULSE
+		else:
+			laser_impulse = LASER_IMPULSE
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:
