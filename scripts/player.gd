@@ -192,6 +192,12 @@ func die_process(delta):
 	
 
 func _on_hitbox_area_entered(area: Area3D):
+	player_was_hit(area)
+
+func _on_hitbox_area_exited(area: Area3D):
+	player_was_hit(area)
+	
+func player_was_hit(area: Area3D):
 	if area.name == "LetterHitbox":
 		# player hit laser
 		print("Hit letter!")
