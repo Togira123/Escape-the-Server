@@ -40,11 +40,9 @@ var spawned_letters = []
 var drop_at_z = position.z + 100000
 var dropped = false
 
-static var next_sentence_position_z = 200
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if position.z > next_sentence_position_z:
+	if position.z > constants.next_sentence_position_z:
 		spawn_sentence()
 
 
@@ -75,16 +73,15 @@ func spawn_sentence():
 		instance.freeze = true
 		spawned_letters.append(instance)
 		sentence_node.add_child(instance)
-	sentence_node.rotation.y = rotation_y
 	if randi() % 10 == 1:
-		drop_at_z = next_sentence_position_z + 10000
+		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
-		drop_at_z = (next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
+		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
 	
-	if level.TUNNELS[level.next_tunnel] < next_sentence_position_z + 150:
-		next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
+	if level.TUNNELS[level.next_tunnel] < constants.next_sentence_position_z + 150:
+		constants.next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
 	else:
-		next_sentence_position_z += 60
+		constants.next_sentence_position_z += 60
 
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:

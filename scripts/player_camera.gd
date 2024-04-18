@@ -16,6 +16,8 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if player.is_dead:
+		if last_player_velocity == 0:
+			last_player_velocity = player.cur_speed
 		rotate_angle = (last_player_velocity - player.cur_speed) * (PI / 4 / last_player_velocity)
 		if rotate_angle > PI / 4:
 			set_process(false)

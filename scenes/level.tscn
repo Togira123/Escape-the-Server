@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=14 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="9_318rk"]
 [ext_resource type="Script" path="res://scripts/spawn_lasers.gd" id="10_atip2"]
 [ext_resource type="Script" path="res://scripts/fps_counter.gd" id="11_3vxl2"]
+[ext_resource type="Script" path="res://scripts/score.gd" id="12_tlb8y"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
@@ -50,3 +51,14 @@ auto_translate_mode = 1
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("11_3vxl2")
+
+[node name="Score" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_right = 20.0
+offset_bottom = 23.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
+script = ExtResource("12_tlb8y")

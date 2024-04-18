@@ -2,6 +2,8 @@ extends Node
 
 var sentences
 
+var next_sentence_position_z = 200
+
 func get_random_sentence():
 	if not sentences:
 		var file = FileAccess.open("res://assets/text/sentences-list.txt", FileAccess.READ)

@@ -1,5 +1,7 @@
 extends CharacterBody3D
 
+signal game_over
+
 @onready var armature = $Armature
 @onready var player_soul = $PlayerSoul
 @onready var mesh = $Armature/Skeleton3D/Cube
@@ -69,7 +71,7 @@ func _physics_process(delta):
 			ROLL:
 				hitbox_collision_shape.shape.height = PLAYER_ROLL_HEIGHT
 				hitbox_collision_shape.position.y = PLAYER_ROLL_OFFSET
-	
+
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
 	if not is_on_floor():
@@ -105,7 +107,7 @@ func _physics_process(delta):
 		elif cur_movement == JUMP:
 			just_changed = true
 			cur_movement = RUN
-			
+
 
 	# Handle roll
 	if Input.is_action_just_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
@@ -182,6 +184,8 @@ func die_process(delta):
 	if velocity.z < SPEED * 0.9:
 		# do loop
 		if cur_speed < 0:
+			set_physics_process(false)
+			game_over.emit()
 			return
 		var vel_z = cos(cur_angle)
 		var vel_y = sin(cur_angle)
@@ -195,7 +199,10 @@ func die_process(delta):
 		velocity.z -= delta * DEATH_BREAK_SPEED
 		cur_speed = velocity.z
 		velocity.x = lerp(velocity.x, 0.0, 0.8)
-		velocity.y = lerp(velocity.y, JUMP_VELOCITY / 4.0, 0.8)
+		if position.y < 0:
+			velocity.y = lerp(velocity.y, JUMP_VELOCITY * 2.0, 0.9)
+		else:
+			velocity.y = lerp(velocity.y, JUMP_VELOCITY / 4.0, 0.8)
 		if velocity.z < 0:
 			velocity.z = 0
 	
@@ -211,11 +218,8 @@ func _on_hitbox_area_exited(area: Area3D):
 func player_was_hit(area: Area3D):
 	if area.name == "LetterHitbox":
 		# player hit laser
-		print("Hit letter!")
-		#area.get_parent().dissolve()
 		die()
 	else:
-		print("Hit laser!")
 		velocity.y = LASER_IMPULSE * 4
 		if position.x > 0:
 			laser_impulse = -LASER_IMPULSE
@@ -224,10 +228,8 @@ func player_was_hit(area: Area3D):
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:
-		print("stopped")
 		state_machine.travel("idle")
 		return true
-	print("walking")
 	if state_machine.get_current_node() != "walk":
 		state_machine.travel("walk")
 	var target = Vector3(x, position.y, z)
@@ -239,15 +241,7 @@ func move_to_random_point(x, z, delta):
 	move_and_slide()
 	return false
 
-
-func _on_animation_tree_animation_started(anim_name):
-	print("started", anim_name)
-
 func _on_animation_tree_animation_finished(anim_name):
-	print("anim_nameee ", anim_name)
-	if anim_name == "spin":
-		#animation_tree.set("parameters/conditions/is_spinning", false)
-		pass
-	elif anim_name == "roll":
+	if anim_name == "roll":
 		just_changed = true
 		cur_movement = RUN
