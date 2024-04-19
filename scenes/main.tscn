@@ -58,7 +58,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
 [node name="PlayerCamera" type="Camera3D" parent="."]
 transform = Transform3D(-1, -8.44439e-08, 2.26267e-08, 9.02727e-17, 0.258819, 0.965926, -8.74228e-08, 0.965926, -0.258819, 2.08165e-12, 7, -2.072)
 current = true
-far = 1000.0
+far = 560.0
 script = ExtResource("5_ir8w6")
 curve = SubResource("Curve_yk5os")
 

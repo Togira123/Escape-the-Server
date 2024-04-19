@@ -13,7 +13,7 @@ signal game_over
 @onready var floor_collision = $FloorCollision
 @onready var constants = $"../Constants"
 
-const SPEED = 50
+var SPEED = 50
 const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3

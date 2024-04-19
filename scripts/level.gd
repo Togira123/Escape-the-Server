@@ -4,7 +4,7 @@ const SHORT_LASER_PIVOT = preload("res://scenes/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [800, 6000]
+const TUNNELS = [3000, 6000]
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
