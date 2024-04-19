@@ -11,6 +11,7 @@ signal game_over
 @onready var level = $"../Level"
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 @onready var floor_collision = $FloorCollision
+@onready var constants = $"../Constants"
 
 const SPEED = 50
 const WALK_SPEED = 1.5 * 60
@@ -48,6 +49,7 @@ var cur_movement = RUN
 var started_spinning_in_tunnel = false
 var jumped_in_tunnel = false
 var changed_color_in_tunnel = false
+var reached_height = false
 
 # speed for start up
 var startup_speed = 0.0
@@ -73,6 +75,7 @@ func _physics_process(delta):
 			velocity.y = TUNNEL_JUMP_IMPULSE
 			state_machine.travel("jump_blend_tree")
 			started_spinning_in_tunnel = false
+			reached_height = false
 		if jumped_in_tunnel:
 			tunnel_process(delta)
 			return
@@ -175,11 +178,18 @@ func is_in_tunnel():
 func tunnel_process(delta):
 	velocity.z = lerp(velocity.z, TUNNEL_SPEED / 2.0, 0.4)
 	velocity.x = lerp(velocity.x, -position.x, 0.5)
+	get_tree().call_group("module", "change_color_of_pattern")
 	if not changed_color_in_tunnel:
-		get_tree().call_group("module", "change_color_of_pattern", 0.1, true)
+		constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress + delta * 2, 0.0, 1.0)
 	if position.y > TUNNEL_SPIN_HEIGHT:
+		reached_height = true
+	if reached_height:
 		# spin
-		if state_machine.get_current_node() != "spin_blend_tree":
+		if state_machine.get_current_node() == "spin_blend_tree":
+			velocity.y = 0.0
+			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
+			velocity.z = lerp(velocity.z, TUNNEL_SPEED, 0.8)
+		else:
 			if not started_spinning_in_tunnel:
 				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 0.5)
 				state_machine.travel("spin_blend_tree")
@@ -191,11 +201,11 @@ func tunnel_process(delta):
 				# Gravity
 				velocity.y -= FALL_ACCELERATION * delta
 				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 1.5)
-				get_tree().call_group("module", "change_color_of_pattern", 0.1, false)
-			
-		velocity.z = lerp(velocity.z, TUNNEL_SPEED, 0.8)
-		rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
-		velocity.y = 0.0
+				if level.TUNNELS[level.next_tunnel - 1] + level.TUNNEL_LENGTH - 10 > position.z:
+					# only 10 meters left, make sure to set the progress back to 0
+					constants.ground_pattern_color_change_progress = 0.0
+				else:
+					constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress - delta * 2, 0.0, 1.0)
 	move_and_slide()
 
 func start_running(delta):
