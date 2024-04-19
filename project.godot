@@ -28,6 +28,10 @@ export/convert_text_resources_to_binary=false
 
 import/blender/enabled=false
 
+[global_group]
+
+module="Group for all ground modules"
+
 [input]
 
 move_left={

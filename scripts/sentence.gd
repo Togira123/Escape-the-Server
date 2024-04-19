@@ -88,3 +88,12 @@ func maybe_drop(pos):
 		for inst in spawned_letters:
 			inst.freeze = false
 		dropped = true
+
+func change_color_of_pattern(lerp_val: float, to_emit_color: bool):
+	var shader: ShaderMaterial = $Ground/Pattern.mesh.surface_get_material(0)
+	if to_emit_color:
+		shader.set_shader_parameter("progress", lerp(shader.get_shader_parameter("progress"), 1.0, lerp_val))
+		shader.set_shader_parameter("emit", lerp(shader.get_shader_parameter("emit"), 5.0, lerp_val))
+	else:
+		shader.set_shader_parameter("progress", lerp(shader.get_shader_parameter("progress"), 0.0, lerp_val))
+		shader.set_shader_parameter("emit", lerp(shader.get_shader_parameter("emit"), 3.0, lerp_val))

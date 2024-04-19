@@ -29,6 +29,10 @@ const DEATH_BREAK_SPEED = 10
 const LASER_IMPULSE = 10
 const LASER_IMPULSE_BREAK_SPEED = 0.5
 
+const TUNNEL_JUMP_IMPULSE = 80
+const TUNNEL_SPIN_HEIGHT = 43
+const TUNNEL_SPEED: float = 250
+
 var is_dead = false
 var has_spinned = false # makes sure players can only roll once after jumping
 
@@ -39,6 +43,11 @@ enum {RUN, ROLL, JUMP}
 # used to change hitbox of the player
 var just_changed = false
 var cur_movement = RUN
+
+# vars for tunnel
+var started_spinning_in_tunnel = false
+var jumped_in_tunnel = false
+var changed_color_in_tunnel = false
 
 # speed for start up
 var startup_speed = 0.0
@@ -58,6 +67,17 @@ func _physics_process(delta):
 	if position.y < 0:
 		die()
 		return
+	if is_in_tunnel():
+		if is_on_floor():
+			jumped_in_tunnel = true
+			velocity.y = TUNNEL_JUMP_IMPULSE
+			state_machine.travel("jump_blend_tree")
+			started_spinning_in_tunnel = false
+		if jumped_in_tunnel:
+			tunnel_process(delta)
+			return
+	jumped_in_tunnel = false
+	changed_color_in_tunnel = false
 	if just_changed:
 		# change hitbox
 		just_changed = false
@@ -135,7 +155,6 @@ func _physics_process(delta):
 		velocity.x = direction.x * SPEED
 		velocity.z = direction.z * SPEED
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
-
 	move_and_slide()
 
 func _process(_delta):
@@ -145,6 +164,39 @@ func _process(_delta):
 		for m in level.loaded_modules:
 			if m:
 				m.maybe_drop(position.z)
+
+func is_in_tunnel():
+	if level.next_tunnel > 0:
+		var t = level.TUNNELS[level.next_tunnel - 1]
+		if t < position.z and t + level.TUNNEL_LENGTH > position.z:
+			return true
+	return false
+
+func tunnel_process(delta):
+	velocity.z = lerp(velocity.z, TUNNEL_SPEED / 2.0, 0.4)
+	velocity.x = lerp(velocity.x, -position.x, 0.5)
+	if not changed_color_in_tunnel:
+		get_tree().call_group("module", "change_color_of_pattern", 0.1, true)
+	if position.y > TUNNEL_SPIN_HEIGHT:
+		# spin
+		if state_machine.get_current_node() != "spin_blend_tree":
+			if not started_spinning_in_tunnel:
+				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 0.5)
+				state_machine.travel("spin_blend_tree")
+				started_spinning_in_tunnel = true
+			else:
+				changed_color_in_tunnel = true
+				if rotation.x != 0:
+					rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
+				# Gravity
+				velocity.y -= FALL_ACCELERATION * delta
+				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 1.5)
+				get_tree().call_group("module", "change_color_of_pattern", 0.1, false)
+			
+		velocity.z = lerp(velocity.z, TUNNEL_SPEED, 0.8)
+		rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
+		velocity.y = 0.0
+	move_and_slide()
 
 func start_running(delta):
 	if state_machine.get_current_node() != "run_blend_tree":

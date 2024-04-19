@@ -4,7 +4,7 @@ const SHORT_LASER_PIVOT = preload("res://scenes/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [3000, 6000]
+const TUNNELS = [800, 6000]
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
@@ -25,7 +25,7 @@ func _ready():
 		spawn_module(module_count * OFFSET)
 
 func spawn_module(n: int):
-	var instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else randi() % modules.size()].instantiate()
+	var instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] - 3 * OFFSET and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else randi() % modules.size()].instantiate()
 	instance.position.z = n
 	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
