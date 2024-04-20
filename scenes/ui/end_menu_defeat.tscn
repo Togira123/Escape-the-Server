@@ -1,0 +1,93 @@
+[gd_scene load_steps=10 format=3 uid="uid://dgmvlh4ckdktm"]
+
+[ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_y71vn"]
+[ext_resource type="Script" path="res://scripts/ui/end_menu_defeat.gd" id="2_8cygj"]
+[ext_resource type="PackedScene" uid="uid://d34xgjh510wsw" path="res://scenes/player/player_soul.tscn" id="3_n3l3x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fxyuq"]
+albedo_color = Color(0.301961, 0.301961, 0.301961, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_r73h4"]
+material = SubResource("StandardMaterial3D_fxyuq")
+size = Vector2(100, 100)
+
+[sub_resource type="Environment" id="Environment_87a11"]
+glow_enabled = true
+glow_intensity = 0.71
+
+[sub_resource type="Theme" id="Theme_iyvcd"]
+default_font_size = 50
+
+[sub_resource type="InputEventKey" id="InputEventKey_x6kka"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_n82ss"]
+events = [SubResource("InputEventKey_x6kka")]
+
+[node name="EndMenuDefeat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_y71vn")
+script = ExtResource("2_8cygj")
+
+[node name="PlayerSoul" parent="." instance=ExtResource("3_n3l3x")]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -3, 0)
+
+[node name="EndMenuCamera" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 3.44061)
+fov = 40.0
+
+[node name="BlackBg" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, -7)
+mesh = SubResource("PlaneMesh_r73h4")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 8.70591)
+spot_range = 20.0
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_87a11")
+
+[node name="MainMenuButton" type="Button" parent="."]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -187.0
+offset_right = 127.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+tooltip_text = "Return to Main Menu"
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_iyvcd")
+shortcut = SubResource("Shortcut_n82ss")
+text = "Main Menu
+"
+
+[node name="GameOver" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -343.0
+offset_top = -100.5
+offset_right = 343.0
+offset_bottom = 100.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "Game over"
+
+[connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]

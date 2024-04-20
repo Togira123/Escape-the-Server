@@ -78,7 +78,9 @@ func spawn_sentence():
 	else:
 		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
 	
-	if level.TUNNELS[level.next_tunnel] < constants.next_sentence_position_z + 150:
+	if level.next_tunnel >= level.TUNNELS.size():
+		constants.next_sentence_position_z += 10000
+	elif level.TUNNELS[level.next_tunnel] < constants.next_sentence_position_z + 150:
 		constants.next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
 	else:
 		constants.next_sentence_position_z += 60

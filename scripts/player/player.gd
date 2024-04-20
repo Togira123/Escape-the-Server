@@ -12,8 +12,9 @@ signal game_over
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 @onready var floor_collision = $FloorCollision
 @onready var constants = $"../Constants"
+@onready var camera = $"../PlayerCamera"
 
-var SPEED = 50
+var speed = 50
 const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
@@ -35,6 +36,7 @@ const TUNNEL_SPIN_HEIGHT = 43
 const TUNNEL_SPEED: float = 250
 
 var is_dead = false
+var is_finished = false
 var has_spinned = false # makes sure players can only roll once after jumping
 
 var laser_impulse = 0.0 # holds current impulse when player touched laser
@@ -63,13 +65,16 @@ func _ready():
 	set_physics_process(false)
 
 func _physics_process(delta):
+	if is_finished and camera.position.z + camera.far * 2 < position.z:
+		set_physics_process(false)
 	if is_dead:
 		die_process(delta)
 		return
 	if position.y < 0:
 		die()
 		return
-	if is_in_tunnel():
+	var cur_tunnel = is_in_tunnel();
+	if cur_tunnel != -1 or is_finished:
 		if is_on_floor():
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
@@ -77,7 +82,7 @@ func _physics_process(delta):
 			started_spinning_in_tunnel = false
 			reached_height = false
 		if jumped_in_tunnel:
-			tunnel_process(delta)
+			tunnel_process(delta, cur_tunnel == level.TUNNELS.size())
 			return
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
@@ -155,8 +160,8 @@ func _physics_process(delta):
 		elif laser_impulse < 0:
 			direction.x += laser_impulse
 			laser_impulse += LASER_IMPULSE_BREAK_SPEED
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
+		velocity.x = direction.x * speed
+		velocity.z = direction.z * speed
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	move_and_slide()
 
@@ -172,10 +177,10 @@ func is_in_tunnel():
 	if level.next_tunnel > 0:
 		var t = level.TUNNELS[level.next_tunnel - 1]
 		if t < position.z and t + level.TUNNEL_LENGTH > position.z:
-			return true
-	return false
+			return level.next_tunnel
+	return -1
 
-func tunnel_process(delta):
+func tunnel_process(delta, is_last: bool):
 	velocity.z = lerp(velocity.z, TUNNEL_SPEED / 2.0, 0.4)
 	velocity.x = lerp(velocity.x, -position.x, 0.5)
 	get_tree().call_group("module", "change_color_of_pattern")
@@ -183,12 +188,15 @@ func tunnel_process(delta):
 		constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress + delta * 2, 0.0, 1.0)
 	if position.y > TUNNEL_SPIN_HEIGHT:
 		reached_height = true
+	if is_last and position.y > TUNNEL_SPIN_HEIGHT / 2:
+		is_finished = true
+		set_process(false)
 	if reached_height:
 		# spin
-		if state_machine.get_current_node() == "spin_blend_tree":
+		if state_machine.get_current_node() == "spin_blend_tree" or is_finished:
 			velocity.y = 0.0
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
-			velocity.z = lerp(velocity.z, TUNNEL_SPEED, 0.8)
+			velocity.z = lerp(velocity.z, TUNNEL_SPEED * (3 if is_last else 1), 0.8)
 		else:
 			if not started_spinning_in_tunnel:
 				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 0.5)
@@ -213,7 +221,7 @@ func start_running(delta):
 		state_machine.travel("run_blend_tree")
 	var direction = Vector3(-position.x, 0, 1)
 	startup_speed += delta * 40
-	if startup_speed > SPEED:
+	if startup_speed > speed:
 		animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 1)
 		set_process(true)
 		set_physics_process(true)
@@ -227,7 +235,7 @@ func start_running(delta):
 
 # initializes player death
 func die():
-	velocity.z = SPEED
+	velocity.z = speed
 	cur_speed = velocity.z
 	is_dead = true
 	player_soul.mesh.material.set_shader_parameter("turned_on", true)
@@ -243,7 +251,7 @@ func die_process(delta):
 	else:
 		armature.visible = false	
 	
-	if velocity.z < SPEED * 0.9:
+	if velocity.z < speed * 0.9:
 		# do loop
 		if cur_speed < 0:
 			set_physics_process(false)
@@ -256,7 +264,7 @@ func die_process(delta):
 		cur_speed -= delta * DEATH_BREAK_SPEED
 		# 2.2 * PI causes the sphere to move up a bit at the end
 		if cur_angle < 2.2 * PI:
-			cur_angle = (SPEED * 0.9 - cur_speed) * (2 * PI / (SPEED * 0.9)) * 4
+			cur_angle = (speed * 0.9 - cur_speed) * (2 * PI / (speed * 0.9)) * 4
 	else:
 		velocity.z -= delta * DEATH_BREAK_SPEED
 		cur_speed = velocity.z

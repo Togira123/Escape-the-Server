@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://b8gqykwo5itxq"]
 
-[ext_resource type="Script" path="res://scripts/laser_pivot.gd" id="1_d06ci"]
+[ext_resource type="Script" path="res://scripts/lasers/laser_pivot.gd" id="1_d06ci"]
 
 [sub_resource type="Environment" id="Environment_ij4dg"]
 glow_enabled = true

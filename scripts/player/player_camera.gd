@@ -10,6 +10,9 @@ var rotate_angle = 0.0
 
 var last_player_velocity = 0.0
 
+# when player finishes
+var cur_cam_speed: float = -1
+
 func _ready():
 	set_process(false)
 
@@ -25,6 +28,23 @@ func _process(delta):
 		position.y = player.position.y + 1 + sine * 2
 		position.z = player.position.z - cos(rotate_angle) * 2
 		rotation.x = (-13.8 - (sine * 25)) / 90 * PI
+	elif player.is_finished:
+		if player.reached_height:
+			Engine.set_time_scale(lerp(Engine.time_scale, 1.0, 0.05))
+			if cur_cam_speed == -1:
+				cur_cam_speed = player.speed
+			cur_cam_speed -= delta * 8
+			if cur_cam_speed < 0:
+				cur_cam_speed = 0
+				player.set_physics_process(false)
+				player.game_over.emit()
+				set_process(false)
+			position.z += cur_cam_speed * delta
+		else:
+			Engine.set_time_scale(lerp(Engine.time_scale, 0.075, 0.05))
+			position.y = player.position.y + 1
+			position.x = player.position.x
+			position.z = player.position.z - 2
 	else:
 		position.z = player.position.z - 2
 		position.x = player.position.x

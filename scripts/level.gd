@@ -1,10 +1,10 @@
 extends Node3D
 
-const SHORT_LASER_PIVOT = preload("res://scenes/laser_pivot_short.tscn")
+const SHORT_LASER_PIVOT = preload("res://scenes/lasers/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [3000, 6000]
+const TUNNELS = [3000, 6000, 10000]
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
@@ -160,12 +160,11 @@ func spawn_module(n: int):
 	if next_tunnel < TUNNELS.size():
 		if n > TUNNELS[next_tunnel]:
 			# spawn tunnel
-			var tunnel = TUNNEL_SCENE.instantiate()
-			tunnel.position.z = n
-			var tunnel2 = TUNNEL_SCENE.instantiate()
-			tunnel2.position.z = n + 250
-			tunnels.add_child(tunnel)
-			tunnels.add_child(tunnel2)
+			var count = 5 if next_tunnel == TUNNELS.size() - 1 else 2
+			for i in range(count):
+				var tunnel = TUNNEL_SCENE.instantiate()
+				tunnel.position.z = n + i * 250
+				tunnels.add_child(tunnel)
 			next_tunnel += 1
 	add_child(instance)
 	module_count += 1

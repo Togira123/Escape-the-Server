@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bptlw0sxxphtu"]
 
-[ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_0j2i0"]
+[ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
 [ext_resource type="FontFile" uid="uid://rr5gwpyxrdjh" path="res://assets/graphics/fonts/gg sans Normal.woff2" id="4_meqxb"]
 
@@ -15,10 +15,7 @@ keycode = 4194309
 [sub_resource type="Shortcut" id="Shortcut_4y7ai"]
 events = [SubResource("InputEventKey_x6kka")]
 
-[node name="MainMenu" type="Node3D"]
-script = ExtResource("1_0j2i0")
-
-[node name="MainMenuUI" type="Control" parent="."]
+[node name="MainMenu" type="Control"]
 auto_translate_mode = 1
 layout_mode = 3
 anchors_preset = 15
@@ -27,8 +24,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("2_4tsm1")
+script = ExtResource("1_0j2i0")
 
-[node name="GameStartButton" type="Button" parent="MainMenuUI"]
+[node name="GameStartButton" type="Button" parent="."]
 auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 7
@@ -42,11 +40,11 @@ offset_right = 121.0
 offset_bottom = -100.0
 grow_horizontal = 2
 grow_vertical = 0
-tooltip_text = "Return to Main Menu"
 mouse_default_cursor_shape = 2
 theme = SubResource("Theme_c745d")
 shortcut = SubResource("Shortcut_4y7ai")
+shortcut_in_tooltip = false
 text = "Start Game
 "
 
-[connection signal="pressed" from="MainMenuUI/GameStartButton" to="." method="_on_game_start_button_pressed"]
+[connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]

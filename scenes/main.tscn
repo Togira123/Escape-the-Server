@@ -1,22 +1,21 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=21 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
 [ext_resource type="PackedScene" uid="uid://neet5x4flstv" path="res://scenes/level.tscn" id="2_wyg3m"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_nlg22"]
 [ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_7yjwl"]
-[ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player.tscn" id="5_7gqat"]
-[ext_resource type="Script" path="res://scripts/player_camera.gd" id="5_ir8w6"]
+[ext_resource type="PackedScene" uid="uid://dtl5806gaehus" path="res://scenes/player/player.tscn" id="5_7gqat"]
+[ext_resource type="Script" path="res://scripts/player/player_camera.gd" id="5_ir8w6"]
 [ext_resource type="PackedScene" uid="uid://bj56yiqw6hpc0" path="res://scenes/grounds/ground3.tscn" id="5_yillh"]
 [ext_resource type="PackedScene" uid="uid://cfhtcsgb1g6no" path="res://scenes/grounds/ground4.tscn" id="6_k3fqj"]
 [ext_resource type="Script" path="res://scripts/constants.gd" id="6_uk641"]
 [ext_resource type="PackedScene" uid="uid://denknhqmnkpkc" path="res://scenes/grounds/ground5.tscn" id="7_4tow7"]
-[ext_resource type="Script" path="res://scripts/main_light_source.gd" id="7_qb6x3"]
 [ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="8_hii8r"]
 [ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="9_1qs3k"]
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
-[ext_resource type="PackedScene" uid="uid://bptlw0sxxphtu" path="res://scenes/main_menu.tscn" id="18_c77vm"]
+[ext_resource type="PackedScene" uid="uid://bptlw0sxxphtu" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_px377"]
 
@@ -65,19 +64,9 @@ curve = SubResource("Curve_yk5os")
 [node name="Constants" type="Node" parent="."]
 script = ExtResource("6_uk641")
 
-[node name="MainLightSource" type="OmniLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 10, -8)
-visible = false
-shadow_enabled = true
-distance_fade_enabled = true
-omni_range = 500.0
-omni_attenuation = 0.1
-script = ExtResource("7_qb6x3")
-
 [node name="MainMenu" parent="." instance=ExtResource("18_c77vm")]
 
 [node name="LoadingScreen" parent="." instance=ExtResource("16_xa8kq")]
-visible = false
 script = ExtResource("17_umg6e")
 
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]

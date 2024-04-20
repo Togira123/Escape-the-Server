@@ -1,0 +1,73 @@
+[gd_scene load_steps=6 format=3 uid="uid://vlb0kl1afjld"]
+
+[ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_atrpe"]
+[ext_resource type="Script" path="res://scripts/ui/end_menu_victory.gd" id="1_uuuqf"]
+
+[sub_resource type="Theme" id="Theme_2p2fj"]
+default_font_size = 50
+
+[sub_resource type="InputEventKey" id="InputEventKey_x6kka"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="Shortcut" id="Shortcut_r7wqs"]
+events = [SubResource("InputEventKey_x6kka")]
+
+[node name="EndMenuVictory" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_atrpe")
+script = ExtResource("1_uuuqf")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.00960463, 0.00960463, 0.00960463, 1)
+
+[node name="MainMenuButton" type="Button" parent="."]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -187.0
+offset_right = 127.0
+offset_bottom = -100.0
+grow_horizontal = 2
+grow_vertical = 0
+tooltip_text = "Return to Main Menu"
+mouse_default_cursor_shape = 2
+theme = SubResource("Theme_2p2fj")
+shortcut = SubResource("Shortcut_r7wqs")
+text = "Main Menu
+"
+
+[node name="YouDidIt" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -343.0
+offset_top = -100.5
+offset_right = 343.0
+offset_bottom = 100.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 150
+text = "You did it!"
+
+[connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]

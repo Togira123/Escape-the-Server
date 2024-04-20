@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dksd315cb654x"]
 
-[ext_resource type="Script" path="res://scripts/laser_pivot.gd" id="1_dyl7a"]
+[ext_resource type="Script" path="res://scripts/lasers/laser_pivot.gd" id="1_dyl7a"]
 [ext_resource type="Material" uid="uid://60mn3s8voxpt" path="res://assets/graphics/materials/LaserMaterial.tres" id="2_nxv7f"]
 
 [sub_resource type="Environment" id="Environment_ij4dg"]

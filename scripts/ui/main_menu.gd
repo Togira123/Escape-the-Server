@@ -1,4 +1,4 @@
-extends Node3D
+extends Control
 
 signal game_start
 
