@@ -19,6 +19,8 @@ func dissolve():
 	#world_glow.environment.glow_enabled = true
 	set_physics_process(true)
 	hitbox_collision.set_deferred("disabled", true)
+	if has_node("ShieldHitbox"):
+		$ShieldHitbox/CollisionShape3D.set_deferred("disabled", true)
 
 
 func _on_letter_hitbox_area_entered(area):

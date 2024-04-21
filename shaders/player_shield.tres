@@ -1,0 +1,61 @@
+[gd_resource type="VisualShader" load_steps=5 format=3 uid="uid://bx6p4i5oradgv"]
+
+[sub_resource type="VisualShaderNodeColorConstant" id="VisualShaderNodeColorConstant_ihstt"]
+constant = Color(0.537255, 0.686275, 1, 1)
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_gamkb"]
+parameter_name = "alpha"
+default_value_enabled = true
+default_value = 2.08165e-12
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_a0oib"]
+operator = 2
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_34qnm"]
+parameter_name = "emission"
+default_value_enabled = true
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform float alpha = 0.00000000000208;
+uniform float emission = 0;
+
+
+
+void fragment() {
+// ColorConstant:2
+	vec4 n_out2p0 = vec4(0.537255, 0.686275, 1.000000, 1.000000);
+
+
+// FloatParameter:3
+	float n_out3p0 = alpha;
+
+
+// FloatParameter:5
+	float n_out5p0 = emission;
+
+
+// VectorOp:4
+	vec3 n_out4p0 = vec3(n_out2p0.xyz) * vec3(n_out5p0);
+
+
+// Output:0
+	ALBEDO = vec3(n_out2p0.xyz);
+	ALPHA = n_out3p0;
+	EMISSION = n_out4p0;
+
+
+}
+"
+graph_offset = Vector2(-549.53, -222.166)
+nodes/fragment/2/node = SubResource("VisualShaderNodeColorConstant_ihstt")
+nodes/fragment/2/position = Vector2(-620, 100)
+nodes/fragment/3/node = SubResource("VisualShaderNodeFloatParameter_gamkb")
+nodes/fragment/3/position = Vector2(-800, 360)
+nodes/fragment/4/node = SubResource("VisualShaderNodeVectorOp_a0oib")
+nodes/fragment/4/position = Vector2(-20, 500)
+nodes/fragment/5/node = SubResource("VisualShaderNodeFloatParameter_34qnm")
+nodes/fragment/5/position = Vector2(-640, 880)
+nodes/fragment/connections = PackedInt32Array(2, 0, 0, 0, 2, 0, 4, 0, 4, 0, 0, 5, 5, 0, 4, 1, 3, 0, 0, 1)

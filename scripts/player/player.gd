@@ -9,6 +9,7 @@ signal game_over
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @onready var level = $"../Level"
+@onready var player_shield = $"PlayerShield"
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 @onready var floor_collision = $FloorCollision
 @onready var constants = $"../Constants"
@@ -23,7 +24,7 @@ const PLAYER_RUN_HEIGHT = 1.9
 const PLAYER_RUN_OFFSET = -0.05
 const PLAYER_JUMP_HEIGHT = 1.5
 const PLAYER_JUMP_OFFSET = 0.1
-const PLAYER_ROLL_HEIGHT = 1
+const PLAYER_ROLL_HEIGHT = 1.0
 const PLAYER_ROLL_OFFSET = -0.5
 
 const DEATH_BREAK_SPEED = 10
@@ -35,17 +36,22 @@ const TUNNEL_JUMP_IMPULSE = 80
 const TUNNEL_SPIN_HEIGHT = 43
 const TUNNEL_SPEED: float = 250
 
+const SHIELD_DURATION = 5.0
+
 var is_dead = false
 var is_finished = false
 var has_spinned = false # makes sure players can only roll once after jumping
+
+var has_shield_active = false
+var shield_timer: SceneTreeTimer = null
 
 var laser_impulse = 0.0 # holds current impulse when player touched laser
 
 enum {RUN, ROLL, JUMP}
 
 # used to change hitbox of the player
-var just_changed = false
 var cur_movement = RUN
+const LERP_VAL_MOV_CHANGE = 0.3
 
 # vars for tunnel
 var started_spinning_in_tunnel = false
@@ -86,19 +92,23 @@ func _physics_process(delta):
 			return
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
-	if just_changed:
-		# change hitbox
-		just_changed = false
-		match cur_movement:
-			RUN:
-				hitbox_collision_shape.shape.height = PLAYER_RUN_HEIGHT
-				hitbox_collision_shape.position.y = PLAYER_RUN_OFFSET
-			JUMP:
-				hitbox_collision_shape.shape.height = PLAYER_JUMP_HEIGHT
-				hitbox_collision_shape.position.y = PLAYER_JUMP_OFFSET
-			ROLL:
-				hitbox_collision_shape.shape.height = PLAYER_ROLL_HEIGHT
-				hitbox_collision_shape.position.y = PLAYER_ROLL_OFFSET
+	# change hitbox
+	match cur_movement:
+		RUN:
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
+		JUMP:
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
+		ROLL:
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE)
 
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
@@ -111,7 +121,6 @@ func _physics_process(delta):
 		elif not has_spinned and state_machine.get_current_node() == "jump_blend_tree" and Input.is_action_just_pressed("jump"):
 			state_machine.travel("spin_blend_tree")
 			has_spinned = true
-			just_changed = true
 			cur_movement = RUN
 		
 		if state_machine.get_current_node() == "spin_blend_tree":
@@ -130,17 +139,14 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("jump") and state_machine.get_current_node() != "spin_blend_tree":
 			state_machine.travel("jump_blend_tree")
 			velocity.y = JUMP_VELOCITY
-			just_changed = true
 			cur_movement = JUMP
 		elif cur_movement == JUMP:
-			just_changed = true
 			cur_movement = RUN
 
 
 	# Handle roll
 	if Input.is_action_just_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
 		state_machine.travel("roll")
-		just_changed = true
 		cur_movement = ROLL
 
 	var direction = Vector3.ZERO
@@ -277,18 +283,42 @@ func die_process(delta):
 			velocity.z = 0
 	
 	move_and_slide()
-	
 
 func _on_hitbox_area_entered(area: Area3D):
 	player_was_hit(area)
-
-func _on_hitbox_area_exited(area: Area3D):
-	player_was_hit(area)
+	
+func _on_hitbox_area_exited(area):
+	if not is_dead and area.name == "ShieldHitbox":
+		# apply shield
+		if shield_timer:
+			# there's already an active timer, reset its time
+			shield_timer.set_time_left(SHIELD_DURATION)
+		else:
+			# create a new timer and reset shield when it ends
+			shield_timer = get_tree().create_timer(SHIELD_DURATION, true, true)
+			has_shield_active = true
+			player_shield.mesh.material.set_shader_parameter("alpha", 0.5)
+			await shield_timer.timeout
+			has_shield_active = false
+			player_shield.mesh.material.set_shader_parameter("alpha", 0.0)
+			shield_timer = null
+		
 	
 func player_was_hit(area: Area3D):
 	if area.name == "LetterHitbox":
 		# player hit laser
-		die()
+		if has_shield_active:
+			print("a")
+			shield_timer.set_time_left(0.0)
+			Engine.set_time_scale(0.01)
+			area.get_parent().dissolve()
+			await get_tree().create_timer(0.5, true, true, true).timeout
+			Engine.set_time_scale(1.0)
+		else:
+			die()
+	elif area.name == "ShieldHitbox":
+		# hit shield, apply it when exiting
+		return
 	else:
 		velocity.y = LASER_IMPULSE * 4
 		if position.x > 0:
@@ -311,7 +341,8 @@ func move_to_random_point(x, z, delta):
 	move_and_slide()
 	return false
 
-func _on_animation_tree_animation_finished(anim_name):
+func _on_animation_tree_animation_started(anim_name):
 	if anim_name == "roll":
-		just_changed = true
-		cur_movement = RUN
+		await get_tree().create_timer(0.4, true, true).timeout
+		if cur_movement == ROLL:
+			cur_movement = RUN
