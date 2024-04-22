@@ -105,10 +105,10 @@ func _physics_process(delta):
 			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
 			player_shield.position.y = lerp(player_shield.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
 		ROLL:
-			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE)
-			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE)
-			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE)
-			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
 
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
@@ -241,6 +241,8 @@ func start_running(delta):
 
 # initializes player death
 func die():
+	if shield_timer:
+		shield_timer.set_time_left(0.0)
 	velocity.z = speed
 	cur_speed = velocity.z
 	is_dead = true
@@ -308,7 +310,6 @@ func player_was_hit(area: Area3D):
 	if area.name == "LetterHitbox":
 		# player hit laser
 		if has_shield_active:
-			print("a")
 			shield_timer.set_time_left(0.0)
 			Engine.set_time_scale(0.01)
 			area.get_parent().dissolve()

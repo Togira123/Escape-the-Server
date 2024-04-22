@@ -59,8 +59,7 @@ func spawn_sentence():
 			continue
 		if not letter_dict.has(sentence[i]):
 			continue
-		#var letter = letter_dict[sentence[i]]
-		var letter = letter_dict["O"]
+		var letter = letter_dict[sentence[i]]
 		var instance = letter.instantiate()
 		instance.get_node("Pivot").scale = scale_vec
 		instance.get_node("LetterHitbox").scale = scale_vec
