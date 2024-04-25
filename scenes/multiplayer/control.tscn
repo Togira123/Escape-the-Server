@@ -1,0 +1,74 @@
+[gd_scene load_steps=3 format=3 uid="uid://xgshbqi3iroi"]
+
+[ext_resource type="Script" path="res://scripts/multiplayer/client.gd" id="1_waun7"]
+[ext_resource type="Script" path="res://scenes/multiplayer/server.gd" id="2_718qw"]
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Client" type="Node" parent="."]
+script = ExtResource("1_waun7")
+
+[node name="LineEdit" type="LineEdit" parent="Client"]
+offset_left = 363.0
+offset_top = 72.0
+offset_right = 716.0
+offset_bottom = 103.0
+
+[node name="Server" type="Node" parent="."]
+script = ExtResource("2_718qw")
+
+[node name="StartClient" type="Button" parent="."]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 13.0
+offset_right = 118.0
+offset_bottom = 44.0
+text = "Start Client
+"
+
+[node name="StartServer" type="Button" parent="."]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 1772.0
+offset_top = 35.0
+offset_right = 1872.0
+offset_bottom = 66.0
+text = "Start Server
+"
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 205.0
+offset_top = 15.0
+offset_right = 344.0
+offset_bottom = 46.0
+text = "Send Test Packet"
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1765.0
+offset_top = 100.0
+offset_right = 1862.0
+offset_bottom = 131.0
+text = "Test Packet
+"
+
+[node name="JoinLobby" type="Button" parent="."]
+auto_translate_mode = 1
+offset_left = 206.0
+offset_top = 68.0
+offset_right = 345.0
+offset_bottom = 99.0
+text = "Join Lobby"
+
+[connection signal="button_down" from="StartClient" to="Client" method="_on_start_client_button_down"]
+[connection signal="button_down" from="StartServer" to="Server" method="_on_start_server_button_down"]
+[connection signal="button_down" from="Button" to="Client" method="_on_button_button_down"]
+[connection signal="button_down" from="Button2" to="Server" method="_on_button_2_button_down"]
+[connection signal="button_down" from="JoinLobby" to="Client" method="_on_join_lobby_button_down"]

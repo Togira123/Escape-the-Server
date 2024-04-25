@@ -88,6 +88,6 @@ offset_bottom = 100.5
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 150
-text = "Game over"
+text = "Game Over"
 
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]
