@@ -18,6 +18,7 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameManager="*res://scripts/multiplayer/game_manager.gd"
+Discord="*res://plugins/DiscordEmbeddedSDK/DiscordSDK.gd"
 
 [display]
 
@@ -36,6 +37,7 @@ import/blender/enabled=false
 [global_group]
 
 module="Group for all ground modules"
+player=""
 
 [input]
 

@@ -4,10 +4,13 @@ const LOADING_SCREEN = preload("res://scenes/ui/loading_screen.tscn")
 const END_MENU_DEFEAT = preload("res://scenes/ui/end_menu_defeat.tscn")
 const END_MENU_VICTORY = preload("res://scenes/ui/end_menu_victory.tscn")
 
+const PLAYER_SCENE = preload("res://scenes/player/player.tscn")
+
 @onready var player_camera = $PlayerCamera
 @onready var player = $Player
 @onready var player_soul = $Player/PlayerSoul
 @onready var mesh = $Player/Armature/Skeleton3D/Cube
+@onready var client = $Client
 
 var in_level = false
 
@@ -18,10 +21,45 @@ var game_over = false
 # black screen at the end of the game
 var black_screen: ColorRect
 
+@onready var discord: DiscordSDK = get_node("/root/Discord")
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_process(false)
+	#discord.connect("packet_received", self, "_packet_received")
+	#discord.connect("dispatch_any", self, "_dispatch")
+	
+	#discord.connect("dispatch_current_user_update", self, "_user_updated")
+	
+	discord.init("1221502156880744499")
+	# spawn in players
+	#for i in GameManager.players:
+		#var player = PLAYER_SCENE.instantiate()
+		#add_child(player)
 
+func _physics_process(delta):
+	# check for new players
+	var players = GameManager.players
+	var player_count = players.keys().size()
+	if player_count == 0:
+		return
+	var instantiated_player_count = get_tree().get_node_count_in_group("player")
+	if player_count == instantiated_player_count:
+		return
+	var instantiated_players = get_tree().get_nodes_in_group("player")
+	if player_count > instantiated_player_count:
+		# new player added
+		for p in instantiated_players:
+			if not players[p.name]:
+				var player = PLAYER_SCENE.instantiate()
+				player.name = p.name
+				add_child(player)
+	else:
+		# player removed
+		for p in instantiated_players:
+			print(p)
+			if not players.has(p.name):
+				p.queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

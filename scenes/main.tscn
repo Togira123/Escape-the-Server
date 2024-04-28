@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=23 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
 [ext_resource type="Texture2D" uid="uid://cwwlswmhwefge" path="res://assets/graphics/rammm.png" id="2_770be"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
 [ext_resource type="PackedScene" uid="uid://bptlw0sxxphtu" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
+[ext_resource type="Script" path="res://scripts/multiplayer/client.gd" id="18_v1m1g"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cujqq"]
 panorama = ExtResource("2_770be")
@@ -70,6 +71,16 @@ script = ExtResource("6_uk641")
 
 [node name="LoadingScreen" parent="." instance=ExtResource("16_xa8kq")]
 script = ExtResource("17_umg6e")
+
+[node name="Client" type="Node" parent="."]
+script = ExtResource("18_v1m1g")
+
+[node name="LineEdit" type="LineEdit" parent="Client"]
+auto_translate_mode = 1
+offset_left = 363.0
+offset_top = 72.0
+offset_right = 716.0
+offset_bottom = 103.0
 
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

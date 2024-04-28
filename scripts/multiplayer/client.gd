@@ -23,6 +23,8 @@ func _ready():
 	multiplayer.connected_to_server.connect(rtc_server_connected)
 	multiplayer.peer_connected.connect(rtc_peer_connected)
 	multiplayer.peer_disconnected.connect(rtc_peer_disconnected)
+	# connect to server
+	connect_to_server("")
 
 func rtc_server_connected():
 	print("rtc server connected")
@@ -45,6 +47,14 @@ func _process(delta):
 			if data.message == message.ID:
 				id = data.id
 				connected(id)
+				#create lobby
+				var msg = {
+					"id": id,
+					"message": message.LOBBY,
+					"name": "User123",
+					"lobby_id": $LineEdit.text
+				}
+				peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 			elif data.message == message.USER_CONNECTED:
 					#GameManager.players[data.id] = data.player
 				create_peer(data.id)
@@ -128,7 +138,7 @@ func ice_candidate_created(mid_name, index_name, sdp_name, id: int):
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
 func connect_to_server(ip: String):
-	peer.create_client("ws://127.0.0.1:8915")
+	peer.create_client("ws://1221502156880744499.discordsays.com:2053")
 	print("started_client")
 
 func _on_start_client_button_down():

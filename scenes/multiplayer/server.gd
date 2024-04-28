@@ -16,7 +16,7 @@ const CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ01234567
 
 var peer = WebSocketMultiplayerPeer.new()
 
-const PORT = 8915
+const PORT = 2053
 
 var users = {}
 
@@ -24,12 +24,11 @@ var lobbies = {}
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if "--server" in OS.get_cmdline_args():
-		print("Hosting on ", PORT)
-		peer.create_server(PORT)
+	#if "--server" in OS.get_cmdline_args():
+	print("Hosting on ", PORT)
+	peer.create_server(PORT)
 	peer.connect("peer_connected", peer_connected)
 	peer.connect("peer_disconnected", peer_disconnected)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -107,14 +106,6 @@ func generate_random_string():
 		var rand_ind = randi() % CHARACTERS.length()
 		result += CHARACTERS[rand_ind]
 	return result
-
-func start_server():
-	peer.create_server(8915)
-	print("started server")
-
-
-func _on_start_server_button_down():
-	start_server()
 
 
 func _on_button_2_button_down():

@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://xgshbqi3iroi"]
 
 [ext_resource type="Script" path="res://scripts/multiplayer/client.gd" id="1_waun7"]
-[ext_resource type="Script" path="res://scenes/multiplayer/server.gd" id="2_718qw"]
+[ext_resource type="PackedScene" uid="uid://cm8yqtb1othsu" path="res://scenes/multiplayer/server.tscn" id="2_wlob3"]
 
 [node name="Control" type="Control"]
 layout_mode = 3
@@ -20,8 +20,7 @@ offset_top = 72.0
 offset_right = 716.0
 offset_bottom = 103.0
 
-[node name="Server" type="Node" parent="."]
-script = ExtResource("2_718qw")
+[node name="Server" parent="." instance=ExtResource("2_wlob3")]
 
 [node name="StartClient" type="Button" parent="."]
 layout_mode = 0
@@ -61,6 +60,7 @@ text = "Test Packet
 
 [node name="JoinLobby" type="Button" parent="."]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 206.0
 offset_top = 68.0
 offset_right = 345.0
@@ -68,7 +68,5 @@ offset_bottom = 99.0
 text = "Join Lobby"
 
 [connection signal="button_down" from="StartClient" to="Client" method="_on_start_client_button_down"]
-[connection signal="button_down" from="StartServer" to="Server" method="_on_start_server_button_down"]
 [connection signal="button_down" from="Button" to="Client" method="_on_button_button_down"]
-[connection signal="button_down" from="Button2" to="Server" method="_on_button_2_button_down"]
 [connection signal="button_down" from="JoinLobby" to="Client" method="_on_join_lobby_button_down"]
