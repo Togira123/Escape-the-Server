@@ -1,0 +1,36 @@
+[gd_scene load_steps=28 format=3 uid="uid://t6kh5aq7fh1d"]
+
+[ext_resource type="Script" path="res://scripts/sentence.gd" id="1_26dmw"]
+[ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_v0uia"]
+[ext_resource type="PackedScene" uid="uid://t2rwy2mkkifa" path="res://scenes/letters/B_reg.tscn" id="3_qee4m"]
+[ext_resource type="PackedScene" uid="uid://bf76ojpsvn2m2" path="res://scenes/letters/C_reg.tscn" id="4_wwex2"]
+[ext_resource type="PackedScene" uid="uid://dn3alb8qkybhh" path="res://scenes/letters/D_reg.tscn" id="5_7nii2"]
+[ext_resource type="PackedScene" uid="uid://bk75ugi2fxbgy" path="res://scenes/letters/E_reg.tscn" id="6_jmdie"]
+[ext_resource type="PackedScene" uid="uid://c2nly48hjcdgm" path="res://scenes/letters/F_reg.tscn" id="7_hgg2j"]
+[ext_resource type="PackedScene" uid="uid://76xl646j2rwt" path="res://scenes/letters/G_reg.tscn" id="8_vtkxt"]
+[ext_resource type="PackedScene" uid="uid://doyg48wxv0we3" path="res://scenes/letters/H_reg.tscn" id="9_3gkwl"]
+[ext_resource type="PackedScene" uid="uid://bwvxyqw1aw7ey" path="res://scenes/letters/I_reg.tscn" id="10_eiiid"]
+[ext_resource type="PackedScene" uid="uid://dlkv4knm0ljxt" path="res://scenes/letters/J_reg.tscn" id="11_ybmyi"]
+[ext_resource type="PackedScene" uid="uid://dklpo3d781hfs" path="res://scenes/letters/K_reg.tscn" id="12_ewj6r"]
+[ext_resource type="PackedScene" uid="uid://dmjwqtj3o1poo" path="res://scenes/letters/L_reg.tscn" id="13_srvi3"]
+[ext_resource type="PackedScene" uid="uid://b6l5l7xtxcc5m" path="res://scenes/letters/M_reg.tscn" id="14_dl85i"]
+[ext_resource type="PackedScene" uid="uid://dojlqfkkxidxe" path="res://scenes/letters/N_reg.tscn" id="15_l4ac1"]
+[ext_resource type="PackedScene" uid="uid://b8f83jnsk5ker" path="res://scenes/letters/O_reg.tscn" id="16_lr3y2"]
+[ext_resource type="PackedScene" uid="uid://dn0minluftepo" path="res://scenes/letters/P_reg.tscn" id="17_sck1a"]
+[ext_resource type="PackedScene" uid="uid://b40nnxqqtaiey" path="res://scenes/letters/Q_reg.tscn" id="18_kuhmg"]
+[ext_resource type="PackedScene" uid="uid://b3yim8mxlx31p" path="res://scenes/letters/R_reg.tscn" id="19_f5srs"]
+[ext_resource type="PackedScene" uid="uid://dfo1xqvctnoha" path="res://scenes/letters/S_reg.tscn" id="20_62ec2"]
+[ext_resource type="PackedScene" uid="uid://wvp18xqc0uc3" path="res://scenes/letters/T_reg.tscn" id="21_isygb"]
+[ext_resource type="PackedScene" uid="uid://be0whj8wy0lhp" path="res://scenes/letters/U_reg.tscn" id="22_oj6ka"]
+[ext_resource type="PackedScene" uid="uid://cus40yeugmum7" path="res://scenes/letters/V_reg.tscn" id="23_gq0d3"]
+[ext_resource type="PackedScene" uid="uid://bh7siqx0hcae" path="res://scenes/letters/W_reg.tscn" id="24_pg8ey"]
+[ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_45inj"]
+[ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_igcro"]
+[ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_18x4q"]
+
+[node name="ModulePlat0" type="Node3D"]
+script = ExtResource("1_26dmw")
+letter_scenes = Array[PackedScene]([ExtResource("2_v0uia"), ExtResource("3_qee4m"), ExtResource("4_wwex2"), ExtResource("5_7nii2"), ExtResource("6_jmdie"), ExtResource("7_hgg2j"), ExtResource("8_vtkxt"), ExtResource("9_3gkwl"), ExtResource("10_eiiid"), ExtResource("11_ybmyi"), ExtResource("12_ewj6r"), ExtResource("13_srvi3"), ExtResource("14_dl85i"), ExtResource("15_l4ac1"), ExtResource("16_lr3y2"), ExtResource("17_sck1a"), ExtResource("18_kuhmg"), ExtResource("19_f5srs"), ExtResource("20_62ec2"), ExtResource("21_isygb"), ExtResource("22_oj6ka"), ExtResource("23_gq0d3"), ExtResource("24_pg8ey"), ExtResource("25_45inj"), ExtResource("26_igcro"), ExtResource("27_18x4q")])
+metadata/module_number = 8
+
+[node name="Sentence" type="Node3D" parent="."]

@@ -30,7 +30,7 @@ const PLAYER_ROLL_OFFSET = -0.5
 
 const DEATH_BREAK_SPEED = 10
 
-var laser_impulse = 10
+var laser_impulse = 8
 const LASER_IMPULSES = [8, 11]
 const LASER_IMPULSE_BREAK_SPEED = 0.5
 
@@ -96,7 +96,10 @@ func _physics_process(delta):
 			reached_height = false
 			if not last:
 				speed = RUN_SPEEDS[cur_tunnel]
+				print("old impulse: ", laser_impulse)
 				laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
+				print("new impulse: ", laser_impulse)
+				print("cur_tunnel: ", cur_tunnel)
 		if jumped_in_tunnel:
 			tunnel_process(delta, last)
 			return
@@ -185,7 +188,7 @@ func _process(_delta):
 	var pos = position.z if not is_finished else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
-		level.spawn_module(level.module_count * level.OFFSET)
+		level.spawn_module(level.module_count * level.OFFSET, level.next_tunnel - 1 < level.TUNNELS.size() and position.z + 1500 > level.TUNNELS[level.next_tunnel])
 		for m in level.loaded_modules:
 			if m:
 				m.maybe_drop(pos)
@@ -329,7 +332,7 @@ func player_was_hit(area: Area3D):
 		else:
 			die()
 	elif area.name == "ShieldHitbox":
-		# hit shield, apply it when exiting
+		# hit shield, apply it when exiting the area
 		return
 	else:
 		velocity.y = laser_impulse * 4

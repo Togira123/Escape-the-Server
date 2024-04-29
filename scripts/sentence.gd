@@ -93,6 +93,7 @@ func maybe_drop(pos):
 		dropped = true
 
 func change_color_of_pattern():
-	var shader: ShaderMaterial = $Ground/Pattern.mesh.surface_get_material(0)
-	shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
-	shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
+	if has_node("Ground"):
+		var shader: ShaderMaterial = $Ground/Pattern.mesh.surface_get_material(0)
+		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
+		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)

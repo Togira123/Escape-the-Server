@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://dpeyex6snm677"]
+[gd_scene load_steps=41 format=3 uid="uid://dpeyex6snm677"]
 
 [ext_resource type="Script" path="res://scripts/sentence.gd" id="1_sybnj"]
 [ext_resource type="PackedScene" uid="uid://dav3g8kvapjgm" path="res://scenes/letters/A_reg.tscn" id="2_l20gc"]
@@ -27,7 +27,7 @@
 [ext_resource type="PackedScene" uid="uid://cj31hrao1m38w" path="res://scenes/letters/X_reg.tscn" id="25_6nn0p"]
 [ext_resource type="PackedScene" uid="uid://de5b7pwak7jel" path="res://scenes/letters/Y_reg.tscn" id="26_jk4n0"]
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_kng6f"]
-[ext_resource type="Material" uid="uid://60mn3s8voxpt" path="res://assets/graphics/materials/LaserMaterial.tres" id="28_b7mgv"]
+[ext_resource type="Shader" path="res://shaders/laser_material.gdshader" id="28_c6han"]
 [ext_resource type="Material" uid="uid://csng317ehiofu" path="res://assets/graphics/materials/GroundMaterialCartoon.tres" id="29_0228d"]
 [ext_resource type="Shader" path="res://shaders/ground_pattern.gdshader" id="30_7tnf4"]
 
@@ -35,6 +35,22 @@
 top_radius = 0.1
 bottom_radius = 0.1
 height = 20.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tfyv2"]
+render_priority = 0
+shader = ExtResource("28_c6han")
+shader_parameter/albedo = Color(0.983, 0.073, 0.261, 0.949)
+shader_parameter/point_size = null
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/emission = Color(1, 0, 0, 1)
+shader_parameter/emission_energy = 10.0
+shader_parameter/uv1_scale = null
+shader_parameter/uv1_offset = null
+shader_parameter/uv2_scale = null
+shader_parameter/uv2_offset = null
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
 size = Vector3(20, 2, 20)
@@ -126,97 +142,97 @@ metadata/module_number = 6
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, -10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintFront1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 70, 1.05, 10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintBack2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 30, 1.05, -10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintFront2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, 30, 1.05, 10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintBack3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -30, 1.05, -10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintFront3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -30, 1.05, 10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintBack4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -70, 1.05, -10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHintFront4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -70, 1.05, 10)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 80, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 60, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint3" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 40, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint4" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, 20, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint5" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -20, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint6" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -40, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint7" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -60, 1.05, 4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="HoleHint8" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 4.37114e-08, -4.37114e-08, 1.91069e-15, -1, -8.74228e-08, -1, 1.91069e-15, -80, 1.05, -4.37114e-07)
 mesh = SubResource("CylinderMesh_sguds")
 skeleton = NodePath("../Ground")
-surface_material_override/0 = ExtResource("28_b7mgv")
+surface_material_override/0 = SubResource("ShaderMaterial_tfyv2")
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0

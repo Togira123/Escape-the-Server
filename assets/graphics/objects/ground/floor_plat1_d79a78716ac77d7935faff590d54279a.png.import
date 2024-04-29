@@ -1,0 +1,39 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://d2qyhqwy1c2xw"
+path.s3tc="res://.godot/imported/floor_plat1_d79a78716ac77d7935faff590d54279a.png-8e3e4f5fe13d5bc6359fefa06bf2014a.s3tc.ctex"
+path.etc2="res://.godot/imported/floor_plat1_d79a78716ac77d7935faff590d54279a.png-8e3e4f5fe13d5bc6359fefa06bf2014a.etc2.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "351cca0fab0e8e60ef96c4bdb8f1cc69"
+}
+
+[deps]
+
+source_file="res://assets/graphics/objects/ground/floor_plat1_d79a78716ac77d7935faff590d54279a.png"
+dest_files=["res://.godot/imported/floor_plat1_d79a78716ac77d7935faff590d54279a.png-8e3e4f5fe13d5bc6359fefa06bf2014a.s3tc.ctex", "res://.godot/imported/floor_plat1_d79a78716ac77d7935faff590d54279a.png-8e3e4f5fe13d5bc6359fefa06bf2014a.etc2.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/hdr_compression=1
+compress/normal_map=0
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=0
+roughness/src_normal=""
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0

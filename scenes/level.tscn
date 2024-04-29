@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=19 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -10,8 +10,13 @@
 [ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="8_e1v61"]
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="9_318rk"]
 [ext_resource type="Script" path="res://scripts/lasers/spawn_lasers.gd" id="10_atip2"]
+[ext_resource type="PackedScene" uid="uid://bj4pp1itcbdr6" path="res://scenes/grounds/ground_plat1.tscn" id="10_bovy7"]
 [ext_resource type="Script" path="res://scripts/ui/fps_counter.gd" id="11_3vxl2"]
+[ext_resource type="PackedScene" uid="uid://boiorcojs32fs" path="res://scenes/grounds/ground_plat2.tscn" id="11_egsv3"]
+[ext_resource type="PackedScene" uid="uid://c1gr34ywhr025" path="res://scenes/grounds/ground_plat3.tscn" id="12_fqw4t"]
 [ext_resource type="Script" path="res://scripts/ui/score.gd" id="12_tlb8y"]
+[ext_resource type="PackedScene" uid="uid://e5whg08m6svx" path="res://scenes/grounds/ground_plat4.tscn" id="13_0e75c"]
+[ext_resource type="PackedScene" uid="uid://c1vc4ekki26gd" path="res://scenes/grounds/ground_plat5.tscn" id="14_v6ed1"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
@@ -20,6 +25,9 @@ size = Vector3(1, 14, 660)
 transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
 script = ExtResource("1_7b6qb")
 modules = Array[PackedScene]([ExtResource("2_38keh"), ExtResource("3_6863w"), ExtResource("4_t42tg"), ExtResource("5_qcqbi"), ExtResource("6_1pnwt"), ExtResource("7_nprn1"), ExtResource("8_e1v61"), ExtResource("9_318rk")])
+platform_modules1 = Array[PackedScene]([ExtResource("10_bovy7"), ExtResource("11_egsv3"), ExtResource("12_fqw4t"), ExtResource("12_fqw4t")])
+platform_modules2 = Array[PackedScene]([ExtResource("12_fqw4t"), ExtResource("12_fqw4t"), ExtResource("13_0e75c"), ExtResource("14_v6ed1")])
+platform_modules3 = Array[PackedScene]([ExtResource("13_0e75c"), ExtResource("14_v6ed1"), ExtResource("10_bovy7"), ExtResource("11_egsv3")])
 
 [node name="Lasers" type="Node3D" parent="."]
 script = ExtResource("10_atip2")
