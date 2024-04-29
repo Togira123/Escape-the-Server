@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
-[ext_resource type="PackedScene" uid="uid://bptlw0sxxphtu" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
+[ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cujqq"]
 panorama = ExtResource("2_770be")

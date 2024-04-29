@@ -54,6 +54,7 @@ offset_bottom = 40.0
 
 [node name="FPS Counter" type="Label" parent="UI"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 script = ExtResource("11_3vxl2")

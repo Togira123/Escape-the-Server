@@ -33,7 +33,7 @@ func _process(delta):
 			Engine.set_time_scale(lerp(Engine.time_scale, 1.0, 0.05))
 			if cur_cam_speed == -1:
 				cur_cam_speed = player.speed
-			cur_cam_speed -= delta * 8
+			cur_cam_speed -= delta * 20
 			if cur_cam_speed < 0:
 				cur_cam_speed = 0
 				player.set_physics_process(false)

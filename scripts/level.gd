@@ -32,7 +32,7 @@ func spawn_module(n: int):
 	if loaded_modules[index]:
 		loaded_modules[index].queue_free()
 	# add lasers if stage > 0
-	if stage > 0:
+	if stage > 1:
 		var i = SHORT_LASER_PIVOT.instantiate()
 		i.rotation.y = PI / 2
 		i.position.x = -95.0

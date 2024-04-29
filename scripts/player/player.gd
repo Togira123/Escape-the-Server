@@ -16,6 +16,7 @@ signal game_over
 @onready var camera = $"../PlayerCamera"
 
 var speed = 50
+const RUN_SPEEDS = [50, 65, 80]
 const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
@@ -29,7 +30,8 @@ const PLAYER_ROLL_OFFSET = -0.5
 
 const DEATH_BREAK_SPEED = 10
 
-const LASER_IMPULSE = 10
+var laser_impulse = 10
+const LASER_IMPULSES = [8, 11]
 const LASER_IMPULSE_BREAK_SPEED = 0.5
 
 const TUNNEL_JUMP_IMPULSE = 80
@@ -45,7 +47,7 @@ var has_spinned = false # makes sure players can only roll once after jumping
 var has_shield_active = false
 var shield_timer: SceneTreeTimer = null
 
-var laser_impulse = 0.0 # holds current impulse when player touched laser
+var player_laser_impulse = 0.0 # holds current impulse when player touched laser
 
 enum {RUN, ROLL, JUMP}
 
@@ -81,14 +83,22 @@ func _physics_process(delta):
 		return
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or is_finished:
+		var last = cur_tunnel == level.TUNNELS.size()
 		if is_on_floor():
+			level.stage = cur_tunnel
+			var lasers = level.get_child(0)
+			lasers.remove_children()
+			lasers.spawn_lasers(level.stage)
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
 			state_machine.travel("jump_blend_tree")
 			started_spinning_in_tunnel = false
 			reached_height = false
+			if not last:
+				speed = RUN_SPEEDS[cur_tunnel]
+				laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
 		if jumped_in_tunnel:
-			tunnel_process(delta, cur_tunnel == level.TUNNELS.size())
+			tunnel_process(delta, last)
 			return
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
@@ -160,24 +170,25 @@ func _physics_process(delta):
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
-		if laser_impulse > 0:
-			direction.x += laser_impulse
-			laser_impulse -= LASER_IMPULSE_BREAK_SPEED
-		elif laser_impulse < 0:
-			direction.x += laser_impulse
-			laser_impulse += LASER_IMPULSE_BREAK_SPEED
+		if player_laser_impulse > 0:
+			direction.x += player_laser_impulse
+			player_laser_impulse -= LASER_IMPULSE_BREAK_SPEED
+		elif player_laser_impulse < 0:
+			direction.x += player_laser_impulse
+			player_laser_impulse += LASER_IMPULSE_BREAK_SPEED
 		velocity.x = direction.x * speed
 		velocity.z = direction.z * speed
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	move_and_slide()
 
 func _process(_delta):
+	var pos = position.z if not is_finished else camera.position.z
 	# make sure to spawn in new ground
-	if position.z > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
+	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
 		level.spawn_module(level.module_count * level.OFFSET)
 		for m in level.loaded_modules:
 			if m:
-				m.maybe_drop(position.z)
+				m.maybe_drop(pos)
 
 func is_in_tunnel():
 	if level.next_tunnel > 0:
@@ -321,11 +332,11 @@ func player_was_hit(area: Area3D):
 		# hit shield, apply it when exiting
 		return
 	else:
-		velocity.y = LASER_IMPULSE * 4
+		velocity.y = laser_impulse * 4
 		if position.x > 0:
-			laser_impulse = -LASER_IMPULSE
+			player_laser_impulse = -laser_impulse
 		else:
-			laser_impulse = LASER_IMPULSE
+			player_laser_impulse = laser_impulse
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:

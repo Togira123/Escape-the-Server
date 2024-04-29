@@ -37,5 +37,6 @@ func spawn_lasers(stage: int):
 
 func remove_children():
 	for n in get_children():
-		remove_child(n)
-		n.queue_free()
+		if n.name != "LaserHitboxLeft" and n.name != "LaserHitboxRight":
+			remove_child(n)
+			n.queue_free()

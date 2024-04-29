@@ -4,6 +4,7 @@ extends Node3D
 
 @onready var constants = $"../../Constants"
 @onready var level = $"../../Level"
+@onready var player = $"../../Player"
 
 @onready var letter_dict = {
 	"A": letter_scenes[0],
@@ -76,7 +77,7 @@ func spawn_sentence():
 	if randi() % 10 == 1:
 		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
-		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * 50) - 50 + (40 - (randi() % 20))
+		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed + (40 - (randi() % 20))
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000

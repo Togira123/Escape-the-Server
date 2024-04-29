@@ -1,3 +1,7 @@
 {
-    "phpserver.port": 3003
+    "phpserver.port": 3003,
+    "[html]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.defaultFormatter": "vscode.html-language-features"
 }
