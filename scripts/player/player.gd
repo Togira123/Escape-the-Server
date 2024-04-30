@@ -98,10 +98,9 @@ func _physics_process(delta):
 			reached_height = false
 			if not last:
 				speed = RUN_SPEEDS[cur_tunnel]
-				print("old impulse: ", laser_impulse)
+				var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
+				animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
 				laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
-				print("new impulse: ", laser_impulse)
-				print("cur_tunnel: ", cur_tunnel)
 		if jumped_in_tunnel:
 			tunnel_process(delta, last)
 			return
