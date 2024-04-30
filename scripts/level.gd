@@ -2,9 +2,10 @@ extends Node3D
 
 const SHORT_LASER_PIVOT = preload("res://scenes/lasers/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
+const EMPTY_PLATFORM = preload("res://scenes/grounds/ground_plat0.tscn")
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [300, 1900, 10000]
+const TUNNELS = [300, 2000, 10000]
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
@@ -24,6 +25,8 @@ var stage = 0
 var skip = false # used to only place a platform module every second time
 var last_group = 3
 
+var first_plats = [false, false]
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
@@ -35,7 +38,30 @@ func spawn_module(n: int, platforms: bool):
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	var instance
 	if platforms:
-		if not skip:
+		if not first_plats[next_tunnel - 1]:
+			first_plats[next_tunnel - 1] = true
+			instance = EMPTY_PLATFORM.instantiate()
+			instance.position.z = n
+			if loaded_modules[index]:
+				loaded_modules[index].queue_free()
+			var prev_inst = loaded_modules[prev_ind]
+			var prev_module_num = prev_inst.get_meta("module_number")
+			match prev_module_num:
+				2, 4, 5:
+					prev_inst.get_child(1).visible = false
+				3:
+					prev_inst.get_child(1).visible = false
+					prev_inst.get_child(3).visible = false
+				6:
+					prev_inst.get_child(1).visible = false
+					prev_inst.get_child(3).visible = false
+					prev_inst.get_child(5).visible = false
+					prev_inst.get_child(7).visible = false
+				7, 8:
+					prev_inst.get_child(1).visible = false
+					prev_inst.get_child(3).visible = false
+					prev_inst.get_child(5).visible = false
+		elif not skip:
 			var mod
 			match last_group:
 				3:
@@ -57,8 +83,6 @@ func spawn_module(n: int, platforms: bool):
 			loaded_modules[next_index] = instance2
 			
 			# instance.name is ModulePlat1, ModulePlat2 etc
-			print(instance.name)
-			print(instance2.name)
 			match instance.name:
 				&"ModulePlat1", &"ModulePlat2":
 					last_group = 1
@@ -226,7 +250,7 @@ func spawn_module(n: int, platforms: bool):
 			var count = 5 if next_tunnel == TUNNELS.size() - 1 else 2
 			for i in range(count):
 				var tunnel = TUNNEL_SCENE.instantiate()
-				tunnel.position.z = n + i * 250
+				tunnel.position.z = TUNNELS[next_tunnel] + i * 250
 				tunnels.add_child(tunnel)
 			next_tunnel += 1
 	add_child(instance)

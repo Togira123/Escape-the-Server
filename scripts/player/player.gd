@@ -40,6 +40,8 @@ const TUNNEL_SPEED: float = 250
 
 const SHIELD_DURATION = 5.0
 
+const PLATFORM_LENGTH = [1500, 2000]
+
 var is_dead = false
 var is_finished = false
 var has_spinned = false # makes sure players can only roll once after jumping
@@ -186,7 +188,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(_delta):
-	spawn_platforms = level.next_tunnel - 1 < level.TUNNELS.size() and position.z + 1000 > level.TUNNELS[level.next_tunnel]
+	spawn_platforms = level.next_tunnel - 1 < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
 	var pos = position.z if not is_finished else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
