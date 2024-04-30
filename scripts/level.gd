@@ -5,10 +5,11 @@ const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const EMPTY_PLATFORM = preload("res://scenes/grounds/ground_plat0.tscn")
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [300, 2000, 10000]
+const TUNNELS = [3000, 6000, 10000]
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
+@onready var constants = $"../Constants"
 @export var modules: Array[PackedScene] = []
 @export var platform_modules1: Array[PackedScene] = [] # groups 1 and 2
 @export var platform_modules2: Array[PackedScene] = [] # groups 2 and 3
@@ -36,7 +37,7 @@ func _ready():
 func spawn_module(n: int, platforms: bool):
 	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
-	var instance
+	var instance: Node
 	if platforms:
 		if not first_plats[next_tunnel - 1]:
 			first_plats[next_tunnel - 1] = true
@@ -253,5 +254,9 @@ func spawn_module(n: int, platforms: bool):
 				tunnel.position.z = TUNNELS[next_tunnel] + i * 250
 				tunnels.add_child(tunnel)
 			next_tunnel += 1
+	if instance.has_node("Ground"):
+		var shader: ShaderMaterial = instance.get_node("Ground/Pattern").mesh.surface_get_material(0)
+		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
+		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
 	add_child(instance)
 	module_count += 1

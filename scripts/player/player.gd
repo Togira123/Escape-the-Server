@@ -188,7 +188,7 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(_delta):
-	spawn_platforms = level.next_tunnel - 1 < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
+	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
 	var pos = position.z if not is_finished else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
