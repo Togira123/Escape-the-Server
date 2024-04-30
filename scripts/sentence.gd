@@ -84,7 +84,7 @@ func spawn_sentence():
 	elif level.TUNNELS[level.next_tunnel] < constants.next_sentence_position_z + 150:
 		constants.next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
 	else:
-		constants.next_sentence_position_z += 60
+		constants.next_sentence_position_z += 60 if not player.spawn_platforms else 120
 
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:

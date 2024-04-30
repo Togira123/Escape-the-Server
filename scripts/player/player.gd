@@ -68,6 +68,8 @@ var startup_speed = 0.0
 var cur_speed = 0.0
 var cur_angle = 0.0
 
+var spawn_platforms = false
+
 func _ready():
 	set_process(false)
 	set_physics_process(false)
@@ -185,10 +187,11 @@ func _physics_process(delta):
 	move_and_slide()
 
 func _process(_delta):
+	spawn_platforms = level.next_tunnel - 1 < level.TUNNELS.size() and position.z + 1000 > level.TUNNELS[level.next_tunnel]
 	var pos = position.z if not is_finished else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
-		level.spawn_module(level.module_count * level.OFFSET, level.next_tunnel - 1 < level.TUNNELS.size() and position.z + 1500 > level.TUNNELS[level.next_tunnel])
+		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms)
 		for m in level.loaded_modules:
 			if m:
 				m.maybe_drop(pos)
