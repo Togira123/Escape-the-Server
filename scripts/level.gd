@@ -3,6 +3,10 @@ extends Node3D
 const SHORT_LASER_PIVOT = preload("res://scenes/lasers/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const EMPTY_PLATFORM = preload("res://scenes/grounds/ground_plat0.tscn")
+
+# status effects
+const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn")
+
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
 const TUNNELS = [3000, 6000, 10000]
@@ -260,3 +264,14 @@ func spawn_module(n: int, platforms: bool):
 		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
 	add_child(instance)
 	module_count += 1
+
+enum STATUS_EFFECTS {
+	SHIELD
+}
+
+func add_status_effect(effect: STATUS_EFFECTS, timer: SceneTreeTimer):
+	match effect:
+		STATUS_EFFECTS.SHIELD:
+			var shield = STATUS_EFFECT_SHIELD.instantiate()
+			shield.timer = timer
+			$UI/StatusEffects.add_child(shield)

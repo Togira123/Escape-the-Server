@@ -318,6 +318,7 @@ func _on_hitbox_area_exited(area):
 			shield_timer = get_tree().create_timer(SHIELD_DURATION, true, true)
 			has_shield_active = true
 			player_shield.mesh.material.set_shader_parameter("alpha", 0.5)
+			level.add_status_effect(level.STATUS_EFFECTS.SHIELD, shield_timer)
 			await shield_timer.timeout
 			has_shield_active = false
 			player_shield.mesh.material.set_shader_parameter("alpha", 0.0)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=20 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -20,6 +20,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
+
+[sub_resource type="Theme" id="Theme_cca4g"]
 
 [node name="Level" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
@@ -78,3 +80,11 @@ offset_bottom = 42.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 30
 script = ExtResource("12_tlb8y")
+
+[node name="StatusEffects" type="HBoxContainer" parent="UI"]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 980.0
+offset_right = 100.0
+offset_bottom = 980.0
+theme = SubResource("Theme_cca4g")

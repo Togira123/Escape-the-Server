@@ -1,7 +1,7 @@
 [gd_scene load_steps=22 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
-[ext_resource type="Texture2D" uid="uid://cwwlswmhwefge" path="res://assets/graphics/rammm.png" id="2_770be"]
+[ext_resource type="Texture2D" uid="uid://c5dldscwobij0" path="res://assets/graphics/processor_bg.png" id="2_7i5a7"]
 [ext_resource type="PackedScene" uid="uid://neet5x4flstv" path="res://scenes/level.tscn" id="2_wyg3m"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_nlg22"]
 [ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_7yjwl"]
@@ -16,10 +16,10 @@
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
-[ext_resource type="PackedScene" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
+[ext_resource type="PackedScene" uid="uid://qfkx5miayyoe" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
 
 [sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cujqq"]
-panorama = ExtResource("2_770be")
+panorama = ExtResource("2_7i5a7")
 
 [sub_resource type="Sky" id="Sky_3o4bv"]
 sky_material = SubResource("PanoramaSkyMaterial_cujqq")
