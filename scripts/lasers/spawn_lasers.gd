@@ -29,6 +29,7 @@ func _process(delta):
 			is_transitioning = false
 			return
 		mat.set_shader_parameter("emission", cur_col.lerp(LASER_EMISSION_COLORS[level.stage], 0.02))
+		mat.set_shader_parameter("albedo", cur_col.lerp(LASER_EMISSION_COLORS[level.stage], 0.02))
 
 func spawn_lasers(stage: int):
 	var floor_offset = (3 + 0.25 * (2 - stage))

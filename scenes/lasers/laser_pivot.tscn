@@ -15,7 +15,7 @@ height = 1100.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_vcyqn"]
 render_priority = 0
 shader = ExtResource("2_dx7a1")
-shader_parameter/albedo = Color(0.983, 0.073, 0.261, 0.949)
+shader_parameter/albedo = Color(0, 1, 0, 1)
 shader_parameter/point_size = null
 shader_parameter/roughness = 1.0
 shader_parameter/metallic_texture_channel = null
