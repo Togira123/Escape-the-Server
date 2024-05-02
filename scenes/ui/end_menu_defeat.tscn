@@ -88,6 +88,7 @@ grow_horizontal = 2
 grow_vertical = 0
 mouse_default_cursor_shape = 2
 shortcut = SubResource("Shortcut_4fv8j")
+shortcut_in_tooltip = false
 icon = ExtResource("4_r8ss8")
 
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]
