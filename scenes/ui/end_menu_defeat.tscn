@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dgmvlh4ckdktm"]
+[gd_scene load_steps=11 format=3 uid="uid://dgmvlh4ckdktm"]
 
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_y71vn"]
 [ext_resource type="Script" path="res://scripts/ui/end_menu_defeat.gd" id="2_8cygj"]
@@ -15,6 +15,18 @@ size = Vector2(100, 100)
 [sub_resource type="Environment" id="Environment_87a11"]
 glow_enabled = true
 glow_intensity = 0.71
+
+[sub_resource type="InputEventKey" id="InputEventKey_o4p1c"]
+device = -1
+keycode = 4194309
+
+[sub_resource type="InputEventKey" id="InputEventKey_fmn8i"]
+device = -1
+keycode = 32
+unicode = 32
+
+[sub_resource type="Shortcut" id="Shortcut_4fv8j"]
+events = [SubResource("InputEventKey_o4p1c"), SubResource("InputEventKey_fmn8i")]
 
 [node name="EndMenuDefeat" type="Control"]
 layout_mode = 3
@@ -75,6 +87,7 @@ offset_bottom = -140.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_default_cursor_shape = 2
+shortcut = SubResource("Shortcut_4fv8j")
 icon = ExtResource("4_r8ss8")
 
 [connection signal="pressed" from="MainMenuButton" to="." method="_on_main_menu_button_pressed"]

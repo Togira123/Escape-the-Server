@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=12 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -16,8 +16,13 @@ default_font_size = 50
 device = -1
 keycode = 4194309
 
+[sub_resource type="InputEventKey" id="InputEventKey_agoq8"]
+device = -1
+keycode = 32
+unicode = 32
+
 [sub_resource type="Shortcut" id="Shortcut_4y7ai"]
-events = [SubResource("InputEventKey_x6kka")]
+events = [SubResource("InputEventKey_x6kka"), SubResource("InputEventKey_agoq8")]
 
 [node name="MainMenu" type="Control"]
 auto_translate_mode = 1

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://c2smqwpb4cgob"]
+[gd_scene load_steps=8 format=3 uid="uid://c2smqwpb4cgob"]
 
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_atrpe"]
 [ext_resource type="Script" path="res://scripts/ui/end_menu_victory.gd" id="1_uuuqf"]
@@ -11,8 +11,13 @@ default_font_size = 50
 device = -1
 keycode = 4194309
 
+[sub_resource type="InputEventKey" id="InputEventKey_0ircb"]
+device = -1
+keycode = 32
+unicode = 32
+
 [sub_resource type="Shortcut" id="Shortcut_r7wqs"]
-events = [SubResource("InputEventKey_x6kka")]
+events = [SubResource("InputEventKey_x6kka"), SubResource("InputEventKey_0ircb")]
 
 [node name="EndMenuVictory" type="Control"]
 layout_mode = 3
