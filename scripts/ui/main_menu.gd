@@ -5,6 +5,7 @@ signal game_start
 @onready var player = $"../Player"
 @onready var leaderboard = $Leaderboard
 @onready var settings = $Settings
+@onready var shop = $Shop
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,8 +43,8 @@ func _on_game_start_button_pressed():
 
 
 func _on_leaderboard_button_pressed():
-	var turn_off = true
 	settings.visible = false
+	shop.visible = false
 	leaderboard.visible = true
 	await get_tree().create_timer(3.0).timeout
 	leaderboard.visible = false
@@ -51,6 +52,15 @@ func _on_leaderboard_button_pressed():
 
 func _on_settings_button_pressed():
 	leaderboard.visible = false
+	shop.visible = false
 	settings.visible = true
 	await get_tree().create_timer(3.0).timeout
 	settings.visible = false
+
+
+func _on_shop_button_pressed():
+	settings.visible = false
+	leaderboard.visible = false
+	shop.visible = true
+	await get_tree().create_timer(3.0).timeout
+	shop.visible = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=11 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -6,6 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://bq3pboit3b6sy" path="res://assets/graphics/ui/Play.png" id="4_pou81"]
 [ext_resource type="Texture2D" uid="uid://cmn5jhotwpt2c" path="res://assets/graphics/ui/Settings.png" id="4_yuv8y"]
 [ext_resource type="Texture2D" uid="uid://dxyn1p338bn57" path="res://assets/graphics/ui/Leaderboard.png" id="6_upnvg"]
+[ext_resource type="Texture2D" uid="uid://cp8v1bxxqo5ol" path="res://assets/graphics/ui/Screenshot 2024-05-01 at 9.30.01 PM.png" id="7_f4hsl"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -62,12 +63,21 @@ icon = ExtResource("4_yuv8y")
 [node name="LeaderboardButton" type="Button" parent="."]
 layout_mode = 0
 offset_left = 1796.0
-offset_top = 232.0
+offset_top = 151.0
 offset_right = 2016.0
-offset_bottom = 452.0
+offset_bottom = 371.0
 scale = Vector2(0.4, 0.4)
 mouse_default_cursor_shape = 2
 icon = ExtResource("6_upnvg")
+
+[node name="ShopButton" type="Button" parent="."]
+layout_mode = 0
+offset_left = 1783.0
+offset_top = 249.0
+offset_right = 2003.0
+offset_bottom = 469.0
+scale = Vector2(0.5, 0.5)
+icon = ExtResource("7_f4hsl")
 
 [node name="Leaderboard" type="Label" parent="."]
 visible = false
@@ -106,6 +116,26 @@ theme_override_font_sizes/font_size = 50
 text = "Settings are coming in the 
 final version of the game!"
 
+[node name="Shop" type="Label" parent="."]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.0
+offset_top = -78.5
+offset_right = 285.0
+offset_bottom = 78.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Shop is coming in the 
+final version of the game!"
+
 [connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]
 [connection signal="pressed" from="LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
+[connection signal="pressed" from="ShopButton" to="." method="_on_shop_button_pressed"]

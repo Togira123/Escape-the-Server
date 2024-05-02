@@ -1,7 +1,7 @@
-[gd_scene load_steps=22 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=23 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
-[ext_resource type="Texture2D" uid="uid://c5dldscwobij0" path="res://assets/graphics/processor_bg.png" id="2_7i5a7"]
+[ext_resource type="Texture2D" uid="uid://ol6ryr62oftf" path="res://assets/graphics/processor_bg.png" id="2_7i5a7"]
 [ext_resource type="PackedScene" uid="uid://neet5x4flstv" path="res://scenes/level.tscn" id="2_wyg3m"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="3_nlg22"]
 [ext_resource type="PackedScene" uid="uid://b80ig2ilu6xyp" path="res://scenes/grounds/ground2.tscn" id="4_7yjwl"]
@@ -17,16 +17,10 @@
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
 [ext_resource type="PackedScene" uid="uid://qfkx5miayyoe" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
-
-[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_cujqq"]
-panorama = ExtResource("2_7i5a7")
-
-[sub_resource type="Sky" id="Sky_3o4bv"]
-sky_material = SubResource("PanoramaSkyMaterial_cujqq")
+[ext_resource type="Script" path="res://scripts/background.gd" id="18_ofg6m"]
 
 [sub_resource type="Environment" id="Environment_006tc"]
-background_mode = 2
-sky = SubResource("Sky_3o4bv")
+background_energy_multiplier = 0.0
 glow_enabled = true
 glow_intensity = 0.5
 fog_mode = 1
@@ -38,6 +32,13 @@ fog_depth_end = 1224.1
 [sub_resource type="Curve" id="Curve_yk5os"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovij0"]
+albedo_texture = ExtResource("2_7i5a7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_p1ag6"]
+material = SubResource("StandardMaterial3D_ovij0")
+size = Vector2(2480, 1754)
 
 [node name="Main" type="Node"]
 script = ExtResource("1_16pgg")
@@ -59,7 +60,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
 [node name="PlayerCamera" type="Camera3D" parent="."]
 transform = Transform3D(-1, -8.44439e-08, 2.26267e-08, 9.02727e-17, 0.258819, 0.965926, -8.74228e-08, 0.965926, -0.258819, 2.08165e-12, 7, -2.072)
 current = true
-far = 560.0
 script = ExtResource("5_ir8w6")
 curve = SubResource("Curve_yk5os")
 
@@ -70,6 +70,11 @@ script = ExtResource("6_uk641")
 
 [node name="LoadingScreen" parent="." instance=ExtResource("16_xa8kq")]
 script = ExtResource("17_umg6e")
+
+[node name="Background" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-08, -1, 8.74228e-08, -1, 2.74311e-08, 5.20957e-12, -1.95503e-05, 550)
+mesh = SubResource("PlaneMesh_p1ag6")
+script = ExtResource("18_ofg6m")
 
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

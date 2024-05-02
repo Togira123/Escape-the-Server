@@ -90,15 +90,15 @@ func _physics_process(delta):
 		var last = cur_tunnel == level.TUNNELS.size()
 		if is_on_floor():
 			level.stage = cur_tunnel
-			var lasers = level.get_child(0)
-			lasers.remove_children()
-			lasers.spawn_lasers(level.stage)
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
 			state_machine.travel("jump_blend_tree")
 			started_spinning_in_tunnel = false
 			reached_height = false
 			if not last:
+				var lasers = level.get_child(0)
+				lasers.remove_children()
+				lasers.spawn_lasers(level.stage)
 				speed = RUN_SPEEDS[cur_tunnel]
 				var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
 				animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
@@ -340,6 +340,9 @@ func player_was_hit(area: Area3D):
 		# hit shield, apply it when exiting the area
 		return
 	else:
+		if level.stage == 2:
+			die()
+			return
 		velocity.y = laser_impulse * 4
 		if position.x > 0:
 			player_laser_impulse = -laser_impulse

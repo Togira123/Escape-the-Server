@@ -23,6 +23,8 @@ func _process(delta):
 	if not player.is_finished:
 		position.z = player.position.z - 20
 	if is_transitioning:
+		if level.stage >= LASER_EMISSION_COLORS.size():
+			return
 		var mat = inst.get_child(1).get_surface_override_material(0)
 		var cur_col = mat.get_shader_parameter("emission")
 		if cur_col == LASER_EMISSION_COLORS[level.stage]:
