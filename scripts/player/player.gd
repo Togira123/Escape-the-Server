@@ -82,7 +82,7 @@ func _physics_process(delta):
 	if is_dead:
 		die_process(delta)
 		return
-	if position.y < 0:
+	if position.y < -1:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
