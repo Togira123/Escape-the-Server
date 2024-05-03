@@ -64,6 +64,8 @@ func spawn_sentence():
 		instance.get_node("Pivot").scale = scale_vec
 		instance.get_node("LetterHitbox").scale = scale_vec
 		instance.get_node("GroundCollisionDetector").scale = scale_vec
+		if instance.has_node("ShieldHitbox"):
+			instance.get_node("ShieldHitbox").scale = scale_vec
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * letter_scale
 		
 		instance.position.x = cur_x_pos - width / 2
