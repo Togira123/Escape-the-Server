@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=7 format=3 uid="uid://btq2v8xwqub83"]
+[gd_resource type="Theme" load_steps=8 format=3 uid="uid://btq2v8xwqub83"]
 
 [ext_resource type="FontFile" uid="uid://rr5gwpyxrdjh" path="res://assets/graphics/fonts/gg sans Normal.woff2" id="1_pw3pr"]
 
@@ -59,6 +59,19 @@ corner_radius_top_right = 10
 corner_radius_bottom_right = 10
 corner_radius_bottom_left = 10
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3ib5b"]
+bg_color = Color(0, 0, 0, 0.455)
+skew = Vector2(2.08165e-12, 2.08165e-12)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.345098, 0.396078, 0.94902, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
 [resource]
 default_font = ExtResource("1_pw3pr")
 Button/styles/focus = SubResource("StyleBoxFlat_qak8w")
@@ -66,3 +79,4 @@ Button/styles/hover = SubResource("StyleBoxFlat_3s2ct")
 Button/styles/normal = SubResource("StyleBoxFlat_0tnx6")
 Button/styles/pressed = SubResource("StyleBoxFlat_k8yri")
 Label/styles/normal = SubResource("StyleBoxFlat_fh1b8")
+Panel/styles/panel = SubResource("StyleBoxFlat_3ib5b")

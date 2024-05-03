@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_atrpe"]
 [ext_resource type="Script" path="res://scripts/ui/end_menu_victory.gd" id="1_uuuqf"]
-[ext_resource type="Texture2D" uid="uid://bym1d5vw105qk" path="res://assets/graphics/ui/Home.png" id="3_08rp0"]
+[ext_resource type="Texture2D" uid="uid://bym1d5vw105qk" path="res://assets/graphics/ui/main_menu/Home.png" id="3_08rp0"]
 
 [sub_resource type="Theme" id="Theme_2p2fj"]
 default_font_size = 50

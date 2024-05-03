@@ -6,6 +6,7 @@ signal game_start
 @onready var leaderboard = $Leaderboard
 @onready var settings = $Settings
 @onready var shop = $Shop
+@onready var help = $Help
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -64,3 +65,14 @@ func _on_shop_button_pressed():
 	shop.visible = true
 	await get_tree().create_timer(3.0).timeout
 	shop.visible = false
+
+
+func _on_help_button_pressed():
+	help.visible = true
+	help.get_node("TabBar").call_deferred("grab_focus")
+	$TransparentBg.visible = true
+
+
+func _on_transparent_bg_gui_input(event):
+	if event is InputEventMouseButton and event.pressed:
+		$Help.close()

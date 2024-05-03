@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="1_y71vn"]
 [ext_resource type="Script" path="res://scripts/ui/end_menu_defeat.gd" id="2_8cygj"]
 [ext_resource type="PackedScene" uid="uid://d34xgjh510wsw" path="res://scenes/player/player_soul.tscn" id="3_n3l3x"]
-[ext_resource type="Texture2D" uid="uid://bym1d5vw105qk" path="res://assets/graphics/ui/Home.png" id="4_r8ss8"]
+[ext_resource type="Texture2D" uid="uid://bym1d5vw105qk" path="res://assets/graphics/ui/main_menu/Home.png" id="4_r8ss8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fxyuq"]
 albedo_color = Color(0.301961, 0.301961, 0.301961, 1)
