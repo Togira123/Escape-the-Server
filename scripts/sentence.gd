@@ -37,14 +37,23 @@ extends Node3D
 
 @onready var sentence_node = $Sentence
 
-var spawned_letters = []
+var spawned_letters: Array[Node] = []
+var frozen_letters: Array[Node] = []
+var frozen_letters_vel = 0.0
 var drop_at_z = position.z + 100000
 var dropped = false
+var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_physics_process(false)
 	if position.z > constants.next_sentence_position_z:
 		spawn_sentence()
+
+func _physics_process(delta):
+	frozen_letters_vel += gravity * delta
+	for letter in frozen_letters:
+		letter.position.y -= frozen_letters_vel * delta
 
 func spawn_sentence():
 	var letter_scale = (randi() % 4) + 5
@@ -61,14 +70,22 @@ func spawn_sentence():
 			continue
 		var letter = letter_dict[sentence[i]]
 		var instance = letter.instantiate()
+		# always scale the texture
 		instance.get_node("Pivot").scale = scale_vec
-		instance.get_node("LetterHitbox").scale = scale_vec
-		instance.get_node("GroundCollisionDetector").scale = scale_vec
-		if instance.has_node("ShieldHitbox"):
-			instance.get_node("ShieldHitbox").scale = scale_vec
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * letter_scale
 		
 		instance.position.x = cur_x_pos - width / 2
+		if abs(instance.position.x) > 120:
+			instance.get_node("LetterHitbox").queue_free()
+			instance.get_node("GroundCollisionDetector").queue_free()
+			if instance.has_node("ShieldHitbox"):
+				instance.get_node("ShieldHitbox").queue_free()
+			frozen_letters.append(instance)
+		else:
+			instance.get_node("LetterHitbox").scale = scale_vec
+			instance.get_node("GroundCollisionDetector").scale = scale_vec
+			if instance.has_node("ShieldHitbox"):
+				instance.get_node("ShieldHitbox").scale = scale_vec
 		cur_x_pos -= width + 2
 		instance.position.y = height
 		instance.rotation.y = PI
@@ -78,7 +95,7 @@ func spawn_sentence():
 	if randi() % 10 == 1:
 		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
-		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 25 + (40 - (randi() % 20))
+		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (randi() % 20))
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
@@ -92,11 +109,14 @@ func maybe_drop(pos):
 		var count = 0
 		spawned_letters.shuffle()
 		for inst in spawned_letters:
-			inst.freeze = false
-			if count % 5 == 0:
-				await get_tree().create_timer(0.1).timeout
-			count += 1
+			if abs(inst.position.x) <= 120:
+				inst.freeze = false
+			else:
+				if count % 4 == 0:
+					await get_tree().create_timer(0.1).timeout
+				count += 1
 		dropped = true
+		set_physics_process(true)
 
 func change_color_of_pattern():
 	if has_node("Ground"):
