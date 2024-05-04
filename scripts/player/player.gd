@@ -4,7 +4,7 @@ signal game_over
 
 @onready var armature = $Armature
 @onready var player_soul = $PlayerSoul
-@onready var mesh = $Armature/Skeleton3D/Cube
+@onready var mesh = $Armature/Skeleton3D/Skin
 @onready var animation_tree = $AnimationTree
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
@@ -207,6 +207,7 @@ func is_in_tunnel():
 func tunnel_process(delta, is_last: bool):
 	velocity.z = lerp(velocity.z, TUNNEL_SPEED / 2.0, 0.4)
 	velocity.x = lerp(velocity.x, -position.x, 0.5)
+	armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	get_tree().call_group("module", "change_color_of_pattern")
 	if not changed_color_in_tunnel:
 		constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress + delta * 2, 0.0, 1.0)
@@ -369,3 +370,6 @@ func _on_animation_tree_animation_started(anim_name):
 		await get_tree().create_timer(0.4, true, true).timeout
 		if cur_movement == ROLL:
 			cur_movement = RUN
+
+func set_color(col: Color):
+	mesh.material_override.set_shader_parameter("albedo", col)

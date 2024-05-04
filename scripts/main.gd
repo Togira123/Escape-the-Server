@@ -7,7 +7,7 @@ const END_MENU_VICTORY = preload("res://scenes/ui/end_menu_victory.tscn")
 @onready var player_camera = $PlayerCamera
 @onready var player = $Player
 @onready var player_soul = $Player/PlayerSoul
-@onready var mesh = $Player/Armature/Skeleton3D/Cube
+@onready var mesh = $Player/Armature/Skeleton3D/Skin
 
 var in_level = false
 
