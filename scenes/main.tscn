@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=27 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
 [ext_resource type="Texture2D" uid="uid://ol6ryr62oftf" path="res://assets/graphics/processor_bg.png" id="2_7i5a7"]
@@ -40,6 +40,20 @@ albedo_texture = ExtResource("2_7i5a7")
 material = SubResource("StandardMaterial3D_ovij0")
 size = Vector2(2480, 1754)
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4bt"]
+albedo_color = Color(0.113725, 0.113725, 0.113725, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_4kdvi"]
+material = SubResource("StandardMaterial3D_7r4bt")
+size = Vector2(7440, 2480)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2spbh"]
+albedo_color = Color(0.113725, 0.113725, 0.113725, 1)
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_18kqy"]
+material = SubResource("StandardMaterial3D_2spbh")
+size = Vector2(2480, 1754)
+
 [node name="Main" type="Node"]
 script = ExtResource("1_16pgg")
 
@@ -74,6 +88,21 @@ script = ExtResource("17_umg6e")
 [node name="Background" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-08, -1, 8.74228e-08, -1, 2.74311e-08, 5.20957e-12, -1.95503e-05, 550)
 mesh = SubResource("PlaneMesh_p1ag6")
+script = ExtResource("18_ofg6m")
+
+[node name="Background2" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, 3.48787e-16, 8.74228e-08, 3.48787e-16, 1, -3.48787e-16, -8.74228e-08, -3.48787e-16, -1, 2.08165e-12, -877, -690)
+mesh = SubResource("PlaneMesh_4kdvi")
+script = ExtResource("18_ofg6m")
+
+[node name="Background3" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-08, -1, 8.74228e-08, -1, 2.74311e-08, 2480, 2.08165e-12, 550)
+mesh = SubResource("PlaneMesh_18kqy")
+script = ExtResource("18_ofg6m")
+
+[node name="Background4" type="MeshInstance3D" parent="."]
+transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-08, -1, 8.74228e-08, -1, 2.74311e-08, -2480, 2.08165e-12, 550)
+mesh = SubResource("PlaneMesh_18kqy")
 script = ExtResource("18_ofg6m")
 
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
