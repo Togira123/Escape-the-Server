@@ -42,7 +42,10 @@ func spawn_lasers(stage: int):
 		inst.position.x = X_OFFSET
 		var mat = inst.get_child(1).get_surface_override_material(0)
 		mat.set_shader_parameter("emission_energy", LASER_EMISSION[level.stage])
-		#mat.set_shader_parameter("emission", LASER_EMISSION_COLORS[level.stage])
+		if stage == 0:
+			# make sure that the lasers at the beginning look green
+			mat.set_shader_parameter("emission", LASER_EMISSION_COLORS[level.stage])
+			mat.set_shader_parameter("albedo", LASER_EMISSION_COLORS[level.stage])
 		is_transitioning = true
 		add_child(inst)
 		inst.scale_to(LASER_SCALE[stage])
