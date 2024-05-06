@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=21 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -13,6 +13,7 @@
 [ext_resource type="Texture2D" uid="uid://d15demdf6af8x" path="res://assets/graphics/ui/main_menu/tab_default.png" id="10_54dlg"]
 [ext_resource type="Theme" uid="uid://dki8u82alv46b" path="res://assets/graphics/themes/pure_text_label.tres" id="12_luv01"]
 [ext_resource type="FontFile" uid="uid://d0mbmlkdeyi61" path="res://assets/graphics/fonts/gg sans Bold.woff2" id="13_jhkct"]
+[ext_resource type="Script" path="res://scripts/ui/tab_bar.gd" id="14_5dwy7"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -228,7 +229,7 @@ text = "Your Discord Server has been hacked. Escape before it's too late! Watch 
 
 Use the green and yellow lasers to your advantage to help you dodge the letters (but do NOT touch the red ones).
 
-Additionally, it might be worth the risk flying straight through an 'O', a 'D' or other closed letters to get a temporary shield protecting you from other letters.
+Additionally, it might be worth the risk flying straight through an 'O', a 'D' or other closed letters to get a temporary shield protecting you from other letters. Do this twice in a short time to receive a teleport ability you can use with 'E'.
 
 Focus, because it's going to get harder the closer you are to escaping!
 
@@ -313,6 +314,18 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Shift/Arrow Down"
 
+[node name="UseItem" type="Label" parent="Help/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Use Item"
+
+[node name="UseItemKey" type="Label" parent="Help/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "E"
+
 [node name="TabBar" type="TabBar" parent="Help"]
 layout_mode = 1
 anchors_preset = 7
@@ -334,6 +347,7 @@ tab_0/title = ""
 tab_0/icon = ExtResource("9_1et0y")
 tab_1/title = ""
 tab_1/icon = ExtResource("10_54dlg")
+script = ExtResource("14_5dwy7")
 
 [connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]
 [connection signal="pressed" from="SettingsButton" to="." method="_on_settings_button_pressed"]

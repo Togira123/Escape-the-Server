@@ -284,6 +284,8 @@ enum ABILITIES {
 	TELEPORT
 }
 
+const MAX_TELEPORT_ABILITIES = 3
+
 # abilities have a count and can be used manually by the player
 func change_ability_count(ability: ABILITIES, new_count: int):
 	match ability:
@@ -292,6 +294,12 @@ func change_ability_count(ability: ABILITIES, new_count: int):
 				teleport_ability_count.text = "0"
 				teleport_ability.visible = false
 				return
+			print("label: ", teleport_ability_count)
+			print("settings: ", teleport_ability_count.label_settings)
+			if new_count == MAX_TELEPORT_ABILITIES:
+				teleport_ability_count.label_settings.font_color = Color("ef5d23")
+			else:
+				teleport_ability_count.label_settings.font_color = Color("ffffff")
 			teleport_ability_count.text = str(new_count)
 			teleport_ability_sprite.material.set_shader_parameter("alpha", 1.0)
 			teleport_ability_count.visible = true

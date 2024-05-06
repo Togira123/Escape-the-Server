@@ -51,6 +51,7 @@ var has_shield_active = false
 var shield_timer: SceneTreeTimer = null
 
 var teleport_count = 0
+var letters_passed = 1
 
 var player_laser_impulse = 0.0 # holds current impulse when player touched laser
 
@@ -324,10 +325,13 @@ func _on_hitbox_area_exited(area):
 			# there's already an active timer, reset its time
 			shield_timer.set_time_left(SHIELD_DURATION)
 			# since there is already a shield, add one more teleport
-			teleport_count += 1
+			letters_passed += 1
+			if letters_passed % 2 == 0:
+				teleport_count = clamp(teleport_count + 1, 0, level.MAX_TELEPORT_ABILITIES)
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		else:
 			# create a new timer and reset shield when it ends
+			letters_passed = 1
 			shield_timer = get_tree().create_timer(SHIELD_DURATION, true, true)
 			has_shield_active = true
 			player_shield.mesh.material.set_shader_parameter("alpha", 0.5)

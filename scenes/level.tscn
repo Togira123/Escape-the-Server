@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=28 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -36,6 +36,9 @@ shader_parameter/inside_color = Color(1, 1, 1, 0)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_yd8vi"]
 shader = ExtResource("21_g2e68")
 shader_parameter/alpha = 2.08165e-12
+
+[sub_resource type="LabelSettings" id="LabelSettings_60y2x"]
+font_size = 60
 
 [node name="Level" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
@@ -130,5 +133,5 @@ offset_left = -18.0
 offset_top = -45.0
 offset_right = 22.0
 offset_bottom = 38.0
-theme_override_font_sizes/font_size = 60
 text = "0"
+label_settings = SubResource("LabelSettings_60y2x")
