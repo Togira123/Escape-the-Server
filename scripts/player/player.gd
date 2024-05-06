@@ -180,6 +180,7 @@ func _physics_process(delta):
 		teleport_count -= 1
 		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		position.z += TELEPORT_DISTANCE
+		camera.distance_to_player = TELEPORT_DISTANCE
 
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:

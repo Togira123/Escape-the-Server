@@ -13,6 +13,9 @@ var last_player_velocity = 0.0
 # when player finishes
 var cur_cam_speed: float = -1
 
+# for teleport
+var distance_to_player = 2.0
+
 func _ready():
 	set_process(false)
 
@@ -46,7 +49,9 @@ func _process(delta):
 			position.x = player.position.x
 			position.z = player.position.z - 2
 	else:
-		position.z = lerp(position.z, player.position.z - 2, 0.9)
+		if distance_to_player > 2:
+			distance_to_player = clamp(distance_to_player - delta * 256, 2, 50)
+		position.z = player.position.z - distance_to_player
 		position.x = player.position.x
 		position.y = player.position.y + 1
 		last_player_velocity = player.velocity.z
