@@ -46,7 +46,7 @@ func _process(delta):
 			position.x = player.position.x
 			position.z = player.position.z - 2
 	else:
-		position.z = player.position.z - 2
+		position.z = lerp(position.z, player.position.z - 2, 0.9)
 		position.x = player.position.x
 		position.y = player.position.y + 1
 		last_player_velocity = player.velocity.z

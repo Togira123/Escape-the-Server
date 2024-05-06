@@ -39,6 +39,7 @@ const TUNNEL_SPIN_HEIGHT = 43
 const TUNNEL_SPEED: float = 250
 
 const SHIELD_DURATION = 5.0
+const TELEPORT_DISTANCE = 40
 
 const PLATFORM_LENGTH = [1500, 2000]
 
@@ -48,6 +49,8 @@ var has_spinned = false # makes sure players can only roll once after jumping
 
 var has_shield_active = false
 var shield_timer: SceneTreeTimer = null
+
+var teleport_count = 0
 
 var player_laser_impulse = 0.0 # holds current impulse when player touched laser
 
@@ -172,6 +175,11 @@ func _physics_process(delta):
 		direction.x = -0.9
 	if Input.is_action_pressed("move_left"):
 		direction.x += 0.9
+
+	if Input.is_action_just_pressed("use_item") and teleport_count > 0:
+		teleport_count -= 1
+		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
+		position.z += TELEPORT_DISTANCE
 
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
@@ -314,6 +322,9 @@ func _on_hitbox_area_exited(area):
 		if shield_timer:
 			# there's already an active timer, reset its time
 			shield_timer.set_time_left(SHIELD_DURATION)
+			# since there is already a shield, add one more teleport
+			teleport_count += 1
+			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		else:
 			# create a new timer and reset shield when it ends
 			shield_timer = get_tree().create_timer(SHIELD_DURATION, true, true)

@@ -14,6 +14,10 @@ const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
 @onready var constants = $"../Constants"
+@onready var teleport_ability = $UI/Teleport
+@onready var teleport_ability_count = $UI/Teleport/Count
+@onready var teleport_ability_sprite = $UI/Teleport/Teleport
+
 @export var modules: Array[PackedScene] = []
 @export var platform_modules1: Array[PackedScene] = [] # groups 1 and 2
 @export var platform_modules2: Array[PackedScene] = [] # groups 2 and 3
@@ -268,10 +272,27 @@ func spawn_module(n: int, platforms: bool):
 enum STATUS_EFFECTS {
 	SHIELD
 }
-
+# status effects have a timer
 func add_status_effect(effect: STATUS_EFFECTS, timer: SceneTreeTimer):
 	match effect:
 		STATUS_EFFECTS.SHIELD:
 			var shield = STATUS_EFFECT_SHIELD.instantiate()
 			shield.timer = timer
 			$UI/StatusEffects.add_child(shield)
+
+enum ABILITIES {
+	TELEPORT
+}
+
+# abilities have a count and can be used manually by the player
+func change_ability_count(ability: ABILITIES, new_count: int):
+	match ability:
+		ABILITIES.TELEPORT:
+			if new_count == 0:
+				teleport_ability_count.text = "0"
+				teleport_ability.visible = false
+				return
+			teleport_ability_count.text = str(new_count)
+			teleport_ability_sprite.material.set_shader_parameter("alpha", 1.0)
+			teleport_ability_count.visible = true
+			teleport_ability.visible = true

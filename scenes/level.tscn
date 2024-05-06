@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=27 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -17,11 +17,25 @@
 [ext_resource type="Script" path="res://scripts/ui/score.gd" id="12_tlb8y"]
 [ext_resource type="PackedScene" uid="uid://e5whg08m6svx" path="res://scenes/grounds/ground_plat4.tscn" id="13_0e75c"]
 [ext_resource type="PackedScene" uid="uid://c1vc4ekki26gd" path="res://scenes/grounds/ground_plat5.tscn" id="14_v6ed1"]
+[ext_resource type="Texture2D" uid="uid://ry762tkghk7b" path="res://assets/graphics/ui/AbilityArrow.png" id="18_dwtdr"]
+[ext_resource type="PackedScene" uid="uid://bjsqvtldapip5" path="res://scenes/ui/status_effects/shield.tscn" id="18_st8jw"]
+[ext_resource type="Shader" path="res://shaders/ui/arrow.gdshader" id="18_yww83"]
+[ext_resource type="Shader" path="res://shaders/ui/teleport.gdshader" id="21_g2e68"]
+[ext_resource type="Texture2D" uid="uid://rvjswr4a4qcf" path="res://assets/graphics/ui/Teleport.png" id="21_ipnbs"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
 
 [sub_resource type="Theme" id="Theme_cca4g"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yx7lb"]
+shader = ExtResource("18_yww83")
+shader_parameter/line_color = Color(0.555, 0, 0.555, 1)
+shader_parameter/inside_color = Color(1, 1, 1, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_yd8vi"]
+shader = ExtResource("21_g2e68")
+shader_parameter/alpha = 2.08165e-12
 
 [node name="Level" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, -1.18347e-08, 0, -7.07807e-10, 1, 0, 9.53674e-07, 1.90735e-06)
@@ -88,3 +102,33 @@ offset_top = 980.0
 offset_right = 100.0
 offset_bottom = 980.0
 theme = SubResource("Theme_cca4g")
+
+[node name="Shield" parent="UI/StatusEffects" instance=ExtResource("18_st8jw")]
+layout_mode = 2
+
+[node name="Arrow" type="Sprite2D" parent="UI"]
+material = SubResource("ShaderMaterial_yx7lb")
+position = Vector2(101, 865)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("18_dwtdr")
+
+[node name="Teleport" type="Control" parent="UI"]
+anchors_preset = 0
+offset_left = 100.0
+offset_top = 749.0
+offset_right = 140.0
+offset_bottom = 789.0
+
+[node name="Teleport" type="Sprite2D" parent="UI/Teleport"]
+material = SubResource("ShaderMaterial_yd8vi")
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("21_ipnbs")
+
+[node name="Count" type="Label" parent="UI/Teleport"]
+layout_mode = 0
+offset_left = -18.0
+offset_top = -45.0
+offset_right = 22.0
+offset_bottom = 38.0
+theme_override_font_sizes/font_size = 60
+text = "0"
