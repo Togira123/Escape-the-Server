@@ -26,4 +26,4 @@ func _process(delta):
 		player_camera.position = old_pos
 		player_camera.rotation = old_rot
 		queue_free()
-	
+

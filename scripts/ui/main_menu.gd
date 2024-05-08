@@ -8,10 +8,6 @@ signal game_start
 @onready var shop = $Shop
 @onready var help = $Help
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
 var arrived = false
 var x = 6 - (randi() % 12)
 var z = 3 - (randi() % 6)

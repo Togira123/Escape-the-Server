@@ -17,7 +17,6 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Client="*res://scripts/autoload/client.gd"
 Discord="*res://plugins/DiscordEmbeddedSDK/DiscordSDK.gd"
 
 [display]
