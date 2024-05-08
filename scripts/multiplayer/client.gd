@@ -7,7 +7,6 @@ const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 
 @onready var label = $"/root/Main/Label"
-@onready var discord: DiscordSDK = $"/root/Discord"
 
 enum {
 	REGISTER_USER
@@ -15,43 +14,49 @@ enum {
 
 var peer: WebSocketPeer
 
-# Called when the node enters the scene tree for the first time.
+var initialized = false
+
+func _ready():
+	set_process(false)
+
+# Called inside of main
 func init():
+	print("INITIALIZED")
+	initialized = true
+	set_process(true)
 	# connect to server
 	peer = WebSocketPeer.new()
 	print(peer.connect_to_url("wss://" + DISCORDSAYS + "/ws"))
 	label.text = "a"
-	discord.connect("dispatch_any", _dispatch)
+	Discord.connect("dispatch_any", _dispatch)
 	# discord sdk
-	discord.init(APP_ID)
+	Discord.init(APP_ID)
 	label.text = "waiting for ready"
-	await discord.dispatch_ready
+	await Discord.dispatch_ready
 	label.text = "getting auth code"
-	var auth = await discord.command_authorize("code", ["identify", "guilds"], "")
+	var auth = await Discord.command_authorize("code", ["identify"], "")
 	label.text = "getting access token from server"
 	var hreq = HTTPRequest.new()
 	hreq.accept_gzip = false
 	add_child(hreq)
 	var token_res = hreq.request(
-		"https://" + DISCORDSAYS + "/api/auth",
+		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"],
 		["Content-Type: application/x-www-form-urlencoded"],
-		HTTPClient.METHOD_POST,
-		"code=" + auth["code"]
+		HTTPClient.METHOD_POST
 	)
 	var response = await hreq.request_completed
 	hreq.queue_free()
-	var json = response[0].get_string_from_utf8()
+	var json = response[3].get_string_from_utf8()
 	var token_json = JSON.parse_string(json)
 	var token = token_json["access_token"]
-	label.text = "sending auth"
-	var authRes = await discord.command_authenticate(token)
+	label.text = token
+	var authRes = await Discord.command_authenticate(token)
 	print("auth completed")
-	discord.subscribe_to_events()
+	Discord.subscribe_to_events()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	peer.poll()
-	print(peer.get_ready_state())
 
 func register_discord_user(user_id: String):
 	var message = {
