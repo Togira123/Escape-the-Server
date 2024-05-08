@@ -34,6 +34,7 @@ _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ovij0"]
+shading_mode = 0
 albedo_texture = ExtResource("2_7i5a7")
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_p1ag6"]
@@ -41,6 +42,7 @@ material = SubResource("StandardMaterial3D_ovij0")
 size = Vector2(2480, 1754)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_7r4bt"]
+shading_mode = 0
 albedo_color = Color(0.113725, 0.113725, 0.113725, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_4kdvi"]
@@ -48,6 +50,7 @@ material = SubResource("StandardMaterial3D_7r4bt")
 size = Vector2(7440, 2480)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2spbh"]
+shading_mode = 0
 albedo_color = Color(0.113725, 0.113725, 0.113725, 1)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_18kqy"]
