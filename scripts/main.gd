@@ -22,7 +22,6 @@ var black_screen: ColorRect
 func _ready():
 	set_process(false)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if game_over:
