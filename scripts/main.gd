@@ -57,6 +57,7 @@ func restart_game():
 	get_tree().reload_current_scene()
 	player_soul.mesh.material.set_shader_parameter("turned_on", false)
 	mesh.material_override.set_shader_parameter("dissolve_amount", 0.0)
+	$Level/UI/HeatEffect.material.set_shader_parameter("alpha", 0.0)
 	# make sure time scale is back to normal
 	Engine.set_time_scale(1.0)
 

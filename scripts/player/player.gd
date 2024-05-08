@@ -9,6 +9,10 @@ signal game_over
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @onready var level = $"../Level"
+@onready var heat_control: Control = $"../Level/UI/Heat"
+@onready var heat_effect: TextureRect = $"../Level/UI/HeatEffect"
+@onready var heat_status: Control = $"../Level/UI/Heat/HeatStatus"
+@onready var heat_bar: ColorRect = $"../Level/UI/Heat/HeatBar"
 @onready var player_shield = $"PlayerShield"
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 @onready var floor_collision = $FloorCollision
@@ -51,7 +55,10 @@ var has_shield_active = false
 var shield_timer: SceneTreeTimer = null
 
 var teleport_count = 0
-var letters_passed = 1
+var letters_passed = 0
+
+var heat = 0.0 # stores how heated the player is – dies at 40
+const HEAT_DEATH = 40.0
 
 var player_laser_impulse = 0.0 # holds current impulse when player touched laser
 
@@ -86,7 +93,7 @@ func _physics_process(delta):
 	if is_dead:
 		die_process(delta)
 		return
-	if position.y < -1:
+	if position.y < -1 or heat > HEAT_DEATH:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
@@ -182,7 +189,23 @@ func _physics_process(delta):
 		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		position.z += TELEPORT_DISTANCE
 		camera.distance_to_player = TELEPORT_DISTANCE
-
+	
+	# apply heat if player is too close to lasers
+	var abs_pos_x = abs(position.x)
+	if abs_pos_x >= 70:
+		heat += (abs_pos_x - 70) * delta
+		heat_effect.material.set_shader_parameter("alpha", heat / HEAT_DEATH * 0.7)
+		heat_status.position.y = (1 - heat / HEAT_DEATH) * 303
+		if heat_control.modulate.a < 1:
+			heat_control.set_modulate(Color(1.0, 1.0, 1.0, min(1.0, heat_control.modulate.a + delta * 2)))
+			heat_bar.material.set_shader_parameter("alpha", heat_control.modulate.a)
+	elif heat > 0:
+		heat = max(0, heat - 4 * delta)
+		heat_effect.material.set_shader_parameter("alpha", heat / HEAT_DEATH * 0.7)
+		heat_status.position.y = (1 - heat / HEAT_DEATH) * 303
+	elif heat_control.modulate.a > 0:
+		heat_control.set_modulate(Color(1.0, 1.0, 1.0, max(0.0, heat_control.modulate.a - delta * 2)))
+		heat_bar.material.set_shader_parameter("alpha", heat_control.modulate.a)
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
 		direction = direction.normalized()
