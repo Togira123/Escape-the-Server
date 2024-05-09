@@ -2,6 +2,8 @@ extends Node
 
 class_name MultiplayerClient
 
+signal on_authorize
+
 #const APP_ID = "1221502156880744499"
 const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
@@ -24,6 +26,8 @@ enum ServerMessages {
 var peer: WebSocketPeer
 
 var user_id: String
+
+var is_authorized = false # used to only trigger the signal once
 
 class User:
 	var id: String # discord user id
@@ -50,7 +54,7 @@ class Lobby:
 
 var initialized = false
 var _sent_initial_packet = false
-var lobby
+var lobby: Lobby = null
 
 func _ready():
 	set_process(false)
@@ -117,6 +121,9 @@ func _process(delta):
 					update_lobby(data["lobby"])
 					label.text += "Lobby:\n"
 					label.text += lobby.as_string()
+					if not is_authorized:
+						is_authorized = true
+						on_authorize.emit()
 			
 
 func _dispatch_current_user_update(data):

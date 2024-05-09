@@ -8,6 +8,13 @@ signal game_start
 @onready var shop = $Shop
 @onready var help = $Help
 
+func _ready():
+	await Client.on_authorize
+	if Client.user_id == Client.lobby.leader_id:
+		$GameStartButton.visible = true
+	else:
+		$WaitingForLeader.visible = true
+
 func _on_game_start_button_pressed():
 	game_start.emit()
 	# remove main menu from scene tree

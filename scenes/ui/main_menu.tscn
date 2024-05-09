@@ -58,6 +58,7 @@ script = ExtResource("1_0j2i0")
 
 [node name="GameStartButton" type="Button" parent="."]
 auto_translate_mode = 1
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -75,6 +76,25 @@ theme = SubResource("Theme_c745d")
 shortcut = SubResource("Shortcut_4y7ai")
 shortcut_in_tooltip = false
 icon = ExtResource("4_pou81")
+
+[node name="WaitingForLeader" type="Label" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -315.0
+offset_top = -262.0
+offset_right = 315.0
+offset_bottom = -157.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Waiting for Lobby Leader to start"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="SettingsButton" type="Button" parent="."]
 layout_mode = 0
