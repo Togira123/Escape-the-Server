@@ -83,6 +83,8 @@ var cur_angle = 0.0
 
 var spawn_platforms = false
 
+var user_id: String # is set in the client.gd script if it's another player
+
 func _ready():
 	set_process(false)
 	set_physics_process(false)

@@ -6,10 +6,19 @@ class_name MultiplayerClient
 const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 
-@onready var label = $"/root/Main/Label"
+const PLAYER = preload("res://scenes/player/player.tscn")
 
-enum {
-	REGISTER_USER
+@onready var label = $"/root/Main/Label"
+@onready var main = $"/root/Main"
+
+# make sure this is the same as on the server
+enum ClientMessages {
+	AUTHENTICATE
+}
+# make sure this is the same as on the server
+enum ServerMessages {
+	ERROR,
+	LOBBY_UPDATE
 }
 
 var peer: WebSocketPeer
@@ -24,7 +33,6 @@ class User:
 		self.id = id
 		self.username = username
 		self.global_name = global_name
-		
 
 
 class Lobby:
@@ -65,7 +73,7 @@ func init():
 	hreq.accept_gzip = false
 	add_child(hreq)
 	var token_res = hreq.request(
-		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"] + "&lobby_id=" + Discord.guild_id + Discord.channel_id,
+		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"] + "&lobby_id=" + Discord.guild_id + Discord.instance_id,
 		["Content-Type: application/x-www-form-urlencoded"],
 		HTTPClient.METHOD_POST
 	)
@@ -74,8 +82,7 @@ func init():
 	var json = response[3].get_string_from_utf8()
 	var response_json = JSON.parse_string(json)
 	var token = response_json["access_token"]
-	var lobby_json = response_json["lobby"]
-	update_lobby(lobby_json)
+	user_id = response_json["user_id"]
 	label.text = token
 	label.text += "Lobby:\n"
 	label.text += lobby.as_string()
@@ -95,9 +102,21 @@ func _process(delta):
 		if not _sent_initial_packet:
 			_sent_initial_packet = true
 			var msg = {
-				text = "hello"
+				"type": ClientMessages.AUTHENTICATE,
+				"user_id": user_id,
+				"lobby_id": Discord.guild_id + Discord.instance_id
 			}
 			peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+		
+		while peer.get_available_packet_count():
+			var packet = peer.get_packet()
+			if packet != null:
+				var data_string = packet.get_string_from_utf8()
+				var data = JSON.parse_string(data_string)
+				if data["type"] == ServerMessages.LOBBY_UPDATE:
+					update_lobby(data["lobby"])
+					label.text += "Lobby:\n"
+					label.text += lobby.as_string()
 			
 
 func _dispatch_current_user_update(data):
@@ -112,8 +131,24 @@ func update_lobby(json):
 	lobby.id = json.id
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
+	var other_players = get_tree().get_nodes_in_group("other_players")
+	
 	for member in json.members:
 		var user = User.new(member.id, member.username, member.global_name)
 		lobby.members[user.id] = user
-		
+		if member.id == user_id:
+			# do not add additional player node for the player that runs this game
+			continue
+		var exists = other_players.any(func(p): p.user_id == member.id)
+		# there's no player node for this lobby member, create one
+		if not exists:
+			var inst = PLAYER.instantiate()
+			inst.user_id = member.id
+			inst.add_to_group("other_players")
+			main.add_child(inst)
+	for player in other_players:
+		if not lobby.members.has(player.user_id):
+			# there's a player node for someone that is not in the lobby, delete the player node
+			player.queue_free()
+	
 	

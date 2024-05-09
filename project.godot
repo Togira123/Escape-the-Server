@@ -37,6 +37,7 @@ import/blender/enabled=false
 [global_group]
 
 module="Group for all ground modules"
+other_players="all players but the own one are in this group"
 
 [input]
 
