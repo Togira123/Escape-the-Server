@@ -83,13 +83,22 @@ var cur_angle = 0.0
 
 var spawn_platforms = false
 
+# used to walk to player around randomly in lobby
+var is_playing = false
+var arrived = false
+var x = 6 - (randi() % 12)
+var z = 3 - (randi() % 6)
+
 var user_id: String # is set in the client.gd script if it's another player
 
 func _ready():
 	set_process(false)
-	set_physics_process(false)
 
 func _physics_process(delta):
+	if not is_playing:
+		# walk user around randomly in lobby
+		walk_around(delta)
+		return
 	if is_finished and camera.position.z + camera.far * 2 < position.z:
 		set_physics_process(false)
 	if is_dead:
@@ -119,6 +128,19 @@ func _physics_process(delta):
 		if jumped_in_tunnel:
 			tunnel_process(delta, last)
 			return
+	run(delta)
+
+func _process(_delta):
+	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
+	var pos = position.z if not is_finished else camera.position.z
+	# make sure to spawn in new ground
+	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
+		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms)
+		for m in level.loaded_modules:
+			if m:
+				m.maybe_drop(pos)
+
+func run(delta):
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
 	# change hitbox
@@ -222,16 +244,6 @@ func _physics_process(delta):
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	move_and_slide()
 
-func _process(_delta):
-	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
-	var pos = position.z if not is_finished else camera.position.z
-	# make sure to spawn in new ground
-	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
-		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms)
-		for m in level.loaded_modules:
-			if m:
-				m.maybe_drop(pos)
-
 func is_in_tunnel():
 	if level.next_tunnel > 0:
 		var t = level.TUNNELS[level.next_tunnel - 1]
@@ -276,7 +288,26 @@ func tunnel_process(delta, is_last: bool):
 					constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress - delta * 2, 0.0, 1.0)
 	move_and_slide()
 
+func walk_around(delta):
+	if arrived:
+		# make sure not same numbers as before are picked
+		var prev_x = x
+		var prev_z = z
+		while true:
+			x = 6 - (randi() % 12)
+			z = 3 - (randi() % 6)
+			if prev_x != x or prev_z != z:
+				break
+		set_physics_process(false)
+		await get_tree().create_timer(randi() % 3 + 1, true, true).timeout	
+		set_physics_process(true)
+		arrived = false
+	else:
+		arrived = move_to_random_point(x, z, delta)
+
 func start_running(delta):
+	set_physics_process(false)
+	is_playing = true
 	if state_machine.get_current_node() != "run_blend_tree":
 		state_machine.travel("run_blend_tree")
 	var direction = Vector3(-position.x, 0, 1)
