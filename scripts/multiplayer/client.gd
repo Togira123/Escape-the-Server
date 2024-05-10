@@ -171,6 +171,7 @@ func update_lobby(json):
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
+	$"/root/Main/MainMenu".update_play_button(false)
 
 func leader_start_game():
 	var msg = {

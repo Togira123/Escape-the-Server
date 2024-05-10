@@ -16,10 +16,7 @@ var not_all_players_ready_timer: SceneTreeTimer = null
 func _ready():
 	if not Client.is_authorized:
 		await Client.on_authorize
-	if Client.user_id == Client.lobby.leader_id:
-		$GameStartButton.visible = true
-	else:
-		ready_button.visible = true
+	update_play_button(true)
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -29,6 +26,15 @@ func display_not_all_players_ready_message():
 		not_all_players_ready.visible = true
 		await not_all_players_ready_timer.timeout
 		not_all_players_ready.visible = false
+
+func update_play_button(initial: bool):
+	if Client.user_id == Client.lobby.leader_id:
+		$GameStartButton.visible = true
+		ready_button.visible = false
+		not_ready_button.visible = false
+	elif initial:
+		ready_button.visible = true
+
 
 func _on_game_start_button_pressed():
 	game_start.emit()
