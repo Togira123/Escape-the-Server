@@ -1,6 +1,7 @@
 extends Node
 
 const LOADING_SCREEN = preload("res://scenes/ui/loading_screen.tscn")
+const CONNECTING_TO_SERVER_SCREEN = preload("res://scenes/ui/connecting_to_server.tscn")
 const END_MENU_DEFEAT = preload("res://scenes/ui/end_menu_defeat.tscn")
 const END_MENU_VICTORY = preload("res://scenes/ui/end_menu_victory.tscn")
 
@@ -21,6 +22,7 @@ var black_screen: ColorRect
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not Client.initialized:
+		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
 	set_process(false)
 

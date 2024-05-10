@@ -28,6 +28,8 @@ var user_id: String
 
 var is_authorized = false # used to only trigger the signal once
 
+var connecting_to_server_percentage = 0.0
+
 class User:
 	var id: String # discord user id
 	var username: String
@@ -62,9 +64,12 @@ func init():
 	lobby = Lobby.new()
 	initialized = true
 	# discord sdk
+	connecting_to_server_percentage = 0.1
 	Discord.init(APP_ID)
 	await Discord.dispatch_ready
+	connecting_to_server_percentage = 0.2
 	var auth = await Discord.command_authorize("code", ["identify"], "")
+	connecting_to_server_percentage = 0.3
 	var hreq = HTTPRequest.new()
 	hreq.accept_gzip = false
 	add_child(hreq)
@@ -74,16 +79,19 @@ func init():
 		HTTPClient.METHOD_POST
 	)
 	var response = await hreq.request_completed
+	connecting_to_server_percentage = 0.5
 	hreq.queue_free()
 	var json = response[3].get_string_from_utf8()
 	var response_json = JSON.parse_string(json)
 	var token = response_json["access_token"]
 	user_id = response_json["user_id"]
 	await Discord.command_authenticate(token)
+	connecting_to_server_percentage = 0.7
 	Discord.subscribe_to_events()
 	# connect to websocket server
 	peer = WebSocketPeer.new()
 	peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
+	connecting_to_server_percentage = 0.8
 	set_process(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -109,6 +117,7 @@ func _process(_delta):
 					update_lobby(data["lobby"])
 					if not is_authorized:
 						is_authorized = true
+						connecting_to_server_percentage = 1.0
 						on_authorize.emit()
 
 
