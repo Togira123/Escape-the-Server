@@ -9,7 +9,8 @@ signal game_start
 @onready var help = $Help
 
 func _ready():
-	await Client.on_authorize
+	if not Client.is_authorized:
+		await Client.on_authorize
 	if Client.user_id == Client.lobby.leader_id:
 		$GameStartButton.visible = true
 	else:
