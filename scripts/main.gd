@@ -21,7 +21,7 @@ var black_screen: ColorRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Client.initialized:
+	if Client.is_authorized:
 		Client.request_lobby()
 	else:
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())

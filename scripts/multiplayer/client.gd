@@ -14,16 +14,22 @@ const PLAYER = preload("res://scenes/player/player.tscn")
 enum ClientMessages {
 	AUTHENTICATE,
 	PING,
+	USER_CHANGE,
 	START_GAME,
 	LOBBY,
-	READY
+	READY,
+	DEAD,
+	REVIVE
 }
 # make sure this is the same as on the server
 enum ServerMessages {
 	ERROR,
 	PONG,
+	USER,
 	LOBBY_UPDATE,
-	GAME_START
+	GAME_START,
+	DIED,
+	REVIVED
 }
 
 var peer: WebSocketPeer
@@ -31,6 +37,9 @@ var peer: WebSocketPeer
 var user_id: String
 
 var is_authorized = false # used to only trigger the signal once
+# if those two are true, the user is authorized
+var _received_initial_lobby_data = false
+var _received_initial_user_data = false
 
 var connecting_to_server_percentage = 0.0
 
@@ -60,9 +69,9 @@ class Lobby:
 			s += "\n" + members[member].username
 		return s
 
-var initialized = false
 var _sent_initial_packet = false
 var lobby: Lobby = null
+var settings: Dictionary = {}
 
 func _ready():
 	set_process(false)
@@ -70,7 +79,6 @@ func _ready():
 # Called inside of main
 func init():
 	lobby = Lobby.new()
-	initialized = true
 	# discord sdk
 	connecting_to_server_percentage = 0.1
 	Discord.init(APP_ID)
@@ -105,6 +113,11 @@ func init():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if not is_authorized and _received_initial_lobby_data and _received_initial_user_data:
+		is_authorized = true
+		connecting_to_server_percentage = 1.0
+		on_authorize.emit()
+			
 	peer.poll()
 	var state = peer.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
@@ -132,12 +145,17 @@ func _process(_delta):
 					# handle error
 					if data["message"] == "LOBBY_NOT_READY": # sent as response to START_GAME
 						$"/root/Main/MainMenu".display_not_all_players_ready_message()
+				elif data["type"] == ServerMessages.USER:
+					if not _received_initial_user_data:
+						_received_initial_user_data = true
+						connecting_to_server_percentage += 0.1
+					# load settings
+					settings = data["settings"]
 				elif data["type"] == ServerMessages.LOBBY_UPDATE:
 					update_lobby(data["lobby"])
-					if not is_authorized:
-						is_authorized = true
-						connecting_to_server_percentage = 1.0
-						on_authorize.emit()
+					if not _received_initial_lobby_data:
+						_received_initial_lobby_data = true
+						connecting_to_server_percentage += 0.1
 				elif data["type"] == ServerMessages.GAME_START:
 					# start the game
 					$"/root/Main".start_game()
@@ -183,5 +201,13 @@ func set_ready(ready: bool):
 	var msg = {
 		"type": ClientMessages.READY,
 		"ready": ready
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func update_settings():
+	var msg = {
+		"type": ClientMessages.USER_CHANGE,
+		"user": lobby.members[user_id],
+		"settings": settings
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())

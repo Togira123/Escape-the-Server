@@ -11,12 +11,15 @@ signal game_start
 @onready var not_ready_button = $NotReady
 @onready var not_all_players_ready = $NotAllPlayersReady
 
+@onready var settings_check_button = $"Settings/0/CheckButton"
+
 var not_all_players_ready_timer: SceneTreeTimer = null
 
 func _ready():
 	if not Client.is_authorized:
 		await Client.on_authorize
 	update_play_button(true)
+	settings_check_button.set_pressed(Client.settings["default_keybinds"])
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -47,11 +50,9 @@ func _on_leaderboard_button_pressed():
 	leaderboard.visible = false
 
 func _on_settings_button_pressed():
-	leaderboard.visible = false
-	shop.visible = false
 	settings.visible = true
-	await get_tree().create_timer(3.0).timeout
-	settings.visible = false
+	settings.get_node("TabBar").call_deferred("grab_focus")
+	$TransparentBg.visible = true
 
 func _on_shop_button_pressed():
 	settings.visible = false
@@ -67,7 +68,10 @@ func _on_help_button_pressed():
 
 func _on_transparent_bg_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
-		$Help.close()
+		if help.visible:
+			help.close()
+		elif settings.visible:
+			settings.close()
 
 
 func _on_ready_pressed():

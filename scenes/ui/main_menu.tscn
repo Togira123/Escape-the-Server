@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=31 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -11,11 +11,17 @@
 [ext_resource type="Texture2D" uid="uid://cp8v1bxxqo5ol" path="res://assets/graphics/ui/main_menu/Shop.png" id="7_f4hsl"]
 [ext_resource type="Texture2D" uid="uid://tiwtwd7atfks" path="res://assets/graphics/ui/main_menu/Help.png" id="8_tunh5"]
 [ext_resource type="Texture2D" uid="uid://ctx3y2vnwbudg" path="res://assets/graphics/ui/main_menu/tab_selected.png" id="9_1et0y"]
-[ext_resource type="Script" path="res://scripts/ui/help.gd" id="9_dih4r"]
+[ext_resource type="Script" path="res://scripts/ui/help_menu/help.gd" id="9_dih4r"]
 [ext_resource type="Texture2D" uid="uid://d15demdf6af8x" path="res://assets/graphics/ui/main_menu/tab_default.png" id="10_54dlg"]
 [ext_resource type="Theme" uid="uid://dki8u82alv46b" path="res://assets/graphics/themes/pure_text_label.tres" id="12_luv01"]
 [ext_resource type="FontFile" uid="uid://d0mbmlkdeyi61" path="res://assets/graphics/fonts/gg sans Bold.woff2" id="13_jhkct"]
-[ext_resource type="Script" path="res://scripts/ui/tab_bar.gd" id="14_5dwy7"]
+[ext_resource type="Script" path="res://scripts/ui/help_menu/tab_bar.gd" id="14_5dwy7"]
+[ext_resource type="Texture2D" uid="uid://c0gltmuo4ef83" path="res://assets/graphics/ui/main_menu/ArrowLeft.png" id="17_60w33"]
+[ext_resource type="Texture2D" uid="uid://d4fqqa1eiyn4q" path="res://assets/graphics/ui/main_menu/ArrowRight.png" id="18_bsjgq"]
+[ext_resource type="Script" path="res://scripts/ui/settings.gd" id="19_ejji2"]
+[ext_resource type="Script" path="res://scripts/ui/settings_menu/tab_bar.gd" id="20_4yxtl"]
+[ext_resource type="Texture2D" uid="uid://dwee2sd4syc3i" path="res://assets/graphics/ui/main_menu/CheckOn.png" id="20_olcb7"]
+[ext_resource type="Texture2D" uid="uid://dm4cagtduw47l" path="res://assets/graphics/ui/main_menu/CheckOff.png" id="21_7gwww"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -46,6 +52,12 @@ TabBar/styles/tab_focus = SubResource("StyleBoxFlat_qyc8i")
 TabBar/styles/tab_hovered = SubResource("StyleBoxFlat_qyc8i")
 TabBar/styles/tab_selected = SubResource("StyleBoxFlat_qyc8i")
 TabBar/styles/tab_unselected = SubResource("StyleBoxFlat_qyc8i")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_veh50"]
+texture = ExtResource("17_60w33")
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p1hbu"]
+texture = ExtResource("18_bsjgq")
 
 [node name="MainMenu" type="Control"]
 auto_translate_mode = 1
@@ -199,25 +211,6 @@ theme_override_font_sizes/font_size = 50
 text = "Ranked mode and Leaderboards are coming
  in the final version of the game!"
 
-[node name="Settings" type="Label" parent="."]
-auto_translate_mode = 1
-visible = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -281.5
-offset_top = -42.5
-offset_right = 281.5
-offset_bottom = 42.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 50
-text = "Settings are coming in the 
-final version of the game!"
-
 [node name="Shop" type="Label" parent="."]
 auto_translate_mode = 1
 visible = false
@@ -292,7 +285,7 @@ offset_bottom = 351.0
 theme_override_font_sizes/font_size = 30
 text = "Your Discord Server has been hacked. Escape before it's too late! Watch out for falling messages and holes in the ground!
 
-Use the green and yellow lasers to your advantage to help you dodge the letters (but do NOT touch the red ones).
+Use the green and yellow lasers to your advantage to help you dodge the letters (but do NOT touch the red ones). Also, make sure to not stay too close to them for too long or things will get hot.
 
 Additionally, it might be worth the risk flying straight through an 'O', a 'D' or other closed letters to get a temporary shield protecting you from other letters. Do this twice in a short time to receive a teleport ability you can use with 'E'.
 
@@ -414,6 +407,265 @@ tab_1/title = ""
 tab_1/icon = ExtResource("10_54dlg")
 script = ExtResource("14_5dwy7")
 
+[node name="ArrowLeft" type="Button" parent="Help"]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -55.0
+offset_right = 230.0
+offset_bottom = 165.0
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+theme_override_styles/hover = SubResource("StyleBoxTexture_veh50")
+icon = ExtResource("17_60w33")
+icon_alignment = 1
+
+[node name="ArrowRight" type="Button" parent="Help"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -55.0
+offset_right = 100.0
+offset_bottom = 165.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
+icon = ExtResource("18_bsjgq")
+icon_alignment = 1
+
+[node name="Settings" type="Panel" parent="."]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -736.0
+offset_top = -429.0
+offset_right = 736.0
+offset_bottom = 429.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_qphqm")
+script = ExtResource("19_ejji2")
+
+[node name="0" type="Control" parent="Settings"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_luv01")
+
+[node name="Keybinds" type="Label" parent="Settings/0"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 440.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Keybinds"
+
+[node name="ButtonText" type="Label" parent="Settings/0"]
+auto_translate_mode = 1
+offset_left = 235.0
+offset_top = 239.0
+offset_right = 779.0
+offset_bottom = 280.0
+theme_override_font_sizes/font_size = 30
+text = "Use A/D/Shift/Space to control the player"
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="Settings/0"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 297.0
+offset_right = 1361.0
+offset_bottom = 426.0
+theme_override_font_sizes/font_size = 30
+text = "If unchecked, the four arrow keys are used to control the player instead. Note that in that case the W/A/S/D keys are used to revive other players in multiplayer mode."
+autowrap_mode = 3
+
+[node name="CheckButton" type="CheckButton" parent="Settings/0"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 204.0
+offset_right = 337.0
+offset_bottom = 424.0
+scale = Vector2(0.5, 0.5)
+theme_override_icons/checked = ExtResource("20_olcb7")
+theme_override_icons/unchecked = ExtResource("21_7gwww")
+
+[node name="1" type="Control" parent="Settings"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_luv01")
+
+[node name="Keybinds" type="Label" parent="Settings/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 440.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Keybinds"
+
+[node name="GridContainer" type="GridContainer" parent="Settings/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 118.0
+offset_top = 222.0
+offset_right = 1369.0
+offset_bottom = 676.0
+theme_override_constants/h_separation = 200
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="Left" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Strive Left"
+
+[node name="KeyLeft" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "A/Arrow Left"
+
+[node name="Right" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Strive Right"
+
+[node name="RightKey" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "D/Arrow Right"
+
+[node name="Jump" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Jump/Spin (when mid-air)"
+
+[node name="JumpKey" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Space/Arrow Up"
+
+[node name="Roll" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Roll"
+
+[node name="RollKey" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shift/Arrow Down"
+
+[node name="UseItem" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Use Item"
+
+[node name="UseItemKey" type="Label" parent="Settings/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "E"
+
+[node name="TabBar" type="TabBar" parent="Settings"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -45.0
+offset_right = 40.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_default_cursor_shape = 2
+current_tab = 0
+clip_tabs = false
+tab_count = 2
+tab_0/title = ""
+tab_0/icon = ExtResource("9_1et0y")
+tab_1/title = ""
+tab_1/icon = ExtResource("10_54dlg")
+script = ExtResource("20_4yxtl")
+
+[node name="ArrowLeft" type="Button" parent="Settings"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 10.0
+offset_top = -55.0
+offset_right = 230.0
+offset_bottom = 165.0
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+theme_override_styles/hover = SubResource("StyleBoxTexture_veh50")
+icon = ExtResource("17_60w33")
+icon_alignment = 1
+
+[node name="ArrowRight" type="Button" parent="Settings"]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -120.0
+offset_top = -55.0
+offset_right = 100.0
+offset_bottom = 165.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+mouse_default_cursor_shape = 2
+theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
+icon = ExtResource("18_bsjgq")
+icon_alignment = 1
+
 [connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]
 [connection signal="pressed" from="Ready" to="." method="_on_ready_pressed"]
 [connection signal="pressed" from="NotReady" to="." method="_on_not_ready_pressed"]
@@ -423,3 +675,9 @@ script = ExtResource("14_5dwy7")
 [connection signal="pressed" from="HelpButton" to="." method="_on_help_button_pressed"]
 [connection signal="gui_input" from="TransparentBg" to="." method="_on_transparent_bg_gui_input"]
 [connection signal="tab_changed" from="Help/TabBar" to="Help" method="_on_tab_bar_tab_changed"]
+[connection signal="pressed" from="Help/ArrowLeft" to="Help/TabBar" method="_on_arrow_left_pressed"]
+[connection signal="pressed" from="Help/ArrowRight" to="Help/TabBar" method="_on_arrow_right_pressed"]
+[connection signal="toggled" from="Settings/0/CheckButton" to="Settings" method="_on_check_button_toggled"]
+[connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
+[connection signal="pressed" from="Settings/ArrowLeft" to="Settings/TabBar" method="_on_arrow_left_pressed"]
+[connection signal="pressed" from="Settings/ArrowRight" to="Settings/TabBar" method="_on_arrow_right_pressed"]
