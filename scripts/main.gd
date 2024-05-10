@@ -21,7 +21,9 @@ var black_screen: ColorRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if not Client.initialized:
+	if Client.initialized:
+		Client.request_lobby()
+	else:
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
 	set_process(false)
@@ -65,9 +67,15 @@ func restart_game():
 	Engine.set_time_scale(1.0)
 
 func _on_main_menu_game_start():
-	set_process(true)
-	in_level = true
+	# send START_GAME to all of the lobby
+	Client.leader_start_game()
 
+# called in client.gd when GAME_START message is received
+func start_game():
+	set_process(true)
+	# remove main menu from scene tree
+	$MainMenu.queue_free()
+	in_level = true
 
 func _on_player_game_over():
 	var ins = LOADING_SCREEN.instantiate()

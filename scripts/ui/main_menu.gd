@@ -18,8 +18,6 @@ func _ready():
 
 func _on_game_start_button_pressed():
 	game_start.emit()
-	# remove main menu from scene tree
-	queue_free()
 
 func _on_leaderboard_button_pressed():
 	settings.visible = false

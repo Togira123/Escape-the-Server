@@ -10,16 +10,19 @@ const DISCORDSAYS = APP_ID + ".discordsays.com"
 
 const PLAYER = preload("res://scenes/player/player.tscn")
 
-@onready var main = $"/root/Main"
-
 # make sure this is the same as on the server
 enum ClientMessages {
-	AUTHENTICATE
+	AUTHENTICATE,
+	PING,
+	START_GAME,
+	LOBBY
 }
 # make sure this is the same as on the server
 enum ServerMessages {
 	ERROR,
-	LOBBY_UPDATE
+	PONG,
+	LOBBY_UPDATE,
+	GAME_START
 }
 
 var peer: WebSocketPeer
@@ -29,6 +32,8 @@ var user_id: String
 var is_authorized = false # used to only trigger the signal once
 
 var connecting_to_server_percentage = 0.0
+
+var ping_timer: SceneTreeTimer = null
 
 class User:
 	var id: String # discord user id
@@ -92,6 +97,7 @@ func init():
 	peer = WebSocketPeer.new()
 	peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
 	connecting_to_server_percentage = 0.8
+	ping_timer = get_tree().create_timer(5.0, true, false, true)
 	set_process(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -107,7 +113,13 @@ func _process(_delta):
 				"lobby_id": Discord.guild_id + Discord.instance_id
 			}
 			peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
-		
+		else:
+			if ping_timer.time_left == 0.0:
+				var msg = {
+					"type": ClientMessages.PING
+				}
+				peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+				ping_timer = get_tree().create_timer(5.0)
 		while peer.get_available_packet_count():
 			var packet = peer.get_packet()
 			if packet != null:
@@ -119,7 +131,15 @@ func _process(_delta):
 						is_authorized = true
 						connecting_to_server_percentage = 1.0
 						on_authorize.emit()
+				elif data["type"] == ServerMessages.GAME_START:
+					# start the game
+					$"/root/Main".start_game()
 
+func request_lobby():
+	var msg = {
+		"type": ClientMessages.LOBBY,
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
 func update_lobby(json):
 	lobby.id = json.id
@@ -133,14 +153,20 @@ func update_lobby(json):
 		if member.id == user_id:
 			# do not add additional player node for the player that runs this game
 			continue
-		var exists = other_players.any(func(p): p.user_id == member.id)
+		var exists = other_players.any(func(p): return p.user_id == member.id)
 		# there's no player node for this lobby member, create one
 		if not exists:
 			var inst = PLAYER.instantiate()
 			inst.user_id = member.id
 			inst.add_to_group("other_players")
-			main.add_child(inst)
+			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
+
+func leader_start_game():
+	var msg = {
+		"type": ClientMessages.START_GAME,
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
