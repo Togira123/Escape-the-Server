@@ -15,7 +15,8 @@ enum ClientMessages {
 	AUTHENTICATE,
 	PING,
 	START_GAME,
-	LOBBY
+	LOBBY,
+	READY
 }
 # make sure this is the same as on the server
 enum ServerMessages {
@@ -39,10 +40,12 @@ class User:
 	var id: String # discord user id
 	var username: String
 	var global_name: String
-	func _init(_id, _username, _global_name):
+	var is_ready: bool
+	func _init(_id, _username, _global_name, _is_ready):
 		id = _id
 		username = _username
 		global_name = _global_name
+		is_ready = _is_ready
 
 
 class Lobby:
@@ -125,7 +128,11 @@ func _process(_delta):
 			if packet != null:
 				var data_string = packet.get_string_from_utf8()
 				var data = JSON.parse_string(data_string)
-				if data["type"] == ServerMessages.LOBBY_UPDATE:
+				if data["type"] == ServerMessages.ERROR:
+					# handle error
+					if data["message"] == "LOBBY_NOT_READY": # sent as response to START_GAME
+						$"/root/Main/MainMenu".display_not_all_players_ready_message()
+				elif data["type"] == ServerMessages.LOBBY_UPDATE:
 					update_lobby(data["lobby"])
 					if not is_authorized:
 						is_authorized = true
@@ -148,7 +155,7 @@ func update_lobby(json):
 	var other_players = get_tree().get_nodes_in_group("other_players")
 	
 	for member in json.members:
-		var user = User.new(member.id, member.username, member.global_name)
+		var user = User.new(member.id, member.username, member.global_name, member.is_ready)
 		lobby.members[user.id] = user
 		if member.id == user_id:
 			# do not add additional player node for the player that runs this game
@@ -168,5 +175,12 @@ func update_lobby(json):
 func leader_start_game():
 	var msg = {
 		"type": ClientMessages.START_GAME,
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func set_ready(ready: bool):
+	var msg = {
+		"type": ClientMessages.READY,
+		"ready": ready
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
