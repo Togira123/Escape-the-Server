@@ -108,24 +108,5 @@ transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-0
 mesh = SubResource("PlaneMesh_18kqy")
 script = ExtResource("18_ofg6m")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-color = Color(0, 0, 0, 1)
-
-[node name="Label" type="Label" parent="."]
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 10
-autowrap_mode = 1
-
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

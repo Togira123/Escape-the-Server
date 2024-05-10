@@ -12,7 +12,7 @@ func _ready():
 	old_rot = player_camera.rotation
 
 # pre-compile shaders
-func _process(delta):
+func _process(_delta):
 	if not moved:
 		player_camera.position.y = 3
 		player_camera.position.z = -2
@@ -26,4 +26,3 @@ func _process(delta):
 		player_camera.position = old_pos
 		player_camera.rotation = old_rot
 		queue_free()
-

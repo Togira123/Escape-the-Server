@@ -43,7 +43,8 @@ func _ready():
 		spawn_module(module_count * OFFSET, false)
 
 func spawn_module(n: int, platforms: bool):
-	var index: int = (n / OFFSET) % LOADED_MODULES_SIZE
+	@warning_ignore("integer_division")
+	var index = (n / OFFSET) % LOADED_MODULES_SIZE
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	var instance: Node
 	if platforms:
@@ -294,8 +295,6 @@ func change_ability_count(ability: ABILITIES, new_count: int):
 				teleport_ability_count.text = "0"
 				teleport_ability.visible = false
 				return
-			print("label: ", teleport_ability_count)
-			print("settings: ", teleport_ability_count.label_settings)
 			if new_count == MAX_TELEPORT_ABILITIES:
 				teleport_ability_count.label_settings.font_color = Color("ef5d23")
 			else:

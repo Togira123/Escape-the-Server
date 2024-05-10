@@ -3,10 +3,13 @@ extends Label
 @onready var player = $"../../../Player"
 @onready var level = $"../../../Level"
 
+var finish
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	text = str(level.TUNNELS[level.TUNNELS.size() - 1]) +  " Micrometers left"
+	finish = level.TUNNELS[level.TUNNELS.size() - 1]
+	text = str(finish) +  " Micrometers left"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	text = str(clamp(level.TUNNELS[level.TUNNELS.size() - 1] - int(player.position.z), 0, level.TUNNELS[level.TUNNELS.size() - 1])) + " Micrometers left"
+func _process(_delta):
+	text = str(clamp(finish - int(player.position.z), 0, finish)) + " Micrometers left"

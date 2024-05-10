@@ -59,7 +59,7 @@ func spawn_sentence():
 	var letter_scale = (randi() % 4) + 5
 	var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)
 	var sentence = constants.get_random_sentence().to_upper()
-	var rotation_y = (40 - (randi() % 80)) * (PI / 180.0)
+	#var rotation_y = (40 - (randi() % 80)) * (PI / 180.0)
 	var cur_x_pos = len(sentence) * letter_scale + (50 - (randi() % 100))
 	var height = (randi() % 30) * 2 + 40
 	for i in range(len(sentence)):

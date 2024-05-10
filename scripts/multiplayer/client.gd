@@ -10,7 +10,6 @@ const DISCORDSAYS = APP_ID + ".discordsays.com"
 
 const PLAYER = preload("res://scenes/player/player.tscn")
 
-@onready var label = $"/root/Main/Label"
 @onready var main = $"/root/Main"
 
 # make sure this is the same as on the server
@@ -33,10 +32,10 @@ class User:
 	var id: String # discord user id
 	var username: String
 	var global_name: String
-	func _init(id, username, global_name):
-		self.id = id
-		self.username = username
-		self.global_name = global_name
+	func _init(_id, _username, _global_name):
+		id = _id
+		username = _username
+		global_name = _global_name
 
 
 class Lobby:
@@ -44,13 +43,12 @@ class Lobby:
 	var leader_id: String # discord user id of lobby leader
 	var members: Dictionary
 	func as_string() -> String:
-		var str = "id: " + id
-		str += "\nleader: " + leader_id
-		str += "\nMembers:"
+		var s = "id: " + id
+		s += "\nleader: " + leader_id
+		s += "\nMembers:"
 		for member in members:
-			str += "\n" + members[member].username
-		print("final: ", str)
-		return str
+			s += "\n" + members[member].username
+		return s
 
 var initialized = false
 var _sent_initial_packet = false
@@ -61,22 +59,16 @@ func _ready():
 
 # Called inside of main
 func init():
-	print("INITIALIZED")
 	lobby = Lobby.new()
 	initialized = true
-	Discord.connect("dispatch_current_user_update", _dispatch_current_user_update)
-	Discord.connect("dispatch_activity_instance_participants_update", _dispatch_activity_instance_participants_update)
 	# discord sdk
 	Discord.init(APP_ID)
-	label.text = "waiting for ready"
 	await Discord.dispatch_ready
-	label.text = "getting auth code"
 	var auth = await Discord.command_authorize("code", ["identify"], "")
-	label.text = "getting access token from server"
 	var hreq = HTTPRequest.new()
 	hreq.accept_gzip = false
 	add_child(hreq)
-	var token_res = hreq.request(
+	hreq.request(
 		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"] + "&lobby_id=" + Discord.guild_id + Discord.instance_id,
 		["Content-Type: application/x-www-form-urlencoded"],
 		HTTPClient.METHOD_POST
@@ -87,11 +79,7 @@ func init():
 	var response_json = JSON.parse_string(json)
 	var token = response_json["access_token"]
 	user_id = response_json["user_id"]
-	label.text = token
-	label.text += "Lobby:\n"
-	label.text += lobby.as_string()
-	var authRes = await Discord.command_authenticate(token)
-	print("auth completed")
+	await Discord.command_authenticate(token)
 	Discord.subscribe_to_events()
 	# connect to websocket server
 	peer = WebSocketPeer.new()
@@ -99,7 +87,7 @@ func init():
 	set_process(true)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	peer.poll()
 	var state = peer.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
@@ -119,20 +107,10 @@ func _process(delta):
 				var data = JSON.parse_string(data_string)
 				if data["type"] == ServerMessages.LOBBY_UPDATE:
 					update_lobby(data["lobby"])
-					label.text += "Lobby:\n"
-					label.text += lobby.as_string()
 					if not is_authorized:
 						is_authorized = true
 						on_authorize.emit()
-			
 
-func _dispatch_current_user_update(data):
-	var user_data = JSON.stringify(data)
-	label.text += "\n" + user_data
-
-func _dispatch_activity_instance_participants_update(data):
-	var user_data = JSON.stringify(data)
-	label.text += "\n" + user_data
 
 func update_lobby(json):
 	lobby.id = json.id
@@ -157,5 +135,3 @@ func update_lobby(json):
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
-	
-	
