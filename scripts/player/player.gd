@@ -337,6 +337,7 @@ func die():
 	if shield_timer:
 		shield_timer.set_time_left(0.0)
 	velocity.z = speed
+	heat = min(heat, HEAT_DEATH / 4.0)
 	cur_speed = velocity.z
 	cur_angle = 0.0
 	player_soul.mesh.material.set_shader_parameter("turned_on", true)
