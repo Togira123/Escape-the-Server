@@ -159,6 +159,20 @@ func _process(_delta):
 				elif data["type"] == ServerMessages.GAME_START:
 					# start the game
 					$"/root/Main".start_game()
+				elif data["type"] == ServerMessages.DIED:
+					print("DIED DATA:")
+					print(data)
+					$"/root/Main/Player".check_and_start_revive(data["stage"], data["user_id"])
+				elif data["type"] == ServerMessages.REVIVED:
+					print("REVIVED DATA:")
+					print(data)
+					if data["user_id"] == user_id:
+						# this client has been revived
+						$"/root/Main/Player".revive()
+					else:
+						var revive_node = get_node_or_null("/root/Main/Level/UI/Revive")
+						if revive_node:
+							revive_node.start_disappear_timer(data["by_user_id"])
 
 func request_lobby():
 	var msg = {
@@ -189,7 +203,9 @@ func update_lobby(json):
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
-	$"/root/Main/MainMenu".update_play_button(false)
+	var main_menu = get_node_or_null("/root/Main/MainMenu")
+	if main_menu:
+		main_menu.update_play_button(false)
 
 func leader_start_game():
 	var msg = {
@@ -201,6 +217,20 @@ func set_ready(ready: bool):
 	var msg = {
 		"type": ClientMessages.READY,
 		"ready": ready
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func send_death(stage: int):
+	var msg = {
+		"type": ClientMessages.DEAD,
+		"stage": stage
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func send_revive(target_user_id: String):
+	var msg = {
+		"type": ClientMessages.REVIVE,
+		"target_user_id": target_user_id
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 

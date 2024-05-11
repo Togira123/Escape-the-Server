@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://chr7dnm3o5kug"]
+
+[ext_resource type="Texture2D" uid="uid://bnkijlvekr0xf" path="res://assets/graphics/ui/main_menu/ReviveButtonLeft.png" id="1_e61ok"]
+
+[node name="Left" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_e61ok")

@@ -20,7 +20,7 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	# make all lasers move with the player
-	if not player.is_finished:
+	if player.player_state != player.State.FINISHED:
 		position.z = player.position.z - 20
 	if is_transitioning:
 		if level.stage >= LASER_EMISSION_COLORS.size():

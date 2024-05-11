@@ -36,7 +36,7 @@ func _process(delta):
 			Engine.set_time_scale(1.0)
 			black_screen.queue_free()
 			$Level/UI.visible = false
-			if player.is_finished:
+			if player.player_state == player.State.FINISHED:
 				# player has won
 				var end_menu = END_MENU_VICTORY.instantiate()
 				add_child(end_menu)

@@ -1,0 +1,52 @@
+[gd_scene load_steps=7 format=3 uid="uid://bcxi25dimitc5"]
+
+[ext_resource type="Script" path="res://scripts/ui/revive.gd" id="1_rd0mv"]
+[ext_resource type="PackedScene" uid="uid://dc65mvgn0kdoy" path="res://scenes/ui/revive/down.tscn" id="2_n6cku"]
+[ext_resource type="PackedScene" uid="uid://chr7dnm3o5kug" path="res://scenes/ui/revive/left.tscn" id="3_gcawk"]
+[ext_resource type="PackedScene" uid="uid://cteluwogfqtwi" path="res://scenes/ui/revive/right.tscn" id="4_xe3cb"]
+[ext_resource type="PackedScene" uid="uid://d1qenclfeu0ss" path="res://scenes/ui/revive/up.tscn" id="5_y3ifm"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_32c67"]
+bg_color = Color(0.745098, 0.764706, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[node name="Revive" type="Control"]
+auto_translate_mode = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_rd0mv")
+keys = Array[PackedScene]([ExtResource("2_n6cku"), ExtResource("3_gcawk"), ExtResource("4_xe3cb"), ExtResource("5_y3ifm")])
+
+[node name="Message" type="Label" parent="."]
+auto_translate_mode = 1
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -268.0
+offset_top = 180.0
+offset_right = 268.0
+offset_bottom = 290.0
+grow_horizontal = 2
+theme_override_colors/font_color = Color(0.745098, 0.764706, 1, 1)
+theme_override_font_sizes/font_size = 80
+text = "Revived by Bambus"
+horizontal_alignment = 1
+
+[node name="ProgressBar" type="Panel" parent="."]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 360.0
+offset_top = 550.0
+offset_right = 1560.0
+offset_bottom = 568.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_32c67")
+
+[node name="Keys" type="Node" parent="."]

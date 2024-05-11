@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://d1qenclfeu0ss"]
+
+[ext_resource type="Texture2D" uid="uid://bjytnn4nlfvmf" path="res://assets/graphics/ui/main_menu/ReviveButtonUp.png" id="1_fx8eq"]
+
+[node name="Up" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_fx8eq")

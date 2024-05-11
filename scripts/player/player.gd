@@ -47,8 +47,15 @@ const TELEPORT_DISTANCE = 40
 
 const PLATFORM_LENGTH = [1500, 2000]
 
-var is_dead = false
-var is_finished = false
+enum State {
+	IN_LOBBY,
+	RUNNING,
+	FINISHED, # level completed
+	DEAD
+}
+
+var player_state = State.IN_LOBBY
+
 var has_spinned = false # makes sure players can only roll once after jumping
 
 var has_shield_active = false
@@ -84,7 +91,6 @@ var cur_angle = 0.0
 var spawn_platforms = false
 
 # used to walk to player around randomly in lobby
-var is_playing = false
 var arrived = false
 var x = 6 - (randi() % 12)
 var z = 3 - (randi() % 6)
@@ -95,20 +101,21 @@ func _ready():
 	set_process(false)
 
 func _physics_process(delta):
-	if not is_playing:
+	if player_state == State.IN_LOBBY:
 		# walk user around randomly in lobby
 		walk_around(delta)
 		return
-	if is_finished and camera.position.z + camera.far * 2 < position.z:
+	if player_state == State.FINISHED and camera.position.z + camera.far * 2 < position.z:
+		level.remove_revive_screen_instantly()
 		set_physics_process(false)
-	if is_dead:
+	if player_state == State.DEAD:
 		die_process(delta)
 		return
 	if position.y < -1 or heat > HEAT_DEATH:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
-	if cur_tunnel != -1 or is_finished:
+	if cur_tunnel != -1 or player_state == State.FINISHED:
 		var last = cur_tunnel == level.TUNNELS.size()
 		if is_on_floor():
 			level.stage = cur_tunnel
@@ -132,7 +139,7 @@ func _physics_process(delta):
 
 func _process(_delta):
 	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
-	var pos = position.z if not is_finished else camera.position.z
+	var pos = position.z if player_state != State.FINISHED else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
 		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms)
@@ -261,11 +268,11 @@ func tunnel_process(delta, is_last: bool):
 	if position.y > TUNNEL_SPIN_HEIGHT:
 		reached_height = true
 	if is_last and position.y > TUNNEL_SPIN_HEIGHT / 2:
-		is_finished = true
+		player_state = State.FINISHED
 		set_process(false)
 	if reached_height:
 		# spin
-		if state_machine.get_current_node() == "spin_blend_tree" or is_finished:
+		if state_machine.get_current_node() == "spin_blend_tree" or player_state == State.FINISHED:
 			velocity.y = 0.0
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.z = lerp(velocity.z, TUNNEL_SPEED * (3 if is_last else 1), 0.8)
@@ -307,7 +314,7 @@ func walk_around(delta):
 
 func start_running(delta):
 	set_physics_process(false)
-	is_playing = true
+	player_state = State.RUNNING
 	if state_machine.get_current_node() != "run_blend_tree":
 		state_machine.travel("run_blend_tree")
 	var direction = Vector3(-position.x, 0, 1)
@@ -326,15 +333,18 @@ func start_running(delta):
 
 # initializes player death
 func die():
+	level.remove_revive_screen_instantly()
 	if shield_timer:
 		shield_timer.set_time_left(0.0)
 	velocity.z = speed
 	cur_speed = velocity.z
-	is_dead = true
+	cur_angle = 0.0
 	player_soul.mesh.material.set_shader_parameter("turned_on", true)
 	hitbox_collision_shape.set_deferred("disabled", true)
 	floor_collision.set_deferred("disabled", true)
 	animation_tree.set("parameters/conditions/has_crashed", true)
+	player_state = State.DEAD
+	Client.send_death(level.stage)
 
 # function to process the player death animation
 func die_process(delta):
@@ -371,11 +381,37 @@ func die_process(delta):
 	
 	move_and_slide()
 
+func revive():
+	player_state = State.RUNNING
+	player_soul.mesh.material.set_shader_parameter("turned_on", false)
+	hitbox_collision_shape.set_deferred("disabled", false)
+	floor_collision.set_deferred("disabled", false)
+	animation_tree.set("parameters/conditions/has_crashed", false)
+	state_machine.travel("jump_blend_tree")
+	velocity.y = JUMP_VELOCITY
+	cur_movement = JUMP
+	has_spinned = false # allow the player to spin
+	# maybe fade this later
+	mesh.material_override.set_shader_parameter("dissolve_amount", 0.0)
+	armature.visible = true
+	activate_shield(SHIELD_DURATION / 2.0)
+
+func activate_shield(duration: float):
+	letters_passed = 1
+	shield_timer = get_tree().create_timer(duration, true, true)
+	has_shield_active = true
+	player_shield.mesh.material.set_shader_parameter("alpha", 0.5)
+	level.add_status_effect(level.STATUS_EFFECTS.SHIELD, shield_timer)
+	await shield_timer.timeout
+	has_shield_active = false
+	player_shield.mesh.material.set_shader_parameter("alpha", 0.0)
+	shield_timer = null
+
 func _on_hitbox_area_entered(area: Area3D):
 	player_was_hit(area)
 	
 func _on_hitbox_area_exited(area):
-	if not is_dead and area.name == "ShieldHitbox":
+	if player_state != State.DEAD and area.name == "ShieldHitbox":
 		# apply shield
 		if shield_timer:
 			# there's already an active timer, reset its time
@@ -387,15 +423,7 @@ func _on_hitbox_area_exited(area):
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		else:
 			# create a new timer and reset shield when it ends
-			letters_passed = 1
-			shield_timer = get_tree().create_timer(SHIELD_DURATION, true, true)
-			has_shield_active = true
-			player_shield.mesh.material.set_shader_parameter("alpha", 0.5)
-			level.add_status_effect(level.STATUS_EFFECTS.SHIELD, shield_timer)
-			await shield_timer.timeout
-			has_shield_active = false
-			player_shield.mesh.material.set_shader_parameter("alpha", 0.0)
-			shield_timer = null
+			activate_shield(SHIELD_DURATION)
 		
 	
 func player_was_hit(area: Area3D):
@@ -442,6 +470,12 @@ func _on_animation_tree_animation_started(anim_name):
 		await get_tree().create_timer(0.4, true, true).timeout
 		if cur_movement == ROLL:
 			cur_movement = RUN
+
+func check_and_start_revive(stage: int, target_user_id: String):
+	print("player_state ", player_state == State.RUNNING)
+	if player_state == State.RUNNING:
+		# show revive screen
+		level.show_revive_screen(stage, target_user_id)
 
 func set_color(col: Color):
 	mesh.material_override.set_shader_parameter("albedo", col)

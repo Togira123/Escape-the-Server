@@ -4,6 +4,8 @@ const SHORT_LASER_PIVOT = preload("res://scenes/lasers/laser_pivot_short.tscn")
 const TUNNEL_SCENE = preload("res://scenes/tunnel.tscn")
 const EMPTY_PLATFORM = preload("res://scenes/grounds/ground_plat0.tscn")
 
+const REVIVE = preload("res://scenes/ui/revive/revive.tscn")
+
 # status effects
 const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn")
 
@@ -303,3 +305,24 @@ func change_ability_count(ability: ABILITIES, new_count: int):
 			teleport_ability_sprite.material.set_shader_parameter("alpha", 1.0)
 			teleport_ability_count.visible = true
 			teleport_ability.visible = true
+
+func show_revive_screen(stage: int, target_user_id: String):
+	if not has_node("UI/Revive"):
+		var inst = REVIVE.instantiate()
+		inst.stage = stage
+		inst.target_user_id = target_user_id
+		$UI.add_child(inst)
+	else:
+		var old_revive_node = $UI/Revive
+		if old_revive_node.disappear_timer:
+			# disappear timer is already available, can safely disregard and start new one
+			old_revive_node.name = "OldRevive"
+			old_revive_node.queue_free()
+			var inst = REVIVE.instantiate()
+			inst.stage = stage
+			inst.target_user_id = target_user_id
+			$UI.add_child(inst)
+
+func remove_revive_screen_instantly():
+	if has_node("UI/Revive"):
+		$"UI/Revive".queue_free()

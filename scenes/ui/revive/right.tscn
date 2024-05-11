@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cteluwogfqtwi"]
+
+[ext_resource type="Texture2D" uid="uid://2d1ag6w6m3cw" path="res://assets/graphics/ui/main_menu/ReviveButtonRight.png" id="1_fmau4"]
+
+[node name="Right" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_fmau4")

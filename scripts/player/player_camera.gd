@@ -16,12 +16,15 @@ var cur_cam_speed: float = -1
 # for teleport
 var distance_to_player = 2.0
 
+var player_died = false
+
 func _ready():
 	set_process(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if player.is_dead:
+	if player.player_state == player.State.DEAD:
+		player_died = true
 		if last_player_velocity == 0:
 			last_player_velocity = player.cur_speed
 		rotate_angle = (last_player_velocity - player.cur_speed) * (PI / 4 / last_player_velocity)
@@ -31,7 +34,7 @@ func _process(delta):
 		position.y = player.position.y + 1 + sine * 2
 		position.z = player.position.z - cos(rotate_angle) * 2
 		rotation.x = (-13.8 - (sine * 25)) / 90 * PI
-	elif player.is_finished:
+	elif player.player_state == player.State.FINISHED:
 		if player.reached_height:
 			Engine.set_time_scale(lerp(Engine.time_scale, 1.0, 0.05))
 			if cur_cam_speed == -1:
@@ -49,6 +52,8 @@ func _process(delta):
 			position.x = player.position.x
 			position.z = player.position.z - 2
 	else:
+		if player_died:
+			player_died = move_camera_down(delta)
 		if distance_to_player > 2:
 			distance_to_player = max(distance_to_player - delta * 256, 2)
 		position.z = player.position.z - distance_to_player
@@ -62,6 +67,7 @@ func move_camera_down(delta):
 		rotation.x = -13.8 / 180 * PI
 		position.y = 3
 		set_process(true)
+		time = 0.0
 		return false
 	else:
 		var pos = curve.sample(time);

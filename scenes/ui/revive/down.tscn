@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dc65mvgn0kdoy"]
+
+[ext_resource type="Texture2D" uid="uid://phm8pec7wxu6" path="res://assets/graphics/ui/main_menu/ReviveButtonDown.png" id="1_c37ue"]
+
+[node name="Down" type="TextureRect"]
+offset_right = 40.0
+offset_bottom = 40.0
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_c37ue")

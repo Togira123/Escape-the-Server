@@ -4,6 +4,7 @@ const DEFAULT = preload("res://assets/graphics/ui/main_menu/tab_default.png")
 const SELECTED = preload("res://assets/graphics/ui/main_menu/tab_selected.png")
 
 @onready var tab_bar = $TabBar
+@onready var settings_button_text = $"0/ButtonText"
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:
@@ -24,7 +25,9 @@ func close():
 func _on_check_button_toggled(toggled_on: bool):
 	if toggled_on:
 		InputMap.load_from_project_settings()
+		settings_button_text.modulate = Color("ffffff")
 	else:
+		settings_button_text.modulate = Color("737373")
 		# use non-default keybinds
 		InputMap.action_erase_events("jump")
 		InputMap.action_erase_events("roll")
