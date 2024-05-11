@@ -23,6 +23,8 @@ var black_screen: ColorRect
 func _ready():
 	if Client.is_authorized:
 		Client.request_lobby()
+		Client.lobby.members[Client.user_id].running = false
+		Client.update_user()
 	else:
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()

@@ -11,6 +11,8 @@ uniform sampler2D dissolve_texture;
 uniform float burn_size : hint_range(0,2);
 uniform float dissolve_amount : hint_range(0,1);
 
+uniform bool half_transparent = false;
+
 void fragment() {
    vec4 albedo_tex = texture(texture_albedo,UV);
    ALBEDO = albedo.rgb * albedo_tex.rgb;
@@ -19,4 +21,8 @@ void fragment() {
    float emission_value = 1.0 - smoothstep(dissolve_amount, dissolve_amount + burn_size, sample);
    //EMISSION = vec3(emission_value * emission_amount * emission_color.rgb);
    ALPHA = smoothstep(dissolve_amount - burn_size, dissolve_amount, sample);
+
+   if (half_transparent && !(floor(UV.y * 100.0) + 0.5 > UV.y * 100.0)) {
+      ALPHA = 0.0;
+   }
 }

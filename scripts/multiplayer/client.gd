@@ -17,7 +17,6 @@ enum ClientMessages {
 	USER_CHANGE,
 	START_GAME,
 	LOBBY,
-	READY,
 	DEAD,
 	REVIVE
 }
@@ -50,11 +49,21 @@ class User:
 	var username: String
 	var global_name: String
 	var is_ready: bool
-	func _init(_id, _username, _global_name, _is_ready):
+	var running: bool
+	func _init(_id, _username, _global_name, _is_ready, _running):
 		id = _id
 		username = _username
 		global_name = _global_name
 		is_ready = _is_ready
+		running = _running
+	func toJSON():
+		return {
+			"id": id,
+			"username": username,
+			"global_name": global_name,
+			"is_ready": is_ready,
+			"running": running
+		}
 
 
 class Lobby:
@@ -181,9 +190,9 @@ func update_lobby(json):
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
 	var other_players = get_tree().get_nodes_in_group("other_players")
-	
+	print(json.members)
 	for member in json.members:
-		var user = User.new(member.id, member.username, member.global_name, member.is_ready)
+		var user = User.new(member.id, member.username, member.global_name, member.is_ready, member.running)
 		lobby.members[user.id] = user
 		if member.id == user_id:
 			# do not add additional player node for the player that runs this game
@@ -194,11 +203,15 @@ func update_lobby(json):
 			var inst = PLAYER.instantiate()
 			inst.user_id = member.id
 			inst.add_to_group("other_players")
+			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[inst.user_id].running)
 			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
+		else:
+			# update the player model
+			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[player.user_id].running)
 	var main_menu = get_node_or_null("/root/Main/MainMenu")
 	if main_menu:
 		main_menu.update_play_button(false)
@@ -210,11 +223,8 @@ func leader_start_game():
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
 func set_ready(ready: bool):
-	var msg = {
-		"type": ClientMessages.READY,
-		"ready": ready
-	}
-	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+	lobby.members[user_id].is_ready = ready
+	update_user()
 
 func send_death(stage: int):
 	var msg = {
@@ -230,10 +240,11 @@ func send_revive(target_user_id: String):
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
-func update_settings():
+# used to update settings or user state
+func update_user():
 	var msg = {
 		"type": ClientMessages.USER_CHANGE,
-		"user": lobby.members[user_id],
+		"user": lobby.members[user_id].toJSON(),
 		"settings": settings
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
