@@ -160,12 +160,8 @@ func _process(_delta):
 					# start the game
 					$"/root/Main".start_game()
 				elif data["type"] == ServerMessages.DIED:
-					print("DIED DATA:")
-					print(data)
 					$"/root/Main/Player".check_and_start_revive(data["stage"], data["user_id"])
 				elif data["type"] == ServerMessages.REVIVED:
-					print("REVIVED DATA:")
-					print(data)
 					if data["user_id"] == user_id:
 						# this client has been revived
 						$"/root/Main/Player".revive()
