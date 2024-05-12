@@ -117,7 +117,7 @@ func _physics_process(delta):
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or player_state == State.FINISHED:
 		var last = cur_tunnel == level.TUNNELS.size()
-		if is_on_floor():
+		if not jumped_in_tunnel:
 			level.stage = cur_tunnel
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
@@ -479,4 +479,5 @@ func check_and_start_revive(stage: int, target_user_id: String):
 		level.show_revive_screen(stage, target_user_id)
 
 func set_color(col: Color):
+	Client.lobby.members[Client.user_id].color = col.to_html(false)
 	mesh.material_override.set_shader_parameter("albedo", col)

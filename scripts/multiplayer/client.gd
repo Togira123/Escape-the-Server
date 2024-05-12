@@ -50,19 +50,22 @@ class User:
 	var global_name: String
 	var is_ready: bool
 	var running: bool
-	func _init(_id, _username, _global_name, _is_ready, _running):
+	var color: String
+	func _init(_id, _username, _global_name, _is_ready, _running, _color):
 		id = _id
 		username = _username
 		global_name = _global_name
 		is_ready = _is_ready
 		running = _running
+		color = _color
 	func toJSON():
 		return {
 			"id": id,
 			"username": username,
 			"global_name": global_name,
 			"is_ready": is_ready,
-			"running": running
+			"running": running,
+			"color": color
 		}
 
 
@@ -178,7 +181,11 @@ func _process(_delta):
 						var revive_node = get_node_or_null("/root/Main/Level/UI/Revive")
 						if revive_node:
 							revive_node.start_disappear_timer(data["by_user_id"])
-
+	elif state == WebSocketPeer.STATE_CLOSED:
+		# reconnect
+		_sent_initial_packet = false
+		print("RECONNECTING")
+		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
 func request_lobby():
 	var msg = {
 		"type": ClientMessages.LOBBY,
@@ -192,7 +199,7 @@ func update_lobby(json):
 	var other_players = get_tree().get_nodes_in_group("other_players")
 	print(json.members)
 	for member in json.members:
-		var user = User.new(member.id, member.username, member.global_name, member.is_ready, member.running)
+		var user = User.new(member.id, member.username, member.global_name, member.is_ready, member.running, member.color)
 		lobby.members[user.id] = user
 		if member.id == user_id:
 			# do not add additional player node for the player that runs this game
@@ -204,6 +211,7 @@ func update_lobby(json):
 			inst.user_id = member.id
 			inst.add_to_group("other_players")
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[inst.user_id].running)
+			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[inst.user_id].color))
 			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
@@ -212,6 +220,9 @@ func update_lobby(json):
 		else:
 			# update the player model
 			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[player.user_id].running)
+			if player.user_id != user_id:
+				# this user's player model is updated instantly in the code
+				player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[player.user_id].color))
 	var main_menu = get_node_or_null("/root/Main/MainMenu")
 	if main_menu:
 		main_menu.update_play_button(false)

@@ -20,6 +20,7 @@ func _ready():
 		await Client.on_authorize
 	update_play_button(true)
 	settings_check_button.set_pressed(Client.settings["default_keybinds"])
+	player.set_color(Color(Client.lobby.members[Client.user_id].color))
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:

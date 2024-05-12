@@ -17,4 +17,5 @@ shader_parameter/emission_color = Color(1, 1, 1, 1)
 shader_parameter/emission_amount = null
 shader_parameter/burn_size = null
 shader_parameter/dissolve_amount = 0.0
+shader_parameter/half_transparent = false
 shader_parameter/dissolve_texture = SubResource("NoiseTexture2D_88pp6")

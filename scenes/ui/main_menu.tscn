@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=60 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -22,6 +22,15 @@
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/tab_bar.gd" id="20_4yxtl"]
 [ext_resource type="Texture2D" uid="uid://dwee2sd4syc3i" path="res://assets/graphics/ui/main_menu/CheckOn.png" id="20_olcb7"]
 [ext_resource type="Texture2D" uid="uid://dm4cagtduw47l" path="res://assets/graphics/ui/main_menu/CheckOff.png" id="21_7gwww"]
+[ext_resource type="Texture2D" uid="uid://e661nlbi4pbr" path="res://assets/graphics/ui/main_menu/WhiteCircle.png" id="22_kpu46"]
+[ext_resource type="Script" path="res://scripts/ui/settings_menu/color_picker.gd" id="22_uxsbl"]
+[ext_resource type="Shader" path="res://shaders/ui/color_picker.gdshader" id="22_vxrjn"]
+[ext_resource type="Shader" path="res://shaders/ui/circle_outline.gdshader" id="25_8egnu"]
+[ext_resource type="Texture2D" uid="uid://r8wvpfbm6utt" path="res://assets/graphics/ui/main_menu/WhiteCircleTiny.png" id="25_ektvl"]
+[ext_resource type="Shader" path="res://shaders/ui/slider_b.gdshader" id="27_gj7am"]
+[ext_resource type="Shader" path="res://shaders/ui/slider_r.gdshader" id="27_v4q0y"]
+[ext_resource type="Shader" path="res://shaders/ui/slider_g.gdshader" id="27_ydg7u"]
+[ext_resource type="Shader" path="res://shaders/ui/slider_v.gdshader" id="30_0gfqb"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -58,6 +67,103 @@ texture = ExtResource("17_60w33")
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_p1hbu"]
 texture = ExtResource("18_bsjgq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_01gva"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m3nt1"]
+shader = ExtResource("22_vxrjn")
+shader_parameter/value = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_d56ba"]
+shader = ExtResource("25_8egnu")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lsq7b"]
+bg_color = Color(0.066755, 0.066755, 0.0667549, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkgax"]
+shader = ExtResource("27_v4q0y")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7o0ko"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(1, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8c47i"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbnji"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7avwa"]
+shader = ExtResource("27_ydg7u")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhd1r"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 1, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dutkr"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48wh4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_110un"]
+shader = ExtResource("27_gj7am")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26ynh"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7qf2u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l5ub"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ev2vs"]
+shader = ExtResource("30_0gfqb")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7rpi"]
+content_margin_left = 4.0
+content_margin_top = 4.0
+content_margin_right = 4.0
+content_margin_bottom = 4.0
+bg_color = Color(0.498039, 0.498039, 0.498039, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+corner_detail = 6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7eu2r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7xc4"]
 
 [node name="MainMenu" type="Control"]
 auto_translate_mode = 1
@@ -483,6 +589,7 @@ text = "Keybinds"
 
 [node name="ButtonText" type="Label" parent="Settings/0"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 235.0
 offset_top = 239.0
 offset_right = 779.0
@@ -522,8 +629,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("12_luv01")
+script = ExtResource("22_uxsbl")
 
-[node name="Keybinds" type="Label" parent="Settings/1"]
+[node name="PlayerCustomization" type="Label" parent="Settings/1"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 117.0
@@ -532,78 +640,159 @@ offset_right = 440.0
 offset_bottom = 183.0
 theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
-text = "Keybinds"
+text = "Player Customization"
 
-[node name="GridContainer" type="GridContainer" parent="Settings/1"]
+[node name="PlayerColor" type="Label" parent="Settings/1"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 297.0
+offset_right = 318.0
+offset_bottom = 345.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 35
+text = "Player Color:"
+
+[node name="ChosenColor" type="Panel" parent="Settings/1"]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 308.0
+offset_right = 530.0
+offset_bottom = 334.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_01gva")
+
+[node name="ColorWheel" type="TextureRect" parent="Settings/1"]
+modulate = Color(0.851658, 0.770726, 1, 1)
+material = SubResource("ShaderMaterial_m3nt1")
+layout_mode = 1
+offset_left = 545.0
+offset_top = 306.0
+offset_right = 1345.0
+offset_bottom = 1106.0
+scale = Vector2(0.25, 0.25)
+pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
+texture = ExtResource("22_kpu46")
+
+[node name="ColorWheelDot" type="TextureRect" parent="Settings/1"]
+modulate = Color(0, 0, 0, 1)
+material = SubResource("ShaderMaterial_d56ba")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -95.0
+offset_top = -32.0
+offset_right = -79.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(8, 8)
+mouse_filter = 0
+mouse_default_cursor_shape = 6
+texture = ExtResource("25_ektvl")
+
+[node name="Hex" type="LineEdit" parent="Settings/1"]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 351.0
+offset_right = 530.0
+offset_bottom = 382.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_lsq7b")
+text = "#123456"
+
+[node name="SliderR" type="HSlider" parent="Settings/1"]
+material = SubResource("ShaderMaterial_dkgax")
+layout_mode = 0
+offset_left = 332.0
+offset_top = 402.0
+offset_right = 530.0
+offset_bottom = 418.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_7o0ko")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_8c47i")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_fbnji")
+max_value = 255.0
+
+[node name="SliderG" type="HSlider" parent="Settings/1"]
+auto_translate_mode = 1
+material = SubResource("ShaderMaterial_7avwa")
+layout_mode = 0
+offset_left = 332.0
+offset_top = 447.0
+offset_right = 530.0
+offset_bottom = 463.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_vhd1r")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_dutkr")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_48wh4")
+max_value = 255.0
+
+[node name="SliderB" type="HSlider" parent="Settings/1"]
+auto_translate_mode = 1
+material = SubResource("ShaderMaterial_110un")
+layout_mode = 0
+offset_left = 332.0
+offset_top = 493.0
+offset_right = 530.0
+offset_bottom = 509.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_26ynh")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_7qf2u")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_4l5ub")
+max_value = 255.0
+rounded = true
+scrollable = false
+
+[node name="SliderV" type="VSlider" parent="Settings/1"]
+material = SubResource("ShaderMaterial_ev2vs")
+layout_mode = 0
+offset_left = 759.0
+offset_top = 308.0
+offset_right = 775.0
+offset_bottom = 506.0
+theme_override_styles/slider = SubResource("StyleBoxFlat_l7rpi")
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_7eu2r")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_i7xc4")
+max_value = 1.0
+step = 2.08165e-12
+value = 1.0
+
+[node name="R" type="Label" parent="Settings/1"]
+layout_mode = 0
+offset_left = 315.0
+offset_top = 398.0
+offset_right = 325.0
+offset_bottom = 421.0
+theme_override_fonts/font = ExtResource("4_meqxb")
+text = "R"
+
+[node name="G" type="Label" parent="Settings/1"]
 auto_translate_mode = 1
 layout_mode = 0
-offset_left = 118.0
-offset_top = 222.0
-offset_right = 1369.0
-offset_bottom = 676.0
-theme_override_constants/h_separation = 200
-theme_override_constants/v_separation = 30
-columns = 2
+offset_left = 315.0
+offset_top = 443.0
+offset_right = 325.0
+offset_bottom = 466.0
+theme_override_fonts/font = ExtResource("4_meqxb")
+text = "G"
 
-[node name="Left" type="Label" parent="Settings/1/GridContainer"]
+[node name="B" type="Label" parent="Settings/1"]
 auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Strive Left"
+layout_mode = 0
+offset_left = 315.0
+offset_top = 488.0
+offset_right = 326.0
+offset_bottom = 511.0
+theme_override_fonts/font = ExtResource("4_meqxb")
+text = "B"
 
-[node name="KeyLeft" type="Label" parent="Settings/1/GridContainer"]
+[node name="V" type="Label" parent="Settings/1"]
 auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "A/Arrow Left"
-
-[node name="Right" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Strive Right"
-
-[node name="RightKey" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "D/Arrow Right"
-
-[node name="Jump" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Jump/Spin (when mid-air)"
-
-[node name="JumpKey" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Space/Arrow Up"
-
-[node name="Roll" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Roll"
-
-[node name="RollKey" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Shift/Arrow Down"
-
-[node name="UseItem" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Use Item"
-
-[node name="UseItemKey" type="Label" parent="Settings/1/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "E"
+layout_mode = 0
+offset_left = 762.0
+offset_top = 287.0
+offset_right = 772.0
+offset_bottom = 310.0
+theme_override_fonts/font = ExtResource("4_meqxb")
+text = "V"
 
 [node name="TabBar" type="TabBar" parent="Settings"]
 auto_translate_mode = 1
@@ -678,6 +867,12 @@ icon_alignment = 1
 [connection signal="pressed" from="Help/ArrowLeft" to="Help/TabBar" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Help/ArrowRight" to="Help/TabBar" method="_on_arrow_right_pressed"]
 [connection signal="toggled" from="Settings/0/CheckButton" to="Settings" method="_on_check_button_toggled"]
+[connection signal="gui_input" from="Settings/1/ColorWheelDot" to="Settings/1" method="_on_color_wheel_dot_gui_input"]
+[connection signal="text_submitted" from="Settings/1/Hex" to="Settings/1" method="_on_hex_text_submitted"]
+[connection signal="value_changed" from="Settings/1/SliderR" to="Settings/1" method="_on_slider_r_value_changed"]
+[connection signal="value_changed" from="Settings/1/SliderG" to="Settings/1" method="_on_slider_g_value_changed"]
+[connection signal="value_changed" from="Settings/1/SliderB" to="Settings/1" method="_on_slider_b_value_changed"]
+[connection signal="value_changed" from="Settings/1/SliderV" to="Settings/1" method="_on_slider_v_value_changed"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Settings/ArrowLeft" to="Settings/TabBar" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Settings/ArrowRight" to="Settings/TabBar" method="_on_arrow_right_pressed"]
