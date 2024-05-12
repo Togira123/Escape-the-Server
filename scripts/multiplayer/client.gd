@@ -44,6 +44,8 @@ var connecting_to_server_percentage = 0.0
 
 var ping_timer: SceneTreeTimer = null
 
+var showed_loading_screen = false
+
 class User:
 	var id: String # discord user id
 	var username: String

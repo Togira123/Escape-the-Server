@@ -18,6 +18,7 @@ signal game_over
 @onready var floor_collision = $FloorCollision
 @onready var constants = $"../Constants"
 @onready var camera = $"../PlayerCamera"
+@onready var name_tag = $NameTag
 
 var speed = 50
 const RUN_SPEEDS = [50, 65, 80]
@@ -99,6 +100,13 @@ var user_id: String # is set in the client.gd script if it's another player
 
 func _ready():
 	set_process(false)
+	if not Client.is_authorized:
+		await Client.on_authorize
+	if user_id and user_id.length() > 0:
+		name_tag.text = Client.lobby.members[user_id].global_name
+	else:
+		name_tag.text = Client.lobby.members[Client.user_id].global_name
+	name_tag.visible = true
 
 func _physics_process(delta):
 	if player_state == State.IN_LOBBY:
@@ -313,6 +321,7 @@ func walk_around(delta):
 		arrived = move_to_random_point(x, z, delta)
 
 func start_running(delta):
+	name_tag.visible = false
 	set_physics_process(false)
 	player_state = State.RUNNING
 	if state_machine.get_current_node() != "run_blend_tree":

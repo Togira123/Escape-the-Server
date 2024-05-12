@@ -11,7 +11,7 @@ signal game_start
 @onready var not_ready_button = $NotReady
 @onready var not_all_players_ready = $NotAllPlayersReady
 
-@onready var settings_check_button = $"Settings/0/CheckButton"
+@onready var settings_check_button = $"Settings/1/CheckButton"
 
 var not_all_players_ready_timer: SceneTreeTimer = null
 

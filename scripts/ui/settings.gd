@@ -4,7 +4,7 @@ const DEFAULT = preload("res://assets/graphics/ui/main_menu/tab_default.png")
 const SELECTED = preload("res://assets/graphics/ui/main_menu/tab_selected.png")
 
 @onready var tab_bar = $TabBar
-@onready var settings_button_text = $"0/ButtonText"
+@onready var settings_button_text = $"1/ButtonText"
 
 func _unhandled_input(event):
 	if event is InputEventKey and event.pressed and event.keycode == KEY_ESCAPE:

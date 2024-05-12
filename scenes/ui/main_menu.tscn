@@ -575,63 +575,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("12_luv01")
-
-[node name="Keybinds" type="Label" parent="Settings/0"]
-auto_translate_mode = 1
-layout_mode = 0
-offset_left = 117.0
-offset_top = 75.0
-offset_right = 440.0
-offset_bottom = 183.0
-theme_override_fonts/font = ExtResource("13_jhkct")
-theme_override_font_sizes/font_size = 80
-text = "Keybinds"
-
-[node name="ButtonText" type="Label" parent="Settings/0"]
-auto_translate_mode = 1
-layout_mode = 0
-offset_left = 235.0
-offset_top = 239.0
-offset_right = 779.0
-offset_bottom = 280.0
-theme_override_font_sizes/font_size = 30
-text = "Use A/D/Shift/Space to control the player"
-autowrap_mode = 3
-
-[node name="Description" type="Label" parent="Settings/0"]
-auto_translate_mode = 1
-layout_mode = 0
-offset_left = 117.0
-offset_top = 297.0
-offset_right = 1361.0
-offset_bottom = 426.0
-theme_override_font_sizes/font_size = 30
-text = "If unchecked, the four arrow keys are used to control the player instead. Note that in that case the W/A/S/D keys are used to revive other players in multiplayer mode."
-autowrap_mode = 3
-
-[node name="CheckButton" type="CheckButton" parent="Settings/0"]
-layout_mode = 0
-offset_left = 117.0
-offset_top = 204.0
-offset_right = 337.0
-offset_bottom = 424.0
-scale = Vector2(0.5, 0.5)
-theme_override_icons/checked = ExtResource("20_olcb7")
-theme_override_icons/unchecked = ExtResource("21_7gwww")
-
-[node name="1" type="Control" parent="Settings"]
-auto_translate_mode = 1
-visible = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("12_luv01")
 script = ExtResource("22_uxsbl")
 
-[node name="PlayerCustomization" type="Label" parent="Settings/1"]
+[node name="PlayerCustomization" type="Label" parent="Settings/0"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 117.0
@@ -642,7 +588,7 @@ theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
 text = "Player Customization"
 
-[node name="PlayerColor" type="Label" parent="Settings/1"]
+[node name="PlayerColor" type="Label" parent="Settings/0"]
 layout_mode = 0
 offset_left = 117.0
 offset_top = 297.0
@@ -652,7 +598,7 @@ theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 35
 text = "Player Color:"
 
-[node name="ChosenColor" type="Panel" parent="Settings/1"]
+[node name="ChosenColor" type="Panel" parent="Settings/0"]
 layout_mode = 0
 offset_left = 332.0
 offset_top = 308.0
@@ -660,7 +606,7 @@ offset_right = 530.0
 offset_bottom = 334.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_01gva")
 
-[node name="ColorWheel" type="TextureRect" parent="Settings/1"]
+[node name="ColorWheel" type="TextureRect" parent="Settings/0"]
 modulate = Color(0.851658, 0.770726, 1, 1)
 material = SubResource("ShaderMaterial_m3nt1")
 layout_mode = 1
@@ -672,7 +618,7 @@ scale = Vector2(0.25, 0.25)
 pivot_offset = Vector2(2.08165e-12, 2.08165e-12)
 texture = ExtResource("22_kpu46")
 
-[node name="ColorWheelDot" type="TextureRect" parent="Settings/1"]
+[node name="ColorWheelDot" type="TextureRect" parent="Settings/0"]
 modulate = Color(0, 0, 0, 1)
 material = SubResource("ShaderMaterial_d56ba")
 layout_mode = 1
@@ -692,7 +638,7 @@ mouse_filter = 0
 mouse_default_cursor_shape = 6
 texture = ExtResource("25_ektvl")
 
-[node name="Hex" type="LineEdit" parent="Settings/1"]
+[node name="Hex" type="LineEdit" parent="Settings/0"]
 layout_mode = 0
 offset_left = 332.0
 offset_top = 351.0
@@ -701,7 +647,7 @@ offset_bottom = 382.0
 theme_override_styles/normal = SubResource("StyleBoxFlat_lsq7b")
 text = "#123456"
 
-[node name="SliderR" type="HSlider" parent="Settings/1"]
+[node name="SliderR" type="HSlider" parent="Settings/0"]
 material = SubResource("ShaderMaterial_dkgax")
 layout_mode = 0
 offset_left = 332.0
@@ -713,7 +659,7 @@ theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_8c47i")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_fbnji")
 max_value = 255.0
 
-[node name="SliderG" type="HSlider" parent="Settings/1"]
+[node name="SliderG" type="HSlider" parent="Settings/0"]
 auto_translate_mode = 1
 material = SubResource("ShaderMaterial_7avwa")
 layout_mode = 0
@@ -726,7 +672,7 @@ theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_dutkr")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_48wh4")
 max_value = 255.0
 
-[node name="SliderB" type="HSlider" parent="Settings/1"]
+[node name="SliderB" type="HSlider" parent="Settings/0"]
 auto_translate_mode = 1
 material = SubResource("ShaderMaterial_110un")
 layout_mode = 0
@@ -741,7 +687,7 @@ max_value = 255.0
 rounded = true
 scrollable = false
 
-[node name="SliderV" type="VSlider" parent="Settings/1"]
+[node name="SliderV" type="VSlider" parent="Settings/0"]
 material = SubResource("ShaderMaterial_ev2vs")
 layout_mode = 0
 offset_left = 759.0
@@ -755,7 +701,7 @@ max_value = 1.0
 step = 2.08165e-12
 value = 1.0
 
-[node name="R" type="Label" parent="Settings/1"]
+[node name="R" type="Label" parent="Settings/0"]
 layout_mode = 0
 offset_left = 315.0
 offset_top = 398.0
@@ -764,7 +710,7 @@ offset_bottom = 421.0
 theme_override_fonts/font = ExtResource("4_meqxb")
 text = "R"
 
-[node name="G" type="Label" parent="Settings/1"]
+[node name="G" type="Label" parent="Settings/0"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 315.0
@@ -774,7 +720,7 @@ offset_bottom = 466.0
 theme_override_fonts/font = ExtResource("4_meqxb")
 text = "G"
 
-[node name="B" type="Label" parent="Settings/1"]
+[node name="B" type="Label" parent="Settings/0"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 315.0
@@ -784,7 +730,7 @@ offset_bottom = 511.0
 theme_override_fonts/font = ExtResource("4_meqxb")
 text = "B"
 
-[node name="V" type="Label" parent="Settings/1"]
+[node name="V" type="Label" parent="Settings/0"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 762.0
@@ -793,6 +739,60 @@ offset_right = 772.0
 offset_bottom = 310.0
 theme_override_fonts/font = ExtResource("4_meqxb")
 text = "V"
+
+[node name="1" type="Control" parent="Settings"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_luv01")
+
+[node name="Keybinds" type="Label" parent="Settings/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 440.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Keybinds"
+
+[node name="ButtonText" type="Label" parent="Settings/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 235.0
+offset_top = 239.0
+offset_right = 779.0
+offset_bottom = 280.0
+theme_override_font_sizes/font_size = 30
+text = "Use A/D/Shift/Space to control the player"
+autowrap_mode = 3
+
+[node name="Description" type="Label" parent="Settings/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 297.0
+offset_right = 1361.0
+offset_bottom = 426.0
+theme_override_font_sizes/font_size = 30
+text = "If unchecked, the four arrow keys are used to control the player instead. Note that in that case the W/A/S/D keys are used to revive other players in multiplayer mode."
+autowrap_mode = 3
+
+[node name="CheckButton" type="CheckButton" parent="Settings/1"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 204.0
+offset_right = 337.0
+offset_bottom = 424.0
+scale = Vector2(0.5, 0.5)
+theme_override_icons/checked = ExtResource("20_olcb7")
+theme_override_icons/unchecked = ExtResource("21_7gwww")
 
 [node name="TabBar" type="TabBar" parent="Settings"]
 auto_translate_mode = 1
@@ -866,13 +866,13 @@ icon_alignment = 1
 [connection signal="tab_changed" from="Help/TabBar" to="Help" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Help/ArrowLeft" to="Help/TabBar" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Help/ArrowRight" to="Help/TabBar" method="_on_arrow_right_pressed"]
-[connection signal="toggled" from="Settings/0/CheckButton" to="Settings" method="_on_check_button_toggled"]
-[connection signal="gui_input" from="Settings/1/ColorWheelDot" to="Settings/1" method="_on_color_wheel_dot_gui_input"]
-[connection signal="text_submitted" from="Settings/1/Hex" to="Settings/1" method="_on_hex_text_submitted"]
-[connection signal="value_changed" from="Settings/1/SliderR" to="Settings/1" method="_on_slider_r_value_changed"]
-[connection signal="value_changed" from="Settings/1/SliderG" to="Settings/1" method="_on_slider_g_value_changed"]
-[connection signal="value_changed" from="Settings/1/SliderB" to="Settings/1" method="_on_slider_b_value_changed"]
-[connection signal="value_changed" from="Settings/1/SliderV" to="Settings/1" method="_on_slider_v_value_changed"]
+[connection signal="gui_input" from="Settings/0/ColorWheelDot" to="Settings/0" method="_on_color_wheel_dot_gui_input"]
+[connection signal="text_submitted" from="Settings/0/Hex" to="Settings/0" method="_on_hex_text_submitted"]
+[connection signal="value_changed" from="Settings/0/SliderR" to="Settings/0" method="_on_slider_r_value_changed"]
+[connection signal="value_changed" from="Settings/0/SliderG" to="Settings/0" method="_on_slider_g_value_changed"]
+[connection signal="value_changed" from="Settings/0/SliderB" to="Settings/0" method="_on_slider_b_value_changed"]
+[connection signal="value_changed" from="Settings/0/SliderV" to="Settings/0" method="_on_slider_v_value_changed"]
+[connection signal="toggled" from="Settings/1/CheckButton" to="Settings" method="_on_check_button_toggled"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Settings/ArrowLeft" to="Settings/TabBar" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Settings/ArrowRight" to="Settings/TabBar" method="_on_arrow_right_pressed"]
