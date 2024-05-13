@@ -56,6 +56,8 @@ func _process(delta):
 			player_died = move_camera_down(delta)
 		if distance_to_player > 2:
 			distance_to_player = max(distance_to_player - delta * 256, 2)
+		elif distance_to_player < 2:
+			distance_to_player = 2
 		position.z = player.position.z - distance_to_player
 		position.x = player.position.x
 		position.y = player.position.y + 1

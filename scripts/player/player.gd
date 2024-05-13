@@ -226,8 +226,14 @@ func run(delta):
 	if Input.is_action_just_pressed("use_item") and teleport_count > 0:
 		teleport_count -= 1
 		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
-		position.z += TELEPORT_DISTANCE
-		camera.distance_to_player = TELEPORT_DISTANCE
+		if level.TUNNELS[level.next_tunnel - 1] < position.z + TELEPORT_DISTANCE:
+			# tp 3 meters before tunnel if there is one in front
+			var tp_dist = 0 if level.TUNNELS[level.next_tunnel - 1] - 3 < position.z else level.TUNNELS[level.next_tunnel - 1] - 3
+			position.z += tp_dist
+			camera.distance_to_player = max(2, tp_dist)
+		else:
+			position.z += TELEPORT_DISTANCE
+			camera.distance_to_player = TELEPORT_DISTANCE
 	
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
