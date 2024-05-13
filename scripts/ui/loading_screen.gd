@@ -3,14 +3,14 @@ extends Control
 @onready var player_camera = $"../PlayerCamera"
 @onready var level_ui = $"../Level/UI/"
 var TUNNEL = preload("res://scenes/tunnel.tscn")
-var PLAYER = preload("res://scenes/player/player.tscn")
 
-var player
+@onready var player = $"../Player"
 
 var frames = 5
 var old_pos: Vector3
 var old_rot: Vector3
 
+var prev_player_pos
 var prev_shield_val
 var prev_heat_bar_val
 var prev_heat_effect_val
@@ -32,9 +32,8 @@ func _process(_delta):
 		var tunnel = TUNNEL.instantiate()
 		tunnel.position.z = 150
 		add_child(tunnel)
-		player = PLAYER.instantiate()
+		prev_player_pos = player.position.z
 		player.position.z = 10
-		add_child(player)
 		frames -= 1
 	elif frames > 0:
 		if frames == 4:
@@ -56,6 +55,7 @@ func _process(_delta):
 			level_ui.get_node("HeatEffect").material.set_shader_parameter("alpha", prev_heat_effect_val)
 			level_ui.get_node("Arrow").visible = false
 			$"../MainMenu".get_node("Settings").visible = false
+			player.position.z = prev_player_pos
 			print("Preload finished!")
 			Client.showed_loading_screen = true
 		frames -= 1

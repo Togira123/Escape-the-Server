@@ -4,8 +4,8 @@ class_name MultiplayerClient
 
 signal on_authorize
 
-#const APP_ID = "1221502156880744499"
-const APP_ID = "1237787957872562247"
+const APP_ID = "1221502156880744499"
+#const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 
 const PLAYER = preload("res://scenes/player/player.tscn")
@@ -104,7 +104,7 @@ func init():
 	hreq.accept_gzip = false
 	add_child(hreq)
 	hreq.request(
-		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"] + "&lobby_id=" + Discord.guild_id + Discord.instance_id,
+		"https://" + DISCORDSAYS + "/api/auth?code=" + auth["code"],
 		["Content-Type: application/x-www-form-urlencoded"],
 		HTTPClient.METHOD_POST
 	)
@@ -155,6 +155,8 @@ func _process(_delta):
 			if packet != null:
 				var data_string = packet.get_string_from_utf8()
 				var data = JSON.parse_string(data_string)
+				print("Received Packet:")
+				print(data)
 				if data["type"] == ServerMessages.ERROR:
 					# handle error
 					if data["message"] == "LOBBY_NOT_READY": # sent as response to START_GAME
@@ -184,6 +186,8 @@ func _process(_delta):
 						if revive_node:
 							revive_node.start_disappear_timer(data["by_user_id"])
 	elif state == WebSocketPeer.STATE_CLOSED:
+		print("Closed because of:")
+		print(peer.get_close_code())
 		# reconnect
 		_sent_initial_packet = false
 		print("RECONNECTING")
