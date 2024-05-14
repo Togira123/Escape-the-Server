@@ -56,8 +56,9 @@ func _physics_process(delta):
 		letter.position.y -= frozen_letters_vel * delta
 
 func spawn_sentence():
-	var letter_scale = (randi() % 4) + 5
-	var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)
+	#var letter_scale = (randi() % 4) + 5
+	var letter_scale = 7
+	#var scale_vec = Vector3(letter_scale, letter_scale, letter_scale)
 	var sentence = constants.get_random_sentence().to_upper()
 	#var rotation_y = (40 - (randi() % 80)) * (PI / 180.0)
 	var cur_x_pos = len(sentence) * letter_scale + (50 - (randi() % 100))
@@ -68,10 +69,11 @@ func spawn_sentence():
 			continue
 		if not letter_dict.has(sentence[i]):
 			continue
+		#var letter = letter_dict[sentence[i]]
 		var letter = letter_dict[sentence[i]]
 		var instance = letter.instantiate()
 		# always scale the texture
-		instance.get_node("Pivot").scale = scale_vec
+		#instance.get_node("Pivot").scale = scale_vec
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * letter_scale
 		
 		instance.position.x = cur_x_pos - width / 2
@@ -81,11 +83,11 @@ func spawn_sentence():
 			if instance.has_node("ShieldHitbox"):
 				instance.get_node("ShieldHitbox").queue_free()
 			frozen_letters.append(instance)
-		else:
-			instance.get_node("LetterHitbox").scale = scale_vec
-			instance.get_node("GroundCollisionDetector").scale = scale_vec
-			if instance.has_node("ShieldHitbox"):
-				instance.get_node("ShieldHitbox").scale = scale_vec
+		#else:
+			#instance.get_node("LetterHitbox").scale = scale_vec
+			#instance.get_node("GroundCollisionDetector").scale = scale_vec
+			#if instance.has_node("ShieldHitbox"):
+			#	instance.get_node("ShieldHitbox").scale = scale_vec
 		cur_x_pos -= width + 2
 		instance.position.y = height
 		instance.rotation.y = PI
