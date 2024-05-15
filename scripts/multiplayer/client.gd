@@ -155,8 +155,6 @@ func _process(_delta):
 			if packet != null:
 				var data_string = packet.get_string_from_utf8()
 				var data = JSON.parse_string(data_string)
-				print("Received Packet:")
-				print(data)
 				if data["type"] == ServerMessages.ERROR:
 					# handle error
 					if data["message"] == "LOBBY_NOT_READY": # sent as response to START_GAME
@@ -186,8 +184,7 @@ func _process(_delta):
 						if revive_node:
 							revive_node.start_disappear_timer(data["by_user_id"])
 	elif state == WebSocketPeer.STATE_CLOSED:
-		print("Closed because of:")
-		print(peer.get_close_code())
+		print("Connection Closed: :", peer.get_close_code())
 		# reconnect
 		_sent_initial_packet = false
 		print("RECONNECTING")
@@ -203,7 +200,6 @@ func update_lobby(json):
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
 	var other_players = get_tree().get_nodes_in_group("other_players")
-	print(json.members)
 	for member in json.members:
 		var user = User.new(member.id, member.username, member.global_name, member.is_ready, member.running, member.color)
 		lobby.members[user.id] = user

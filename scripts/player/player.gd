@@ -129,7 +129,8 @@ func _physics_process(delta):
 			level.stage = cur_tunnel
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
-			state_machine.travel("jump_blend_tree")
+			# use this here to force jump_blend_tree node immediately
+			state_machine.start("jump_blend_tree", true)
 			started_spinning_in_tunnel = false
 			reached_height = false
 			if not last:
@@ -488,7 +489,6 @@ func _on_animation_tree_animation_started(anim_name):
 			cur_movement = RUN
 
 func check_and_start_revive(stage: int, target_user_id: String):
-	print("player_state ", player_state == State.RUNNING)
 	if player_state == State.RUNNING:
 		# show revive screen
 		level.show_revive_screen(stage, target_user_id)
