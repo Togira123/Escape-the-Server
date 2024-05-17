@@ -18,10 +18,10 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_o7atn"]
-size = Vector3(1.9668, 0.603516, 2.65057)
+size = Vector3(1.95069, 4.21228, 18.5689)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_fjeul"]
-data = PackedVector3Array(-0.7058, 0.6, -0.8962, -0.9827, 0.6, 1.35, -0.9827, 0.6, -1.3038, -0.6442, 0.6, -1.3038, -0.7058, 0.6, -0.8962, -0.9827, 0.6, -1.3038, 0.7058, 0.6, 0.9308, -0.7058, 0.6, -0.8962, -0.6442, 0.6, -1.3038, 0.9827, 0.6, -1.3038, 0.7058, 0.6, 0.9308, 0.7058, 0.6, -1.3038, 0.9827, 0.6, 1.35, 0.7058, 0.6, 0.9308, 0.9827, 0.6, -1.3038, -0.7058, 0.6, 1.35, -0.9827, 0.6, 1.35, -0.7058, 0.6, -0.8962, 0.7058, 0.6, 0.9308, 0.675, 0.6, 1.35, -0.7058, 0.6, -0.8962, 0.9827, 0.6, 1.35, 0.675, 0.6, 1.35, 0.7058, 0.6, 0.9308, -0.9827, 0, -1.3038, -0.9827, 0, 1.35, -0.7058, 0, -0.8962, -0.9827, 0, -1.3038, -0.7058, 0, -0.8962, -0.6442, 0, -1.3038, -0.6442, 0, -1.3038, -0.7058, 0, -0.8962, 0.7058, 0, 0.9308, 0.7058, 0, -1.3038, 0.7058, 0, 0.9308, 0.9827, 0, -1.3038, 0.9827, 0, -1.3038, 0.7058, 0, 0.9308, 0.9827, 0, 1.35, -0.7058, 0, -0.8962, -0.9827, 0, 1.35, -0.7058, 0, 1.35, -0.7058, 0, -0.8962, 0.675, 0, 1.35, 0.7058, 0, 0.9308, 0.7058, 0, 0.9308, 0.675, 0, 1.35, 0.9827, 0, 1.35, -0.7058, 0.6, 1.35, -0.7058, 0.6, -0.8962, -0.7058, 0, 1.35, -0.7058, 0, 1.35, -0.7058, 0.6, -0.8962, -0.7058, 0, -0.8962, -0.9827, 0.6, 1.35, -0.7058, 0.6, 1.35, -0.9827, 0, 1.35, -0.9827, 0, 1.35, -0.7058, 0.6, 1.35, -0.7058, 0, 1.35, -0.9827, 0.6, -1.3038, -0.9827, 0.6, 1.35, -0.9827, 0, -1.3038, -0.9827, 0, -1.3038, -0.9827, 0.6, 1.35, -0.9827, 0, 1.35, -0.6442, 0.6, -1.3038, -0.9827, 0.6, -1.3038, -0.6442, 0, -1.3038, -0.6442, 0, -1.3038, -0.9827, 0.6, -1.3038, -0.9827, 0, -1.3038, 0.7058, 0.6, 0.9308, -0.6442, 0.6, -1.3038, 0.7058, 0, 0.9308, 0.7058, 0, 0.9308, -0.6442, 0.6, -1.3038, -0.6442, 0, -1.3038, 0.7058, 0.6, -1.3038, 0.7058, 0.6, 0.9308, 0.7058, 0, -1.3038, 0.7058, 0, -1.3038, 0.7058, 0.6, 0.9308, 0.7058, 0, 0.9308, 0.9827, 0.6, -1.3038, 0.7058, 0.6, -1.3038, 0.9827, 0, -1.3038, 0.9827, 0, -1.3038, 0.7058, 0.6, -1.3038, 0.7058, 0, -1.3038, 0.9827, 0.6, 1.35, 0.9827, 0.6, -1.3038, 0.9827, 0, 1.35, 0.9827, 0, 1.35, 0.9827, 0.6, -1.3038, 0.9827, 0, -1.3038, 0.675, 0.6, 1.35, 0.9827, 0.6, 1.35, 0.675, 0, 1.35, 0.675, 0, 1.35, 0.9827, 0.6, 1.35, 0.9827, 0, 1.35, -0.7058, 0.6, -0.8962, 0.675, 0.6, 1.35, -0.7058, 0, -0.8962, -0.7058, 0, -0.8962, 0.675, 0.6, 1.35, 0.675, 0, 1.35)
+[sub_resource type="BoxShape3D" id="BoxShape3D_mui6a"]
+size = Vector3(1.74216, 4.21228, 20.6441)
 
 [node name="N_reg" type="RigidBody3D"]
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -33,7 +33,7 @@ script = ExtResource("1_xt4ed")
 environment = SubResource("Environment_7e3f7")
 
 [node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
 material_override = ExtResource("2_mt8j3")
@@ -41,17 +41,32 @@ mesh = ExtResource("1_2iny1")
 skeleton = NodePath("../../LetterHitbox")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
-transform = Transform3D(5, 1.92076e-34, 1.45652e-37, -3.69093e-35, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0.0299151, 1.49966, 0.112152)
+transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, -5.90925, 2.09408, 0.16629)
+shape = SubResource("BoxShape3D_o7atn")
+
+[node name="GroundCollisionDetector2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.853551, -1.15986e-16, 0.52101, 0, 1, 0, -0.52101, 1.65809e-15, 0.853551, 0.0523641, 2.09408, 0.145611)
+shape = SubResource("BoxShape3D_mui6a")
+
+[node name="GroundCollisionDetector3" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, 5.909, 2.094, 0.166)
 shape = SubResource("BoxShape3D_o7atn")
 
 [node name="LetterHitbox" type="Area3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 collision_layer = 4
 collision_mask = 16
 input_ray_pickable = false
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="LetterHitbox"]
-transform = Transform3D(1, 8.22846e-38, 1.66608e-30, -1.17549e-38, 1, 5.91921e-17, -1.38051e-30, 0, 1, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_fjeul")
+[node name="GroundCollisionDetector" type="CollisionShape3D" parent="LetterHitbox"]
+transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, -5.90925, 2.09408, 0.16629)
+shape = SubResource("BoxShape3D_o7atn")
+
+[node name="GroundCollisionDetector2" type="CollisionShape3D" parent="LetterHitbox"]
+transform = Transform3D(0.853551, -1.15986e-16, 0.52101, 0, 1, 0, -0.52101, 1.65809e-15, 0.853551, 0.0523641, 2.09408, 0.145611)
+shape = SubResource("BoxShape3D_mui6a")
+
+[node name="GroundCollisionDetector3" type="CollisionShape3D" parent="LetterHitbox"]
+transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, 5.909, 2.094, 0.166)
+shape = SubResource("BoxShape3D_o7atn")
 
 [connection signal="area_entered" from="LetterHitbox" to="." method="_on_letter_hitbox_area_entered"]
