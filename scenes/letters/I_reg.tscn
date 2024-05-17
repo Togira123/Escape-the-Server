@@ -18,7 +18,7 @@ tonemap_mode = 2
 glow_enabled = true
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_njrnf"]
-size = Vector3(0.279541, 0.602295, 2.65417)
+size = Vector3(1.96, 4.214, 18.578)
 
 [node name="I_reg" type="RigidBody3D"]
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -38,7 +38,7 @@ mesh = ExtResource("1_dqqv2")
 skeleton = NodePath("../../LetterHitbox")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
-transform = Transform3D(7, 1.23709e-34, 2.03912e-37, -2.42673e-35, 7, 0, -4.73317e-30, 3.55271e-15, 7, 0.000610767, 2.09205, 0.114441)
+transform = Transform3D(1, 3.46676e-36, 6.76167e-31, -3.46676e-36, 1, -5.0753e-16, -6.76167e-31, 5.0753e-16, 1, 0.000610767, 2.09205, 0.114441)
 shape = SubResource("BoxShape3D_njrnf")
 
 [node name="LetterHitbox" type="Area3D" parent="."]
@@ -47,7 +47,7 @@ collision_mask = 16
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LetterHitbox"]
-transform = Transform3D(7, 1.24085e-34, 2.03912e-37, -2.41074e-35, 7, 0, -4.73317e-30, 3.55271e-15, 7, 0.000610767, 2.09205, 0.114441)
+transform = Transform3D(1, 3.47946e-36, 2.91303e-38, -3.4372e-36, 1, 0, 1.49939e-43, 0, 1, 0.000610767, 2.09205, 0.114441)
 shape = SubResource("BoxShape3D_njrnf")
 
 [connection signal="area_entered" from="LetterHitbox" to="." method="_on_letter_hitbox_area_entered"]
