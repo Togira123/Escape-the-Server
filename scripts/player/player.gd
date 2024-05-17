@@ -230,7 +230,7 @@ func run(delta):
 		var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
 		if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
 			# tp 3 meters before tunnel if there is one in front
-			var tp_dist = 0 if next_tunnel_pos - 3 < position.z else next_tunnel_pos - 3
+			var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
 			position.z += tp_dist
 			camera.distance_to_player = max(2, tp_dist)
 		else:
