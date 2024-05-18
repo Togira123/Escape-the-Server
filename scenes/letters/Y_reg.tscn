@@ -17,11 +17,11 @@ sky = SubResource("Sky_24vyw")
 tonemap_mode = 2
 glow_enabled = true
 
-[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_xvhm3"]
-points = PackedVector3Array(1.05769, 0.599992, -1.30385, 1.05769, 0, -1.30385, -1.05769, 0.599992, -1.30385, 0.13832, 0.599992, 1.35, -1.05769, 0, -1.30385, 0.13832, 0, 1.35, -0.138527, 0.599992, 1.35, -0.138527, 0, 1.35)
+[sub_resource type="BoxShape3D" id="BoxShape3D_2adwk"]
+size = Vector3(1.93073, 4.19421, 7.46167)
 
-[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_4po1h"]
-data = PackedVector3Array(-0.7385, 0.6, -1.3038, -0.1385, 0.6, 0.3, -1.0577, 0.6, -1.3038, 0, 0.6, 0.0192, -0.1385, 0.6, 0.3, -0.7385, 0.6, -1.3038, 1.0577, 0.6, -1.3038, 0, 0.6, 0.0192, 0.7346, 0.6, -1.3038, 0.1385, 0.6, 0.3, 0, 0.6, 0.0192, 1.0577, 0.6, -1.3038, 0.1385, 0.6, 0.3, -0.1385, 0.6, 0.3, 0, 0.6, 0.0192, 0.1385, 0.6, 0.3, -0.1385, 0.6, 1.35, -0.1385, 0.6, 0.3, 0.1385, 0.6, 1.35, -0.1385, 0.6, 1.35, 0.1385, 0.6, 0.3, -1.0577, 0, -1.3038, -0.1385, 0, 0.3, -0.7385, 0, -1.3038, -0.7385, 0, -1.3038, -0.1385, 0, 0.3, 0, 0, 0.0192, 0.7346, 0, -1.3038, 0, 0, 0.0192, 1.0577, 0, -1.3038, 1.0577, 0, -1.3038, 0, 0, 0.0192, 0.1385, 0, 0.3, 0, 0, 0.0192, -0.1385, 0, 0.3, 0.1385, 0, 0.3, -0.1385, 0, 0.3, -0.1385, 0, 1.35, 0.1385, 0, 0.3, 0.1385, 0, 0.3, -0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0.6, 0.3, 0.1385, 0, 1.35, 0.1385, 0, 1.35, 0.1385, 0.6, 0.3, 0.1385, 0, 0.3, -0.1385, 0.6, 1.35, 0.1385, 0.6, 1.35, -0.1385, 0, 1.35, -0.1385, 0, 1.35, 0.1385, 0.6, 1.35, 0.1385, 0, 1.35, -0.1385, 0.6, 0.3, -0.1385, 0.6, 1.35, -0.1385, 0, 0.3, -0.1385, 0, 0.3, -0.1385, 0.6, 1.35, -0.1385, 0, 1.35, -1.0577, 0.6, -1.3038, -0.1385, 0.6, 0.3, -1.0577, 0, -1.3038, -1.0577, 0, -1.3038, -0.1385, 0.6, 0.3, -0.1385, 0, 0.3, -0.7385, 0.6, -1.3038, -1.0577, 0.6, -1.3038, -0.7385, 0, -1.3038, -0.7385, 0, -1.3038, -1.0577, 0.6, -1.3038, -1.0577, 0, -1.3038, 0, 0.6, 0.0192, -0.7385, 0.6, -1.3038, 0, 0, 0.0192, 0, 0, 0.0192, -0.7385, 0.6, -1.3038, -0.7385, 0, -1.3038, 0.7346, 0.6, -1.3038, 0, 0.6, 0.0192, 0.7346, 0, -1.3038, 0.7346, 0, -1.3038, 0, 0.6, 0.0192, 0, 0, 0.0192, 1.0577, 0.6, -1.3038, 0.7346, 0.6, -1.3038, 1.0577, 0, -1.3038, 1.0577, 0, -1.3038, 0.7346, 0.6, -1.3038, 0.7346, 0, -1.3038, 0.1385, 0.6, 0.3, 1.0577, 0.6, -1.3038, 0.1385, 0, 0.3, 0.1385, 0, 0.3, 1.0577, 0.6, -1.3038, 1.0577, 0, -1.3038)
+[sub_resource type="BoxShape3D" id="BoxShape3D_htojn"]
+size = Vector3(1.92835, 4.19421, 11.7315)
 
 [node name="Y_reg" type="RigidBody3D"]
 transform = Transform3D(1, 0, -1.5246e-23, -1.5246e-23, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -33,7 +33,7 @@ script = ExtResource("1_nxxut")
 environment = SubResource("Environment_m3kwv")
 
 [node name="Pivot" type="Node3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
+transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
 material_override = ExtResource("2_hqi5d")
@@ -41,17 +41,32 @@ mesh = ExtResource("1_qeja0")
 skeleton = NodePath("../../LetterHitbox")
 
 [node name="GroundCollisionDetector" type="CollisionShape3D" parent="."]
-transform = Transform3D(5, 2.35099e-37, 1.45652e-37, -1.41059e-37, 5, 0, -1.57772e-30, -3.55271e-15, 5, 0, 0, 0)
-shape = SubResource("ConvexPolygonShape3D_xvhm3")
+transform = Transform3D(1, 4.70198e-38, 2.91303e-38, -1.44189e-38, 1, 0, 0, 0, 1, 0.0015564, 2.09711, 5.71994)
+shape = SubResource("BoxShape3D_2adwk")
+
+[node name="GroundCollisionDetector2" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.868225, -2.16883e-08, -0.496171, 2.16883e-08, 1, -5.76008e-09, 0.496171, -5.76008e-09, 0.868225, 3.09498, 2.09711, -3.54533)
+shape = SubResource("BoxShape3D_htojn")
+
+[node name="GroundCollisionDetector3" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.868632, -1.30158e-16, 0.495459, 3.48787e-16, 1, -3.48787e-16, -0.495459, 4.75777e-16, 0.868632, -3.095, 2.097, -3.545)
+shape = SubResource("BoxShape3D_htojn")
 
 [node name="LetterHitbox" type="Area3D" parent="."]
-transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 collision_layer = 4
 collision_mask = 16
 input_ray_pickable = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LetterHitbox"]
-transform = Transform3D(1, 8.22846e-38, 1.66608e-30, -1.17549e-38, 1, 5.91921e-17, -1.38051e-30, 0, 1, 0, 0, 0)
-shape = SubResource("ConcavePolygonShape3D_4po1h")
+transform = Transform3D(1, 4.70198e-38, 2.91303e-38, -1.44189e-38, 1, 0, 0, 0, 1, 0.0015564, 2.09711, 5.71994)
+shape = SubResource("BoxShape3D_2adwk")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="LetterHitbox"]
+transform = Transform3D(0.868225, -2.16883e-08, -0.496171, 2.16883e-08, 1, -5.76008e-09, 0.496171, -5.76008e-09, 0.868225, 3.09498, 2.09711, -3.54533)
+shape = SubResource("BoxShape3D_htojn")
+
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="LetterHitbox"]
+transform = Transform3D(0.868632, -1.30158e-16, 0.495459, 0, 1, -3.55271e-15, -0.495459, 0, 0.868632, -3.095, 2.097, -3.545)
+shape = SubResource("BoxShape3D_htojn")
 
 [connection signal="area_entered" from="LetterHitbox" to="." method="_on_letter_hitbox_area_entered"]
