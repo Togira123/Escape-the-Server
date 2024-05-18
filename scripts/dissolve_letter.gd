@@ -1,7 +1,7 @@
 extends RigidBody3D
 
 @onready var mesh = $Pivot/MeshInstance3D
-@onready var hitbox_collision = $LetterHitbox/CollisionShape3D
+@onready var letter_hitbox = $LetterHitbox
 
 func _ready():
 	set_physics_process(false)
@@ -16,9 +16,11 @@ func _physics_process(_delta):
 
 func dissolve():
 	set_physics_process(true)
-	hitbox_collision.set_deferred("disabled", true)
+	for c in letter_hitbox.get_children():
+		c.set_deferred("disabled", true)
 	if has_node("ShieldHitbox"):
-		$ShieldHitbox/CollisionShape3D.set_deferred("disabled", true)
+		for c in $ShieldHitbox.get_children():
+			c.set_deferred("disabled", true)
 
 
 func _on_letter_hitbox_area_entered(_area):
