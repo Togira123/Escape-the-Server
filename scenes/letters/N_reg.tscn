@@ -57,15 +57,15 @@ collision_layer = 4
 collision_mask = 16
 input_ray_pickable = false
 
-[node name="GroundCollisionDetector" type="CollisionShape3D" parent="LetterHitbox"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LetterHitbox"]
 transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, -5.90925, 2.09408, 0.16629)
 shape = SubResource("BoxShape3D_o7atn")
 
-[node name="GroundCollisionDetector2" type="CollisionShape3D" parent="LetterHitbox"]
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="LetterHitbox"]
 transform = Transform3D(0.853551, -1.15986e-16, 0.52101, 0, 1, 0, -0.52101, 1.65809e-15, 0.853551, 0.0523641, 2.09408, 0.145611)
 shape = SubResource("BoxShape3D_mui6a")
 
-[node name="GroundCollisionDetector3" type="CollisionShape3D" parent="LetterHitbox"]
+[node name="CollisionShape3D3" type="CollisionShape3D" parent="LetterHitbox"]
 transform = Transform3D(1, 7.3821e-36, 2.91303e-38, -7.36807e-36, 1, 0, 3.22299e-43, 0, 1, 5.909, 2.094, 0.166)
 shape = SubResource("BoxShape3D_o7atn")
 
