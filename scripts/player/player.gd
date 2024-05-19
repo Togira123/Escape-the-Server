@@ -161,8 +161,30 @@ var direction = Vector3(0.0, 0.0, 1.0)
 var pressed_right = false
 var pressed_left = false
 func _unhandled_key_input(event):
-	if player_state != State.RUNNING or not is_physics_processing():
-		get_viewport().set_input_as_handled()
+	if not is_physics_processing():
+		return
+	if player_state == State.RUNNING or player_state == State.DEAD:
+		if event.is_action_pressed("move_right"):
+			pressed_right = true
+			direction.x -= 0.9
+			get_viewport().set_input_as_handled()
+			return
+		elif event.is_action_pressed("move_left"):
+			pressed_left = true
+			direction.x += 0.9
+			get_viewport().set_input_as_handled()
+			return
+		elif event.is_action_released("move_left") and pressed_left:
+			pressed_left = false
+			direction.x -= 0.9
+			get_viewport().set_input_as_handled()
+			return
+		elif event.is_action_released("move_right") and pressed_right:
+			pressed_right = false
+			direction.x += 0.9
+			get_viewport().set_input_as_handled()
+			return
+	if player_state != State.RUNNING:
 		return
 	if event.is_action_pressed("jump"):
 		if not is_on_floor():
@@ -192,23 +214,6 @@ func _unhandled_key_input(event):
 			position.z += TELEPORT_DISTANCE
 			camera.distance_to_player = TELEPORT_DISTANCE
 		get_viewport().set_input_as_handled()
-	else:
-		if event.is_action_pressed("move_right"):
-			pressed_right = true
-			direction.x -= 0.9
-			get_viewport().set_input_as_handled()
-		elif event.is_action_pressed("move_left"):
-			pressed_left = true
-			direction.x += 0.9
-			get_viewport().set_input_as_handled()
-		elif event.is_action_released("move_left") and pressed_left:
-			pressed_left = false
-			direction.x -= 0.9
-			get_viewport().set_input_as_handled()
-		elif event.is_action_released("move_right") and pressed_right:
-			pressed_right = false
-			direction.x += 0.9
-			get_viewport().set_input_as_handled()
 
 func run(delta):
 	jumped_in_tunnel = false
