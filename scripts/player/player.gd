@@ -156,6 +156,60 @@ func _process(_delta):
 			if m:
 				m.maybe_drop(pos)
 
+var direction = Vector3(0.0, 0.0, 1.0)
+
+var pressed_right = false
+var pressed_left = false
+func _unhandled_key_input(event):
+	if player_state != State.RUNNING or not is_physics_processing():
+		get_viewport().set_input_as_handled()
+		return
+	if event.is_action_pressed("jump"):
+		if not is_on_floor():
+			if not has_spinned and state_machine.get_current_node() == "jump_blend_tree":
+				state_machine.travel("spin_blend_tree")
+				has_spinned = true
+				cur_movement = RUN
+		elif state_machine.get_current_node() != "spin_blend_tree":
+			state_machine.travel("jump_blend_tree")
+			velocity.y = JUMP_VELOCITY
+			cur_movement = JUMP
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
+		state_machine.travel("roll")
+		cur_movement = ROLL
+		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("use_item") and teleport_count > 0:
+		teleport_count -= 1
+		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
+		var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
+		if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
+			# tp 3 meters before tunnel if there is one in front
+			var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
+			position.z += tp_dist
+			camera.distance_to_player = max(2, tp_dist)
+		else:
+			position.z += TELEPORT_DISTANCE
+			camera.distance_to_player = TELEPORT_DISTANCE
+		get_viewport().set_input_as_handled()
+	else:
+		if event.is_action_pressed("move_right"):
+			pressed_right = true
+			direction.x -= 0.9
+			get_viewport().set_input_as_handled()
+		elif event.is_action_pressed("move_left"):
+			pressed_left = true
+			direction.x += 0.9
+			get_viewport().set_input_as_handled()
+		elif event.is_action_released("move_left") and pressed_left:
+			pressed_left = false
+			direction.x -= 0.9
+			get_viewport().set_input_as_handled()
+		elif event.is_action_released("move_right") and pressed_right:
+			pressed_right = false
+			direction.x += 0.9
+			get_viewport().set_input_as_handled()
+
 func run(delta):
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
@@ -176,24 +230,18 @@ func run(delta):
 			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
 			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
 			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
-
+	
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
 	if not is_on_floor():
-		if state_machine.get_current_node() != "run_blend_tree":
-			animation_tree.set("parameters/conditions/is_jumping", false)
-		if state_machine.get_current_node() == "roll":
-			# Drop quickly if player is rolling
-			velocity.y -= FALL_ACCELERATION * 3 * delta
-		elif not has_spinned and state_machine.get_current_node() == "jump_blend_tree" and Input.is_action_just_pressed("jump"):
-			state_machine.travel("spin_blend_tree")
-			has_spinned = true
-			cur_movement = RUN
-		
-		if state_machine.get_current_node() == "spin_blend_tree":
+		var cur_node = state_machine.get_current_node()
+		if cur_node == "spin_blend_tree":
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.y = 0.0
 		else:
+			if cur_node == "roll":
+				# Drop quickly if player is rolling
+				velocity.y -= FALL_ACCELERATION * 3 * delta
 			if rotation.x != 0:
 				rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
 			# Gravity
@@ -202,40 +250,8 @@ func run(delta):
 		has_spinned = false
 		# make sure that character is standing normal after spinning
 		rotation.x = 0
-	# 	Handle jump
-		if Input.is_action_just_pressed("jump") and state_machine.get_current_node() != "spin_blend_tree":
-			state_machine.travel("jump_blend_tree")
-			velocity.y = JUMP_VELOCITY
-			cur_movement = JUMP
-		elif cur_movement == JUMP:
+		if cur_movement == JUMP:
 			cur_movement = RUN
-
-
-	# Handle roll
-	if Input.is_action_just_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
-		state_machine.travel("roll")
-		cur_movement = ROLL
-
-	var direction = Vector3.ZERO
-	direction.z = 1
-	# Get inputs
-	if Input.is_action_pressed("move_right"):
-		direction.x = -0.9
-	if Input.is_action_pressed("move_left"):
-		direction.x += 0.9
-
-	if Input.is_action_just_pressed("use_item") and teleport_count > 0:
-		teleport_count -= 1
-		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
-		var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
-		if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
-			# tp 3 meters before tunnel if there is one in front
-			var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
-			position.z += tp_dist
-			camera.distance_to_player = max(2, tp_dist)
-		else:
-			position.z += TELEPORT_DISTANCE
-			camera.distance_to_player = TELEPORT_DISTANCE
 	
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
@@ -255,15 +271,15 @@ func run(delta):
 		heat_bar.material.set_shader_parameter("alpha", heat_control.modulate.a)
 	# Make sure vector has length 1
 	if direction != Vector3.ZERO:
-		direction = direction.normalized()
+		var normal_dir = direction.normalized()
 		if player_laser_impulse > 0:
-			direction.x += player_laser_impulse
+			normal_dir.x += player_laser_impulse
 			player_laser_impulse -= LASER_IMPULSE_BREAK_SPEED
 		elif player_laser_impulse < 0:
-			direction.x += player_laser_impulse
+			normal_dir.x += player_laser_impulse
 			player_laser_impulse += LASER_IMPULSE_BREAK_SPEED
-		velocity.x = direction.x * speed
-		velocity.z = direction.z * speed
+		velocity.x = normal_dir.x * speed
+		velocity.z = normal_dir.z * speed
 		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	move_and_slide()
 
