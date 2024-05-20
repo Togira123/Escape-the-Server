@@ -28,6 +28,8 @@ func _ready():
 	else:
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
+		Input.set_use_accumulated_input(false)
+
 	set_process(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -71,6 +73,7 @@ func restart_game():
 func _on_main_menu_game_start():
 	# send START_GAME to all of the lobby
 	Client.leader_start_game()
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 # called in client.gd when GAME_START message is received
 func start_game():
@@ -86,3 +89,4 @@ func _on_player_game_over(skip_animation: bool):
 	game_over = true
 	add_child(ins)
 	set_process(true)
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
