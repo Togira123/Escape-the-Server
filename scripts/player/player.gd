@@ -161,30 +161,14 @@ var direction = Vector3(0.0, 0.0, 1.0)
 var pressed_right = false
 var pressed_left = false
 func _unhandled_key_input(event):
+	direction.x = 0.0
+	if Input.is_action_pressed("move_right"):
+		direction.x = -0.9
+	if Input.is_action_pressed("move_left"):
+		direction.x += 0.9
 	if not is_physics_processing():
 		return
-	if player_state == State.RUNNING or player_state == State.DEAD:
-		if event.is_action_pressed("move_right"):
-			pressed_right = true
-			direction.x -= 0.9
-			get_viewport().set_input_as_handled()
-			return
-		elif event.is_action_pressed("move_left"):
-			pressed_left = true
-			direction.x += 0.9
-			get_viewport().set_input_as_handled()
-			return
-		elif event.is_action_released("move_left") and pressed_left:
-			pressed_left = false
-			direction.x -= 0.9
-			get_viewport().set_input_as_handled()
-			return
-		elif event.is_action_released("move_right") and pressed_right:
-			pressed_right = false
-			direction.x += 0.9
-			get_viewport().set_input_as_handled()
-			return
-	if player_state != State.RUNNING:
+	if player_state != State.RUNNING or is_in_tunnel() != -1:
 		return
 	if event.is_action_pressed("jump"):
 		if not is_on_floor():
@@ -192,14 +176,26 @@ func _unhandled_key_input(event):
 				state_machine.travel("spin_blend_tree")
 				has_spinned = true
 				cur_movement = RUN
+				hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+				hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
+				player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+				player_shield.position.y = lerp(player_shield.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
 		elif state_machine.get_current_node() != "spin_blend_tree":
 			state_machine.travel("jump_blend_tree")
 			velocity.y = JUMP_VELOCITY
 			cur_movement = JUMP
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
 		state_machine.travel("roll")
 		cur_movement = ROLL
+		hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
+		hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
+		player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
+		player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("use_item") and teleport_count > 0:
 		teleport_count -= 1
@@ -218,24 +214,6 @@ func _unhandled_key_input(event):
 func run(delta):
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
-	# change hitbox
-	match cur_movement:
-		RUN:
-			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
-			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
-			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
-			player_shield.position.y = lerp(player_shield.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
-		JUMP:
-			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
-			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
-			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
-			player_shield.position.y = lerp(player_shield.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
-		ROLL:
-			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
-			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
-			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
-			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
-	
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
 	if not is_on_floor():
@@ -257,6 +235,10 @@ func run(delta):
 		rotation.x = 0
 		if cur_movement == JUMP:
 			cur_movement = RUN
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
 	
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
@@ -429,6 +411,10 @@ func revive():
 	state_machine.travel("jump_blend_tree")
 	velocity.y = JUMP_VELOCITY
 	cur_movement = JUMP
+	hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+	hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
+	player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_JUMP_HEIGHT, LERP_VAL_MOV_CHANGE)
+	player_shield.position.y = lerp(player_shield.position.y, PLAYER_JUMP_OFFSET, LERP_VAL_MOV_CHANGE)
 	has_spinned = false # allow the player to spin
 	# maybe fade this later
 	mesh.material_override.set_shader_parameter("dissolve_amount", 0.0)
@@ -509,6 +495,10 @@ func _on_animation_tree_animation_started(anim_name):
 		await get_tree().create_timer(0.4, true, true).timeout
 		if cur_movement == ROLL:
 			cur_movement = RUN
+			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
+			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
+			player_shield.position.y = lerp(player_shield.position.y, PLAYER_RUN_OFFSET, LERP_VAL_MOV_CHANGE)
 
 func check_and_start_revive(stage: int, target_user_id: String):
 	if player_state == State.RUNNING:
