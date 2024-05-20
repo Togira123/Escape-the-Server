@@ -65,8 +65,9 @@ var shield_timer: SceneTreeTimer = null
 var teleport_count = 0
 var letters_passed = 0
 
+var heat_range = 70
 var heat = 0.0 # stores how heated the player is – dies at 40
-const HEAT_DEATH = 40.0
+var heat_death = 40.0
 
 var player_laser_impulse = 0.0 # holds current impulse when player touched laser
 
@@ -119,7 +120,7 @@ func _physics_process(delta):
 	if player_state == State.DEAD:
 		die_process(delta)
 		return
-	if position.y < -1 or heat > HEAT_DEATH:
+	if position.y < -1 or heat > heat_death:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
@@ -138,6 +139,9 @@ func _physics_process(delta):
 				lasers.remove_children()
 				lasers.spawn_lasers(level.stage)
 				speed = RUN_SPEEDS[cur_tunnel]
+				heat_range -= 6
+				# also increase the max heat by a bit to not die too fast in yellow and red part
+				heat_death += 3
 				var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
 				animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
 				laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
@@ -242,17 +246,17 @@ func run(delta):
 	
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
-	if abs_pos_x >= 70:
-		heat += (abs_pos_x - 70) * delta
-		heat_effect.material.set_shader_parameter("alpha", heat / HEAT_DEATH * 0.7)
-		heat_status.position.y = (1 - heat / HEAT_DEATH) * 303
+	if abs_pos_x >= heat_range:
+		heat += (abs_pos_x - heat_range) * delta
+		heat_effect.material.set_shader_parameter("alpha", heat / heat_death * 0.7)
+		heat_status.position.y = (1 - heat / heat_death) * 303
 		if heat_control.modulate.a < 1:
 			heat_control.set_modulate(Color(1.0, 1.0, 1.0, min(1.0, heat_control.modulate.a + delta * 2)))
 			heat_bar.material.set_shader_parameter("alpha", heat_control.modulate.a)
 	elif heat > 0:
 		heat = max(0, heat - 4 * delta)
-		heat_effect.material.set_shader_parameter("alpha", heat / HEAT_DEATH * 0.7)
-		heat_status.position.y = (1 - heat / HEAT_DEATH) * 303
+		heat_effect.material.set_shader_parameter("alpha", heat / heat_death * 0.7)
+		heat_status.position.y = (1 - heat / heat_death) * 303
 	elif heat_control.modulate.a > 0:
 		heat_control.set_modulate(Color(1.0, 1.0, 1.0, max(0.0, heat_control.modulate.a - delta * 2)))
 		heat_bar.material.set_shader_parameter("alpha", heat_control.modulate.a)
@@ -357,7 +361,7 @@ func die():
 	if shield_timer:
 		shield_timer.set_time_left(0.0)
 	velocity.z = speed
-	heat = min(heat, HEAT_DEATH / 4.0)
+	heat = min(heat, heat_death / 4.0)
 	cur_speed = velocity.z
 	cur_angle = 0.0
 	player_soul.mesh.material.set_shader_parameter("turned_on", true)
