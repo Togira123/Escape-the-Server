@@ -1,6 +1,6 @@
 extends CharacterBody3D
 
-signal game_over
+signal game_over(skip_animation: bool)
 
 @onready var armature = $Armature
 @onready var player_soul = $PlayerSoul
@@ -170,6 +170,11 @@ func _unhandled_key_input(event):
 		direction.x = -0.9
 	if Input.is_action_pressed("move_left"):
 		direction.x += 0.9
+	if player_state == State.DEAD and Client.lobby.members.size() <= 1 and event.is_action_pressed("ui_accept"):
+		# skip death animation
+		set_physics_process(false)
+		game_over.emit(true)
+		return
 	if not is_physics_processing():
 		return
 	if player_state != State.RUNNING or is_in_tunnel() != -1:
@@ -383,7 +388,7 @@ func die_process(delta):
 		# do loop
 		if cur_speed < 0:
 			set_physics_process(false)
-			game_over.emit()
+			game_over.emit(false)
 			return
 		var vel_z = cos(cur_angle)
 		var vel_y = sin(cur_angle)

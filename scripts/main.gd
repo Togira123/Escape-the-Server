@@ -79,10 +79,10 @@ func start_game():
 	$MainMenu.queue_free()
 	in_level = true
 
-func _on_player_game_over():
+func _on_player_game_over(skip_animation: bool):
 	var ins = LOADING_SCREEN.instantiate()
 	black_screen = ins.get_child(0)
-	black_screen.set_color(Color(0, 0, 0, 0))
+	black_screen.set_color(Color(0, 0, 0, 1 if skip_animation else 0))
 	game_over = true
 	add_child(ins)
 	set_process(true)
