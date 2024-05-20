@@ -43,7 +43,7 @@ func _process(delta):
 			if cur_cam_speed < 0:
 				cur_cam_speed = 0
 				player.set_physics_process(false)
-				player.game_over.emit()
+				player.game_over.emit(false)
 				set_process(false)
 			position.z += cur_cam_speed * delta
 		else:
