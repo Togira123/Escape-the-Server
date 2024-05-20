@@ -59,7 +59,6 @@ func _physics_process(delta):
 
 func spawn_sentence():
 	var sentence = constants.get_random_sentence().to_upper()
-	#var rotation_y = (40 - (randi() % 80)) * (PI / 180.0)
 	var cur_x_pos = len(sentence) * LETTER_SCALE + (50 - (randi() % 100))
 	var height = (randi() % 30) * 2 + 40
 	for i in range(len(sentence)):
@@ -82,7 +81,9 @@ func spawn_sentence():
 			frozen_letters.append(instance)
 		cur_x_pos -= width + 2
 		instance.position.y = height
-		instance.rotation.y = PI
+		instance.rotation.y = PI + ((8 - (randi() % 16)) * (PI / 180.0))
+		if randi() % 4 == 0:
+			instance.rotation.x += (4 - (randi() % 8)) * (PI / 180.0)
 		instance.freeze = true
 		spawned_letters.append(instance)
 		sentence_node.add_child(instance)
