@@ -12,6 +12,7 @@ signal game_start
 @onready var not_all_players_ready = $NotAllPlayersReady
 
 @onready var settings_check_button = $"Settings/1/CheckButton"
+@onready var settings_player_customization_hex_field = $"Settings/0/Hex"
 
 var not_all_players_ready_timer: SceneTreeTimer = null
 
@@ -20,7 +21,10 @@ func _ready():
 		await Client.on_authorize
 	update_play_button(true)
 	settings_check_button.set_pressed(Client.settings["default_keybinds"])
-	player.set_color(Color(Client.lobby.members[Client.user_id].color))
+	var player_color = Client.lobby.members[Client.user_id].color
+	player.set_color(Color(player_color))
+	settings_player_customization_hex_field.text = player_color
+	settings_player_customization_hex_field.emit_signal("text_submitted", player_color)
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -52,7 +56,7 @@ func _on_leaderboard_button_pressed():
 
 func _on_settings_button_pressed():
 	settings.visible = true
-	settings.get_node("TabBar").call_deferred("grab_focus")
+	settings.call_deferred("grab_focus")
 	$TransparentBg.visible = true
 
 func _on_shop_button_pressed():
@@ -64,7 +68,7 @@ func _on_shop_button_pressed():
 
 func _on_help_button_pressed():
 	help.visible = true
-	help.get_node("TabBar").call_deferred("grab_focus")
+	help.call_deferred("grab_focus")
 	$TransparentBg.visible = true
 
 func _on_transparent_bg_gui_input(event):
@@ -73,7 +77,6 @@ func _on_transparent_bg_gui_input(event):
 			help.close()
 		elif settings.visible:
 			settings.close()
-
 
 func _on_ready_pressed():
 	Client.set_ready(true)

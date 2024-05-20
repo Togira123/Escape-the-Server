@@ -4,8 +4,8 @@ class_name MultiplayerClient
 
 signal on_authorize
 
-const APP_ID = "1221502156880744499"
-#const APP_ID = "1237787957872562247"
+#const APP_ID = "1221502156880744499"
+const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 
 const PLAYER = preload("res://scenes/player/player.tscn")

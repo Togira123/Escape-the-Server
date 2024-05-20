@@ -360,6 +360,7 @@ offset_right = 736.0
 offset_bottom = 429.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme = SubResource("Theme_qphqm")
 script = ExtResource("9_dih4r")
 
@@ -503,6 +504,7 @@ offset_right = 40.0
 offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_mode = 0
 mouse_default_cursor_shape = 2
 current_tab = 0
 clip_tabs = false
@@ -524,6 +526,7 @@ offset_right = 230.0
 offset_bottom = 165.0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_veh50")
 icon = ExtResource("17_60w33")
@@ -543,6 +546,7 @@ offset_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
 icon = ExtResource("18_bsjgq")
@@ -563,6 +567,7 @@ offset_right = 736.0
 offset_bottom = 429.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 1
 theme = SubResource("Theme_qphqm")
 script = ExtResource("19_ejji2")
 
@@ -644,6 +649,7 @@ offset_left = 332.0
 offset_top = 351.0
 offset_right = 530.0
 offset_bottom = 382.0
+focus_mode = 1
 theme_override_styles/normal = SubResource("StyleBoxFlat_lsq7b")
 text = "#123456"
 
@@ -654,6 +660,7 @@ offset_left = 332.0
 offset_top = 402.0
 offset_right = 530.0
 offset_bottom = 418.0
+focus_mode = 0
 theme_override_styles/slider = SubResource("StyleBoxFlat_7o0ko")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_8c47i")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_fbnji")
@@ -667,6 +674,7 @@ offset_left = 332.0
 offset_top = 447.0
 offset_right = 530.0
 offset_bottom = 463.0
+focus_mode = 0
 theme_override_styles/slider = SubResource("StyleBoxFlat_vhd1r")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_dutkr")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_48wh4")
@@ -680,6 +688,7 @@ offset_left = 332.0
 offset_top = 493.0
 offset_right = 530.0
 offset_bottom = 509.0
+focus_mode = 0
 theme_override_styles/slider = SubResource("StyleBoxFlat_26ynh")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_7qf2u")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_4l5ub")
@@ -694,6 +703,7 @@ offset_left = 759.0
 offset_top = 308.0
 offset_right = 775.0
 offset_bottom = 506.0
+focus_mode = 0
 theme_override_styles/slider = SubResource("StyleBoxFlat_l7rpi")
 theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_7eu2r")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_i7xc4")
@@ -791,6 +801,8 @@ offset_top = 204.0
 offset_right = 337.0
 offset_bottom = 424.0
 scale = Vector2(0.5, 0.5)
+focus_mode = 0
+mouse_default_cursor_shape = 2
 theme_override_icons/checked = ExtResource("20_olcb7")
 theme_override_icons/unchecked = ExtResource("21_7gwww")
 
@@ -808,6 +820,7 @@ offset_right = 40.0
 offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 0
+focus_mode = 0
 mouse_default_cursor_shape = 2
 current_tab = 0
 clip_tabs = false
@@ -830,6 +843,7 @@ offset_right = 230.0
 offset_bottom = 165.0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_veh50")
 icon = ExtResource("17_60w33")
@@ -850,6 +864,7 @@ offset_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
 icon = ExtResource("18_bsjgq")
@@ -864,9 +879,10 @@ icon_alignment = 1
 [connection signal="pressed" from="HelpButton" to="." method="_on_help_button_pressed"]
 [connection signal="gui_input" from="TransparentBg" to="." method="_on_transparent_bg_gui_input"]
 [connection signal="tab_changed" from="Help/TabBar" to="Help" method="_on_tab_bar_tab_changed"]
-[connection signal="pressed" from="Help/ArrowLeft" to="Help/TabBar" method="_on_arrow_left_pressed"]
-[connection signal="pressed" from="Help/ArrowRight" to="Help/TabBar" method="_on_arrow_right_pressed"]
+[connection signal="pressed" from="Help/ArrowLeft" to="Help" method="_on_arrow_left_pressed"]
+[connection signal="pressed" from="Help/ArrowRight" to="Help" method="_on_arrow_right_pressed"]
 [connection signal="gui_input" from="Settings/0/ColorWheelDot" to="Settings/0" method="_on_color_wheel_dot_gui_input"]
+[connection signal="text_submitted" from="Settings/0/Hex" to="Settings" method="_on_hex_text_submitted"]
 [connection signal="text_submitted" from="Settings/0/Hex" to="Settings/0" method="_on_hex_text_submitted"]
 [connection signal="value_changed" from="Settings/0/SliderR" to="Settings/0" method="_on_slider_r_value_changed"]
 [connection signal="value_changed" from="Settings/0/SliderG" to="Settings/0" method="_on_slider_g_value_changed"]
@@ -874,5 +890,5 @@ icon_alignment = 1
 [connection signal="value_changed" from="Settings/0/SliderV" to="Settings/0" method="_on_slider_v_value_changed"]
 [connection signal="toggled" from="Settings/1/CheckButton" to="Settings" method="_on_check_button_toggled"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
-[connection signal="pressed" from="Settings/ArrowLeft" to="Settings/TabBar" method="_on_arrow_left_pressed"]
-[connection signal="pressed" from="Settings/ArrowRight" to="Settings/TabBar" method="_on_arrow_right_pressed"]
+[connection signal="pressed" from="Settings/ArrowLeft" to="Settings" method="_on_arrow_left_pressed"]
+[connection signal="pressed" from="Settings/ArrowRight" to="Settings" method="_on_arrow_right_pressed"]
