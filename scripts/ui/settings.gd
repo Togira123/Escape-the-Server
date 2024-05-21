@@ -29,7 +29,7 @@ func close():
 	$"../TransparentBg".visible = false
 
 
-func _on_check_button_toggled(toggled_on: bool):
+func _on_check_button_toggled(toggled_on: bool, send_update_settings = true):
 	if toggled_on:
 		InputMap.load_from_project_settings()
 		settings_button_text.modulate = Color("ffffff")
@@ -77,8 +77,9 @@ func _on_check_button_toggled(toggled_on: bool):
 		revive_right.pressed = true
 		InputMap.action_add_event("revive_right", revive_right)
 		
-	Client.settings["default_keybinds"] = toggled_on
-	Client.update_settings()
+	if send_update_settings:
+		Client.settings["default_keybinds"] = toggled_on
+		Client.update_settings()
 
 
 func _on_arrow_left_pressed():

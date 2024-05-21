@@ -39,7 +39,7 @@ func hsv_to_rgb(c: Vector3):
 	return c.z * Vector3(K.x, K.x, K.x).lerp((p - Vector3(K.x, K.x, K.x)).clamp(Vector3(0.0, 0.0, 0.0), Vector3(1.0, 1.0, 1.0)), c.y)
 
 # from can be: wheel, slider_r, slider_g, slider_b, slider_v, hex
-func set_color_values(from: String):
+func set_color_values(from: String, send_client_update = true):
 	var col: Color
 	match from:
 		"wheel", "slider_v":
@@ -88,7 +88,8 @@ func set_color_values(from: String):
 	hex.text = "#%02X%02X%02X" % [col.r8, col.g8, col.b8]
 	chosen_color.set_modulate(col)
 	player.set_color(col)
-	queue_color_update()
+	if send_client_update:
+		queue_color_update()
 	
 
 var queue_timer: SceneTreeTimer = null
@@ -129,5 +130,5 @@ func _on_slider_v_value_changed(value):
 	set_color_values("slider_v")
 
 
-func _on_hex_text_submitted(_new_text):
-	set_color_values("hex")
+func _on_hex_text_submitted(_new_text, send_client_update = true):
+	set_color_values("hex", send_client_update)

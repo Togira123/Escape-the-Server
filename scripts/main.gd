@@ -21,16 +21,20 @@ var black_screen: ColorRect
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	set_process(false)
 	if Client.is_authorized:
-		Client.request_lobby()
-		Client.lobby.members[Client.user_id].running = false
-		Client.update_user()
+		#Client.request_lobby()
+		#print("REQUESTED")
+		#await Client.lobby_updated
+		#print("RECEIVED UPDATE")
+		#Client.lobby.members[Client.user_id].running = false
+		#Client.update_user()
+		Client.return_to_menu()
+		print("sent return")
 	else:
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
 		Input.set_use_accumulated_input(false)
-
-	set_process(false)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -73,7 +77,6 @@ func restart_game():
 func _on_main_menu_game_start():
 	# send START_GAME to all of the lobby
 	Client.leader_start_game()
-	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 
 # called in client.gd when GAME_START message is received
 func start_game():
@@ -81,6 +84,11 @@ func start_game():
 	# remove main menu from scene tree
 	$MainMenu.queue_free()
 	in_level = true
+	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
+	for player_icon in $"Level/UI/Players/".get_children():
+		player_icon.get_node("Ready").visible = false
+		player_icon.get_node("NotReady").visible = false
+		player_icon.get_node("Leader").visible = false
 
 func _on_player_game_over(skip_animation: bool):
 	var ins = LOADING_SCREEN.instantiate()

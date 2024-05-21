@@ -3,9 +3,10 @@ extends Node
 class_name MultiplayerClient
 
 signal on_authorize
+signal lobby_updated
 
-const APP_ID = "1221502156880744499"
-#const APP_ID = "1237787957872562247"
+#const APP_ID = "1221502156880744499"
+const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 const DISCORDCDN = "https://cdn.discordapp.com"
 
@@ -18,7 +19,7 @@ enum ClientMessages {
 	PING,
 	USER_CHANGE,
 	START_GAME,
-	LOBBY,
+	END_GAME,
 	DEAD,
 	REVIVE
 }
@@ -85,7 +86,7 @@ class Lobby:
 		s += "\nleader: " + leader_id
 		s += "\nMembers:"
 		for member in members:
-			s += "\n" + members[member].username
+			s += "\n" + str(members[member].toJSON())
 		return s
 
 var _sent_initial_packet = false
@@ -195,28 +196,29 @@ func _process(_delta):
 		print("RECONNECTING")
 		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
 
-func request_lobby():
-	var msg = {
-		"type": ClientMessages.LOBBY,
-	}
-	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
-
 func update_lobby(json):
 	lobby.id = json.id
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
 	var other_players = get_tree().get_nodes_in_group("other_players")
 	for member in json.members:
+		# first make sure to save all users in lobby
 		var user = User.new(member.id, member.username, member.global_name, member.avatar_hash, member.is_ready, member.running, member.color)
 		lobby.members[user.id] = user
+	# then iterate and update stuff accordingly
+	for member in json.members:
 		if member.id == user_id:
 			# still add player icon for ui
-			if not has_node("/root/Main/Level/UI/Players/" + member.id):
+			if not has_node("/root/Main/Level/UI/Players/" + user_id):
 				var player_icon = PLAYER_ICON.instantiate()
-				player_icon.name = member.id
+				player_icon.name = user_id
 				$"/root/Main/Level/UI/Players".add_child(player_icon)
 				if member.avatar_hash != null:
 					fetch_avatar(member.id, member.avatar_hash)
+			if not member.running and lobby.leader_id == user_id:
+				get_node("/root/Main/Level/UI/Players/" + user_id + "/Ready").visible = false
+				get_node("/root/Main/Level/UI/Players/" + user_id + "/NotReady").visible = false
+				get_node("/root/Main/Level/UI/Players/" + user_id + "/Leader").visible = true
 			# do not add additional player node for the player that runs this game
 			continue
 		var exists = other_players.any(func(p): return p.user_id == member.id)
@@ -225,13 +227,35 @@ func update_lobby(json):
 			var inst = PLAYER.instantiate()
 			inst.user_id = member.id
 			inst.add_to_group("other_players")
-			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[inst.user_id].running)
+			var is_running = lobby.members[inst.user_id].running
+			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running)
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[inst.user_id].color))
 			var player_icon = PLAYER_ICON.instantiate()
 			player_icon.name = member.id
 			$"/root/Main/Level/UI/Players".add_child(player_icon)
 			if member.avatar_hash != null:
 				fetch_avatar(member.id, member.avatar_hash)
+			if lobby.members[user_id].running:
+				# new player joined while this user is running, show the lobby icon
+				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Lobby").visible = not is_running
+				# don't show the not ready button which is enabled by default
+				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/NotReady").visible = false
+			else:
+				# if this user is not running (-> he's in the lobby), display other users that are running as running
+				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Running").visible = is_running
+				# also update whether this user is ready or not
+				var ready_icon = get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Ready")
+				var not_ready_icon = get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/NotReady")
+				if lobby.leader_id == member.id:
+					ready_icon.visible = false
+					not_ready_icon.visible = false
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Leader").visible = true
+				elif member.is_ready:
+					ready_icon.visible = true
+					not_ready_icon.visible = false
+				else:
+					ready_icon.visible = false
+					not_ready_icon.visible = true
 			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
@@ -240,13 +264,31 @@ func update_lobby(json):
 			get_node("/root/Main/Level/UI/Players/" + player.user_id).queue_free()
 		else:
 			# update the player model
-			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[player.user_id].running)
-			if player.user_id != user_id:
-				# this user's player model is updated instantly in the code
-				player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[player.user_id].color))
+			var member = lobby.members[player.user_id]
+			var is_running = member.running
+			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running)
+			if not lobby.members[user_id].running:
+				# if this user is not running (-> he's in the lobby), display other users that are running as running
+				get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = is_running
+				# also update whether this user is ready or not
+				var ready_icon = get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ready")
+				var not_ready_icon = get_node("/root/Main/Level/UI/Players/" + player.user_id + "/NotReady")
+				if lobby.leader_id == player.user_id:
+					ready_icon.visible = false
+					not_ready_icon.visible = false
+					get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Leader").visible = true
+				elif member.is_ready:
+					ready_icon.visible = true
+					not_ready_icon.visible = false
+				else:
+					ready_icon.visible = false
+					not_ready_icon.visible = true
+			
+			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(member.color))
 	var main_menu = get_node_or_null("/root/Main/MainMenu")
 	if main_menu:
 		main_menu.update_play_button(false)
+	lobby_updated.emit()
 
 func fetch_avatar(user_id: String, avatar_hash: String):
 	var http_req = HTTPRequest.new()
@@ -276,6 +318,7 @@ func leader_start_game():
 
 func set_ready(ready: bool):
 	lobby.members[user_id].is_ready = ready
+	print("updated ready cause set_ready")
 	update_user()
 
 func send_death(stage: int):
@@ -298,5 +341,11 @@ func update_user():
 		"type": ClientMessages.USER_CHANGE,
 		"user": lobby.members[user_id].toJSON(),
 		"settings": settings
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func return_to_menu():
+	var msg = {
+		"type": ClientMessages.END_GAME,
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
