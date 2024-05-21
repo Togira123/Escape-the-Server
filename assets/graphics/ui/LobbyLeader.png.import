@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bhpw4hg232840"
-path="res://.godot/imported/Leaderboard.png-5718ce1f7040233e8eb8ba08f7b7bf98.ctex"
+uid="uid://dxyn1p338bn57"
+path="res://.godot/imported/LobbyLeader.png-24570eb1d5609b5541b05b987e1d6c01.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/graphics/ui/main_menu/Leaderboard.png"
-dest_files=["res://.godot/imported/Leaderboard.png-5718ce1f7040233e8eb8ba08f7b7bf98.ctex"]
+source_file="res://assets/graphics/ui/LobbyLeader.png"
+dest_files=["res://.godot/imported/LobbyLeader.png-24570eb1d5609b5541b05b987e1d6c01.ctex"]
 
 [params]
 

@@ -7,8 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://cmn5jhotwpt2c" path="res://assets/graphics/ui/main_menu/Settings.png" id="4_yuv8y"]
 [ext_resource type="Texture2D" uid="uid://cwjlgiajgpxmd" path="res://assets/graphics/ui/main_menu/Ready.png" id="5_bbjh0"]
 [ext_resource type="Texture2D" uid="uid://c17jkvh8tk0k7" path="res://assets/graphics/ui/main_menu/NotReady.png" id="6_68e7l"]
-[ext_resource type="Texture2D" uid="uid://dxyn1p338bn57" path="res://assets/graphics/ui/main_menu/Leaderboard.png" id="6_upnvg"]
 [ext_resource type="Texture2D" uid="uid://cp8v1bxxqo5ol" path="res://assets/graphics/ui/main_menu/Shop.png" id="7_f4hsl"]
+[ext_resource type="Texture2D" uid="uid://bhpw4hg232840" path="res://assets/graphics/ui/main_menu/Leaderboard.png" id="8_8204q"]
 [ext_resource type="Texture2D" uid="uid://tiwtwd7atfks" path="res://assets/graphics/ui/main_menu/Help.png" id="8_tunh5"]
 [ext_resource type="Texture2D" uid="uid://ctx3y2vnwbudg" path="res://assets/graphics/ui/main_menu/tab_selected.png" id="9_1et0y"]
 [ext_resource type="Script" path="res://scripts/ui/help_menu/help.gd" id="9_dih4r"]
@@ -198,7 +198,6 @@ icon = ExtResource("4_pou81")
 
 [node name="Ready" type="Button" parent="."]
 auto_translate_mode = 1
-visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -274,7 +273,7 @@ offset_right = 1300.0
 offset_bottom = 1146.0
 scale = Vector2(0.4, 0.4)
 mouse_default_cursor_shape = 2
-icon = ExtResource("6_upnvg")
+icon = ExtResource("8_8204q")
 
 [node name="ShopButton" type="Button" parent="."]
 layout_mode = 0

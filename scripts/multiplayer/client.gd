@@ -5,8 +5,8 @@ class_name MultiplayerClient
 signal on_authorize
 signal lobby_updated
 
-#const APP_ID = "1221502156880744499"
-const APP_ID = "1237787957872562247"
+const APP_ID = "1221502156880744499"
+#const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 const DISCORDCDN = "https://cdn.discordapp.com"
 
@@ -92,6 +92,8 @@ class Lobby:
 var _sent_initial_packet = false
 var lobby: Lobby = null
 var settings: Dictionary = {}
+# store user icons to not need to always fetch them from discord
+var user_icons = {}
 
 func _ready():
 	set_process(false)
@@ -177,10 +179,18 @@ func _process(_delta):
 						_received_initial_lobby_data = true
 						connecting_to_server_percentage += 0.1
 				elif data["type"] == ServerMessages.GAME_START:
+					# set everyone's states correctly as on the server
+					for member in lobby.members:
+						lobby.members[member].is_ready = false
+						lobby.members[member].running = true
 					# start the game
 					$"/root/Main".start_game()
 				elif data["type"] == ServerMessages.DIED:
-					$"/root/Main/Player".check_and_start_revive(data["stage"], data["user_id"])
+					var died_user_id = data["user_id"]
+					$"/root/Main/Player".check_and_start_revive(data["stage"], died_user_id)
+					if lobby.members[user_id].running:
+						# if this user is running show a skull for the player that died
+						get_node("/root/Main/Level/UI/Players/" + died_user_id + "/Dead").visible = true
 				elif data["type"] == ServerMessages.REVIVED:
 					if data["user_id"] == user_id:
 						# this client has been revived
@@ -189,6 +199,9 @@ func _process(_delta):
 						var revive_node = get_node_or_null("/root/Main/Level/UI/Revive")
 						if revive_node:
 							revive_node.start_disappear_timer(data["by_user_id"])
+					if lobby.members[user_id].running:
+						# if this user is running remove the skull for the player that died
+						get_node("/root/Main/Level/UI/Players/" + data["user_id"] + "/Dead").visible = false
 	elif state == WebSocketPeer.STATE_CLOSED:
 		print("Connection Closed: :", peer.get_close_code())
 		# reconnect
@@ -197,6 +210,7 @@ func _process(_delta):
 		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
 
 func update_lobby(json):
+	print(json.members)
 	lobby.id = json.id
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
@@ -291,6 +305,13 @@ func update_lobby(json):
 	lobby_updated.emit()
 
 func fetch_avatar(user_id: String, avatar_hash: String):
+	if user_icons.has(user_id):
+		# user icon is cached already, do not make request
+		var icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/Icon")
+		var correct_size = icon.texture.get_size()
+		icon.texture = user_icons[user_id]
+		icon.scale = icon.scale * (correct_size / icon.texture.get_size())
+		return
 	var http_req = HTTPRequest.new()
 	add_child(http_req)
 	http_req.request_completed.connect(_set_avatar.bind(user_id))
@@ -308,6 +329,7 @@ func _set_avatar(result: int, response_code: int, headers: PackedStringArray, bo
 	var icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/Icon")
 	var correct_size = icon.texture.get_size()
 	icon.texture = ImageTexture.create_from_image(image)
+	user_icons[user_id] = icon.texture
 	icon.scale = icon.scale * (correct_size / icon.texture.get_size())
 
 func leader_start_game():
