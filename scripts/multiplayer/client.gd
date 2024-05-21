@@ -4,11 +4,13 @@ class_name MultiplayerClient
 
 signal on_authorize
 
-#const APP_ID = "1221502156880744499"
-const APP_ID = "1237787957872562247"
+const APP_ID = "1221502156880744499"
+#const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
+const DISCORDCDN = "https://cdn.discordapp.com"
 
 const PLAYER = preload("res://scenes/player/player.tscn")
+const PLAYER_ICON = preload("res://scenes/ui/player_icon.tscn")
 
 # make sure this is the same as on the server
 enum ClientMessages {
@@ -50,13 +52,15 @@ class User:
 	var id: String # discord user id
 	var username: String
 	var global_name: String
+	var avatar_hash: String
 	var is_ready: bool
 	var running: bool
 	var color: String
-	func _init(_id, _username, _global_name, _is_ready, _running, _color):
+	func _init(_id, _username, _global_name, _avatar_hash, _is_ready, _running, _color):
 		id = _id
 		username = _username
 		global_name = _global_name
+		avatar_hash = _avatar_hash
 		is_ready = _is_ready
 		running = _running
 		color = _color
@@ -65,6 +69,7 @@ class User:
 			"id": id,
 			"username": username,
 			"global_name": global_name,
+			"avatar_hash": avatar_hash,
 			"is_ready": is_ready,
 			"running": running,
 			"color": color
@@ -189,6 +194,7 @@ func _process(_delta):
 		_sent_initial_packet = false
 		print("RECONNECTING")
 		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
+
 func request_lobby():
 	var msg = {
 		"type": ClientMessages.LOBBY,
@@ -201,9 +207,16 @@ func update_lobby(json):
 	lobby.members = {}
 	var other_players = get_tree().get_nodes_in_group("other_players")
 	for member in json.members:
-		var user = User.new(member.id, member.username, member.global_name, member.is_ready, member.running, member.color)
+		var user = User.new(member.id, member.username, member.global_name, member.avatar_hash, member.is_ready, member.running, member.color)
 		lobby.members[user.id] = user
 		if member.id == user_id:
+			# still add player icon for ui
+			if not has_node("/root/Main/Level/UI/Players/" + member.id):
+				var player_icon = PLAYER_ICON.instantiate()
+				player_icon.name = member.id
+				$"/root/Main/Level/UI/Players".add_child(player_icon)
+				if member.avatar_hash != null:
+					fetch_avatar(member.id, member.avatar_hash)
 			# do not add additional player node for the player that runs this game
 			continue
 		var exists = other_players.any(func(p): return p.user_id == member.id)
@@ -214,11 +227,17 @@ func update_lobby(json):
 			inst.add_to_group("other_players")
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[inst.user_id].running)
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[inst.user_id].color))
+			var player_icon = PLAYER_ICON.instantiate()
+			player_icon.name = member.id
+			$"/root/Main/Level/UI/Players".add_child(player_icon)
+			if member.avatar_hash != null:
+				fetch_avatar(member.id, member.avatar_hash)
 			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
 			# there's a player node for someone that is not in the lobby, delete the player node
 			player.queue_free()
+			get_node("/root/Main/Level/UI/Players/" + player.user_id).queue_free()
 		else:
 			# update the player model
 			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", lobby.members[player.user_id].running)
@@ -228,6 +247,26 @@ func update_lobby(json):
 	var main_menu = get_node_or_null("/root/Main/MainMenu")
 	if main_menu:
 		main_menu.update_play_button(false)
+
+func fetch_avatar(user_id: String, avatar_hash: String):
+	var http_req = HTTPRequest.new()
+	add_child(http_req)
+	http_req.request_completed.connect(_set_avatar.bind(user_id))
+	http_req.request(DISCORDCDN + "/avatars/%s/%s.png?size=256" % [user_id, avatar_hash])
+
+func _set_avatar(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, user_id: String):
+	if result != HTTPRequest.RESULT_SUCCESS:
+		# error, keep default image
+		return
+	var image = Image.new()
+	var error = image.load_png_from_buffer(body)
+	if error != OK:
+		# error, keep default image
+		return
+	var icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/Icon")
+	var correct_size = icon.texture.get_size()
+	icon.texture = ImageTexture.create_from_image(image)
+	icon.scale = icon.scale * (correct_size / icon.texture.get_size())
 
 func leader_start_game():
 	var msg = {

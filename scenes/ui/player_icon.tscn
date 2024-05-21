@@ -1,0 +1,59 @@
+[gd_scene load_steps=10 format=3 uid="uid://bulx786penph7"]
+
+[ext_resource type="Texture2D" uid="uid://butnt0s6edtfb" path="res://assets/graphics/ui/DefaultAvatar.png" id="1_6nck8"]
+[ext_resource type="Shader" path="res://shaders/ui/circle_shape.gdshader" id="1_kg1uf"]
+[ext_resource type="Texture2D" uid="uid://beggf78cf3yis" path="res://assets/graphics/ui/RunningPlayer.png" id="3_dbd3g"]
+[ext_resource type="Material" uid="uid://be185aae0hds7" path="res://assets/graphics/materials/MakePlayerIconWhite.tres" id="3_f1lkj"]
+[ext_resource type="Texture2D" uid="uid://bm6areu18wf12" path="res://assets/graphics/ui/Skull.png" id="5_oiarq"]
+[ext_resource type="Texture2D" uid="uid://cwjlgiajgpxmd" path="res://assets/graphics/ui/main_menu/Ready.png" id="6_p2n78"]
+[ext_resource type="Texture2D" uid="uid://c17jkvh8tk0k7" path="res://assets/graphics/ui/main_menu/NotReady.png" id="7_np1ah"]
+[ext_resource type="Texture2D" uid="uid://dxyn1p338bn57" path="res://assets/graphics/ui/main_menu/Leaderboard.png" id="8_h0xcd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6380g"]
+shader = ExtResource("1_kg1uf")
+shader_parameter/radius = 0.5
+
+[node name="PlayerIcon" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Icon" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_6380g")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_6nck8")
+
+[node name="Running" type="Sprite2D" parent="."]
+visible = false
+material = ExtResource("3_f1lkj")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("3_dbd3g")
+
+[node name="Dead" type="Sprite2D" parent="."]
+visible = false
+material = ExtResource("3_f1lkj")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("5_oiarq")
+
+[node name="Ready" type="Sprite2D" parent="."]
+modulate = Color(0, 1.81569, 0, 1)
+position = Vector2(-89, 2.08165e-12)
+scale = Vector2(0.256, 0.256)
+texture = ExtResource("6_p2n78")
+
+[node name="NotReady" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(2.50196, 1, 0, 1)
+position = Vector2(-89, 0)
+scale = Vector2(0.256, 0.256)
+texture = ExtResource("7_np1ah")
+
+[node name="Leader" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(2.00392, 2.00392, 0, 1)
+position = Vector2(-89, 0)
+scale = Vector2(0.26, 0.26)
+texture = ExtResource("8_h0xcd")
