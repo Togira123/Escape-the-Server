@@ -898,6 +898,7 @@ icon_alignment = 1
 [connection signal="tab_changed" from="Help/TabBar" to="Help" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Help/ArrowLeft" to="Help" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Help/ArrowRight" to="Help" method="_on_arrow_right_pressed"]
+[connection signal="gui_input" from="Settings/0/ColorWheel" to="Settings/0" method="_on_color_wheel_gui_input"]
 [connection signal="gui_input" from="Settings/0/ColorWheelDot" to="Settings/0" method="_on_color_wheel_dot_gui_input"]
 [connection signal="text_submitted" from="Settings/0/Hex" to="Settings" method="_on_hex_text_submitted"]
 [connection signal="text_submitted" from="Settings/0/Hex" to="Settings/0" method="_on_hex_text_submitted"]

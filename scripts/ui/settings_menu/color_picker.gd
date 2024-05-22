@@ -109,9 +109,15 @@ func _on_color_wheel_dot_gui_input(event):
 		if sqrt(first_term * first_term + second_term * second_term) < wheel_radius:
 			color_wheel_dot.position = new_pos
 			set_color_values("wheel")
+		accept_event()
 	if event is InputEventMouseButton:
 		mouse_pressed_for_color_picker = event.pressed
+		accept_event()
 
+func _on_color_wheel_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed:
+		color_wheel_dot.global_position = event.global_position
+		set_color_values("wheel")
 
 func _on_slider_r_value_changed(_value):
 	set_color_values("slider_r")

@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://butnt0s6edtfb" path="res://assets/graphics/ui/DefaultAvatar.png" id="1_6nck8"]
 [ext_resource type="Shader" path="res://shaders/ui/circle_shape.gdshader" id="1_kg1uf"]
 [ext_resource type="Texture2D" uid="uid://beggf78cf3yis" path="res://assets/graphics/ui/RunningPlayer.png" id="3_dbd3g"]
-[ext_resource type="Material" uid="uid://be185aae0hds7" path="res://assets/graphics/materials/MakePlayerIconWhite.tres" id="3_f1lkj"]
+[ext_resource type="Material" path="res://assets/graphics/materials/MakePlayerIconWhite.tres" id="3_f1lkj"]
 [ext_resource type="Texture2D" uid="uid://bm6areu18wf12" path="res://assets/graphics/ui/Skull.png" id="5_oiarq"]
 [ext_resource type="Texture2D" uid="uid://cwjlgiajgpxmd" path="res://assets/graphics/ui/main_menu/Ready.png" id="6_p2n78"]
 [ext_resource type="Texture2D" uid="uid://d3ikiyt7hgojc" path="res://assets/graphics/ui/LobbyForPlayerState.png" id="6_xc3yx"]
