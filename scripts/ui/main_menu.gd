@@ -10,6 +10,7 @@ signal game_start
 @onready var ready_button = $Ready
 @onready var not_ready_button = $NotReady
 @onready var not_all_players_ready = $NotAllPlayersReady
+@onready var you_are_ready = $YouAreReady
 
 @onready var settings_check_button = $"Settings/1/CheckButton"
 @onready var settings_player_customization = $"Settings/0"
@@ -17,6 +18,7 @@ signal game_start
 var player_icon = null
 
 var not_all_players_ready_timer: SceneTreeTimer = null
+var you_are_ready_timer: SceneTreeTimer = null
 
 func _ready():
 	if not Client.is_authorized:
@@ -90,6 +92,17 @@ func _on_ready_pressed():
 		player_icon = get_node("../Level/UI/Players/" + Client.user_id)
 	player_icon.get_node("Ready").visible = true
 	player_icon.get_node("NotReady").visible = false
+	
+	you_are_ready.size.x = 300
+	you_are_ready.position.x = 810
+	you_are_ready.text = "You are ready"
+	if you_are_ready_timer and you_are_ready_timer.time_left > 0.0:
+		you_are_ready_timer.set_time_left(2.0)
+	else:
+		you_are_ready_timer = get_tree().create_timer(2.0, true, false, true)
+		you_are_ready.visible = true
+		await you_are_ready_timer.timeout
+		you_are_ready.visible = false
 
 func _on_not_ready_pressed():
 	Client.set_ready(false)
@@ -99,3 +112,14 @@ func _on_not_ready_pressed():
 		player_icon = get_node("../Level/UI/Players/" + Client.user_id)
 	player_icon.get_node("Ready").visible = false
 	player_icon.get_node("NotReady").visible = true
+	
+	you_are_ready.size.x = 370
+	you_are_ready.position.x = 775
+	you_are_ready.text = "You are not ready"
+	if you_are_ready_timer and you_are_ready_timer.time_left > 0.0:
+		you_are_ready_timer.set_time_left(2.0)
+	else:
+		you_are_ready_timer = get_tree().create_timer(2.0, true, false, true)
+		you_are_ready.visible = true
+		await you_are_ready_timer.timeout
+		you_are_ready.visible = false
