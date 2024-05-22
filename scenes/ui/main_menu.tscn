@@ -278,9 +278,9 @@ vertical_alignment = 1
 
 [node name="SettingsButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1211.0
+offset_left = 1212.0
 offset_top = 922.0
-offset_right = 1531.0
+offset_right = 1532.0
 offset_bottom = 1242.0
 scale = Vector2(0.3, 0.3)
 mouse_default_cursor_shape = 2
@@ -288,9 +288,9 @@ icon = ExtResource("4_yuv8y")
 
 [node name="LeaderboardButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 1080.0
+offset_left = 1094.0
 offset_top = 926.0
-offset_right = 1300.0
+offset_right = 1314.0
 offset_bottom = 1146.0
 scale = Vector2(0.4, 0.4)
 mouse_default_cursor_shape = 2
@@ -298,9 +298,9 @@ icon = ExtResource("8_8204q")
 
 [node name="ShopButton" type="Button" parent="."]
 layout_mode = 0
-offset_left = 730.0
+offset_left = 721.0
 offset_top = 915.0
-offset_right = 950.0
+offset_right = 941.0
 offset_bottom = 1135.0
 scale = Vector2(0.5, 0.5)
 mouse_default_cursor_shape = 2

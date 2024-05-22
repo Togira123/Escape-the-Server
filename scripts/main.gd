@@ -89,6 +89,9 @@ func start_game():
 		player_icon.get_node("Ready").visible = false
 		player_icon.get_node("NotReady").visible = false
 		player_icon.get_node("Leader").visible = false
+		player_icon.get_node("Dead").visible = false
+		player_icon.get_node("Running").visible = false
+		player_icon.get_node("Lobby").visible = false
 
 func _on_player_game_over(skip_animation: bool):
 	var ins = LOADING_SCREEN.instantiate()
