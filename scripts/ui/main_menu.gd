@@ -15,6 +15,7 @@ signal game_start
 @onready var settings_check_button = $"Settings/1/CheckButton"
 @onready var settings_player_customization = $"Settings/0"
 @onready var settings_player_customization_hex_field = $"Settings/0/Hex"
+@onready var settings_graphics = $"Settings/2"
 var player_icon = null
 
 var not_all_players_ready_timer: SceneTreeTimer = null
@@ -31,6 +32,11 @@ func _ready():
 	settings_player_customization_hex_field.text = player_color
 	# update settings color wheel but WITHOUT sending a Client.update_user()
 	settings_player_customization._on_hex_text_submitted("", false)
+	# update graphics settings WITHOUT sending Client.update_settings(), which is why "false" is passed
+	if Client.settings["graphics_quality"] == 0:
+		settings_graphics._on_radio_low_toggled(true, false)
+	else:
+		settings_graphics._on_radio_normal_toggled(true, false)
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:

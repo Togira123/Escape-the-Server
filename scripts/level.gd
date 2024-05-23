@@ -43,6 +43,9 @@ var first_plats = [false, false]
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
+	if not Client.is_authorized:
+		await Client.on_authorize
+	print("Client authorized!")
 	for n in amount:
 		spawn_module(module_count * OFFSET, false)
 
@@ -120,8 +123,8 @@ func spawn_module(n: int, platforms: bool):
 					instance.get_child(1).visible = false
 					instance.get_child(3).visible = false
 					instance.get_child(5).visible = false
-			#instance2.get_node("Ground/Floor").set_surface_override_material(0, LOW_RES_FLOOR_MATERIAL)
-			instance2.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
+			if Client.settings["graphics_quality"] == 0:
+				instance2.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
 			add_child(instance2)
 			module_count += 1
 			skip = true
@@ -272,9 +275,7 @@ func spawn_module(n: int, platforms: bool):
 		var shader: ShaderMaterial = instance.get_node("Ground/Pattern").mesh.surface_get_material(0)
 		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
 		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
-	#if instance.has_node("Ground/Floor"):
-		#instance.get_node("Ground/Floor").set_surface_override_material(0, LOW_RES_FLOOR_MATERIAL)
-	if instance.has_node("Ground/Floor"):
+	if Client.settings["graphics_quality"] == 0 and instance.has_node("Ground/Floor"):
 		instance.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
 	add_child(instance)
 	module_count += 1

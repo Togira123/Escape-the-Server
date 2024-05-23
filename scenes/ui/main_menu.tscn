@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=64 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -31,6 +31,9 @@
 [ext_resource type="Shader" path="res://shaders/ui/slider_r.gdshader" id="27_v4q0y"]
 [ext_resource type="Shader" path="res://shaders/ui/slider_g.gdshader" id="27_ydg7u"]
 [ext_resource type="Shader" path="res://shaders/ui/slider_v.gdshader" id="30_0gfqb"]
+[ext_resource type="Texture2D" uid="uid://c41ui28uweore" path="res://assets/graphics/ui/main_menu/RadioButtonSelected.png" id="31_ig5lv"]
+[ext_resource type="Script" path="res://scripts/ui/settings_menu/graphics.gd" id="31_on4tt"]
+[ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -164,6 +167,8 @@ corner_detail = 6
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7eu2r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7xc4"]
+
+[sub_resource type="ButtonGroup" id="ButtonGroup_tvmjn"]
 
 [node name="MainMenu" type="Control"]
 auto_translate_mode = 1
@@ -823,6 +828,76 @@ mouse_default_cursor_shape = 2
 theme_override_icons/checked = ExtResource("20_olcb7")
 theme_override_icons/unchecked = ExtResource("21_7gwww")
 
+[node name="2" type="Control" parent="Settings"]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_luv01")
+script = ExtResource("31_on4tt")
+
+[node name="Graphics" type="Label" parent="Settings/2"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 440.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Graphics"
+
+[node name="Normal" type="Label" parent="Settings/2"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 194.0
+offset_top = 239.0
+offset_right = 738.0
+offset_bottom = 280.0
+theme_override_font_sizes/font_size = 30
+text = "Normal (Lower FPS)"
+autowrap_mode = 3
+
+[node name="RadioNormal" type="CheckButton" parent="Settings/2"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 232.0
+offset_right = 337.0
+offset_bottom = 452.0
+scale = Vector2(0.25, 0.25)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_icons/checked = ExtResource("31_ig5lv")
+theme_override_icons/unchecked = ExtResource("32_0jdvx")
+button_pressed = true
+button_group = SubResource("ButtonGroup_tvmjn")
+
+[node name="Low" type="Label" parent="Settings/2"]
+auto_translate_mode = 1
+offset_left = 194.0
+offset_top = 311.0
+offset_right = 738.0
+offset_bottom = 352.0
+theme_override_font_sizes/font_size = 30
+text = "Low (Higher FPS)"
+autowrap_mode = 3
+
+[node name="RadioLow" type="CheckButton" parent="Settings/2"]
+offset_left = 117.0
+offset_top = 304.0
+offset_right = 337.0
+offset_bottom = 524.0
+scale = Vector2(0.25, 0.25)
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_icons/checked = ExtResource("31_ig5lv")
+theme_override_icons/unchecked = ExtResource("32_0jdvx")
+button_group = SubResource("ButtonGroup_tvmjn")
+
 [node name="TabBar" type="TabBar" parent="Settings"]
 auto_translate_mode = 1
 layout_mode = 1
@@ -841,11 +916,13 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 current_tab = 0
 clip_tabs = false
-tab_count = 2
+tab_count = 3
 tab_0/title = ""
 tab_0/icon = ExtResource("9_1et0y")
 tab_1/title = ""
 tab_1/icon = ExtResource("10_54dlg")
+tab_2/title = ""
+tab_2/icon = ExtResource("10_54dlg")
 script = ExtResource("20_4yxtl")
 
 [node name="ArrowLeft" type="Button" parent="Settings"]
@@ -907,6 +984,8 @@ icon_alignment = 1
 [connection signal="value_changed" from="Settings/0/SliderB" to="Settings/0" method="_on_slider_b_value_changed"]
 [connection signal="value_changed" from="Settings/0/SliderV" to="Settings/0" method="_on_slider_v_value_changed"]
 [connection signal="toggled" from="Settings/1/CheckButton" to="Settings" method="_on_check_button_toggled"]
+[connection signal="toggled" from="Settings/2/RadioNormal" to="Settings/2" method="_on_radio_normal_toggled"]
+[connection signal="toggled" from="Settings/2/RadioLow" to="Settings/2" method="_on_radio_low_toggled"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Settings/ArrowLeft" to="Settings" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Settings/ArrowRight" to="Settings" method="_on_arrow_right_pressed"]

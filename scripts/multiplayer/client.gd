@@ -18,6 +18,7 @@ enum ClientMessages {
 	AUTHENTICATE,
 	PING,
 	USER_CHANGE,
+	SETTINGS_CHANGE,
 	START_GAME,
 	END_GAME,
 	DEAD,
@@ -361,7 +362,13 @@ func send_revive(target_user_id: String):
 func update_user():
 	var msg = {
 		"type": ClientMessages.USER_CHANGE,
-		"user": lobby.members[user_id].toJSON(),
+		"user": lobby.members[user_id].toJSON()
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func update_settings():
+	var msg = {
+		"type": ClientMessages.SETTINGS_CHANGE,
 		"settings": settings
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
