@@ -218,7 +218,6 @@ skeleton = NodePath("")
 
 [node name="Pattern" type="MeshInstance3D" parent="Ground"]
 transform = Transform3D(-0.01, 0, -3.25841e-07, 0, 1, 0, 3.25841e-09, 0, -1, -26, 1.01, 30)
-visible = false
 mesh = SubResource("ArrayMesh_j47ah")
 skeleton = NodePath("")
 
