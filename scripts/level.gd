@@ -6,6 +6,8 @@ const EMPTY_PLATFORM = preload("res://scenes/grounds/ground_plat0.tscn")
 
 const REVIVE = preload("res://scenes/ui/revive/revive.tscn")
 
+const LOW_RES_FLOOR_MATERIAL = preload("res://assets/graphics/materials/LowResGroundMaterial.tres")
+
 # status effects
 const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn")
 
@@ -118,7 +120,8 @@ func spawn_module(n: int, platforms: bool):
 					instance.get_child(1).visible = false
 					instance.get_child(3).visible = false
 					instance.get_child(5).visible = false
-			
+			#instance2.get_node("Ground/Floor").set_surface_override_material(0, LOW_RES_FLOOR_MATERIAL)
+			instance2.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
 			add_child(instance2)
 			module_count += 1
 			skip = true
@@ -269,6 +272,10 @@ func spawn_module(n: int, platforms: bool):
 		var shader: ShaderMaterial = instance.get_node("Ground/Pattern").mesh.surface_get_material(0)
 		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
 		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
+	#if instance.has_node("Ground/Floor"):
+		#instance.get_node("Ground/Floor").set_surface_override_material(0, LOW_RES_FLOOR_MATERIAL)
+	if instance.has_node("Ground/Floor"):
+		instance.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
 	add_child(instance)
 	module_count += 1
 

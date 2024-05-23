@@ -52,12 +52,6 @@ shader_parameter/uv1_offset = null
 shader_parameter/uv2_scale = null
 shader_parameter/uv2_offset = null
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
-size = Vector3(40, 2, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_jtm4v"]
-size = Vector3(140, 2, 20)
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_y1nys"]
 _surfaces = [{
 "aabb": AABB(-0.5, -0.5, -0.5, 1, 1, 1.00001),
@@ -130,6 +124,12 @@ _surfaces = [{
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_6j0m8")
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
+size = Vector3(40, 2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtm4v"]
+size = Vector3(140, 2, 20)
+
 [node name="Module4" type="Node3D" groups=["module"]]
 script = ExtResource("1_o0w2o")
 letter_scenes = Array[PackedScene]([ExtResource("2_ih0tc"), ExtResource("3_b56wp"), ExtResource("4_a05xv"), ExtResource("5_xonqa"), ExtResource("6_b08hb"), ExtResource("7_4bgwl"), ExtResource("8_i5rob"), ExtResource("9_es0ox"), ExtResource("10_oqc37"), ExtResource("11_oeyft"), ExtResource("12_j4tru"), ExtResource("13_lqsby"), ExtResource("14_1lann"), ExtResource("15_rlin6"), ExtResource("16_x5p4u"), ExtResource("17_ook0s"), ExtResource("18_ihhdr"), ExtResource("19_1n0qm"), ExtResource("20_8sfb3"), ExtResource("21_uydt8"), ExtResource("22_lt1oq"), ExtResource("23_dx0vu"), ExtResource("24_v5u35"), ExtResource("25_febpy"), ExtResource("26_w4dgx"), ExtResource("27_w6mgx")])
@@ -162,6 +162,17 @@ surface_material_override/0 = SubResource("ShaderMaterial_gpm2q")
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0
 
+[node name="Floor" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-200, -1.74846e-07, 0, 1.74846e-05, -2, 0, 0, 0, 20, 0, 0, 0)
+mesh = SubResource("ArrayMesh_8f2sy")
+skeleton = NodePath("")
+
+[node name="Pattern" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-0.01, 0, -8.74228e-08, 0, 1, 0, 8.74228e-10, 0, -1, -6, 1.01, 0)
+visible = false
+mesh = SubResource("ArrayMesh_siwsn")
+skeleton = NodePath("")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_ebwnx")
@@ -169,15 +180,5 @@ shape = SubResource("BoxShape3D_ebwnx")
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_jtm4v")
-
-[node name="Cube_012" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(-200, -1.74846e-07, 0, 1.74846e-05, -2, 0, 0, 0, 20, 0, 0, 0)
-mesh = SubResource("ArrayMesh_8f2sy")
-skeleton = NodePath("")
-
-[node name="Pattern" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(-0.01, 0, -8.74228e-08, 0, 1, 0, 8.74228e-10, 0, -1, -6, 1.01, 0)
-mesh = SubResource("ArrayMesh_siwsn")
-skeleton = NodePath("")
 
 [node name="Sentence" type="Node3D" parent="."]

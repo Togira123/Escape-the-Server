@@ -52,12 +52,6 @@ shader_parameter/uv1_offset = null
 shader_parameter/uv2_scale = null
 shader_parameter/uv2_offset = null
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
-size = Vector3(20, 2, 20)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_jtm4v"]
-size = Vector3(20, 2, 20)
-
 [sub_resource type="ArrayMesh" id="ArrayMesh_3l3da"]
 _surfaces = [{
 "aabb": AABB(-0.5, -0.5, -0.5, 0.80001, 1, 1.00001),
@@ -129,6 +123,12 @@ _surfaces = [{
 }]
 blend_shape_mode = 0
 shadow_mesh = SubResource("ArrayMesh_urcjs")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_ebwnx"]
+size = Vector3(20, 2, 20)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jtm4v"]
+size = Vector3(20, 2, 20)
 
 [node name="ModulePlat2" type="Node3D" groups=["module"]]
 script = ExtResource("1_j3yte")
@@ -210,6 +210,17 @@ surface_material_override/0 = SubResource("ShaderMaterial_vbuhy")
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0
 
+[node name="Floor" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(-200, 0, -1.12852e-05, 0, 2, 0, 0.000112852, 0, -20, 0, 2.08165e-12, 2.08165e-12)
+mesh = SubResource("ArrayMesh_kg8uh")
+skeleton = NodePath("")
+
+[node name="Pattern" type="MeshInstance3D" parent="Ground"]
+transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.01, -30)
+visible = false
+mesh = SubResource("ArrayMesh_sjmoy")
+skeleton = NodePath("")
+
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_ebwnx")
@@ -221,15 +232,5 @@ shape = SubResource("BoxShape3D_jtm4v")
 [node name="CollisionShape3D3" type="CollisionShape3D" parent="Ground"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 90, 2.08165e-12, 2.08165e-12)
 shape = SubResource("BoxShape3D_jtm4v")
-
-[node name="Cube_005" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(-200, 0, -1.12852e-05, 0, 2, 0, 0.000112852, 0, -20, 0, 2.08165e-12, 2.08165e-12)
-mesh = SubResource("ArrayMesh_kg8uh")
-skeleton = NodePath("")
-
-[node name="Pattern" type="MeshInstance3D" parent="Ground"]
-transform = Transform3D(0.01, 0, 0, 0, 1, 0, 0, 0, 1, 6, 1.01, -30)
-mesh = SubResource("ArrayMesh_sjmoy")
-skeleton = NodePath("")
 
 [node name="Sentence" type="Node3D" parent="."]
