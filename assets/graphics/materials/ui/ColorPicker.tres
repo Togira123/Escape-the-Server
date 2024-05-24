@@ -1,0 +1,7 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://t6m1uwsq5o2l"]
+
+[ext_resource type="Shader" path="res://shaders/ui/color_picker.gdshader" id="1_bmt08"]
+
+[resource]
+shader = ExtResource("1_bmt08")
+shader_parameter/value = 1.0

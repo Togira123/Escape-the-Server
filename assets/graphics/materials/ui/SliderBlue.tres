@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c3jmw1h0h4bnt"]
+
+[ext_resource type="Shader" path="res://shaders/ui/slider_b.gdshader" id="1_ijeda"]
+
+[resource]
+shader = ExtResource("1_ijeda")

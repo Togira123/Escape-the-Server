@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://n2rxj2f8gk72"]
+
+[ext_resource type="Shader" uid="uid://bx6p4i5oradgv" path="res://shaders/player_shield.tres" id="1_3ttno"]
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_3ttno")
+shader_parameter/alpha = 2.08e-12
+shader_parameter/emission = 0.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=58 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -22,15 +22,15 @@
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/tab_bar.gd" id="20_4yxtl"]
 [ext_resource type="Texture2D" uid="uid://dwee2sd4syc3i" path="res://assets/graphics/ui/main_menu/CheckOn.png" id="20_olcb7"]
 [ext_resource type="Texture2D" uid="uid://dm4cagtduw47l" path="res://assets/graphics/ui/main_menu/CheckOff.png" id="21_7gwww"]
+[ext_resource type="Material" uid="uid://t6m1uwsq5o2l" path="res://assets/graphics/materials/ui/ColorPicker.tres" id="21_xspsu"]
 [ext_resource type="Texture2D" uid="uid://e661nlbi4pbr" path="res://assets/graphics/ui/main_menu/WhiteCircle.png" id="22_kpu46"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/color_picker.gd" id="22_uxsbl"]
-[ext_resource type="Shader" path="res://shaders/ui/color_picker.gdshader" id="22_vxrjn"]
-[ext_resource type="Shader" path="res://shaders/ui/circle_outline.gdshader" id="25_8egnu"]
+[ext_resource type="Material" uid="uid://bdmnv4d3y0b6o" path="res://assets/graphics/materials/ui/CircleOutline.tres" id="23_jjuch"]
 [ext_resource type="Texture2D" uid="uid://r8wvpfbm6utt" path="res://assets/graphics/ui/main_menu/WhiteCircleTiny.png" id="25_ektvl"]
-[ext_resource type="Shader" path="res://shaders/ui/slider_b.gdshader" id="27_gj7am"]
-[ext_resource type="Shader" path="res://shaders/ui/slider_r.gdshader" id="27_v4q0y"]
-[ext_resource type="Shader" path="res://shaders/ui/slider_g.gdshader" id="27_ydg7u"]
-[ext_resource type="Shader" path="res://shaders/ui/slider_v.gdshader" id="30_0gfqb"]
+[ext_resource type="Material" uid="uid://ddc85qoosidy3" path="res://assets/graphics/materials/ui/SliderRed.tres" id="25_gsfu8"]
+[ext_resource type="Material" uid="uid://b10tfiprggf08" path="res://assets/graphics/materials/ui/SliderGreen.tres" id="26_ivbes"]
+[ext_resource type="Material" uid="uid://c3jmw1h0h4bnt" path="res://assets/graphics/materials/ui/SliderBlue.tres" id="27_khk1j"]
+[ext_resource type="Material" uid="uid://dddc3clo0lujy" path="res://assets/graphics/materials/ui/SliderBlackWhite.tres" id="28_ck2x4"]
 [ext_resource type="Texture2D" uid="uid://c41ui28uweore" path="res://assets/graphics/ui/main_menu/RadioButtonSelected.png" id="31_ig5lv"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/graphics.gd" id="31_on4tt"]
 [ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
@@ -78,22 +78,12 @@ corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_m3nt1"]
-shader = ExtResource("22_vxrjn")
-shader_parameter/value = 1.0
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_d56ba"]
-shader = ExtResource("25_8egnu")
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lsq7b"]
 bg_color = Color(0.066755, 0.066755, 0.0667549, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_dkgax"]
-shader = ExtResource("27_v4q0y")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7o0ko"]
 content_margin_left = 4.0
@@ -111,9 +101,6 @@ corner_detail = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fbnji"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_7avwa"]
-shader = ExtResource("27_ydg7u")
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vhd1r"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -130,9 +117,6 @@ corner_detail = 6
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_48wh4"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_110un"]
-shader = ExtResource("27_gj7am")
-
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_26ynh"]
 content_margin_left = 4.0
 content_margin_top = 4.0
@@ -148,9 +132,6 @@ corner_detail = 6
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7qf2u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4l5ub"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ev2vs"]
-shader = ExtResource("30_0gfqb")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l7rpi"]
 content_margin_left = 4.0
@@ -635,7 +616,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_01gva")
 
 [node name="ColorWheel" type="TextureRect" parent="Settings/0"]
 modulate = Color(0.851658, 0.770726, 1, 1)
-material = SubResource("ShaderMaterial_m3nt1")
+material = ExtResource("21_xspsu")
 layout_mode = 1
 offset_left = 545.0
 offset_top = 306.0
@@ -647,7 +628,7 @@ texture = ExtResource("22_kpu46")
 
 [node name="ColorWheelDot" type="TextureRect" parent="Settings/0"]
 modulate = Color(0, 0, 0, 1)
-material = SubResource("ShaderMaterial_d56ba")
+material = ExtResource("23_jjuch")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -676,7 +657,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_lsq7b")
 text = "#123456"
 
 [node name="SliderR" type="HSlider" parent="Settings/0"]
-material = SubResource("ShaderMaterial_dkgax")
+material = ExtResource("25_gsfu8")
 layout_mode = 0
 offset_left = 332.0
 offset_top = 402.0
@@ -690,7 +671,7 @@ max_value = 255.0
 
 [node name="SliderG" type="HSlider" parent="Settings/0"]
 auto_translate_mode = 1
-material = SubResource("ShaderMaterial_7avwa")
+material = ExtResource("26_ivbes")
 layout_mode = 0
 offset_left = 332.0
 offset_top = 447.0
@@ -704,7 +685,7 @@ max_value = 255.0
 
 [node name="SliderB" type="HSlider" parent="Settings/0"]
 auto_translate_mode = 1
-material = SubResource("ShaderMaterial_110un")
+material = ExtResource("27_khk1j")
 layout_mode = 0
 offset_left = 332.0
 offset_top = 493.0
@@ -719,7 +700,7 @@ rounded = true
 scrollable = false
 
 [node name="SliderV" type="VSlider" parent="Settings/0"]
-material = SubResource("ShaderMaterial_ev2vs")
+material = ExtResource("28_ck2x4")
 layout_mode = 0
 offset_left = 759.0
 offset_top = 308.0
@@ -878,6 +859,7 @@ button_group = SubResource("ButtonGroup_tvmjn")
 
 [node name="Low" type="Label" parent="Settings/2"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 194.0
 offset_top = 311.0
 offset_right = 738.0
@@ -887,6 +869,7 @@ text = "Low (Higher FPS)"
 autowrap_mode = 3
 
 [node name="RadioLow" type="CheckButton" parent="Settings/2"]
+layout_mode = 0
 offset_left = 117.0
 offset_top = 304.0
 offset_right = 337.0

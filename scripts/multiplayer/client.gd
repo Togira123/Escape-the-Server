@@ -5,8 +5,8 @@ class_name MultiplayerClient
 signal on_authorize
 signal lobby_updated
 
-#const APP_ID = "1221502156880744499"
-const APP_ID = "1237787957872562247"
+const APP_ID = "1221502156880744499"
+#const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 const DISCORDCDN = "https://cdn.discordapp.com"
 
@@ -95,6 +95,16 @@ var lobby: Lobby = null
 var settings: Dictionary = {}
 # store user icons to not need to always fetch them from discord
 var user_icons = {}
+# keep references to not unload these materials
+const shader1 = preload("res://assets/graphics/materials/ui/CircleOutline.tres")
+const shader2 = preload("res://assets/graphics/materials/ui/ColorPicker.tres")
+const shader3 = preload("res://assets/graphics/materials/ui/SliderBlackWhite.tres")
+const shader4 = preload("res://assets/graphics/materials/ui/SliderBlue.tres")
+const shader5 = preload("res://assets/graphics/materials/ui/SliderGreen.tres")
+const shader6 = preload("res://assets/graphics/materials/ui/SliderRed.tres")
+const shader7 = preload("res://assets/graphics/materials/MakePlayerIconWhite.tres")
+const shader8 = preload("res://assets/graphics/materials/PlayerShield.tres")
+const shader9 = preload("res://assets/graphics/materials/PlayerSoul.tres")
 
 func _ready():
 	set_process(false)
