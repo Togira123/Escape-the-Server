@@ -352,6 +352,11 @@ func start_running(delta):
 		animation_tree.set("parameters/run_blend_tree/TimeScale/scale", 1)
 		set_process(true)
 		set_physics_process(true)
+		# disable processing for all other player nodes
+		var other_players = get_tree().get_nodes_in_group("other_players")
+		for p in other_players:
+			p.set_physics_process(false)
+			p.set_process(false)
 		return false
 	velocity.z = direction.z * startup_speed
 	velocity.x = direction.x * startup_speed / 8

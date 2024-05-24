@@ -215,14 +215,13 @@ func _process(_delta):
 						# if this user is running remove the skull for the player that died
 						get_node("/root/Main/Level/UI/Players/" + data["user_id"] + "/Dead").visible = false
 	elif state == WebSocketPeer.STATE_CLOSED:
-		print("Connection Closed: :", peer.get_close_code())
+		print("Connection Closed: ", peer.get_close_code())
 		# reconnect
 		_sent_initial_packet = false
-		print("RECONNECTING")
+		print("Reconnecting...")
 		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
 
 func update_lobby(json):
-	print(json.members)
 	lobby.id = json.id
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
@@ -329,7 +328,7 @@ func fetch_avatar(user_id: String, avatar_hash: String):
 	http_req.request_completed.connect(_set_avatar.bind(user_id))
 	http_req.request(DISCORDCDN + "/avatars/%s/%s.png?size=256" % [user_id, avatar_hash])
 
-func _set_avatar(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray, user_id: String):
+func _set_avatar(result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray, user_id: String):
 	if result != HTTPRequest.RESULT_SUCCESS:
 		# error, keep default image
 		return
@@ -350,9 +349,8 @@ func leader_start_game():
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
-func set_ready(ready: bool):
-	lobby.members[user_id].is_ready = ready
-	print("updated ready cause set_ready")
+func set_ready(is_ready: bool):
+	lobby.members[user_id].is_ready = is_ready
 	update_user()
 
 func send_death(stage: int):
