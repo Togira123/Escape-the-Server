@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=37 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -21,9 +21,8 @@
 [ext_resource type="Texture2D" uid="uid://ry762tkghk7b" path="res://assets/graphics/ui/AbilityArrow.png" id="18_dwtdr"]
 [ext_resource type="Shader" path="res://shaders/ui/fps_count_bg.gdshader" id="18_ifkcv"]
 [ext_resource type="PackedScene" uid="uid://bjsqvtldapip5" path="res://scenes/ui/status_effects/shield.tscn" id="18_st8jw"]
-[ext_resource type="Shader" path="res://shaders/ui/arrow.gdshader" id="18_yww83"]
-[ext_resource type="Shader" path="res://shaders/ui/teleport.gdshader" id="21_g2e68"]
 [ext_resource type="Texture2D" uid="uid://rvjswr4a4qcf" path="res://assets/graphics/ui/Teleport.png" id="21_ipnbs"]
+[ext_resource type="Material" uid="uid://dixegnu8syd3w" path="res://assets/graphics/materials/ui/ArrowUpgradeToTp.tres" id="21_mhwdt"]
 [ext_resource type="Shader" path="res://shaders/ui/heat_bar.gdshader" id="24_x0yrk"]
 [ext_resource type="Texture2D" uid="uid://bu6wtqvuplis7" path="res://assets/graphics/ui/heat_warn_flames/Flame1.png" id="25_jihjr"]
 [ext_resource type="Texture2D" uid="uid://bwfe3a51qvqub" path="res://assets/graphics/ui/heat_warn_flames/Flame2.png" id="26_lgj6s"]
@@ -49,15 +48,6 @@ shader = ExtResource("18_ifkcv")
 bg_color = Color(0.113725, 0.113725, 0.113725, 0.917647)
 
 [sub_resource type="Theme" id="Theme_cca4g"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yx7lb"]
-shader = ExtResource("18_yww83")
-shader_parameter/line_color = Color(0.555, 0, 0.555, 1)
-shader_parameter/inside_color = Color(1, 1, 1, 0)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_yd8vi"]
-shader = ExtResource("21_g2e68")
-shader_parameter/alpha = 2.08165e-12
 
 [sub_resource type="LabelSettings" id="LabelSettings_60y2x"]
 font_size = 60
@@ -181,7 +171,7 @@ theme = SubResource("Theme_cca4g")
 layout_mode = 2
 
 [node name="Arrow" type="Sprite2D" parent="UI"]
-material = SubResource("ShaderMaterial_yx7lb")
+material = ExtResource("21_mhwdt")
 position = Vector2(101, 865)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("18_dwtdr")
@@ -194,7 +184,6 @@ offset_right = 140.0
 offset_bottom = 789.0
 
 [node name="Teleport" type="Sprite2D" parent="UI/Teleport"]
-material = SubResource("ShaderMaterial_yd8vi")
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("21_ipnbs")
 

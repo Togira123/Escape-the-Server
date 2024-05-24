@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://dixegnu8syd3w"]
+
+[ext_resource type="Shader" path="res://shaders/ui/arrow.gdshader" id="1_q5uu3"]
+
+[resource]
+shader = ExtResource("1_q5uu3")
+shader_parameter/line_color = Color(0.555, 0, 0.555, 1)
+shader_parameter/inside_color = Color(1, 1, 1, 0)

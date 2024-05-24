@@ -102,9 +102,10 @@ const shader3 = preload("res://assets/graphics/materials/ui/SliderBlackWhite.tre
 const shader4 = preload("res://assets/graphics/materials/ui/SliderBlue.tres")
 const shader5 = preload("res://assets/graphics/materials/ui/SliderGreen.tres")
 const shader6 = preload("res://assets/graphics/materials/ui/SliderRed.tres")
-const shader7 = preload("res://assets/graphics/materials/MakePlayerIconWhite.tres")
-const shader8 = preload("res://assets/graphics/materials/PlayerShield.tres")
-const shader9 = preload("res://assets/graphics/materials/PlayerSoul.tres")
+const shader7 = preload("res://assets/graphics/materials/ui/ArrowUpgradeToTp.tres")
+const shader8 = preload("res://assets/graphics/materials/MakePlayerIconWhite.tres")
+const shader9 = preload("res://assets/graphics/materials/PlayerShield.tres")
+const shader10 = preload("res://assets/graphics/materials/PlayerSoul.tres")
 
 func _ready():
 	set_process(false)

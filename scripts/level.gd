@@ -310,7 +310,7 @@ func change_ability_count(ability: ABILITIES, new_count: int):
 			else:
 				teleport_ability_count.label_settings.font_color = Color("ffffff")
 			teleport_ability_count.text = str(new_count)
-			teleport_ability_sprite.material.set_shader_parameter("alpha", 1.0)
+			teleport_ability_sprite.modulate.a = 1.0
 			teleport_ability_count.visible = true
 			teleport_ability.visible = true
 

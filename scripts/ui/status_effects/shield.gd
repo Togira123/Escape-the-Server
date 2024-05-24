@@ -12,7 +12,7 @@ var time_passed = 0.0
 func _ready():
 	arrow.visible = true
 	if teleport_count.text == "0":
-		teleport_sprite.material.set_shader_parameter("alpha", 0.0)
+		teleport_sprite.modulate.a = 0.0
 		teleport_count.visible = false
 		teleport.visible = true
 
@@ -36,4 +36,4 @@ func _process(delta):
 	arrow.material.set_shader_parameter("inside_color", Color(1.0, 1.0, 1.0, (sin(time_passed) + 1) / 2))
 	# if there's no teleports available also flash teleports
 	if teleport_count.text == "0":
-		teleport_sprite.material.set_shader_parameter("alpha", (sin(time_passed) + 1) / 2)
+		teleport_sprite.modulate.a = (sin(time_passed) + 1) / 2
