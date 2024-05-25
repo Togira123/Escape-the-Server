@@ -11,6 +11,8 @@ signal game_start
 @onready var not_ready_button = $NotReady
 @onready var not_all_players_ready = $NotAllPlayersReady
 @onready var you_are_ready = $YouAreReady
+@onready var stats_overview = $StatsOverview
+@onready var stats = $Stats
 
 @onready var settings_check_button = $"Settings/1/CheckButton"
 @onready var settings_player_customization = $"Settings/0"
@@ -67,6 +69,7 @@ func _on_leaderboard_button_pressed():
 	leaderboard.visible = false
 
 func _on_settings_button_pressed():
+	stats_overview.visible = false
 	settings.visible = true
 	settings.call_deferred("grab_focus")
 	$TransparentBg.visible = true
@@ -79,16 +82,28 @@ func _on_shop_button_pressed():
 	shop.visible = false
 
 func _on_help_button_pressed():
+	stats_overview.visible = false
 	help.visible = true
 	help.call_deferred("grab_focus")
+	$TransparentBg.visible = true
+
+func _on_show_all_pressed():
+	stats_overview.visible = false
+	stats.visible = true
+	stats.call_deferred("grab_focus")
 	$TransparentBg.visible = true
 
 func _on_transparent_bg_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if help.visible:
 			help.close()
+			stats_overview.visible = true
 		elif settings.visible:
 			settings.close()
+			stats_overview.visible = true
+		elif stats.visible:
+			stats.close()
+			stats_overview.visible = true
 
 func _on_ready_pressed():
 	Client.set_ready(true)
