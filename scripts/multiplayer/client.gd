@@ -22,7 +22,9 @@ enum ClientMessages {
 	START_GAME,
 	END_GAME,
 	DEAD,
-	REVIVE
+	REVIVE,
+	STATS_UPDATE,
+	STATS_REQUEST
 }
 # make sure this is the same as on the server
 enum ServerMessages {
@@ -32,7 +34,8 @@ enum ServerMessages {
 	LOBBY_UPDATE,
 	GAME_START,
 	DIED,
-	REVIVED
+	REVIVED,
+	STATS
 }
 
 var peer: WebSocketPeer
@@ -93,6 +96,7 @@ class Lobby:
 var _sent_initial_packet = false
 var lobby: Lobby = null
 var settings: Dictionary = {}
+var stats: Dictionary = {}
 # store user icons to not need to always fetch them from discord
 var user_icons = {}
 # keep references to not unload these materials
@@ -214,6 +218,12 @@ func _process(_delta):
 					if lobby.members[user_id].running:
 						# if this user is running remove the skull for the player that died
 						get_node("/root/Main/Level/UI/Players/" + data["user_id"] + "/Dead").visible = false
+				elif data["type"] == ServerMessages.STATS:
+					stats = data["stats"]
+					print("hi")
+					if has_node("/root/Main/MainMenu"):
+						print("hi again")
+						$"/root/Main/MainMenu".update_stats()
 	elif state == WebSocketPeer.STATE_CLOSED:
 		print("Connection Closed: ", peer.get_close_code())
 		# reconnect
@@ -385,5 +395,18 @@ func update_settings():
 func return_to_menu():
 	var msg = {
 		"type": ClientMessages.END_GAME,
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func update_stats(stats: Dictionary):
+	var msg = {
+		"type": ClientMessages.STATS_UPDATE,
+		"stats": stats
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func request_stats():
+	var msg = {
+		"type": ClientMessages.STATS_REQUEST
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())

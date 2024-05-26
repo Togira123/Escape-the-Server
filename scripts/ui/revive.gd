@@ -78,6 +78,11 @@ func start_disappear_timer(revived_by_user_id: String):
 	set_process(false)
 	if not disappear_timer:
 		# no disappear timer set yet
+		if revived_by_user_id == "":
+			# revived by no one, wait 500ms just in case there's high latency and the server's message is coming late
+			await get_tree().create_timer(0.5, true, false, true).timeout
+			if disappear_timer:
+				return
 		disappear_timer = get_tree().create_timer(1.0, true, false, true)
 		var color = Color(0.0, 2.0, 0.0, 1.0) if revived_by_user_id == Client.user_id else Color("26d8cd")
 		if revived_by_user_id != "":
@@ -85,6 +90,7 @@ func start_disappear_timer(revived_by_user_id: String):
 		else:
 			color = Color(2.0, 0.1, 0.0, 1.0)
 			message.text = "Failed to revive!"
+			Client.update_stats({"revives_failed": 1})
 		message.modulate = color
 		for i in range(key_indexes.size()):
 			keys_parent_node.get_child(i).modulate = color

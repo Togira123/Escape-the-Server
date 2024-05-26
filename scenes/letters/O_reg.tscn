@@ -63,6 +63,7 @@ transform = Transform3D(5, 0, 0, 0, 5, 0, 0, 0, 5, 0, 0, 0)
 collision_layer = 4
 collision_mask = 0
 monitoring = false
+metadata/letter = "O"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ShieldHitbox"]
 transform = Transform3D(1, -3.48787e-16, 3.48787e-16, 3.48787e-16, 1, 5.91921e-17, -3.48787e-16, 0, 1, 2.08165e-12, 0.3, 0.025)

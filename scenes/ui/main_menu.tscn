@@ -279,6 +279,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="SettingsButton" type="Button" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 1212.0
 offset_top = 922.0
@@ -290,6 +291,7 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("4_yuv8y")
 
 [node name="LeaderboardButton" type="Button" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 1094.0
 offset_top = 926.0
@@ -301,6 +303,7 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("8_8204q")
 
 [node name="ShopButton" type="Button" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 721.0
 offset_top = 915.0
@@ -312,6 +315,7 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("7_f4hsl")
 
 [node name="HelpButton" type="Button" parent="."]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 47.0
 offset_top = 37.0
@@ -323,6 +327,7 @@ mouse_default_cursor_shape = 2
 icon = ExtResource("8_tunh5")
 
 [node name="Leaderboard" type="Label" parent="."]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -361,6 +366,7 @@ text = "Shop is coming in the
 final version of the game!"
 
 [node name="TransparentBg" type="ColorRect" parent="."]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -372,6 +378,7 @@ auto_translate = false
 color = Color(0, 0, 0, 0.439)
 
 [node name="StatsOverview" type="Panel" parent="."]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -400,8 +407,28 @@ theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
 text = "Stats"
 
+[node name="Loading" type="Label" parent="StatsOverview"]
+auto_translate_mode = 2
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = -33.5
+offset_right = 102.0
+offset_bottom = 33.5
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+theme = ExtResource("12_luv01")
+theme_override_font_sizes/font_size = 50
+text = "Loading..."
+
 [node name="GridContainer" type="GridContainer" parent="StatsOverview"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 0
 offset_left = 56.0
 offset_top = 144.0
@@ -515,6 +542,8 @@ text = "0
 horizontal_alignment = 2
 
 [node name="ShowAll" type="Button" parent="StatsOverview"]
+auto_translate_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -539,6 +568,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_uir7p")
 text = "Show all"
 
 [node name="Help" type="Panel" parent="."]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -558,6 +588,7 @@ theme = SubResource("Theme_qphqm")
 script = ExtResource("9_dih4r")
 
 [node name="0" type="Control" parent="Help"]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -568,6 +599,7 @@ auto_translate = false
 theme = ExtResource("12_luv01")
 
 [node name="EscapeTheServer" type="Label" parent="Help/0"]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 117.0
 offset_top = 75.0
@@ -579,6 +611,7 @@ theme_override_font_sizes/font_size = 80
 text = "Escape the Server!"
 
 [node name="Description" type="Label" parent="Help/0"]
+auto_translate_mode = 2
 layout_mode = 0
 offset_left = 117.0
 offset_top = 222.0
@@ -688,6 +721,7 @@ theme_override_font_sizes/font_size = 30
 text = "E"
 
 [node name="TabBar" type="TabBar" parent="Help"]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -713,6 +747,7 @@ tab_1/icon = ExtResource("10_54dlg")
 script = ExtResource("14_5dwy7")
 
 [node name="ArrowLeft" type="Button" parent="Help"]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -731,6 +766,7 @@ icon = ExtResource("17_60w33")
 icon_alignment = 1
 
 [node name="ArrowRight" type="Button" parent="Help"]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -752,6 +788,7 @@ icon = ExtResource("18_bsjgq")
 icon_alignment = 1
 
 [node name="Settings" type="Panel" parent="."]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -1144,6 +1181,7 @@ icon = ExtResource("18_bsjgq")
 icon_alignment = 1
 
 [node name="Stats" type="Panel" parent="."]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -1163,6 +1201,7 @@ theme = SubResource("Theme_qphqm")
 script = ExtResource("35_hnlbj")
 
 [node name="0" type="Control" parent="Stats"]
+auto_translate_mode = 2
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1185,6 +1224,7 @@ text = "Stats"
 
 [node name="GridContainer" type="GridContainer" parent="Stats/0"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 117.0
 offset_top = 222.0
 offset_right = 1334.0
@@ -1514,6 +1554,7 @@ text = "0
 horizontal_alignment = 2
 
 [node name="1" type="Control" parent="Stats"]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 15
@@ -1537,6 +1578,7 @@ text = "Stats"
 
 [node name="GridContainer" type="GridContainer" parent="Stats/1"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 117.0
 offset_top = 222.0
 offset_right = 1334.0
@@ -1890,6 +1932,7 @@ text = "Stats"
 
 [node name="GridContainer" type="GridContainer" parent="Stats/2"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 117.0
 offset_top = 222.0
 offset_right = 641.0
@@ -2019,6 +2062,7 @@ horizontal_alignment = 2
 
 [node name="GridContainer2" type="GridContainer" parent="Stats/2"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 795.0
 offset_top = 222.0
 offset_right = 1319.0

@@ -80,6 +80,7 @@ shape = SubResource("BoxShape3D_sck2u")
 collision_layer = 4
 collision_mask = 0
 monitoring = false
+metadata/letter = "A"
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ShieldHitbox"]
 transform = Transform3D(1, 0, -1.4013e-45, 0, 1, 0, -4.2039e-45, 0, 1, -0.00198889, 2.09222, -0.125634)

@@ -9,6 +9,7 @@ const END_MENU_VICTORY = preload("res://scenes/ui/end_menu_victory.tscn")
 @onready var player = $Player
 @onready var player_soul = $Player/PlayerSoul
 @onready var mesh = $Player/Armature/Skeleton3D/Skin
+@onready var level = $Level
 
 var in_level = false
 
@@ -23,18 +24,15 @@ var black_screen: ColorRect
 func _ready():
 	set_process(false)
 	if Client.is_authorized:
-		#Client.request_lobby()
-		#print("REQUESTED")
-		#await Client.lobby_updated
-		#print("RECEIVED UPDATE")
-		#Client.lobby.members[Client.user_id].running = false
-		#Client.update_user()
 		Client.return_to_menu()
+		Client.request_stats()
 		print("sent return")
 	else:
+		Input.set_use_accumulated_input(false)
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
-		Input.set_use_accumulated_input(false)
+		await Client.on_authorize
+		Client.request_stats()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -44,14 +42,35 @@ func _process(delta):
 			Engine.set_time_scale(1.0)
 			black_screen.queue_free()
 			$Level/UI.visible = false
+			var stats_to_update = {
+				"jumps": player.jump_count,
+				"rolls": player.roll_count,
+				"spins": player.spin_count,
+				"teleports_obtained": player.teleports_obtained,
+				"teleports_used": player.teleports_used,
+				"bounced_from_lasers": player.laser_bounce_count
+			}
+			var total_shields = 0
+			for k: String in player.shield_count:
+				if player.shield_count[k] > 0:
+					stats_to_update["shields_gotten_from_" + k.to_lower()] = player.shield_count[k]
+					total_shields += player.shield_count[k]
+			if total_shields > 0:
+				stats_to_update["shields_obtained"] = total_shields
 			if player.player_state == player.State.FINISHED:
 				# player has won
 				var end_menu = END_MENU_VICTORY.instantiate()
 				add_child(end_menu)
+				stats_to_update["levels_finished"] = 1
+				stats_to_update["micrometers_travelled"] = level.TUNNELS[level.TUNNELS.size() - 1]
 			else:
 				# player died
 				var end_menu = END_MENU_DEFEAT.instantiate()
 				add_child(end_menu)
+				stats_to_update["micrometers_travelled"] = round(player.position.z)
+			print("stats to update:")
+			print(stats_to_update)
+			Client.update_stats(stats_to_update)
 			set_process(false)
 		black_screen.set_color(Color(0, 0, 0, clamp(col + delta, 0.0, 1.0)))
 		return

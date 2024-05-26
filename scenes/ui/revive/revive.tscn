@@ -37,7 +37,7 @@ offset_bottom = 290.0
 grow_horizontal = 2
 theme_override_colors/font_color = Color(0.745098, 0.764706, 1, 1)
 theme_override_font_sizes/font_size = 80
-text = "Revived by Bambus"
+text = "Revive!"
 horizontal_alignment = 1
 
 [node name="ProgressBar" type="Panel" parent="."]

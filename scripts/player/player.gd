@@ -99,6 +99,15 @@ var z = 3 - (randi() % 6)
 
 var user_id: String # is set in the client.gd script if it's another player
 
+# for stats
+var jump_count = 0
+var roll_count = 0
+var spin_count = 0
+var shield_count := {"A": 0, "B": 0, "D": 0, "O": 0, "P": 0, "Q": 0, "R": 0}
+var teleports_obtained = 0
+var teleports_used = 0
+var laser_bounce_count = 0
+
 func _ready():
 	set_process(false)
 	if not Client.is_authorized:
@@ -185,14 +194,17 @@ func _unhandled_key_input(event):
 				state_machine.travel("spin_blend_tree")
 				has_spinned = true
 				cur_movement = RUN
+				spin_count += 1
 		elif state_machine.get_current_node() != "spin_blend_tree":
 			state_machine.travel("jump_blend_tree")
 			velocity.y = JUMP_VELOCITY
 			cur_movement = JUMP
+			jump_count += 1
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
 		state_machine.travel("roll")
 		cur_movement = ROLL
+		roll_count += 1
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("use_item") and teleport_count > 0:
 		teleport_count -= 1
@@ -206,6 +218,7 @@ func _unhandled_key_input(event):
 		else:
 			position.z += TELEPORT_DISTANCE
 			camera.distance_to_player = TELEPORT_DISTANCE
+		teleports_used += 1
 		get_viewport().set_input_as_handled()
 
 func run(delta):
@@ -367,6 +380,8 @@ func start_running(delta):
 
 # initializes player death
 func die():
+	if has_node("/root/Main/Level/UI/Revive"):
+		Client.update_stats({"revives_failed": 1})
 	level.remove_revive_screen_instantly()
 	if shield_timer:
 		shield_timer.set_time_left(0.0)
@@ -444,8 +459,8 @@ func activate_shield(duration: float):
 
 func _on_hitbox_area_entered(area: Area3D):
 	player_was_hit(area)
-	
-func _on_hitbox_area_exited(area):
+
+func _on_hitbox_area_exited(area: Area3D):
 	if player_state != State.DEAD and area.name == "ShieldHitbox":
 		# apply shield
 		if shield_timer:
@@ -454,13 +469,16 @@ func _on_hitbox_area_exited(area):
 			# since there is already a shield, add one more teleport
 			letters_passed += 1
 			if letters_passed % 2 == 0:
+				if teleport_count < level.MAX_TELEPORT_ABILITIES:
+					teleports_obtained += 1
 				teleport_count = clamp(teleport_count + 1, 0, level.MAX_TELEPORT_ABILITIES)
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		else:
 			# create a new timer and reset shield when it ends
 			activate_shield(SHIELD_DURATION)
-		
-	
+		shield_count[area.get_meta("letter")] += 1
+
+
 func player_was_hit(area: Area3D):
 	if area.name == "LetterHitbox":
 		# player hit laser
@@ -484,6 +502,7 @@ func player_was_hit(area: Area3D):
 			player_laser_impulse = -laser_impulse
 		else:
 			player_laser_impulse = laser_impulse
+		laser_bounce_count += 1
 
 func move_to_random_point(x, z, delta):
 	if abs(position.x - x) < 0.2 or abs(position.z - z) < 0.2:

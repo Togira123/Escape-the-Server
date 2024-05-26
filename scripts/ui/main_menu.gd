@@ -18,6 +18,39 @@ signal game_start
 @onready var settings_player_customization = $"Settings/0"
 @onready var settings_player_customization_hex_field = $"Settings/0/Hex"
 @onready var settings_graphics = $"Settings/2"
+
+@onready var stats_overview_loading = $StatsOverview/Loading
+@onready var stats_overview_container = $StatsOverview/GridContainer
+@onready var stats_overview_show_all = $StatsOverview/ShowAll
+
+@onready var stats_to_node_path = {
+	"micrometers_travelled": ["MicrometersTravelledValue", 0],
+	"shields_obtained": ["ShieldsObtainedValue", -2],
+	"teleports_obtained": ["TeleportsObtainedValue", -2],
+	"players_revived": ["PlayersRevivedValue", 0],
+	"games_started": ["GamesStartedValue", 0],
+	"levels_finished": ["LevelsFinishedValue", 0],
+	"deaths": ["DeathsValue", 0],
+	"revives_failed": ["RevivesFailedValue", 1],
+	"been_revived": ["BeenRevivedValue", 1],
+	"jumps": ["JumpsValue", 2],
+	"rolls": ["RollsValue", 2],
+	"spins": ["SpinsValue", 2],
+	"teleports_used": ["TeleportsUsedValue", 2],
+	"bounced_from_lasers": ["BouncedFromLasersValue", 2],
+	"shields_gotten_from_a": ["ShieldsFromAValue", 3],
+	"shields_gotten_from_b": ["ShieldsFromBValue", 3],
+	"shields_gotten_from_d": ["ShieldsFromDValue", 3],
+	"shields_gotten_from_o": ["ShieldsFromOValue", 3],
+	"shields_gotten_from_p": ["ShieldsFromPValue", 3],
+	"shields_gotten_from_q": ["ShieldsFromQValue", 3],
+	"shields_gotten_from_r": ["ShieldsFromRValue", 3],
+	"time_in_game": ["TimeInGameValue", 4],
+	"time_running": ["TimeRunningValue", 4],
+	"all_players_time_in_game": ["AllPlayersTimeInGameValue", 4],
+	"all_players_time_running": ["AllPlayersTimeRunningValue", 4],
+}
+
 var player_icon = null
 
 var not_all_players_ready_timer: SceneTreeTimer = null
@@ -26,6 +59,10 @@ var you_are_ready_timer: SceneTreeTimer = null
 func _ready():
 	if not Client.is_authorized:
 		await Client.on_authorize
+	else:
+		stats_overview_loading.visible = false
+		stats_overview_container.visible = true
+		stats_overview_show_all.visible = true
 	update_play_button(true)
 	settings_check_button.set_pressed_no_signal(Client.settings["default_keybinds"])
 	settings._on_check_button_toggled(Client.settings["default_keybinds"], false)
@@ -56,7 +93,6 @@ func update_play_button(initial: bool):
 		not_ready_button.visible = false
 	elif initial:
 		ready_button.visible = true
-
 
 func _on_game_start_button_pressed():
 	game_start.emit()
@@ -144,3 +180,69 @@ func _on_not_ready_pressed():
 		you_are_ready.visible = true
 		await you_are_ready_timer.timeout
 		you_are_ready.visible = false
+
+func mode_to_node_name(mode: String):
+	match mode:
+		"singleplayer":
+			return "Single"
+		"multiplayer":
+			return "Multi"
+		"ranked":
+			return "Ranked"
+
+func update_stats():
+	for mode in Client.stats:
+		for stat in Client.stats[mode]:
+			var node_name = stats_to_node_path[stat][0]
+			var node_num = stats_to_node_path[stat][1]
+			match node_num:
+				-2, 2:
+					var node = get_node("Stats/1/GridContainer/" + node_name + mode_to_node_name(mode))
+					node.text = Client.stats[mode][stat]
+				0, 1:
+					var node = get_node("Stats/0/GridContainer/" + node_name + mode_to_node_name(mode))
+					node.text = Client.stats[mode][stat]
+	# another iteration for "total"
+	for stat in Client.stats["singleplayer"]:
+		var node_name = stats_to_node_path[stat][0]
+		var node_num = stats_to_node_path[stat][1]
+		match node_num:
+			-2:
+				var node = get_node("StatsOverview/GridContainer/" + node_name)
+				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+				var node2 = get_node("Stats/1/GridContainer/" + node_name + "Total")
+				node2.text = node.text
+			0:
+				var node = get_node("StatsOverview/GridContainer/" + node_name)
+				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+				var node2 = get_node("Stats/0/GridContainer/" + node_name + "Total")
+				node2.text = node.text
+			1:
+				var node = get_node("Stats/0/GridContainer/" + node_name + "Total")
+				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+			2:
+				var node = get_node("Stats/1/GridContainer/" + node_name + "Total")
+				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+			3:
+				var node = get_node("Stats/2/GridContainer/" + node_name + "Total")
+				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+			4:
+				var node = get_node("Stats/2/GridContainer2/" + node_name + "Total")
+				var seconds: int = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+				var minutes: int = 0
+				var hours: int = 0
+				var days: int = 0
+				if seconds >= 60:
+					minutes = seconds / 60
+					seconds = minutes % 60
+				if minutes >= 60:
+					hours = minutes / 60
+					minutes = hours % 60
+				if hours >= 24:
+					days = hours / 24
+					hours = days % 24
+				node.text = "%sd %sh %sm %ss" % [days, hours, minutes, seconds]
+	if stats_overview_loading.visible:
+		stats_overview_loading.visible = false
+		stats_overview_container.visible = true
+		stats_overview_show_all.visible = true
