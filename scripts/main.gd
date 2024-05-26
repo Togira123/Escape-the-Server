@@ -26,7 +26,6 @@ func _ready():
 	if Client.is_authorized:
 		Client.return_to_menu()
 		Client.request_stats()
-		print("sent return")
 	else:
 		Input.set_use_accumulated_input(false)
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
@@ -68,8 +67,6 @@ func _process(delta):
 				var end_menu = END_MENU_DEFEAT.instantiate()
 				add_child(end_menu)
 				stats_to_update["micrometers_travelled"] = round(player.position.z)
-			print("stats to update:")
-			print(stats_to_update)
 			Client.update_stats(stats_to_update)
 			set_process(false)
 		black_screen.set_color(Color(0, 0, 0, clamp(col + delta, 0.0, 1.0)))

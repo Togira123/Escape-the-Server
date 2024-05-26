@@ -45,7 +45,6 @@ func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
 	if not Client.is_authorized:
 		await Client.on_authorize
-	print("Client authorized!")
 	for n in amount:
 		spawn_module(module_count * OFFSET, false)
 

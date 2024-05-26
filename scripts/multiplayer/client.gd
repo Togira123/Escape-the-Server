@@ -220,9 +220,7 @@ func _process(_delta):
 						get_node("/root/Main/Level/UI/Players/" + data["user_id"] + "/Dead").visible = false
 				elif data["type"] == ServerMessages.STATS:
 					stats = data["stats"]
-					print("hi")
 					if has_node("/root/Main/MainMenu"):
-						print("hi again")
 						$"/root/Main/MainMenu".update_stats()
 	elif state == WebSocketPeer.STATE_CLOSED:
 		print("Connection Closed: ", peer.get_close_code())
