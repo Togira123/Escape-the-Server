@@ -4,11 +4,13 @@ const DEFAULT = preload("res://assets/graphics/ui/main_menu/tab_default.png")
 const SELECTED = preload("res://assets/graphics/ui/main_menu/tab_selected.png")
 
 @onready var tab_bar = $TabBar
+@onready var stats_overview = $"../StatsOverview"
 
 func _gui_input(event: InputEvent):
 	if event.is_action_pressed("ui_cancel"):
 		accept_event()
 		close()
+		stats_overview.visible = true
 	elif event.is_action_pressed("ui_left", true):
 		accept_event()
 		tab_bar.switch_to_left()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=61 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -35,6 +35,7 @@
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/graphics.gd" id="31_on4tt"]
 [ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/stats.gd" id="35_hnlbj"]
+[ext_resource type="Script" path="res://scripts/ui/stats_menu/tab_bar.gd" id="36_3et13"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -166,13 +167,14 @@ corner_detail = 6
 [sub_resource type="ButtonGroup" id="ButtonGroup_tvmjn"]
 
 [node name="MainMenu" type="Control"]
-auto_translate_mode = 1
+auto_translate_mode = 2
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 theme = ExtResource("2_4tsm1")
 script = ExtResource("1_0j2i0")
 
@@ -283,6 +285,7 @@ offset_top = 922.0
 offset_right = 1532.0
 offset_bottom = 1242.0
 scale = Vector2(0.3, 0.3)
+auto_translate = false
 mouse_default_cursor_shape = 2
 icon = ExtResource("4_yuv8y")
 
@@ -293,6 +296,7 @@ offset_top = 926.0
 offset_right = 1314.0
 offset_bottom = 1146.0
 scale = Vector2(0.4, 0.4)
+auto_translate = false
 mouse_default_cursor_shape = 2
 icon = ExtResource("8_8204q")
 
@@ -303,6 +307,7 @@ offset_top = 915.0
 offset_right = 941.0
 offset_bottom = 1135.0
 scale = Vector2(0.5, 0.5)
+auto_translate = false
 mouse_default_cursor_shape = 2
 icon = ExtResource("7_f4hsl")
 
@@ -313,6 +318,7 @@ offset_top = 37.0
 offset_right = 267.0
 offset_bottom = 257.0
 scale = Vector2(0.4, 0.4)
+auto_translate = false
 mouse_default_cursor_shape = 2
 icon = ExtResource("8_tunh5")
 
@@ -330,6 +336,7 @@ offset_right = 281.5
 offset_bottom = 42.5
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 theme_override_font_sizes/font_size = 50
 text = "Ranked mode and Leaderboards are coming
  in the final version of the game!"
@@ -361,10 +368,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 color = Color(0, 0, 0, 0.439)
 
 [node name="StatsOverview" type="Panel" parent="."]
-auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -377,6 +384,7 @@ offset_right = -260.0
 offset_bottom = 327.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 focus_mode = 1
 theme = SubResource("Theme_qphqm")
 
@@ -447,13 +455,13 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 
-[node name="RevivedPlayers" type="Label" parent="StatsOverview/GridContainer"]
+[node name="PlayersRevived" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Revived players:"
+text = "Players revived:"
 
-[node name="RevivedPlayersValue" type="Label" parent="StatsOverview/GridContainer"]
+[node name="PlayersRevivedValue" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -519,6 +527,7 @@ offset_right = 82.5
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
+auto_translate = false
 mouse_default_cursor_shape = 2
 theme = ExtResource("2_4tsm1")
 theme_override_font_sizes/font_size = 30
@@ -543,6 +552,7 @@ offset_right = 736.0
 offset_bottom = 429.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 focus_mode = 1
 theme = SubResource("Theme_qphqm")
 script = ExtResource("9_dih4r")
@@ -554,6 +564,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 theme = ExtResource("12_luv01")
 
 [node name="EscapeTheServer" type="Label" parent="Help/0"]
@@ -562,6 +573,7 @@ offset_left = 117.0
 offset_top = 75.0
 offset_right = 543.0
 offset_bottom = 183.0
+auto_translate = false
 theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
 text = "Escape the Server!"
@@ -572,6 +584,7 @@ offset_left = 117.0
 offset_top = 222.0
 offset_right = 1410.0
 offset_bottom = 351.0
+auto_translate = false
 theme_override_font_sizes/font_size = 30
 text = "Your Discord Server has been hacked. Escape before it's too late! Watch out for falling messages and holes in the ground!
 
@@ -687,6 +700,7 @@ offset_right = 40.0
 offset_bottom = -17.0
 grow_horizontal = 2
 grow_vertical = 0
+auto_translate = false
 focus_mode = 0
 mouse_default_cursor_shape = 2
 current_tab = 0
@@ -709,6 +723,7 @@ offset_right = 230.0
 offset_bottom = 165.0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+auto_translate = false
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_veh50")
@@ -729,6 +744,7 @@ offset_bottom = 165.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.5, 0.5)
+auto_translate = false
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
@@ -736,7 +752,6 @@ icon = ExtResource("18_bsjgq")
 icon_alignment = 1
 
 [node name="Settings" type="Panel" parent="."]
-auto_translate_mode = 1
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -750,6 +765,7 @@ offset_right = 736.0
 offset_bottom = 429.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 focus_mode = 1
 theme = SubResource("Theme_qphqm")
 script = ExtResource("19_ejji2")
@@ -1128,7 +1144,6 @@ icon = ExtResource("18_bsjgq")
 icon_alignment = 1
 
 [node name="Stats" type="Panel" parent="."]
-auto_translate_mode = 1
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -1142,18 +1157,19 @@ offset_right = 736.0
 offset_bottom = 429.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 focus_mode = 1
 theme = SubResource("Theme_qphqm")
 script = ExtResource("35_hnlbj")
 
 [node name="0" type="Control" parent="Stats"]
-auto_translate_mode = 1
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+auto_translate = false
 theme = ExtResource("12_luv01")
 
 [node name="Stats" type="Label" parent="Stats/0"]
@@ -1213,166 +1229,6 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
 text = "Total"
-horizontal_alignment = 2
-
-[node name="MicrometersTravelled" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Micrometers travelled:"
-
-[node name="MicrometersTravelledValueSingle" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="MicrometersTravelledValueMulti" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="MicrometersTravelledValueRanked" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="MicrometersTravelledValueTotal" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="ShieldsObtained" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Shields obtained:"
-
-[node name="ShieldsObtainedValueSingle" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="ShieldsObtainedValueMulti" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="ShieldsObtainedValueRanked" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="ShieldsObtainedValueTotal" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="TeleportsObtained" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Teleports obtained:"
-
-[node name="TeleportsObtainedValueSingle" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="TeleportsObtainedValueMulti" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="TeleportsObtainedValueRanked" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="TeleportsObtainedValueTotal" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="RevivedPlayers" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Revived players:"
-
-[node name="RevivedPlayersValueSingle" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="RevivedPlayersValueMulti" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="RevivedPlayersValueRanked" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="RevivedPlayersValueTotal" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
 horizontal_alignment = 2
 
 [node name="GamesStarted" type="Label" parent="Stats/0/GridContainer"]
@@ -1455,6 +1311,166 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 
+[node name="MicrometersTravelled" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Micrometers travelled:"
+
+[node name="MicrometersTravelledValueSingle" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="MicrometersTravelledValueMulti" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="MicrometersTravelledValueRanked" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="MicrometersTravelledValueTotal" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="PlayersRevived" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Players revived:"
+
+[node name="PlayersRevivedValueSingle" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="PlayersRevivedValueMulti" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="PlayersRevivedValueRanked" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="PlayersRevivedValueTotal" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="RevivesFailed" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Revives failed:"
+
+[node name="RevivesFailedValueSingle" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RevivesFailedValueMulti" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RevivesFailedValueRanked" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RevivesFailedValueTotal" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="BeenRevived" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Been revived:"
+
+[node name="BeenRevivedValueSingle" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BeenRevivedValueMulti" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BeenRevivedValueRanked" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BeenRevivedValueTotal" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
 [node name="Deaths" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
@@ -1497,6 +1513,594 @@ text = "0
 "
 horizontal_alignment = 2
 
+[node name="1" type="Control" parent="Stats"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+theme = ExtResource("12_luv01")
+
+[node name="Stats" type="Label" parent="Stats/1"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 303.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Stats"
+
+[node name="GridContainer" type="GridContainer" parent="Stats/1"]
+auto_translate_mode = 1
+offset_left = 117.0
+offset_top = 222.0
+offset_right = 1334.0
+offset_bottom = 689.0
+theme = ExtResource("12_luv01")
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 5
+
+[node name="Category0" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="Category1" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Singleplayer"
+horizontal_alignment = 2
+
+[node name="Category2" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Multiplayer"
+horizontal_alignment = 2
+
+[node name="Category3" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Ranked"
+horizontal_alignment = 2
+
+[node name="Category4" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Total"
+horizontal_alignment = 2
+
+[node name="Jumps" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Jumps:"
+
+[node name="JumpsValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="JumpsValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="JumpsValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="JumpsValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="Rolls" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Rolls:"
+
+[node name="RollsValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RollsValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RollsValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="RollsValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="Spins" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Spins:"
+
+[node name="SpinsValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="SpinsValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="SpinsValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="SpinsValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="ShieldsObtained" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields obtained:"
+
+[node name="ShieldsObtainedValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsObtainedValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsObtainedValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsObtainedValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="TeleportsObtained" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Teleports obtained:"
+
+[node name="TeleportsObtainedValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="TeleportsObtainedValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="TeleportsObtainedValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="TeleportsObtainedValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="TeleportsUsed" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Teleports used:"
+
+[node name="TeleportsUsedValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="TeleportsUsedValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="TeleportsUsedValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="TeleportsUsedValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BouncedFromLasers" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Bounced from lasers:   "
+
+[node name="BouncedFromLasersValueSingle" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BouncedFromLasersValueMulti" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BouncedFromLasersValueRanked" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="BouncedFromLasersValueTotal" type="Label" parent="Stats/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="2" type="Control" parent="Stats"]
+auto_translate_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+auto_translate = false
+theme = ExtResource("12_luv01")
+
+[node name="Stats" type="Label" parent="Stats/2"]
+auto_translate_mode = 1
+layout_mode = 0
+offset_left = 117.0
+offset_top = 75.0
+offset_right = 303.0
+offset_bottom = 183.0
+theme_override_fonts/font = ExtResource("13_jhkct")
+theme_override_font_sizes/font_size = 80
+text = "Stats"
+
+[node name="GridContainer" type="GridContainer" parent="Stats/2"]
+auto_translate_mode = 1
+offset_left = 117.0
+offset_top = 222.0
+offset_right = 641.0
+offset_bottom = 760.0
+theme = ExtResource("12_luv01")
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="Category0" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="Category1" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Total"
+horizontal_alignment = 2
+
+[node name="ShieldsFromA" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from A:"
+
+[node name="ShieldsFromAValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromB" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from B:"
+
+[node name="ShieldsFromBValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromD" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from D:"
+
+[node name="ShieldsFromDValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromO" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from O:"
+
+[node name="ShieldsFromOValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromP" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from P:"
+
+[node name="ShieldsFromPValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromQ" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from Q:"
+
+[node name="ShieldsFromQValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="ShieldsFromR" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Shields gotten from R:"
+
+[node name="ShieldsFromRValueTotal" type="Label" parent="Stats/2/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="GridContainer2" type="GridContainer" parent="Stats/2"]
+auto_translate_mode = 1
+offset_left = 795.0
+offset_top = 222.0
+offset_right = 1319.0
+offset_bottom = 760.0
+theme = ExtResource("12_luv01")
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 30
+columns = 2
+
+[node name="Category0" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+
+[node name="Category1" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "Total"
+horizontal_alignment = 2
+
+[node name="TimeInGame" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Time in game:"
+
+[node name="TimeInGameValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="TimeRunning" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Time running:"
+
+[node name="TimeRunningValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="AllPlayersTimeInGame" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "All players time in game:"
+
+[node name="AllPlayersTimeInGameValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="AllPlayersTimeRunning" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "All players time running:"
+
+[node name="AllPlayersTimeRunningValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
 [node name="TabBar" type="TabBar" parent="Stats"]
 auto_translate_mode = 1
 layout_mode = 1
@@ -1515,12 +2119,14 @@ focus_mode = 0
 mouse_default_cursor_shape = 2
 current_tab = 0
 clip_tabs = false
-tab_count = 2
+tab_count = 3
 tab_0/title = ""
 tab_0/icon = ExtResource("9_1et0y")
 tab_1/title = ""
 tab_1/icon = ExtResource("10_54dlg")
-script = ExtResource("14_5dwy7")
+tab_2/title = ""
+tab_2/icon = ExtResource("10_54dlg")
+script = ExtResource("36_3et13")
 
 [node name="ArrowLeft" type="Button" parent="Stats"]
 auto_translate_mode = 1
