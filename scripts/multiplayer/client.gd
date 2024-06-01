@@ -114,6 +114,8 @@ const shader10 = preload("res://assets/graphics/materials/PlayerSoul.tres")
 func _ready():
 	set_process(false)
 
+var token
+
 # Called inside of main
 func init():
 	lobby = Lobby.new()
@@ -121,6 +123,7 @@ func init():
 	connecting_to_server_percentage = 0.1
 	Discord.init(APP_ID)
 	await Discord.dispatch_ready
+	lobby.id = Discord.guild_id + Discord.instance_id
 	connecting_to_server_percentage = 0.2
 	var auth = await Discord.command_authorize("code", ["identify"], "")
 	connecting_to_server_percentage = 0.3
@@ -137,14 +140,14 @@ func init():
 	hreq.queue_free()
 	var json = response[3].get_string_from_utf8()
 	var response_json = JSON.parse_string(json)
-	var token = response_json["access_token"]
+	token = response_json["access_token"]
 	user_id = response_json["user_id"]
 	await Discord.command_authenticate(token)
 	connecting_to_server_percentage = 0.7
 	Discord.subscribe_to_events()
 	# connect to websocket server
 	peer = WebSocketPeer.new()
-	peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
+	peer.connect_to_url("wss://" + DISCORDSAYS + "/api/ws?token=" + token + "&lobby_id=" + Discord.guild_id + Discord.instance_id + "&user_id=" + user_id)
 	connecting_to_server_percentage = 0.8
 	ping_timer = get_tree().create_timer(5.0, true, false, true)
 	set_process(true)
@@ -162,6 +165,7 @@ func _process(_delta):
 		if not _sent_initial_packet:
 			_sent_initial_packet = true
 			var msg = {
+				"token": token,
 				"type": ClientMessages.AUTHENTICATE,
 				"user_id": user_id,
 				"lobby_id": Discord.guild_id + Discord.instance_id
@@ -170,6 +174,7 @@ func _process(_delta):
 		else:
 			if ping_timer.time_left == 0.0:
 				var msg = {
+					"token": token,
 					"type": ClientMessages.PING
 				}
 				peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
@@ -227,10 +232,9 @@ func _process(_delta):
 		# reconnect
 		_sent_initial_packet = false
 		print("Reconnecting...")
-		peer.connect_to_url("wss://" + DISCORDSAYS + "/ws")
+		peer.connect_to_url("wss://" + DISCORDSAYS + "/api/ws?token=" + token + "&lobby_id=" + Discord.guild_id + Discord.instance_id + "&user_id=" + user_id)
 
 func update_lobby(json):
-	lobby.id = json.id
 	lobby.leader_id = json.leader_id
 	lobby.members = {}
 	var other_players = get_tree().get_nodes_in_group("other_players")
@@ -353,6 +357,7 @@ func _set_avatar(result: int, _response_code: int, _headers: PackedStringArray, 
 
 func leader_start_game():
 	var msg = {
+		"token": token,
 		"type": ClientMessages.START_GAME,
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
@@ -363,6 +368,7 @@ func set_ready(is_ready: bool):
 
 func send_death(stage: int):
 	var msg = {
+		"token": token,
 		"type": ClientMessages.DEAD,
 		"stage": stage
 	}
@@ -370,6 +376,7 @@ func send_death(stage: int):
 
 func send_revive(target_user_id: String):
 	var msg = {
+		"token": token,
 		"type": ClientMessages.REVIVE,
 		"target_user_id": target_user_id
 	}
@@ -378,6 +385,7 @@ func send_revive(target_user_id: String):
 # used to update settings or user state
 func update_user():
 	var msg = {
+		"token": token,
 		"type": ClientMessages.USER_CHANGE,
 		"user": lobby.members[user_id].toJSON()
 	}
@@ -385,6 +393,7 @@ func update_user():
 
 func update_settings():
 	var msg = {
+		"token": token,
 		"type": ClientMessages.SETTINGS_CHANGE,
 		"settings": settings
 	}
@@ -392,12 +401,14 @@ func update_settings():
 
 func return_to_menu():
 	var msg = {
+		"token": token,
 		"type": ClientMessages.END_GAME,
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
 func update_stats(stats: Dictionary):
 	var msg = {
+		"token": token,
 		"type": ClientMessages.STATS_UPDATE,
 		"stats": stats
 	}
@@ -405,6 +416,7 @@ func update_stats(stats: Dictionary):
 
 func request_stats():
 	var msg = {
+		"token": token,
 		"type": ClientMessages.STATS_REQUEST
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
