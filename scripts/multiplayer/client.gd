@@ -116,6 +116,8 @@ func _ready():
 
 var token
 
+var gamemode = "casual"
+
 # Called inside of main
 func init():
 	lobby = Lobby.new()
@@ -420,3 +422,12 @@ func request_stats():
 		"type": ClientMessages.STATS_REQUEST
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func set_gamemode(mode: String):
+	if mode == "casual":
+		pass
+	elif mode == "ranked":
+		pass
+	else:
+		return
+	gamemode = mode

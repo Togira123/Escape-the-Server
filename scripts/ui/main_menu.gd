@@ -14,6 +14,9 @@ signal game_start
 @onready var stats_overview = $StatsOverview
 @onready var stats = $Stats
 
+@onready var leaderboard_button = $LeaderboardButton
+@onready var casual_button = $CasualButton
+
 @onready var settings_check_button = $"Settings/1/CheckButton"
 @onready var settings_player_customization = $"Settings/0"
 @onready var settings_player_customization_hex_field = $"Settings/0/Hex"
@@ -98,11 +101,16 @@ func _on_game_start_button_pressed():
 	game_start.emit()
 
 func _on_leaderboard_button_pressed():
-	settings.visible = false
-	shop.visible = false
+	stats_overview.visible = false
 	leaderboard.visible = true
-	await get_tree().create_timer(3.0).timeout
+	leaderboard_button.visible = false
+	casual_button.visible = true
+
+func _on_casual_button_pressed():
 	leaderboard.visible = false
+	stats_overview.visible = true
+	casual_button.visible = false
+	leaderboard_button.visible = true
 
 func _on_settings_button_pressed():
 	stats_overview.visible = false
