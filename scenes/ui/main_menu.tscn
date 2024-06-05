@@ -657,7 +657,7 @@ layout_mode = 0
 offset_left = 118.0
 offset_top = 222.0
 offset_right = 1369.0
-offset_bottom = 676.0
+offset_bottom = 618.0
 theme_override_constants/h_separation = 200
 theme_override_constants/v_separation = 30
 columns = 2
@@ -670,7 +670,7 @@ text = "Strive Left"
 [node name="KeyLeft" type="Label" parent="Help/1/GridContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "A/Arrow Left"
+text = "A"
 
 [node name="Right" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
@@ -682,7 +682,7 @@ text = "Strive Right"
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "D/Arrow Right"
+text = "D"
 
 [node name="Jump" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
@@ -694,7 +694,7 @@ text = "Jump/Spin (when mid-air)"
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Space/Arrow Up"
+text = "Space"
 
 [node name="Roll" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
@@ -706,7 +706,7 @@ text = "Roll"
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Shift/Arrow Down"
+text = "Shift"
 
 [node name="UseItem" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
@@ -719,6 +719,27 @@ auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "E"
+
+[node name="Revive" type="Label" parent="Help/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Revive"
+
+[node name="ReviveKey" type="Label" parent="Help/1/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Arrow Keys"
+
+[node name="SwapKeybinds" type="Label" parent="Help/1"]
+layout_mode = 0
+offset_left = 118.0
+offset_top = 694.0
+offset_right = 158.0
+offset_bottom = 717.0
+theme_override_font_sizes/font_size = 30
+text = "You can swap the movement and revive keybinds in settings"
 
 [node name="TabBar" type="TabBar" parent="Help"]
 auto_translate_mode = 2
