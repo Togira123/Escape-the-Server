@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://tiwtwd7atfks" path="res://assets/graphics/ui/main_menu/Help.png" id="8_tunh5"]
 [ext_resource type="Texture2D" uid="uid://ctx3y2vnwbudg" path="res://assets/graphics/ui/main_menu/tab_selected.png" id="9_1et0y"]
 [ext_resource type="Script" path="res://scripts/ui/help_menu/help.gd" id="9_dih4r"]
-[ext_resource type="Texture2D" uid="uid://cjjfby8q8c4tk" path="res://assets/graphics/ui/main_menu/Multiplayer.png" id="9_hckbi"]
+[ext_resource type="Texture2D" path="res://assets/graphics/ui/main_menu/Multiplayer.png" id="9_hckbi"]
 [ext_resource type="Texture2D" uid="uid://d15demdf6af8x" path="res://assets/graphics/ui/main_menu/tab_default.png" id="10_54dlg"]
 [ext_resource type="Theme" uid="uid://dki8u82alv46b" path="res://assets/graphics/themes/pure_text_label.tres" id="12_luv01"]
 [ext_resource type="FontFile" uid="uid://d0mbmlkdeyi61" path="res://assets/graphics/fonts/gg sans Bold.woff2" id="13_jhkct"]
@@ -306,6 +306,7 @@ icon = ExtResource("8_8204q")
 [node name="CasualButton" type="Button" parent="."]
 auto_translate_mode = 2
 visible = false
+layout_mode = 0
 offset_left = 1094.0
 offset_top = 926.0
 offset_right = 1314.0
@@ -532,6 +533,7 @@ text = "0 μm"
 horizontal_alignment = 2
 
 [node name="ResetsIn" type="Label" parent="Leaderboard"]
+auto_translate_mode = 2
 visible = false
 layout_mode = 1
 anchors_preset = 7
@@ -582,6 +584,7 @@ text = "Stats"
 
 [node name="Loading" type="Label" parent="StatsOverview"]
 auto_translate_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -601,7 +604,6 @@ text = "Loading..."
 
 [node name="GridContainer" type="GridContainer" parent="StatsOverview"]
 auto_translate_mode = 1
-visible = false
 layout_mode = 0
 offset_left = 56.0
 offset_top = 144.0
@@ -619,6 +621,49 @@ theme_override_font_sizes/font_size = 30
 text = "Micrometers travelled:"
 
 [node name="MicrometersTravelledValue" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="HighestRankEver" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Highest rank:"
+
+[node name="HighestRankEverValue" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "None"
+horizontal_alignment = 2
+
+[node name="GamesStarted" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Games started:"
+
+[node name="GamesStartedValue" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="LevelsFinished" type="Label" parent="StatsOverview/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Levels finished:"
+
+[node name="LevelsFinishedValue" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -655,50 +700,6 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 
-[node name="PlayersRevived" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Players revived:"
-
-[node name="PlayersRevivedValue" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="GamesStarted" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Games started:"
-
-[node name="GamesStartedValue" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0
-"
-horizontal_alignment = 2
-
-[node name="LevelsFinished" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Levels finished:"
-
-[node name="LevelsFinishedValue" type="Label" parent="StatsOverview/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
 [node name="Deaths" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
@@ -716,7 +717,6 @@ horizontal_alignment = 2
 
 [node name="ShowAll" type="Button" parent="StatsOverview"]
 auto_translate_mode = 2
-visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -1376,6 +1376,7 @@ icon_alignment = 1
 
 [node name="Stats" type="Panel" parent="."]
 auto_translate_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1582,13 +1583,13 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 
-[node name="PlayersRevived" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceEver" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Players revived:"
+text = "Longest distance (ever):"
 
-[node name="PlayersRevivedValueSingle" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceEverValueSingle" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1597,7 +1598,7 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="PlayersRevivedValueMulti" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceEverValueMulti" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1606,7 +1607,7 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="PlayersRevivedValueRanked" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceEverValueRanked" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1615,7 +1616,7 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="PlayersRevivedValueTotal" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceEverValueTotal" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1624,51 +1625,13 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="RevivesFailed" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceSeason" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Revives failed:"
+text = "Longest distance (season):"
 
-[node name="RevivesFailedValueSingle" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="RevivesFailedValueMulti" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="RevivesFailedValueRanked" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="RevivesFailedValueTotal" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0"
-horizontal_alignment = 2
-
-[node name="BeenRevived" type="Label" parent="Stats/0/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Been revived:"
-
-[node name="BeenRevivedValueSingle" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceSeasonValueSingle" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1677,7 +1640,7 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="BeenRevivedValueMulti" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceSeasonValueMulti" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1686,7 +1649,7 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="BeenRevivedValueRanked" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceSeasonValueRanked" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1695,13 +1658,56 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="BeenRevivedValueTotal" type="Label" parent="Stats/0/GridContainer"]
+[node name="LongestDistanceSeasonValueTotal" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
 text = "0
 "
+horizontal_alignment = 2
+
+[node name="HighestRankEver" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Highest rank (ever):"
+
+[node name="HighestRankEverValueSingle" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.387389, 0.387389, 0.387389, 1)
+theme_override_font_sizes/font_size = 30
+text = "-"
+horizontal_alignment = 2
+
+[node name="HighestRankEverValueMulti" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.388235, 0.388235, 0.388235, 1)
+theme_override_font_sizes/font_size = 30
+text = "-
+"
+horizontal_alignment = 2
+
+[node name="HighestRankEverValueRanked" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "None
+"
+horizontal_alignment = 2
+
+[node name="HighestRankEverValueTotal" type="Label" parent="Stats/0/GridContainer"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.388235, 0.388235, 0.388235, 1)
+theme_override_font_sizes/font_size = 30
+text = "-"
 horizontal_alignment = 2
 
 [node name="Deaths" type="Label" parent="Stats/0/GridContainer"]
@@ -2062,7 +2068,7 @@ horizontal_alignment = 2
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Bounced from lasers:   "
+text = "Bounced from lasers:          "
 
 [node name="BouncedFromLasersValueSingle" type="Label" parent="Stats/1/GridContainer"]
 auto_translate_mode = 1
@@ -2258,7 +2264,7 @@ auto_translate_mode = 1
 layout_mode = 0
 offset_left = 795.0
 offset_top = 222.0
-offset_right = 1319.0
+offset_right = 1334.0
 offset_bottom = 760.0
 theme = ExtResource("12_luv01")
 theme_override_constants/h_separation = 30
@@ -2276,6 +2282,50 @@ layout_mode = 2
 size_flags_horizontal = 3
 theme_override_font_sizes/font_size = 30
 text = "Total"
+horizontal_alignment = 2
+
+[node name="PlayersRevived" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Players revived:"
+
+[node name="PlayersRevivedValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
+horizontal_alignment = 2
+
+[node name="RevivesFailed" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Revives failed:"
+
+[node name="RevivesFailedValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0"
+horizontal_alignment = 2
+
+[node name="BeenRevived" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Been revived:"
+
+[node name="BeenRevivedValueTotal" type="Label" parent="Stats/2/GridContainer2"]
+auto_translate_mode = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 30
+text = "0
+"
 horizontal_alignment = 2
 
 [node name="TimeInGame" type="Label" parent="Stats/2/GridContainer2"]

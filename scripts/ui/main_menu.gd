@@ -28,14 +28,14 @@ signal game_start
 
 @onready var stats_to_node_path = {
 	"micrometers_travelled": ["MicrometersTravelledValue", 0],
+	"highest_rank_ever": ["HighestRankEverValue", 0],
 	"shields_obtained": ["ShieldsObtainedValue", -2],
 	"teleports_obtained": ["TeleportsObtainedValue", -2],
-	"players_revived": ["PlayersRevivedValue", 0],
 	"games_started": ["GamesStartedValue", 0],
 	"levels_finished": ["LevelsFinishedValue", 0],
 	"deaths": ["DeathsValue", 0],
-	"revives_failed": ["RevivesFailedValue", 1],
-	"been_revived": ["BeenRevivedValue", 1],
+	"longest_distance_ever": ["LongestDistanceEverValue", 1],
+	"longest_distance_season": ["LongestDistanceSeasonValue", 1],
 	"jumps": ["JumpsValue", 2],
 	"rolls": ["RollsValue", 2],
 	"spins": ["SpinsValue", 2],
@@ -52,6 +52,9 @@ signal game_start
 	"time_running": ["TimeRunningValue", 4],
 	"all_players_time_in_game": ["AllPlayersTimeInGameValue", 4],
 	"all_players_time_running": ["AllPlayersTimeRunningValue", 4],
+	"players_revived": ["PlayersRevivedValue", 4],
+	"revives_failed": ["RevivesFailedValue", 4],
+	"been_revived": ["BeenRevivedValue", 4],
 }
 
 var player_icon = null
@@ -79,6 +82,10 @@ func _ready():
 		settings_graphics._on_radio_low_toggled(true, false)
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
+	if Client.gamemode == "casual":
+		_on_casual_button_pressed()
+	else:
+		_on_leaderboard_button_pressed()
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -105,12 +112,16 @@ func _on_leaderboard_button_pressed():
 	leaderboard.visible = true
 	leaderboard_button.visible = false
 	casual_button.visible = true
+	# don't need to set seed here because it's set when a run starts
+	Client.gamemode = "ranked"
 
 func _on_casual_button_pressed():
 	leaderboard.visible = false
 	stats_overview.visible = true
 	casual_button.visible = false
 	leaderboard_button.visible = true
+	Client.ranked_rand.randomize()
+	Client.gamemode = "casual"
 
 func _on_settings_button_pressed():
 	stats_overview.visible = false
@@ -209,6 +220,8 @@ func update_stats():
 					node.text = Client.stats[mode][stat]
 				0, 1:
 					var node = get_node("Stats/0/GridContainer/" + node_name + mode_to_node_name(mode))
+					if stat == "highest_rank_ever" and mode != "ranked":
+						continue
 					node.text = Client.stats[mode][stat]
 	# another iteration for "total"
 	for stat in Client.stats["singleplayer"]:
@@ -222,9 +235,12 @@ func update_stats():
 				node2.text = node.text
 			0:
 				var node = get_node("StatsOverview/GridContainer/" + node_name)
-				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
 				var node2 = get_node("Stats/0/GridContainer/" + node_name + "Total")
-				node2.text = node.text
+				if stat == "highest_rank_ever":
+					node.text = Client.stats["ranked"][stat]
+				else:
+					node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+					node2.text = node.text
 			1:
 				var node = get_node("Stats/0/GridContainer/" + node_name + "Total")
 				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
@@ -236,20 +252,23 @@ func update_stats():
 				node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
 			4:
 				var node = get_node("Stats/2/GridContainer2/" + node_name + "Total")
-				var seconds: int = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
-				var minutes: int = 0
-				var hours: int = 0
-				var days: int = 0
-				if seconds >= 60:
-					minutes = seconds / 60
-					seconds = minutes % 60
-				if minutes >= 60:
-					hours = minutes / 60
-					minutes = hours % 60
-				if hours >= 24:
-					days = hours / 24
-					hours = days % 24
-				node.text = "%sd %sh %sm %ss" % [days, hours, minutes, seconds]
+				if node_name.contains("Time"):
+					var seconds: int = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
+					var minutes: int = 0
+					var hours: int = 0
+					var days: int = 0
+					if seconds >= 60:
+						minutes = seconds / 60
+						seconds = minutes % 60
+					if minutes >= 60:
+						hours = minutes / 60
+						minutes = hours % 60
+					if hours >= 24:
+						days = hours / 24
+						hours = days % 24
+					node.text = "%sd %sh %sm %ss" % [days, hours, minutes, seconds]
+				else:
+					node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
 	if stats_overview_loading.visible:
 		stats_overview_loading.visible = false
 		stats_overview_container.visible = true

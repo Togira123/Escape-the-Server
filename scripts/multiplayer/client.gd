@@ -5,8 +5,8 @@ class_name MultiplayerClient
 signal on_authorize
 signal lobby_updated
 
-const APP_ID = "1221502156880744499"
-#const APP_ID = "1237787957872562247"
+#const APP_ID = "1221502156880744499"
+const APP_ID = "1237787957872562247"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 const DISCORDCDN = "https://cdn.discordapp.com"
 
@@ -111,12 +111,16 @@ const shader8 = preload("res://assets/graphics/materials/MakePlayerIconWhite.tre
 const shader9 = preload("res://assets/graphics/materials/PlayerShield.tres")
 const shader10 = preload("res://assets/graphics/materials/PlayerSoul.tres")
 
-func _ready():
-	set_process(false)
-
 var token
 
 var gamemode = "casual"
+
+var ranked_seed = 1
+var season_ends_in = 0
+var ranked_rand = RandomNumberGenerator.new()
+
+func _ready():
+	set_process(false)
 
 # Called inside of main
 func init():

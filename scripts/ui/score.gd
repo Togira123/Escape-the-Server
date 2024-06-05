@@ -12,4 +12,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	text = str(clamp(finish - int(player.position.z), 0, finish)) + " Micrometers left"
+	if Client.gamemode == "casual":
+		text = str(clamp(finish - int(player.position.z), 0, finish)) + " Micrometers left"
+	else:
+		text = "Micrometers run: " + str(int(player.position.z))

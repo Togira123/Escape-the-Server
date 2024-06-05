@@ -59,8 +59,8 @@ func _physics_process(delta):
 
 func spawn_sentence():
 	var sentence = constants.get_random_sentence().to_upper()
-	var cur_x_pos = len(sentence) * LETTER_SCALE + (50 - (randi() % 100))
-	var height = (randi() % 30) * 2 + 40
+	var cur_x_pos = len(sentence) * LETTER_SCALE + (50 - (Client.ranked_rand.randi() % 100))
+	var height = (Client.ranked_rand.randi() % 30) * 2 + 40
 	for i in range(len(sentence)):
 		if sentence[i] == " ":
 			cur_x_pos -= LETTER_SCALE * 1.5
@@ -81,16 +81,16 @@ func spawn_sentence():
 			frozen_letters.append(instance)
 		cur_x_pos -= width + 2
 		instance.position.y = height
-		instance.rotation.y = PI + ((8 - (randi() % 16)) * (PI / 180.0))
-		if randi() % 4 == 0:
-			instance.rotation.x += (4 - (randi() % 8)) * (PI / 180.0)
+		instance.rotation.y = PI + ((8 - (Client.ranked_rand.randi() % 16)) * (PI / 180.0))
+		if Client.ranked_rand.randi() % 4 == 0:
+			instance.rotation.x += (4 - (Client.ranked_rand.randi() % 8)) * (PI / 180.0)
 		instance.freeze = true
 		spawned_letters.append(instance)
 		sentence_node.add_child(instance)
-	if randi() % 10 == 1:
+	if Client.ranked_rand.randi() % 10 == 1:
 		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
-		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (randi() % 20))
+		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (Client.ranked_rand.randi() % 20))
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
@@ -102,7 +102,7 @@ func spawn_sentence():
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:
 		var count = 0
-		spawned_letters.shuffle()
+		shuffle(spawned_letters)
 		for inst in spawned_letters:
 			if abs(inst.position.x) <= 120:
 				inst.freeze = false
@@ -118,4 +118,11 @@ func change_color_of_pattern():
 		var shader: ShaderMaterial = $Ground/Pattern.mesh.surface_get_material(0)
 		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
 		shader.set_shader_parameter("emit", 3 + constants.ground_pattern_color_change_progress * 3)
-	
+
+func shuffle(array: Array):
+	var n = array.size()
+	for i in range(n - 1):
+		var j = Client.ranked_rand.randi_range(i, n - 1)
+		var t = array[i]
+		array[i] = array[j]
+		array[j] = t

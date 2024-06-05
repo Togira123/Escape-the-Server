@@ -27,7 +27,7 @@ const TUNNEL_LENGTH = 500
 @export var platform_modules2: Array[PackedScene] = [] # groups 2 and 3
 @export var platform_modules3: Array[PackedScene] = [] # groups 3 and 1
 var loaded_modules = []
-var amount = LOADED_MODULES_SIZE
+var amount = 10
 
 var next_tunnel = 0
 
@@ -46,6 +46,10 @@ func _ready():
 	if not Client.is_authorized:
 		await Client.on_authorize
 	for n in amount:
+		spawn_module(module_count * OFFSET, false)
+
+func load_level_start_on_game_start():
+	for n in LOADED_MODULES_SIZE - amount: 
 		spawn_module(module_count * OFFSET, false)
 
 func spawn_module(n: int, platforms: bool):
@@ -81,11 +85,11 @@ func spawn_module(n: int, platforms: bool):
 			var mod
 			match last_group:
 				3:
-					mod = platform_modules1[(randi() % (platform_modules1.size() - 1)) + 1]
+					mod = platform_modules1[(Client.ranked_rand.randi() % (platform_modules1.size() - 1)) + 1]
 				1:
-					mod = platform_modules2[(randi() % (platform_modules2.size() - 1)) + 1]
+					mod = platform_modules2[(Client.ranked_rand.randi() % (platform_modules2.size() - 1)) + 1]
 				2:
-					mod = platform_modules3[(randi() % (platform_modules3.size() - 1)) + 1]
+					mod = platform_modules3[(Client.ranked_rand.randi() % (platform_modules3.size() - 1)) + 1]
 			instance = mod.instantiate()
 			instance.position.z = n
 			if loaded_modules[index]:
@@ -131,7 +135,7 @@ func spawn_module(n: int, platforms: bool):
 			skip = false
 			return
 	else:
-		instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] - 3 * OFFSET and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else randi() % modules.size()].instantiate()
+		instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] - 3 * OFFSET and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else Client.ranked_rand.randi() % modules.size()].instantiate()
 		instance.position.z = n
 		if loaded_modules[index]:
 			loaded_modules[index].queue_free()

@@ -96,6 +96,8 @@ func _on_main_menu_game_start():
 
 # called in client.gd when GAME_START message is received
 func start_game():
+	if Client.gamemode == "ranked":
+		Client.ranked_rand.set_seed(Client.ranked_seed)
 	set_process(true)
 	# remove main menu from scene tree
 	$MainMenu.queue_free()
@@ -108,6 +110,8 @@ func start_game():
 		player_icon.get_node("Dead").visible = false
 		player_icon.get_node("Running").visible = false
 		player_icon.get_node("Lobby").visible = false
+	# call this to load the first few modules (besides the default ones)
+	level.load_level_start_on_game_start()
 
 func _on_player_game_over(skip_animation: bool):
 	var ins = LOADING_SCREEN.instantiate()
