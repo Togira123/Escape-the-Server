@@ -46,7 +46,8 @@ const TUNNEL_SPEED: float = 250
 const SHIELD_DURATION = 5.0
 const TELEPORT_DISTANCE = 40
 
-const PLATFORM_LENGTH = [1500, 2000]
+# need these +20 for the platforms to end with the empty module
+const PLATFORM_LENGTH = [1520, 2020]
 
 enum State {
 	IN_LOBBY,

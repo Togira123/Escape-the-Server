@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://tiwtwd7atfks" path="res://assets/graphics/ui/main_menu/Help.png" id="8_tunh5"]
 [ext_resource type="Texture2D" uid="uid://ctx3y2vnwbudg" path="res://assets/graphics/ui/main_menu/tab_selected.png" id="9_1et0y"]
 [ext_resource type="Script" path="res://scripts/ui/help_menu/help.gd" id="9_dih4r"]
-[ext_resource type="Texture2D" path="res://assets/graphics/ui/main_menu/Multiplayer.png" id="9_hckbi"]
+[ext_resource type="Texture2D" uid="uid://cjjfby8q8c4tk" path="res://assets/graphics/ui/main_menu/Multiplayer.png" id="9_hckbi"]
 [ext_resource type="Texture2D" uid="uid://d15demdf6af8x" path="res://assets/graphics/ui/main_menu/tab_default.png" id="10_54dlg"]
 [ext_resource type="Theme" uid="uid://dki8u82alv46b" path="res://assets/graphics/themes/pure_text_label.tres" id="12_luv01"]
 [ext_resource type="FontFile" uid="uid://d0mbmlkdeyi61" path="res://assets/graphics/fonts/gg sans Bold.woff2" id="13_jhkct"]

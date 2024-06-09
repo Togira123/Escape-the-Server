@@ -11,9 +11,17 @@ const LOW_RES_FLOOR_MATERIAL = preload("res://assets/graphics/materials/LowResGr
 # status effects
 const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn")
 
+const JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
+const JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
+const JUMPPADS = [JUMPPAD_GREEN, JUMPPAD_YELLOW]
+
 const OFFSET: int = 20
 const LOADED_MODULES_SIZE: int = 32
-const TUNNELS = [3000, 6000, 10000]
+
+const CASUAL_TUNNELS = [3000, 6000, 10000]
+# shortly before the max int size the level is finished
+const RANKED_TUNNELS = [4000, 9000, 9223372036854775807 - 100000]
+var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
 
 @onready var tunnels = $"Tunnels"
@@ -40,6 +48,9 @@ var last_group = 3
 
 var first_plats = [false, false]
 
+var single_holes = []
+var potential_single_holes = []
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
@@ -58,8 +69,8 @@ func spawn_module(n: int, platforms: bool):
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	var instance: Node
 	if platforms:
-		if not first_plats[next_tunnel - 1]:
-			first_plats[next_tunnel - 1] = true
+		if not first_plats[next_tunnel] or n == TUNNELS[next_tunnel]:
+			first_plats[next_tunnel] = true
 			instance = EMPTY_PLATFORM.instantiate()
 			instance.position.z = n
 			if loaded_modules[index]:
@@ -134,8 +145,8 @@ func spawn_module(n: int, platforms: bool):
 		else:
 			skip = false
 			return
-	else:
-		instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] - 3 * OFFSET and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else Client.ranked_rand.randi() % modules.size()].instantiate()
+	else: # not platform
+		instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else Client.ranked_rand.randi() % modules.size()].instantiate()
 		instance.position.z = n
 		if loaded_modules[index]:
 			loaded_modules[index].queue_free()
@@ -146,13 +157,18 @@ func spawn_module(n: int, platforms: bool):
 			i.position.x = -95.0
 			i.position.z = 0.0
 			instance.add_child(i)
-
+		
 		if loaded_modules[prev_ind]:
+			var pad = null
+			single_holes = potential_single_holes
+			potential_single_holes = []
+			var cur_holes = []
 			var prev_inst = loaded_modules[prev_ind]
 			var prev_module_num = prev_inst.get_meta("module_number")
 			match instance.get_meta("module_number"):
 				2:
-					if prev_module_num == 2:
+					cur_holes = [0]
+					if prev_module_num == 2 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 					elif prev_module_num == 7:
@@ -170,8 +186,12 @@ func spawn_module(n: int, platforms: bool):
 						var front_old = prev_inst.get_child(3)
 						front_old.scale.y = 0.5
 						front_old.position.x -= 5.0
+					else:
+						potential_single_holes = [0]
+					
 				3:
-					if prev_module_num == 3:
+					cur_holes = [-50, 50]
+					if prev_module_num == 3 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 						instance.get_child(2).visible = false
@@ -179,21 +199,32 @@ func spawn_module(n: int, platforms: bool):
 					elif prev_module_num == 4 or prev_module_num == 8:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [-50]
 					elif prev_module_num == 5:
 						instance.get_child(2).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [50]
 					elif prev_module_num == 7:
 						instance.get_child(2).visible = false
 						prev_inst.get_child(5).visible = false
+						potential_single_holes = [50]
+					else:
+						potential_single_holes = [-50, 50]
+					
 				4:
-					if prev_module_num == 4:
+					cur_holes = [50]
+					if prev_module_num == 4 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 					elif prev_module_num == 3 || prev_module_num == 8:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
+					else:
+						potential_single_holes = [50]
+					
 				5:
-					if prev_module_num == 5:
+					cur_holes = [-50]
+					if prev_module_num == 5 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 					elif prev_module_num == 3:
@@ -202,8 +233,12 @@ func spawn_module(n: int, platforms: bool):
 					elif prev_module_num == 7:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(5).visible = false
+					else:
+						potential_single_holes = [-50]
+					
 				6:
-					if prev_module_num == 6:
+					cur_holes = [-70, -30, 30, 70]
+					if prev_module_num == 6 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 						instance.get_child(2).visible = false
@@ -215,11 +250,17 @@ func spawn_module(n: int, platforms: bool):
 					elif prev_module_num == 7:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [-70, -30, 30]
 					elif prev_module_num == 8:
 						instance.get_child(6).visible = false
 						prev_inst.get_child(5).visible = false
+						potential_single_holes = [-30, 30, 70]
+					else:
+						potential_single_holes = [-70, -30, 30, 70]
+					
 				7:
-					if prev_module_num == 7:
+					cur_holes = [-50, 10, 70]
+					if prev_module_num == 7 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 						instance.get_child(2).visible = false
@@ -233,17 +274,25 @@ func spawn_module(n: int, platforms: bool):
 						var front_old = prev_inst.get_child(1)
 						front_old.scale.y = 0.5
 						front_old.position.x -= 5.0
+						potential_single_holes = [-50, 70]
 					elif prev_module_num == 3:
 						instance.get_child(4).visible = false
 						prev_inst.get_child(3).visible = false
+						potential_single_holes = [10, 70]
 					elif prev_module_num == 5:
 						instance.get_child(4).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [10, 70]
 					elif prev_module_num == 6:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [-50, 10]
+					else:
+						potential_single_holes = [-50, 10, 70]
+					
 				8:
-					if prev_module_num == 8:
+					cur_holes = [-70, -10, 50]
+					if prev_module_num == 8 or prev_module_num == -1:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
 						instance.get_child(2).visible = false
@@ -257,16 +306,42 @@ func spawn_module(n: int, platforms: bool):
 						var front_old = prev_inst.get_child(1)
 						front_old.scale.y = 0.5
 						front_old.position.x += 5.0
+						potential_single_holes = [-70, 50]
 					elif prev_module_num == 3 or prev_module_num == 4:
 						instance.get_child(0).visible = false
 						prev_inst.get_child(1).visible = false
+						potential_single_holes = [-70, -10]
 					elif prev_module_num == 6:
 						instance.get_child(4).visible = false
 						prev_inst.get_child(7).visible = false
-						
+						potential_single_holes = [-10, 50]
+					else:
+						potential_single_holes = [-70, -10, 50]
+			
+			if Client.gamemode == "ranked" and single_holes.size() > 0:
+				var cur_holes_size = cur_holes.size()
+				if cur_holes_size > 0:
+					var count_c = 0
+					var count_s = 0
+					# invalidate holes that aren't fully alone
+					for i in range(cur_holes_size + single_holes.size()):
+						if count_c == cur_holes_size or count_s == single_holes.size(): # single_holes size can change
+							break # searched all of the array
+						# do it like this to account for overlapping holes
+						if abs(cur_holes[count_c] - single_holes[count_s]) <= 10:
+							single_holes.remove_at(count_s)
+						elif cur_holes[count_c] < single_holes[count_s]:
+							count_c += 1
+						else: # cur_holes[count_c] > single_holes[count_s]
+							count_s += 1
+				if single_holes.size() > 0 and Client.ranked_rand.randi() % 4 == 1:
+					pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
+					var xpos = single_holes[Client.ranked_rand.randi() % single_holes.size()]
+					pad.position = Vector3(xpos, 0, 0)
+					prev_inst.add_child(pad)
 	loaded_modules[index] = instance
 	if next_tunnel < TUNNELS.size():
-		if n > TUNNELS[next_tunnel]:
+		if n >= TUNNELS[next_tunnel]:
 			# spawn tunnel
 			var count = 5 if next_tunnel == TUNNELS.size() - 1 else 2
 			for i in range(count):
