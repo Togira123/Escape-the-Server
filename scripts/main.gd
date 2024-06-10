@@ -98,6 +98,7 @@ func _on_main_menu_game_start():
 func start_game():
 	if Client.gamemode == "ranked":
 		Client.ranked_rand.set_seed(Client.ranked_seed)
+		Client.ranked_rand_drop.set_seed(Client.ranked_seed)
 		level.TUNNELS = level.RANKED_TUNNELS
 	else:
 		level.TUNNELS = level.CASUAL_TUNNELS

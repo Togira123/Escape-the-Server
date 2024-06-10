@@ -42,7 +42,7 @@ const LETTER_SCALE = 7
 var spawned_letters: Array[Node] = []
 var frozen_letters: Array[Node] = []
 var frozen_letters_vel = 0.0
-var drop_at_z = position.z + 100000
+var drop_at_z = 9223372036854775807
 var dropped = false
 static var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -90,7 +90,7 @@ func spawn_sentence():
 	if Client.ranked_rand.randi() % 10 == 1:
 		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
-		drop_at_z = (constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (Client.ranked_rand.randi() % 20))
+		drop_at_z = int(constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (Client.ranked_rand.randi() % 20))
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
@@ -101,6 +101,7 @@ func spawn_sentence():
 
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:
+		dropped = true
 		var count = 0
 		shuffle(spawned_letters)
 		for inst in spawned_letters:
@@ -110,7 +111,6 @@ func maybe_drop(pos):
 				if count % 4 == 0:
 					await get_tree().create_timer(0.1).timeout
 				count += 1
-		dropped = true
 		set_physics_process(true)
 
 func change_color_of_pattern():
@@ -122,7 +122,7 @@ func change_color_of_pattern():
 func shuffle(array: Array):
 	var n = array.size()
 	for i in range(n - 1):
-		var j = Client.ranked_rand.randi_range(i, n - 1)
+		var j = Client.ranked_rand_drop.randi_range(i, n - 1)
 		var t = array[i]
 		array[i] = array[j]
 		array[j] = t

@@ -159,7 +159,6 @@ func spawn_module(n: int, platforms: bool):
 			instance.add_child(i)
 		
 		if loaded_modules[prev_ind]:
-			var pad = null
 			single_holes = potential_single_holes
 			potential_single_holes = []
 			var cur_holes = []
@@ -335,7 +334,7 @@ func spawn_module(n: int, platforms: bool):
 						else: # cur_holes[count_c] > single_holes[count_s]
 							count_s += 1
 				if single_holes.size() > 0 and Client.ranked_rand.randi() % 4 == 1:
-					pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
+					var pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
 					var xpos = single_holes[Client.ranked_rand.randi() % single_holes.size()]
 					pad.position = Vector3(xpos, 0, 0)
 					prev_inst.add_child(pad)

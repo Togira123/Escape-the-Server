@@ -118,6 +118,8 @@ var gamemode = "casual"
 var ranked_seed = 1
 var season_ends_in = 0
 var ranked_rand = RandomNumberGenerator.new()
+# generator used to drop letters randomly
+var ranked_rand_drop = RandomNumberGenerator.new()
 
 func _ready():
 	set_process(false)

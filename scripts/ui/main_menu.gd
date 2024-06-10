@@ -121,6 +121,7 @@ func _on_casual_button_pressed():
 	casual_button.visible = false
 	leaderboard_button.visible = true
 	Client.ranked_rand.randomize()
+	Client.ranked_rand_drop.randomize()
 	Client.gamemode = "casual"
 
 func _on_settings_button_pressed():
