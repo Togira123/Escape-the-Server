@@ -196,9 +196,8 @@ func _unhandled_key_input(event):
 	if player_state != State.RUNNING or is_in_tunnel() != -1:
 		return
 	if event.is_action_pressed("jump"):
-		print(state_machine.get_current_node())
 		if not is_on_floor():
-			if not has_spinned and state_machine.get_current_node() == "jump":
+			if not has_spinned and state_machine.get_current_node() == "jump" and position.y > 4:
 				state_machine.travel("spin_blend_tree")
 				has_spinned = true
 				cur_movement = RUN
@@ -231,8 +230,6 @@ func _unhandled_key_input(event):
 		get_viewport().set_input_as_handled()
 
 func run(delta):
-	if position.y > 60:
-		print(position.y)
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
 	if animation_tree.get("parameters/conditions/has_crashed"):
@@ -506,10 +503,12 @@ func player_was_hit(area: Area3D):
 		# hit shield, apply it when exiting the area
 		return
 	elif area.name == "JumppadGreen":
+		has_spinned = false
 		state_machine.travel("jump")
 		velocity.y = JUMPPAD_GREEN + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_GREEN
 		cur_movement = JUMP
 	elif area.name == "JumppadYellow":
+		has_spinned = false
 		state_machine.travel("jump")
 		velocity.y = JUMPPAD_YELLOW + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_YELLOW
 		cur_movement = JUMP
