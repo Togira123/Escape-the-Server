@@ -146,8 +146,8 @@ func _physics_process(delta):
 			level.stage = cur_tunnel
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
-			# use this here to force jump_blend_tree node immediately
-			state_machine.start("jump_blend_tree", true)
+			# use this here to force jump node immediately
+			state_machine.start("jump", true)
 			started_spinning_in_tunnel = false
 			reached_height = false
 			if not last:
@@ -196,14 +196,15 @@ func _unhandled_key_input(event):
 	if player_state != State.RUNNING or is_in_tunnel() != -1:
 		return
 	if event.is_action_pressed("jump"):
+		print(state_machine.get_current_node())
 		if not is_on_floor():
-			if not has_spinned and state_machine.get_current_node() == "jump_blend_tree":
+			if not has_spinned and state_machine.get_current_node() == "jump":
 				state_machine.travel("spin_blend_tree")
 				has_spinned = true
 				cur_movement = RUN
 				spin_count += 1
 		elif state_machine.get_current_node() != "spin_blend_tree":
-			state_machine.travel("jump_blend_tree")
+			state_machine.travel("jump")
 			velocity.y = JUMP_VELOCITY
 			cur_movement = JUMP
 			jump_count += 1
@@ -269,7 +270,8 @@ func run(delta):
 		has_spinned = false
 		# make sure that character is standing normal after spinning
 		rotation.x = 0
-		if cur_movement == JUMP:
+		if cur_movement == JUMP and velocity.y <= 0.0:
+			state_machine.travel("run_blend_tree")
 			cur_movement = RUN
 	
 	# apply heat if player is too close to lasers
@@ -447,7 +449,7 @@ func revive():
 	hitbox_collision_shape.set_deferred("disabled", false)
 	floor_collision.set_deferred("disabled", false)
 	animation_tree.set("parameters/conditions/has_crashed", false)
-	state_machine.travel("jump_blend_tree")
+	state_machine.travel("jump")
 	velocity.y = JUMP_VELOCITY
 	cur_movement = JUMP
 	has_spinned = false # allow the player to spin
@@ -504,11 +506,11 @@ func player_was_hit(area: Area3D):
 		# hit shield, apply it when exiting the area
 		return
 	elif area.name == "JumppadGreen":
-		state_machine.travel("jump_blend_tree")
+		state_machine.travel("jump")
 		velocity.y = JUMPPAD_GREEN + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_GREEN
 		cur_movement = JUMP
 	elif area.name == "JumppadYellow":
-		state_machine.travel("jump_blend_tree")
+		state_machine.travel("jump")
 		velocity.y = JUMPPAD_YELLOW + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_YELLOW
 		cur_movement = JUMP
 	else:
