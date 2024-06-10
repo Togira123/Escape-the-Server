@@ -3,6 +3,8 @@ extends Control
 @onready var player_camera = $"../PlayerCamera"
 @onready var level_ui = $"../Level/UI/"
 var TUNNEL = preload("res://scenes/tunnel.tscn")
+var JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
+var JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
 
 @onready var player = $"../Player"
 
@@ -32,6 +34,13 @@ func _process(_delta):
 		var tunnel = TUNNEL.instantiate()
 		tunnel.position.z = 150
 		add_child(tunnel)
+		var green_pad = JUMPPAD_GREEN.instantiate()
+		green_pad.position.z = 50
+		var yellow_pad = JUMPPAD_YELLOW.instantiate()
+		yellow_pad.position.z = 60
+		yellow_pad.position.x = 10
+		add_child(green_pad)
+		add_child(yellow_pad)
 		prev_player_pos = player.position.z
 		player.position.z = 10
 		frames -= 1

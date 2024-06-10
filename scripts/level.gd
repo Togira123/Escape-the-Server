@@ -317,7 +317,7 @@ func spawn_module(n: int, platforms: bool):
 					else:
 						potential_single_holes = [-70, -10, 50]
 			
-			if Client.gamemode == "ranked" and single_holes.size() > 0:
+			if Client.gamemode == "ranked" and prev_module_num != -1 and single_holes.size() > 0:
 				var cur_holes_size = cur_holes.size()
 				if cur_holes_size > 0:
 					var count_c = 0
