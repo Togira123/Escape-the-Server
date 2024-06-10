@@ -15,4 +15,4 @@ func _process(_delta):
 	if Client.gamemode == "casual":
 		text = str(clamp(finish - int(player.position.z), 0, finish)) + " Micrometers left"
 	else:
-		text = "Micrometers run: " + str(int(player.position.z))
+		text = "Micrometers run: " + str(int(max(0, player.position.z)))

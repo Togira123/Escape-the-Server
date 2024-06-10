@@ -94,6 +94,7 @@ revive_right={
 3d_physics/layer_3="LetterPlayerCollision"
 3d_physics/layer_4="Player (no masks detecting this)"
 3d_physics/layer_5="Laser"
+3d_physics/layer_6="Jumppad"
 
 [rendering]
 

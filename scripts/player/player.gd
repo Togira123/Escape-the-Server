@@ -109,6 +109,12 @@ var teleports_obtained = 0
 var teleports_used = 0
 var laser_bounce_count = 0
 
+# for jumppad
+var roll_started_midair = false
+const JUMPPAD_GREEN = 50
+const JUMPPAD_YELLOW = 65
+const JUMPPAD_ROLL_BOOST = 10
+
 func _ready():
 	set_process(false)
 	if not Client.is_authorized:
@@ -205,6 +211,7 @@ func _unhandled_key_input(event):
 	elif event.is_action_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
 		state_machine.travel("roll")
 		cur_movement = ROLL
+		roll_started_midair = not is_on_floor()
 		roll_count += 1
 		get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("use_item") and teleport_count > 0:
@@ -223,6 +230,8 @@ func _unhandled_key_input(event):
 		get_viewport().set_input_as_handled()
 
 func run(delta):
+	if position.y > 60:
+		print(position.y)
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
 	if animation_tree.get("parameters/conditions/has_crashed"):
@@ -249,7 +258,7 @@ func run(delta):
 			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.y = 0.0
 		else:
-			if cur_node == "roll":
+			if cur_movement == ROLL:
 				# Drop quickly if player is rolling
 				velocity.y -= FALL_ACCELERATION * 3 * delta
 			if rotation.x != 0:
@@ -494,7 +503,16 @@ func player_was_hit(area: Area3D):
 	elif area.name == "ShieldHitbox":
 		# hit shield, apply it when exiting the area
 		return
+	elif area.name == "JumppadGreen":
+		state_machine.travel("jump_blend_tree")
+		velocity.y = JUMPPAD_GREEN + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_GREEN
+		cur_movement = JUMP
+	elif area.name == "JumppadYellow":
+		state_machine.travel("jump_blend_tree")
+		velocity.y = JUMPPAD_YELLOW + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_YELLOW
+		cur_movement = JUMP
 	else:
+		# hit laser
 		if level.stage == 2:
 			die()
 			return
