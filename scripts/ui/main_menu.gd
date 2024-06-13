@@ -69,7 +69,7 @@ func _ready():
 		stats_overview_loading.visible = false
 		stats_overview_container.visible = true
 		stats_overview_show_all.visible = true
-	update_play_button(true)
+	update_play_button()
 	settings_check_button.set_pressed_no_signal(Client.settings["default_keybinds"])
 	settings._on_check_button_toggled(Client.settings["default_keybinds"], false)
 	var player_color = Client.lobby.members[Client.user_id].color
@@ -82,10 +82,7 @@ func _ready():
 		settings_graphics._on_radio_low_toggled(true, false)
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
-	if Client.gamemode == "casual":
-		_on_casual_button_pressed()
-	else:
-		_on_leaderboard_button_pressed()
+	update_ranked_casual_button()
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -96,33 +93,44 @@ func display_not_all_players_ready_message():
 		await not_all_players_ready_timer.timeout
 		not_all_players_ready.visible = false
 
-func update_play_button(initial: bool):
-	if Client.user_id == Client.lobby.leader_id:
+func update_play_button():
+	var user = Client.lobby.members[Client.user_id]
+	if Client.user_id == Client.lobby.leader_id or user.gamemode == "ranked":
 		$GameStartButton.visible = true
 		ready_button.visible = false
 		not_ready_button.visible = false
-	elif initial:
-		ready_button.visible = true
+	else:
+		$GameStartButton.visible = false
+		if user.is_ready:
+			ready_button.visible = false
+			not_ready_button.visible = true
+		else:
+			ready_button.visible = true
+			not_ready_button.visible = false
 
 func _on_game_start_button_pressed():
 	game_start.emit()
 
 func _on_leaderboard_button_pressed():
-	stats_overview.visible = false
-	leaderboard.visible = true
-	leaderboard_button.visible = false
-	casual_button.visible = true
-	# don't need to set seed here because it's set when a run starts
-	Client.gamemode = "ranked"
+	Client.set_gamemode("ranked")
 
 func _on_casual_button_pressed():
-	leaderboard.visible = false
-	stats_overview.visible = true
-	casual_button.visible = false
-	leaderboard_button.visible = true
-	Client.ranked_rand.randomize()
-	Client.ranked_rand_drop.randomize()
-	Client.gamemode = "casual"
+	Client.set_gamemode("casual")
+
+func update_ranked_casual_button():
+	if Client.lobby.members[Client.user_id].gamemode == "ranked":
+		# don't need to set seed here because it's set when a run starts
+		stats_overview.visible = false
+		leaderboard.visible = true
+		leaderboard_button.visible = false
+		casual_button.visible = true
+	else: # gamemode is casual
+		leaderboard.visible = false
+		stats_overview.visible = true
+		casual_button.visible = false
+		leaderboard_button.visible = true
+		Client.ranked_rand.randomize()
+		Client.ranked_rand_drop.randomize()
 
 func _on_settings_button_pressed():
 	stats_overview.visible = false

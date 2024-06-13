@@ -1,13 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://bulx786penph7"]
+[gd_scene load_steps=13 format=3 uid="uid://bulx786penph7"]
 
 [ext_resource type="Texture2D" uid="uid://butnt0s6edtfb" path="res://assets/graphics/ui/DefaultAvatar.png" id="1_6nck8"]
 [ext_resource type="Shader" path="res://shaders/ui/circle_shape.gdshader" id="1_kg1uf"]
 [ext_resource type="Texture2D" uid="uid://beggf78cf3yis" path="res://assets/graphics/ui/RunningPlayer.png" id="3_dbd3g"]
-[ext_resource type="Material" path="res://assets/graphics/materials/MakePlayerIconWhite.tres" id="3_f1lkj"]
+[ext_resource type="Material" uid="uid://chy25ix7k22u0" path="res://assets/graphics/materials/MakePlayerIconWhite.tres" id="3_f1lkj"]
 [ext_resource type="Texture2D" uid="uid://bm6areu18wf12" path="res://assets/graphics/ui/Skull.png" id="5_oiarq"]
 [ext_resource type="Texture2D" uid="uid://cwjlgiajgpxmd" path="res://assets/graphics/ui/main_menu/Ready.png" id="6_p2n78"]
 [ext_resource type="Texture2D" uid="uid://d3ikiyt7hgojc" path="res://assets/graphics/ui/LobbyForPlayerState.png" id="6_xc3yx"]
+[ext_resource type="Texture2D" uid="uid://wbvjrxsqrlra" path="res://assets/graphics/ui/RankedIcon.png" id="7_gem1t"]
 [ext_resource type="Texture2D" uid="uid://c17jkvh8tk0k7" path="res://assets/graphics/ui/main_menu/NotReady.png" id="7_np1ah"]
+[ext_resource type="Texture2D" uid="uid://ca0oyffwueq0k" path="res://assets/graphics/ui/Casual.png" id="8_2001b"]
 [ext_resource type="Texture2D" uid="uid://dxyn1p338bn57" path="res://assets/graphics/ui/LobbyLeader.png" id="8_h0xcd"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6380g"]
@@ -44,6 +46,18 @@ visible = false
 material = ExtResource("3_f1lkj")
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("6_xc3yx")
+
+[node name="Ranked" type="Sprite2D" parent="."]
+visible = false
+material = ExtResource("3_f1lkj")
+scale = Vector2(0.256, 0.256)
+texture = ExtResource("7_gem1t")
+
+[node name="Casual" type="Sprite2D" parent="."]
+visible = false
+material = ExtResource("3_f1lkj")
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("8_2001b")
 
 [node name="Ready" type="Sprite2D" parent="."]
 visible = false

@@ -96,7 +96,7 @@ func _on_main_menu_game_start():
 
 # called in client.gd when GAME_START message is received
 func start_game():
-	if Client.gamemode == "ranked":
+	if Client.lobby.members[Client.user_id].gamemode == "ranked":
 		Client.ranked_rand.set_seed(Client.ranked_seed)
 		Client.ranked_rand_drop.set_seed(Client.ranked_seed)
 		level.TUNNELS = level.RANKED_TUNNELS

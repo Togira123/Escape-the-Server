@@ -60,14 +60,16 @@ class User:
 	var avatar_hash: String
 	var is_ready: bool
 	var running: bool
+	var gamemode: String
 	var color: String
-	func _init(_id, _username, _global_name, _avatar_hash, _is_ready, _running, _color):
+	func _init(_id, _username, _global_name, _avatar_hash, _is_ready, _running, _gamemode, _color):
 		id = _id
 		username = _username
 		global_name = _global_name
 		avatar_hash = _avatar_hash
 		is_ready = _is_ready
 		running = _running
+		gamemode = _gamemode
 		color = _color
 	func toJSON():
 		return {
@@ -77,7 +79,8 @@ class User:
 			"avatar_hash": avatar_hash,
 			"is_ready": is_ready,
 			"running": running,
-			"color": color
+			"color": color,
+			"gamemode": gamemode
 		}
 
 
@@ -112,8 +115,6 @@ const shader9 = preload("res://assets/graphics/materials/PlayerShield.tres")
 const shader10 = preload("res://assets/graphics/materials/PlayerSoul.tres")
 
 var token
-
-var gamemode = "casual"
 
 var ranked_seed = 1
 var season_ends_in = 0
@@ -166,7 +167,7 @@ func _process(_delta):
 		is_authorized = true
 		connecting_to_server_percentage = 1.0
 		on_authorize.emit()
-			
+	
 	peer.poll()
 	var state = peer.get_ready_state()
 	if state == WebSocketPeer.STATE_OPEN:
@@ -209,15 +210,16 @@ func _process(_delta):
 						connecting_to_server_percentage += 0.1
 				elif data["type"] == ServerMessages.GAME_START:
 					# set everyone's states correctly as on the server
-					for member in lobby.members:
+					for member in data["players"]:
 						lobby.members[member].is_ready = false
 						lobby.members[member].running = true
 					# start the game
-					$"/root/Main".start_game()
+					if data["players"].has(user_id):
+						$"/root/Main".start_game()
 				elif data["type"] == ServerMessages.DIED:
 					var died_user_id = data["user_id"]
 					$"/root/Main/Player".check_and_start_revive(data["stage"], died_user_id)
-					if lobby.members[user_id].running:
+					if lobby.members[user_id].gamemode == "casual" and lobby.members[user_id].running:
 						# if this user is running show a skull for the player that died
 						get_node("/root/Main/Level/UI/Players/" + died_user_id + "/Dead").visible = true
 				elif data["type"] == ServerMessages.REVIVED:
@@ -228,7 +230,7 @@ func _process(_delta):
 						var revive_node = get_node_or_null("/root/Main/Level/UI/Revive")
 						if revive_node:
 							revive_node.start_disappear_timer(data["by_user_id"])
-					if lobby.members[user_id].running:
+					if lobby.members[user_id].gamemode == "casual" and lobby.members[user_id].running:
 						# if this user is running remove the skull for the player that died
 						get_node("/root/Main/Level/UI/Players/" + data["user_id"] + "/Dead").visible = false
 				elif data["type"] == ServerMessages.STATS:
@@ -248,7 +250,7 @@ func update_lobby(json):
 	var other_players = get_tree().get_nodes_in_group("other_players")
 	for member in json.members:
 		# first make sure to save all users in lobby
-		var user = User.new(member.id, member.username, member.global_name, member.avatar_hash, member.is_ready, member.running, member.color)
+		var user = User.new(member.id, member.username, member.global_name, member.avatar_hash, member.is_ready, member.running, member.gamemode, member.color)
 		lobby.members[user.id] = user
 	# then iterate and update stuff accordingly
 	for member in json.members:
@@ -260,10 +262,22 @@ func update_lobby(json):
 				$"/root/Main/Level/UI/Players".add_child(player_icon)
 				if member.avatar_hash != null:
 					fetch_avatar(member.id, member.avatar_hash)
-			if not member.running and lobby.leader_id == user_id:
-				get_node("/root/Main/Level/UI/Players/" + user_id + "/Ready").visible = false
-				get_node("/root/Main/Level/UI/Players/" + user_id + "/NotReady").visible = false
-				get_node("/root/Main/Level/UI/Players/" + user_id + "/Leader").visible = true
+			
+			if not member.running:
+				var ready_icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/Ready")
+				var not_ready_icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/NotReady")
+				var leader_icon = get_node("/root/Main/Level/UI/Players/" + user_id + "/Leader")
+				leader_icon.visible = false
+				if lobby.leader_id == user_id:
+					ready_icon.visible = false
+					not_ready_icon.visible = false
+					leader_icon.visible = true
+				elif member.gamemode == "ranked":
+					ready_icon.visible = false
+					not_ready_icon.visible = false
+				elif not ready_icon.visible and not not_ready_icon.visible:
+					# if neither icon is shown, show not ready (happens when switching to casual mode)
+					not_ready_icon.visible = true
 			# do not add additional player node for the player that runs this game
 			continue
 		var exists = other_players.any(func(p): return p.user_id == member.id)
@@ -272,35 +286,55 @@ func update_lobby(json):
 			var inst = PLAYER.instantiate()
 			inst.user_id = member.id
 			inst.add_to_group("other_players")
-			var is_running = lobby.members[inst.user_id].running
-			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running)
+			var is_running = member.running
+			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running or lobby.members[user_id].gamemode == "ranked")
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[inst.user_id].color))
 			var player_icon = PLAYER_ICON.instantiate()
 			player_icon.name = member.id
 			$"/root/Main/Level/UI/Players".add_child(player_icon)
 			if member.avatar_hash != null:
 				fetch_avatar(member.id, member.avatar_hash)
-			if lobby.members[user_id].running:
+			if lobby.members[user_id].gamemode == "ranked":
+				# new player joined while this user is in ranked, show the new player as casual
+				if member.gamemode == "casual":
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Casual").visible = true
+				else:
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Ranked").visible = true
+				# don't show the not ready button which is enabled by default
+				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/NotReady").visible = false
+				if not lobby.members[user_id].running and lobby.leader_id == inst.user_id:
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Leader").visible = true
+			elif lobby.members[user_id].running:
 				# new player joined while this user is running, show the lobby icon
 				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Lobby").visible = not is_running
 				# don't show the not ready button which is enabled by default
 				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/NotReady").visible = false
 			else:
-				# if this user is not running (-> he's in the lobby), display other users that are running as running
-				get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Running").visible = is_running
-				# also update whether this user is ready or not
 				var ready_icon = get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Ready")
 				var not_ready_icon = get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/NotReady")
-				if lobby.leader_id == member.id:
+				var leader_icon = get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Leader")
+				if member.gamemode == "ranked":
+					if lobby.leader_id == member.user_id:
+						leader_icon.visible = true
+					else:
+						leader_icon.visible = false
 					ready_icon.visible = false
 					not_ready_icon.visible = false
-					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Leader").visible = true
-				elif member.is_ready:
-					ready_icon.visible = true
-					not_ready_icon.visible = false
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Casual").visible = false
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Ranked").visible = true
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Running").visible = false
 				else:
-					ready_icon.visible = false
-					not_ready_icon.visible = true
+					# if this user is not running (-> he's in the lobby), display other users that are running as running
+					get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Running").visible = is_running
+					# also update whether this user is ready or not
+					if lobby.leader_id == member.id:
+						not_ready_icon.visible = false
+						get_node("/root/Main/Level/UI/Players/" + inst.user_id + "/Leader").visible = true
+					elif member.is_ready:
+						ready_icon.visible = true
+						not_ready_icon.visible = false
+					else:
+						not_ready_icon.visible = true
 			$"/root/Main".add_child(inst)
 	for player in other_players:
 		if not lobby.members.has(player.user_id):
@@ -311,28 +345,62 @@ func update_lobby(json):
 			# update the player model
 			var member = lobby.members[player.user_id]
 			var is_running = member.running
-			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running)
+			var show_transparent = is_running or lobby.members[user_id].gamemode == "ranked" or member.gamemode == "ranked"
+			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", show_transparent)
 			if not lobby.members[user_id].running:
-				# if this user is not running (-> he's in the lobby), display other users that are running as running
-				get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = is_running
-				# also update whether this user is ready or not
 				var ready_icon = get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ready")
 				var not_ready_icon = get_node("/root/Main/Level/UI/Players/" + player.user_id + "/NotReady")
-				if lobby.leader_id == player.user_id:
+				var leader_icon = get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Leader")
+				if lobby.members[user_id].gamemode == "ranked":
+					if lobby.leader_id == player.user_id:
+						leader_icon.visible = true
+					else:
+						leader_icon.visible = false
 					ready_icon.visible = false
 					not_ready_icon.visible = false
-					get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Leader").visible = true
-				elif member.is_ready:
-					ready_icon.visible = true
-					not_ready_icon.visible = false
+					if member.gamemode == "ranked":
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Casual").visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ranked").visible = true
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = false
+					else:
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Casual").visible = true
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ranked").visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = false
 				else:
-					ready_icon.visible = false
-					not_ready_icon.visible = true
-			
+					if member.gamemode == "ranked":
+						if lobby.leader_id == player.user_id:
+							leader_icon.visible = true
+						else:
+							leader_icon.visible = false
+						ready_icon.visible = false
+						not_ready_icon.visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Casual").visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ranked").visible = true
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = false
+					else:
+						# if this user is not running (-> he's in the lobby), display other users that are running as running
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Casual").visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Ranked").visible = false
+						get_node("/root/Main/Level/UI/Players/" + player.user_id + "/Running").visible = is_running
+						# also update whether this user is ready or not
+						if lobby.leader_id == player.user_id:
+							ready_icon.visible = false
+							not_ready_icon.visible = false
+							leader_icon.visible = true
+						elif member.is_ready:
+							ready_icon.visible = true
+							not_ready_icon.visible = false
+							leader_icon.visible = false
+						else:
+							ready_icon.visible = false
+							not_ready_icon.visible = true
+							leader_icon.visible = false
+
 			player.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(member.color))
 	var main_menu = get_node_or_null("/root/Main/MainMenu")
 	if main_menu:
-		main_menu.update_play_button(false)
+		main_menu.update_play_button()
+		main_menu.update_ranked_casual_button()
 	lobby_updated.emit()
 
 func fetch_avatar(user_id: String, avatar_hash: String):
@@ -429,11 +497,8 @@ func request_stats():
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 
+# set actual "gamemode" variable when receiving the object from the server
 func set_gamemode(mode: String):
-	if mode == "casual":
-		pass
-	elif mode == "ranked":
-		pass
-	else:
-		return
-	gamemode = mode
+	if mode == "casual" or mode == "ranked":
+		lobby.members[user_id].gamemode = mode
+		update_user()

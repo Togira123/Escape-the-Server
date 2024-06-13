@@ -317,7 +317,7 @@ func spawn_module(n: int, platforms: bool):
 					else:
 						potential_single_holes = [-70, -10, 50]
 			
-			if Client.gamemode == "ranked" and prev_module_num != -1 and single_holes.size() > 0:
+			if Client.lobby.members[Client.user_id].gamemode == "ranked" and prev_module_num != -1 and single_holes.size() > 0:
 				var cur_holes_size = cur_holes.size()
 				if cur_holes_size > 0:
 					var count_c = 0
@@ -333,7 +333,7 @@ func spawn_module(n: int, platforms: bool):
 							count_c += 1
 						else: # cur_holes[count_c] > single_holes[count_s]
 							count_s += 1
-				if single_holes.size() > 0 and Client.ranked_rand.randi() % 4 == 1:
+				if single_holes.size() > 0 and Client.ranked_rand.randi() % 8 == 1:
 					var pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
 					var xpos = single_holes[Client.ranked_rand.randi() % single_holes.size()]
 					pad.position = Vector3(xpos, 0, 0)

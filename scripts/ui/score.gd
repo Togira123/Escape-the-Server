@@ -12,7 +12,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if Client.gamemode == "casual":
+	if Client.lobby.members[Client.user_id].gamemode == "casual":
 		text = str(clamp(finish - int(player.position.z), 0, finish)) + " Micrometers left"
 	else:
 		text = "Micrometers run: " + str(int(max(0, player.position.z)))
