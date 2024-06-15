@@ -44,6 +44,8 @@ var frozen_letters: Array[Node] = []
 var frozen_letters_vel = 0.0
 var drop_at_z = 9223372036854775807
 var dropped = false
+# stores x coor of built things
+var built_at: Array[int] = []
 static var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
 # Called when the node enters the scene tree for the first time.

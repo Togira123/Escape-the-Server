@@ -214,43 +214,55 @@ func _unhandled_key_input(event):
 			cur_movement = JUMP
 			jump_count += 1
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("roll") and state_machine.get_current_node() != "spin_blend_tree":
-		state_machine.travel("roll")
-		cur_movement = ROLL
-		roll_started_midair = not is_on_floor()
-		roll_count += 1
-		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("use_item") and teleport_count > 0:
-		teleport_count -= 1
-		level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
-		var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
-		if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
-			# tp 3 meters before tunnel if there is one in front
-			var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
-			position.z += tp_dist
-			camera.distance_to_player = max(2, tp_dist)
-		else:
-			position.z += TELEPORT_DISTANCE
-			camera.distance_to_player = TELEPORT_DISTANCE
-		teleports_used += 1
-		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("build_ramp") and material_count >= 10:
-		var ramp = RAMP.instantiate()
-		var zpos = ceil(position.z / 40) * 2
-		var xpos = ceil(position.x * 5 / 100) * 20 - 10
-		ramp.position.x = xpos
-		var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
-		level.loaded_modules[needed_ind].add_child(ramp)
-		material_count -= 10
-	elif event.is_action_pressed("build_ceiling") and material_count >= 10:
-		var ceiling = CEILING.instantiate()
-		var zpos = ceil(position.z / 40) * 2
-		var xpos = ceil(position.x * 5 / 100) * 20 - 10
-		ceiling.position.x = xpos
-		var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
-		ceiling.position.y = 21
-		level.loaded_modules[needed_ind].add_child(ceiling)
-		material_count -= 10
+	elif event.is_action_pressed("roll"):
+		if state_machine.get_current_node() != "spin_blend_tree":
+			state_machine.travel("roll")
+			cur_movement = ROLL
+			roll_started_midair = not is_on_floor()
+			roll_count += 1
+			get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("use_item"):
+		if teleport_count > 0:
+			teleport_count -= 1
+			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
+			var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
+			if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
+				# tp 3 meters before tunnel if there is one in front
+				var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
+				position.z += tp_dist
+				camera.distance_to_player = max(2, tp_dist)
+			else:
+				position.z += TELEPORT_DISTANCE
+				camera.distance_to_player = TELEPORT_DISTANCE
+			teleports_used += 1
+			get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("build_ramp"):
+		if material_count >= 10:
+			var zpos = ceil(position.z / 40) * 2
+			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
+			var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+			var module = level.loaded_modules[needed_ind]
+			if module.built_at.has(xpos):
+				return
+			var ramp = RAMP.instantiate()
+			ramp.position.x = xpos
+			module.built_at.append(xpos)
+			module.add_child(ramp)
+			material_count -= 10
+	elif event.is_action_pressed("build_ceiling"):
+		if material_count >= 10:
+			var zpos = ceil(position.z / 40) * 2
+			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
+			var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+			var module = level.loaded_modules[needed_ind]
+			if module.built_at.has(xpos):
+				return
+			var ceiling = CEILING.instantiate()
+			ceiling.position.x = xpos
+			ceiling.position.y = 21
+			module.built_at.append(xpos)
+			module.add_child(ceiling)
+			material_count -= 10
 	elif event.is_action_pressed("toggle_build_indicator"):
 		if building_indicator.visible:
 			building_indicator.set_process(false)
