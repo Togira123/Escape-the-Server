@@ -2,9 +2,12 @@ extends Control
 
 @onready var player_camera = $"../PlayerCamera"
 @onready var level_ui = $"../Level/UI/"
+@onready var building_indicator = $"../Level/BuildingIndicator"
 var TUNNEL = preload("res://scenes/tunnel.tscn")
 var JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
 var JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
+var BUILD_CEILING = preload("res://scenes/building/Ceiling.tscn")
+var BUILD_RAMP = preload("res://scenes/building/Ramp.tscn")
 
 @onready var player = $"../Player"
 
@@ -43,6 +46,10 @@ func _process(_delta):
 		add_child(yellow_pad)
 		prev_player_pos = player.position.z
 		player.position.z = 10
+		var ceiling = BUILD_CEILING.instantiate()
+		ceiling.position.z = 30
+		ceiling.position.y = 10
+		add_child(ceiling)
 		frames -= 1
 	elif frames > 0:
 		if frames == 4:
@@ -55,6 +62,10 @@ func _process(_delta):
 			prev_heat_effect_val = level_ui.get_node("HeatEffect").material.get_shader_parameter("alpha")
 			level_ui.get_node("HeatEffect").material.set_shader_parameter("alpha", 1.0)
 			level_ui.get_node("Arrow").visible = true
+			building_indicator.visible = true
+			var ramp = BUILD_RAMP.instantiate()
+			ramp.position.z = 30
+			add_child(ramp)
 		elif frames == 3:
 			$"../MainMenu".get_node("Settings").visible = true
 		elif frames == 1:
@@ -66,6 +77,7 @@ func _process(_delta):
 			$"../MainMenu".get_node("Settings").visible = false
 			player.position.z = prev_player_pos
 			print("Preload finished!")
+			building_indicator.visible = false
 			Client.showed_loading_screen = true
 		frames -= 1
 	else:

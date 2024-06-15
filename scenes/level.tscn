@@ -1,4 +1,4 @@
-[gd_scene load_steps=37 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=41 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -17,6 +17,8 @@
 [ext_resource type="Script" path="res://scripts/ui/score.gd" id="12_tlb8y"]
 [ext_resource type="PackedScene" uid="uid://e5whg08m6svx" path="res://scenes/grounds/ground_plat4.tscn" id="13_0e75c"]
 [ext_resource type="PackedScene" uid="uid://c1vc4ekki26gd" path="res://scenes/grounds/ground_plat5.tscn" id="14_v6ed1"]
+[ext_resource type="Shader" path="res://shaders/building_indicator.gdshader" id="16_1oaxy"]
+[ext_resource type="Script" path="res://scripts/building/building_indicator.gd" id="16_i1k7v"]
 [ext_resource type="Shader" path="res://shaders/vignette.gdshader" id="16_ld2fk"]
 [ext_resource type="Texture2D" uid="uid://ry762tkghk7b" path="res://assets/graphics/ui/AbilityArrow.png" id="18_dwtdr"]
 [ext_resource type="Shader" path="res://shaders/ui/fps_count_bg.gdshader" id="18_ifkcv"]
@@ -30,6 +32,27 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kgnrn"]
+render_priority = 0
+shader = ExtResource("16_1oaxy")
+shader_parameter/color = Color(0, 1, 1, 1)
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_qrg3e"]
+resource_name = "build_indicator_Cube_001"
+_surfaces = [{
+"aabb": AABB(-10, -10, -20, 20, 20, 40),
+"attribute_data": PackedByteArray(255, 95, 255, 255, 255, 95, 0, 0, 255, 159, 255, 255, 255, 159, 0, 0, 255, 95, 255, 191, 255, 95, 255, 191, 255, 159, 255, 191, 255, 159, 255, 191, 255, 95, 255, 63, 255, 95, 255, 63, 255, 159, 255, 63, 255, 159, 255, 63, 255, 95, 255, 127, 255, 95, 255, 127, 255, 159, 255, 127, 255, 159, 255, 127),
+"format": 34896613399,
+"index_count": 24,
+"index_data": PackedByteArray(0, 0, 6, 0, 2, 0, 0, 0, 4, 0, 6, 0, 5, 0, 14, 0, 7, 0, 5, 0, 12, 0, 14, 0, 13, 0, 11, 0, 15, 0, 13, 0, 9, 0, 11, 0, 8, 0, 3, 0, 10, 0, 8, 0, 1, 0, 3, 0),
+"material": SubResource("ShaderMaterial_kgnrn"),
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 16,
+"vertex_data": PackedByteArray(0, 0, 0, 0, 254, 255, 84, 213, 0, 0, 0, 0, 254, 255, 255, 191, 0, 0, 255, 255, 254, 255, 84, 213, 0, 0, 255, 255, 254, 255, 255, 191, 0, 0, 0, 0, 0, 0, 84, 213, 0, 0, 0, 0, 0, 0, 255, 255, 0, 0, 255, 255, 0, 0, 84, 213, 0, 0, 255, 255, 0, 0, 255, 255, 255, 255, 0, 0, 254, 255, 255, 191, 255, 255, 0, 0, 254, 255, 84, 213, 255, 255, 255, 255, 254, 255, 255, 191, 255, 255, 255, 255, 254, 255, 84, 213, 255, 255, 0, 0, 0, 0, 255, 255, 255, 255, 0, 0, 0, 0, 84, 213, 255, 255, 255, 255, 0, 0, 255, 255, 255, 255, 255, 255, 0, 0, 84, 213, 84, 213, 84, 213, 255, 255, 255, 255, 84, 213, 84, 213, 255, 255, 255, 255, 84, 213, 84, 213, 255, 191, 255, 191, 84, 213, 84, 213, 255, 191, 255, 191, 255, 255, 255, 255, 170, 42, 170, 42, 255, 255, 255, 255, 170, 42, 170, 42, 255, 191, 255, 191, 170, 42, 170, 42, 255, 191, 255, 191, 170, 42, 170, 42)
+}]
+blend_shape_mode = 0
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_oajq7"]
 shader = ExtResource("16_ld2fk")
@@ -109,6 +132,16 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 8, 300)
 shape = SubResource("BoxShape3D_x54t6")
 
 [node name="Tunnels" type="Node3D" parent="."]
+
+[node name="BuildingIndicator" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1.5, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
+script = ExtResource("16_i1k7v")
+
+[node name="Cube" type="MeshInstance3D" parent="BuildingIndicator"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 10, 0)
+cast_shadow = 0
+mesh = SubResource("ArrayMesh_qrg3e")
+skeleton = NodePath("")
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3

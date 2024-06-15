@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://btp5j8qud4l7o"]
+[gd_scene load_steps=35 format=3 uid="uid://btp5j8qud4l7o"]
 
 [ext_resource type="Script" path="res://scripts/sentence.gd" id="1_1dp4b"]
 [ext_resource type="PackedScene" uid="uid://t2rwy2mkkifa" path="res://scenes/letters/B_reg.tscn" id="1_6b3n7"]
@@ -29,7 +29,6 @@
 [ext_resource type="PackedScene" uid="uid://di02l6g3b8mht" path="res://scenes/letters/Z_reg.tscn" id="27_c6hj5"]
 [ext_resource type="Material" uid="uid://csng317ehiofu" path="res://assets/graphics/materials/GroundMaterialCartoon.tres" id="28_6jcec"]
 [ext_resource type="Shader" path="res://shaders/ground_pattern.gdshader" id="29_r8ee7"]
-[ext_resource type="PackedScene" uid="uid://b4ra74huvkwqg" path="res://scenes/building/Ceiling.tscn" id="30_w4f2a"]
 
 [sub_resource type="ArrayMesh" id="ArrayMesh_7xo0w"]
 _surfaces = [{
@@ -113,6 +112,3 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_ebwnx")
 
 [node name="Sentence" type="Node3D" parent="."]
-
-[node name="Ceiling" parent="." instance=ExtResource("30_w4f2a")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 21, 2.08165e-12)

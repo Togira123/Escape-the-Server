@@ -13,12 +13,16 @@ signal game_over(skip_animation: bool)
 @onready var heat_effect: TextureRect = $"../Level/UI/HeatEffect"
 @onready var heat_status: Control = $"../Level/UI/Heat/HeatStatus"
 @onready var heat_bar: ColorRect = $"../Level/UI/Heat/HeatBar"
+@onready var building_indicator = $"../Level/BuildingIndicator"
 @onready var player_shield = $"PlayerShield"
 @onready var hitbox_collision_shape := $"Hitbox/CollisionShape3D"
 @onready var floor_collision = $FloorCollision
 @onready var constants = $"../Constants"
 @onready var camera = $"../PlayerCamera"
 @onready var name_tag = $NameTag
+
+const CEILING = preload("res://scenes/building/Ceiling.tscn")
+const RAMP = preload("res://scenes/building/Ramp.tscn")
 
 var speed = 50
 const RUN_SPEEDS = [50, 65, 80]
@@ -114,6 +118,8 @@ var roll_started_midair = false
 const JUMPPAD_GREEN = 50
 const JUMPPAD_YELLOW = 65
 const JUMPPAD_ROLL_BOOST = 10
+
+var material_count = 1000
 
 func _ready():
 	set_process(false)
@@ -228,10 +234,32 @@ func _unhandled_key_input(event):
 			camera.distance_to_player = TELEPORT_DISTANCE
 		teleports_used += 1
 		get_viewport().set_input_as_handled()
+	elif event.is_action_pressed("build_ramp") and material_count >= 10:
+		var ramp = RAMP.instantiate()
+		var zpos = ceil(position.z / 40) * 2
+		var xpos = ceil(position.x * 5 / 100) * 20 - 10
+		ramp.position.x = xpos
+		var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+		level.loaded_modules[needed_ind].add_child(ramp)
+		material_count -= 10
+	elif event.is_action_pressed("build_ceiling") and material_count >= 10:
+		var ceiling = CEILING.instantiate()
+		var zpos = ceil(position.z / 40) * 2
+		var xpos = ceil(position.x * 5 / 100) * 20 - 10
+		ceiling.position.x = xpos
+		var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+		ceiling.position.y = 21
+		level.loaded_modules[needed_ind].add_child(ceiling)
+		material_count -= 10
+	elif event.is_action_pressed("toggle_build_indicator"):
+		if building_indicator.visible:
+			building_indicator.set_process(false)
+			building_indicator.visible = false
+		else:
+			building_indicator.set_process(true)
+			building_indicator.visible = true
 
 func run(delta):
-	if position.y > 10:
-		print(position.y)
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
 	if animation_tree.get("parameters/conditions/has_crashed"):
