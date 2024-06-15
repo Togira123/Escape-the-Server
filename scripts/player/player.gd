@@ -230,6 +230,8 @@ func _unhandled_key_input(event):
 		get_viewport().set_input_as_handled()
 
 func run(delta):
+	if position.y > 10:
+		print(position.y)
 	jumped_in_tunnel = false
 	changed_color_in_tunnel = false
 	if animation_tree.get("parameters/conditions/has_crashed"):
