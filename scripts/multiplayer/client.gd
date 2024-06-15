@@ -218,8 +218,8 @@ func _process(_delta):
 						$"/root/Main".start_game()
 				elif data["type"] == ServerMessages.DIED:
 					var died_user_id = data["user_id"]
-					$"/root/Main/Player".check_and_start_revive(data["stage"], died_user_id)
 					if lobby.members[user_id].gamemode == "casual" and lobby.members[user_id].running:
+						$"/root/Main/Player".check_and_start_revive(data["stage"], died_user_id)
 						# if this user is running show a skull for the player that died
 						get_node("/root/Main/Level/UI/Players/" + died_user_id + "/Dead").visible = true
 				elif data["type"] == ServerMessages.REVIVED:
