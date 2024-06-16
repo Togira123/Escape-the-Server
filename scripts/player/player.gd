@@ -311,9 +311,9 @@ func run(delta):
 	else:
 		has_spinned = false
 		# make sure that character is standing normal after spinning
-		set_rotation_for_spin(0.0)
+		set_rotation_for_spin(lerp(armature.rotation.x, 0.0, LERP_VAL / 2.0))
 		#rotation.x = 0
-		if (cur_movement == JUMP and velocity.y <= 0.0) or cur_node == "spin_blend_tree":
+		if cur_node == "jump" or cur_node == "spin_blend_tree":
 			state_machine.travel("run_blend_tree")
 			cur_movement = RUN
 	
