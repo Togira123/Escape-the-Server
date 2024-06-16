@@ -571,7 +571,7 @@ func player_was_hit(area: Area3D):
 			die()
 			return
 		velocity.y = laser_impulse * 4
-		if position.x > 0:
+		if (position.x > 0 and position.x < lasers.X_OFFSET) or position.x < -lasers.X_OFFSET:
 			player_laser_impulse = -laser_impulse
 		else:
 			player_laser_impulse = laser_impulse
