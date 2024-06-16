@@ -46,7 +46,7 @@ var stage = 0
 var skip = false # used to only place a platform module every second time
 var last_group = 3
 
-var first_plats = [false, false]
+var first_plats = [false, false, false]
 
 var single_holes = []
 var potential_single_holes = []
@@ -70,6 +70,7 @@ func spawn_module(n: int, platforms: bool):
 	var instance: Node
 	if platforms:
 		if not first_plats[next_tunnel] or n == TUNNELS[next_tunnel]:
+			print("EMPTY")
 			first_plats[next_tunnel] = true
 			instance = EMPTY_PLATFORM.instantiate()
 			instance.position.z = n
