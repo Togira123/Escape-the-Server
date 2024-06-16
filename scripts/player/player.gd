@@ -249,7 +249,7 @@ func _unhandled_key_input(event):
 			module.built_at.append(xpos)
 			module.add_child(ramp)
 			material_count -= 10
-	elif event.is_action_pressed("build_ceiling"):
+	elif event.is_action_pressed("build_ceiling", true):
 		if material_count >= 10:
 			var zpos = ceil(position.z / 40) * 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
@@ -263,7 +263,7 @@ func _unhandled_key_input(event):
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
 			material_count -= 10
-	elif event.is_action_pressed("toggle_build_indicator"):
+	elif event.is_action_pressed("toggle_build_indicator", true):
 		if building_indicator.visible:
 			building_indicator.set_process(false)
 			building_indicator.visible = false
