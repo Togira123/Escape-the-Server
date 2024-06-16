@@ -20,6 +20,7 @@ signal game_over(skip_animation: bool)
 @onready var constants = $"../Constants"
 @onready var camera = $"../PlayerCamera"
 @onready var name_tag = $NameTag
+@onready var hitbox = $Hitbox
 
 const CEILING = preload("res://scenes/building/Ceiling.tscn")
 const RAMP = preload("res://scenes/building/Ramp.tscn")
@@ -292,24 +293,27 @@ func run(delta):
 			hitbox_collision_shape.position.y = lerp(hitbox_collision_shape.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
 			player_shield.mesh.height = lerp(player_shield.mesh.height, PLAYER_ROLL_HEIGHT, LERP_VAL_MOV_CHANGE / 2.0)
 			player_shield.position.y = lerp(player_shield.position.y, PLAYER_ROLL_OFFSET, LERP_VAL_MOV_CHANGE / 2.0)
+	var cur_node = state_machine.get_current_node()
 	if not is_on_floor():
-		var cur_node = state_machine.get_current_node()
 		if cur_node == "spin_blend_tree":
-			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
+			set_rotation_for_spin(lerp(armature.rotation.x, PI / 2.0, LERP_VAL / 2.0))
+			#rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.y = 0.0
 		else:
 			if cur_movement == ROLL:
 				# Drop quickly if player is rolling
 				velocity.y -= FALL_ACCELERATION * 3 * delta
-			if rotation.x != 0:
-				rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
+			if armature.rotation.x != 0:
+				set_rotation_for_spin(lerp(armature.rotation.x, 0.0, LERP_VAL / 2.0))
+				#rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
 			# Gravity
 			velocity.y -= FALL_ACCELERATION * delta
 	else:
 		has_spinned = false
 		# make sure that character is standing normal after spinning
-		rotation.x = 0
-		if cur_movement == JUMP and velocity.y <= 0.0:
+		set_rotation_for_spin(0.0)
+		#rotation.x = 0
+		if (cur_movement == JUMP and velocity.y <= 0.0) or cur_node == "spin_blend_tree":
 			state_machine.travel("run_blend_tree")
 			cur_movement = RUN
 	
@@ -340,7 +344,10 @@ func run(delta):
 			player_laser_impulse += LASER_IMPULSE_BREAK_SPEED
 		velocity.x = normal_dir.x * speed
 		velocity.z = normal_dir.z * speed
-		armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
+		if cur_node == "spin_blend_tree":
+			armature.rotation.y = 0
+		else:
+			armature.rotation.y = lerp_angle(armature.rotation.y, atan2(velocity.x, velocity.z), LERP_VAL)
 	move_and_slide()
 
 func is_in_tunnel():
@@ -366,7 +373,8 @@ func tunnel_process(delta, is_last: bool):
 		# spin
 		if state_machine.get_current_node() == "spin_blend_tree" or player_state == State.FINISHED:
 			velocity.y = 0.0
-			rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
+			set_rotation_for_spin(lerp(armature.rotation.x, PI / 2.0, LERP_VAL / 2.0))
+			#rotation.x = lerp(rotation.x, PI / 2.0, LERP_VAL / 2.0)
 			velocity.z = lerp(velocity.z, TUNNEL_SPEED * (3 if is_last else 1), 0.8)
 		else:
 			if not started_spinning_in_tunnel:
@@ -375,8 +383,9 @@ func tunnel_process(delta, is_last: bool):
 				started_spinning_in_tunnel = true
 			else:
 				changed_color_in_tunnel = true
-				if rotation.x != 0:
-					rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
+				if armature.rotation.x != 0:
+					set_rotation_for_spin(lerp(armature.rotation.x, 0.0, LERP_VAL / 2.0))
+					#rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
 				# Gravity
 				velocity.y -= FALL_ACCELERATION * delta
 				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 1.5)
@@ -595,3 +604,8 @@ func check_and_start_revive(stage: int, target_user_id: String):
 func set_color(col: Color):
 	Client.lobby.members[Client.user_id].color = col.to_html(false)
 	mesh.material_override.set_shader_parameter("albedo", col)
+
+func set_rotation_for_spin(r: float):
+	armature.rotation.x = r
+	hitbox.rotation.x = r
+	player_shield.rotation.x = r
