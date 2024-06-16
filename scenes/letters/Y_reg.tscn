@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://de5b7pwak7jel"]
 
 [ext_resource type="Script" path="res://scripts/dissolve_letter.gd" id="1_nxxut"]
-[ext_resource type="Material" uid="uid://0hph3qbepi0b" path="res://assets/graphics/materials/LetterMaterial.tres" id="2_hqi5d"]
+[ext_resource type="Material" uid="uid://0hph3qbepi0b" path="res://assets/graphics/materials/LetterMaterial.tres" id="2_527tg"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_o3t0l"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -25,8 +25,6 @@ _surfaces = [{
 "index_count": 96,
 "index_data": PackedByteArray(0, 0, 1, 0, 2, 0, 3, 0, 1, 0, 0, 0, 4, 0, 3, 0, 5, 0, 6, 0, 3, 0, 4, 0, 6, 0, 1, 0, 3, 0, 6, 0, 7, 0, 1, 0, 8, 0, 7, 0, 6, 0, 9, 0, 10, 0, 11, 0, 11, 0, 10, 0, 12, 0, 13, 0, 12, 0, 14, 0, 14, 0, 12, 0, 15, 0, 12, 0, 10, 0, 15, 0, 10, 0, 16, 0, 15, 0, 15, 0, 16, 0, 17, 0, 18, 0, 19, 0, 20, 0, 20, 0, 19, 0, 21, 0, 22, 0, 18, 0, 23, 0, 23, 0, 18, 0, 20, 0, 24, 0, 22, 0, 25, 0, 25, 0, 22, 0, 23, 0, 26, 0, 24, 0, 27, 0, 27, 0, 24, 0, 25, 0, 28, 0, 26, 0, 29, 0, 29, 0, 26, 0, 27, 0, 30, 0, 28, 0, 31, 0, 31, 0, 28, 0, 29, 0, 32, 0, 30, 0, 33, 0, 33, 0, 30, 0, 31, 0, 34, 0, 32, 0, 35, 0, 35, 0, 32, 0, 33, 0, 36, 0, 34, 0, 37, 0, 37, 0, 34, 0, 35, 0),
 "lods": [0.881307, PackedByteArray(6, 0, 0, 0, 4, 0, 6, 0, 7, 0, 0, 0, 13, 0, 9, 0, 15, 0, 15, 0, 9, 0, 17, 0, 39, 0, 19, 0, 20, 0, 20, 0, 19, 0, 21, 0, 27, 0, 22, 0, 38, 0, 33, 0, 28, 0, 27, 0, 44, 0, 28, 0, 33, 0, 42, 0, 40, 0, 41, 0, 36, 0, 45, 0, 46, 0, 46, 0, 45, 0, 43, 0)],
-"material": ExtResource("2_hqi5d"),
-"name": "LetterMaterial",
 "primitive": 3,
 "uv_scale": Vector4(0, 0, 0, 0),
 "vertex_count": 47,
@@ -53,6 +51,7 @@ environment = SubResource("Environment_m3kwv")
 transform = Transform3D(7, 0, 0, 0, 7, 0, 0, 0, 7, 0, 0, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+material_override = ExtResource("2_527tg")
 lod_bias = 0.1
 mesh = SubResource("ArrayMesh_q6771")
 skeleton = NodePath("")

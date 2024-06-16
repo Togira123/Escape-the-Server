@@ -9,7 +9,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	var old_val = mesh.material_override.get_shader_parameter("dissolve_amount")
+	
 	if old_val == 1:
+		print("dissolved!")
 		set_physics_process(false)
 		self.get_parent().remove_child(self)
 	mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.025)

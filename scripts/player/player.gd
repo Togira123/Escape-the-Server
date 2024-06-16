@@ -9,6 +9,7 @@ signal game_over(skip_animation: bool)
 @onready var state_machine: AnimationNodeStateMachinePlayback = animation_tree.get("parameters/playback")
 
 @onready var level = $"../Level"
+@onready var lasers = $"../Level/Lasers"
 @onready var heat_control: Control = $"../Level/UI/Heat"
 @onready var heat_effect: TextureRect = $"../Level/UI/HeatEffect"
 @onready var heat_status: Control = $"../Level/UI/Heat/HeatStatus"
@@ -71,7 +72,7 @@ var shield_timer: SceneTreeTimer = null
 var teleport_count = 0
 var letters_passed = 0
 
-var heat_range = 70
+var dist_to_laser = 10
 var heat = 0.0 # stores how heated the player is – dies at 40
 var heat_death = 40.0
 
@@ -162,7 +163,7 @@ func _physics_process(delta):
 				lasers.remove_children()
 				lasers.spawn_lasers(level.stage)
 				speed = RUN_SPEEDS[cur_tunnel]
-				heat_range -= 6
+				dist_to_laser += 6
 				# also increase the max heat by a bit to not die too fast in yellow and red part
 				heat_death += 3
 				var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
@@ -264,7 +265,7 @@ func _unhandled_key_input(event):
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
 			material_count -= 10
-	elif event.is_action_pressed("toggle_build_indicator", true):
+	elif event.is_action_pressed("toggle_build_indicator"):
 		if building_indicator.visible:
 			building_indicator.set_process(false)
 			building_indicator.visible = false
@@ -319,8 +320,9 @@ func run(delta):
 	
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
-	if abs_pos_x >= heat_range:
-		heat += (abs_pos_x - heat_range) * delta
+	var d_to_l = abs(lasers.X_OFFSET - abs_pos_x)
+	if d_to_l < dist_to_laser:
+		heat += (dist_to_laser - d_to_l) * delta
 		heat_effect.material.set_shader_parameter("alpha", heat / heat_death * 0.7)
 		heat_status.position.y = (1 - heat / heat_death) * 303
 		if heat_control.modulate.a < 1:

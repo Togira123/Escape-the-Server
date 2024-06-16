@@ -75,12 +75,12 @@ func spawn_sentence():
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * LETTER_SCALE
 		
 		instance.position.x = cur_x_pos - width / 2
-		if abs(instance.position.x) > 120:
-			instance.get_node("LetterHitbox").queue_free()
-			instance.get_node("GroundCollisionDetector").queue_free()
-			if instance.has_node("ShieldHitbox"):
-				instance.get_node("ShieldHitbox").queue_free()
-			frozen_letters.append(instance)
+		#if abs(instance.position.x) > 120:
+			#instance.get_node("LetterHitbox").queue_free()
+			#instance.get_node("GroundCollisionDetector").queue_free()
+			#if instance.has_node("ShieldHitbox"):
+				#instance.get_node("ShieldHitbox").queue_free()
+			#frozen_letters.append(instance)
 		cur_x_pos -= width + 2
 		instance.position.y = height
 		instance.rotation.y = PI + ((8 - (Client.ranked_rand.randi() % 16)) * (PI / 180.0))
@@ -107,7 +107,7 @@ func maybe_drop(pos):
 		var count = 0
 		shuffle(spawned_letters)
 		for inst in spawned_letters:
-			if abs(inst.position.x) <= 120:
+			if abs(inst.position.x - player.position.x) <= 150:
 				inst.freeze = false
 			else:
 				if count % 4 == 0:
