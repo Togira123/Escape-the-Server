@@ -53,7 +53,7 @@ const SHIELD_DURATION = 5.0
 const TELEPORT_DISTANCE = 40
 
 # need these +20 for the platforms to end with the empty module
-const PLATFORM_LENGTH = [1520, 2020]
+const PLATFORM_LENGTH = [1700, 2020, 2020] # length % 40 != 0
 
 enum State {
 	IN_LOBBY,
@@ -175,7 +175,7 @@ func _physics_process(delta):
 	run(delta)
 
 func _process(_delta):
-	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel - 1] > level.TUNNELS[level.next_tunnel]
+	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel] > level.TUNNELS[level.next_tunnel]
 	var pos = position.z if player_state != State.FINISHED else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
@@ -240,9 +240,9 @@ func _unhandled_key_input(event):
 			get_viewport().set_input_as_handled()
 	elif event.is_action_pressed("build_ramp"):
 		if material_count >= 10:
-			var zpos = ceil(position.z / 40) * 2
+			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
-			var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
 			if module.built_at.has(xpos):
 				return
@@ -253,9 +253,9 @@ func _unhandled_key_input(event):
 			material_count -= 10
 	elif event.is_action_pressed("build_ceiling", true):
 		if material_count >= 10:
-			var zpos = ceil(position.z / 40) * 2
+			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
-			var needed_ind = int(zpos + 1) % level.LOADED_MODULES_SIZE
+			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
 			if module.built_at.has(xpos):
 				return

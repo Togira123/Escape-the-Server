@@ -23,6 +23,7 @@ blend_shape_mode = 0
 size = Vector3(20, 0.5, 40)
 
 [node name="Ceiling" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 10)
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
 input_ray_pickable = false
