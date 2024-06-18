@@ -144,7 +144,7 @@ func _physics_process(delta):
 	if player_state == State.DEAD:
 		die_process(delta)
 		return
-	if position.y < -1 or heat > heat_death:
+	if position.y < -25 or heat > heat_death:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
@@ -205,7 +205,7 @@ func _unhandled_key_input(event):
 		return
 	if event.is_action_pressed("jump"):
 		if not is_on_floor():
-			if not has_spinned and state_machine.get_current_node() == "jump" and position.y > 4:
+			if not has_spinned and state_machine.get_current_node() == "jump" and (position.y > 4 or position.y < 0):
 				state_machine.travel("spin_blend_tree")
 				has_spinned = true
 				cur_movement = RUN
@@ -248,6 +248,8 @@ func _unhandled_key_input(event):
 				return
 			var ramp = RAMP.instantiate()
 			ramp.position.x = xpos
+			if position.y < 0:
+				ramp.position.y = -20.5
 			module.built_at.append(xpos)
 			module.add_child(ramp)
 			material_count -= 10
@@ -261,7 +263,10 @@ func _unhandled_key_input(event):
 				return
 			var ceiling = CEILING.instantiate()
 			ceiling.position.x = xpos
-			ceiling.position.y = 21
+			if position.y < 0:
+				ceiling.position.y = -20
+			else:
+				ceiling.position.y = 21
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
 			material_count -= 10
@@ -611,3 +616,6 @@ func set_rotation_for_spin(r: float):
 	armature.rotation.x = r
 	hitbox.rotation.x = r
 	player_shield.rotation.x = r
+
+func pick_up_bolt():
+	pass

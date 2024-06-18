@@ -110,6 +110,7 @@ toggle_build_indicator={
 3d_physics/layer_4="Player (no masks detecting this)"
 3d_physics/layer_5="Laser"
 3d_physics/layer_6="Jumppad"
+3d_physics/layer_7="Collectibles"
 
 [rendering]
 

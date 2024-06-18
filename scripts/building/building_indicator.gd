@@ -14,6 +14,10 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	position.x = ceil(player.position.x * 5 / 100) * 20 - 10
 	position.z = ceil((player.position.z - 30) / 40) * 40 + 50
+	if player.position.y < 0:
+		position.y = -19.5
+	else:
+		position.y = 1
 	var needed_ind = int(ceil((player.position.z - 30) / 40) * 2 + 2) % level.LOADED_MODULES_SIZE
 	var module = level.loaded_modules[needed_ind]
 	if module.built_at.has(int(position.x)) or player.material_count < 10:
