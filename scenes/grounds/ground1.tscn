@@ -94,6 +94,7 @@ size = Vector3(200, 2, 20)
 script = ExtResource("1_1dp4b")
 letter_scenes = Array[PackedScene]([ExtResource("2_0fig3"), ExtResource("1_6b3n7"), ExtResource("4_gils6"), ExtResource("5_pgmy3"), ExtResource("6_thg0q"), ExtResource("7_7c4xo"), ExtResource("8_vqswr"), ExtResource("9_k0383"), ExtResource("10_oyeyk"), ExtResource("11_6bvbb"), ExtResource("12_vf5pw"), ExtResource("13_kkoyf"), ExtResource("14_c1gln"), ExtResource("15_lhlal"), ExtResource("16_0ix2q"), ExtResource("17_agkaa"), ExtResource("18_w6dml"), ExtResource("19_5kbgf"), ExtResource("20_7hjft"), ExtResource("21_4frvx"), ExtResource("22_n30pc"), ExtResource("23_j6n30"), ExtResource("24_nfqav"), ExtResource("25_3mhp5"), ExtResource("26_ykk04"), ExtResource("27_c6hj5")])
 metadata/module_number = 1
+metadata/possible_bolt_locations = PackedInt32Array(-75, -70, -65, -60, -55, -50, -45, -40, -35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75)
 
 [node name="Ground" type="StaticBody3D" parent="."]
 collision_mask = 0

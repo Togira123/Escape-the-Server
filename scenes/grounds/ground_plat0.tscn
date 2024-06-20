@@ -32,5 +32,6 @@
 script = ExtResource("1_26dmw")
 letter_scenes = Array[PackedScene]([ExtResource("2_v0uia"), ExtResource("3_qee4m"), ExtResource("4_wwex2"), ExtResource("5_7nii2"), ExtResource("6_jmdie"), ExtResource("7_hgg2j"), ExtResource("8_vtkxt"), ExtResource("9_3gkwl"), ExtResource("10_eiiid"), ExtResource("11_ybmyi"), ExtResource("12_ewj6r"), ExtResource("13_srvi3"), ExtResource("14_dl85i"), ExtResource("15_l4ac1"), ExtResource("16_lr3y2"), ExtResource("17_sck1a"), ExtResource("18_kuhmg"), ExtResource("19_f5srs"), ExtResource("20_62ec2"), ExtResource("21_isygb"), ExtResource("22_oj6ka"), ExtResource("23_gq0d3"), ExtResource("24_pg8ey"), ExtResource("25_45inj"), ExtResource("26_igcro"), ExtResource("27_18x4q")])
 metadata/module_number = -1
+metadata/possible_bolt_locations = PackedInt32Array()
 
 [node name="Sentence" type="Node3D" parent="."]

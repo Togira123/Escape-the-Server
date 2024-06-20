@@ -134,6 +134,7 @@ size = Vector3(140, 2, 20)
 script = ExtResource("1_nd87t")
 letter_scenes = Array[PackedScene]([ExtResource("2_10vla"), ExtResource("3_itmqo"), ExtResource("4_23w3f"), ExtResource("5_qx2da"), ExtResource("6_ga643"), ExtResource("7_m86o0"), ExtResource("8_2gft4"), ExtResource("9_ffvmb"), ExtResource("10_aq6s6"), ExtResource("11_i8tsq"), ExtResource("12_dst7x"), ExtResource("13_ht0nm"), ExtResource("14_jsn2g"), ExtResource("15_yqbjv"), ExtResource("16_0w0jj"), ExtResource("17_cq3je"), ExtResource("18_h58ep"), ExtResource("19_rfvp5"), ExtResource("20_yh5to"), ExtResource("21_xaheb"), ExtResource("22_xdcqe"), ExtResource("23_plk2m"), ExtResource("24_17j74"), ExtResource("25_y3e66"), ExtResource("26_ex4ss"), ExtResource("27_mtjvi")])
 metadata/module_number = 5
+metadata/possible_bolt_locations = PackedInt32Array(-75, -70, -65, -35, -30, -25, -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75)
 
 [node name="HoleHintBack1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, -1.5246e-23, -4.37114e-08, 1.91069e-15, -1, 1, -4.37114e-08, -4.37114e-08, -50, 1.05, -10)

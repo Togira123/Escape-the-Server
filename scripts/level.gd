@@ -8,6 +8,8 @@ const REVIVE = preload("res://scenes/ui/revive/revive.tscn")
 
 const LOW_RES_FLOOR_MATERIAL = preload("res://assets/graphics/materials/LowResGroundMaterial.tres")
 
+const BOLT = preload("res://scenes/building/Bolt.tscn")
+
 # status effects
 const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn")
 
@@ -35,7 +37,7 @@ const TUNNEL_LENGTH = 500
 @export var platform_modules2: Array[PackedScene] = [] # groups 2 and 3
 @export var platform_modules3: Array[PackedScene] = [] # groups 3 and 1
 var loaded_modules = []
-var amount = 10
+const AMOUNT = 10
 
 var next_tunnel = 0
 
@@ -56,11 +58,11 @@ func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
 	if not Client.is_authorized:
 		await Client.on_authorize
-	for n in amount:
+	for n in range(AMOUNT):
 		spawn_module(module_count * OFFSET, false)
 
 func load_level_start_on_game_start():
-	for n in LOADED_MODULES_SIZE - amount: 
+	for n in LOADED_MODULES_SIZE - AMOUNT: 
 		spawn_module(module_count * OFFSET, false)
 
 func spawn_module(n: int, platforms: bool):
@@ -70,7 +72,6 @@ func spawn_module(n: int, platforms: bool):
 	var instance: Node
 	if platforms:
 		if not first_plats[next_tunnel] or n == TUNNELS[next_tunnel]:
-			print("EMPTY")
 			first_plats[next_tunnel] = true
 			instance = EMPTY_PLATFORM.instantiate()
 			instance.position.z = n
@@ -140,6 +141,27 @@ func spawn_module(n: int, platforms: bool):
 					instance.get_child(5).visible = false
 			if Client.settings["graphics_quality"] == 0:
 				instance2.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
+			if Client.lobby.members[Client.user_id].gamemode == "ranked":
+				var rand_bolt = Client.ranked_rand.randi() % 6
+				if rand_bolt < 2:
+					var possible_bolt_locations: PackedInt32Array = PackedInt32Array(instance.get_meta("possible_bolt_locations"))
+					var ind = Client.ranked_rand.randi() % possible_bolt_locations.size()
+					var bolt_inst = BOLT.instantiate()
+					bolt_inst.position.x = possible_bolt_locations[ind]
+					if Client.ranked_rand.randi() % 2:
+						instance.add_child(bolt_inst)
+					else:
+						instance2.add_child(bolt_inst)
+					if rand_bolt == 0:
+						possible_bolt_locations.remove_at(ind)
+						ind = Client.ranked_rand.randi() % possible_bolt_locations.size()
+						bolt_inst = BOLT.instantiate()
+						bolt_inst.position.x = possible_bolt_locations[ind]
+						if Client.ranked_rand.randi() % 2:
+							instance.add_child(bolt_inst)
+						else:
+							instance2.add_child(bolt_inst)
+			var possible_bolt_locations: Array[int] = []
 			add_child(instance2)
 			module_count += 1
 			skip = true
@@ -147,7 +169,8 @@ func spawn_module(n: int, platforms: bool):
 			skip = false
 			return
 	else: # not platform
-		instance = modules[0 if n < 10 * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET) else Client.ranked_rand.randi() % modules.size()].instantiate()
+		var module_0_forced = n < AMOUNT * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET)
+		instance = modules[0 if module_0_forced else Client.ranked_rand.randi() % modules.size()].instantiate()
 		instance.position.z = n
 		if loaded_modules[index]:
 			loaded_modules[index].queue_free()
@@ -339,6 +362,20 @@ func spawn_module(n: int, platforms: bool):
 					var xpos = single_holes[Client.ranked_rand.randi() % single_holes.size()]
 					pad.position = Vector3(xpos, 0, 0)
 					prev_inst.add_child(pad)
+		if not module_0_forced and Client.lobby.members[Client.user_id].gamemode == "ranked":
+			var rand_bolt = Client.ranked_rand.randi() % 6
+			if rand_bolt < 2:
+				var possible_bolt_locations: PackedInt32Array = PackedInt32Array(instance.get_meta("possible_bolt_locations"))
+				var ind = Client.ranked_rand.randi() % possible_bolt_locations.size()
+				var bolt_inst = BOLT.instantiate()
+				bolt_inst.position.x = possible_bolt_locations[ind]
+				instance.add_child(bolt_inst)
+				if rand_bolt == 0:
+					possible_bolt_locations.remove_at(ind)
+					ind = Client.ranked_rand.randi() % possible_bolt_locations.size()
+					bolt_inst = BOLT.instantiate()
+					bolt_inst.position.x = possible_bolt_locations[ind]
+					instance.add_child(bolt_inst)
 	loaded_modules[index] = instance
 	if next_tunnel < TUNNELS.size():
 		if n >= TUNNELS[next_tunnel]:
