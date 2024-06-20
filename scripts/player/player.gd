@@ -121,7 +121,8 @@ const JUMPPAD_GREEN = 50
 const JUMPPAD_YELLOW = 65
 const JUMPPAD_ROLL_BOOST = 10
 
-var material_count = 1000
+const MAX_MATERIAL = 200
+var material_count = 50
 
 func _ready():
 	set_process(false)
@@ -570,6 +571,8 @@ func player_was_hit(area: Area3D):
 		state_machine.travel("jump")
 		velocity.y = JUMPPAD_YELLOW + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_YELLOW
 		cur_movement = JUMP
+	elif area.name == "BoltArea":
+		area.get_parent_node_3d().start_pick_up()
 	else:
 		# hit laser
 		if level.stage == 2:
@@ -617,5 +620,5 @@ func set_rotation_for_spin(r: float):
 	hitbox.rotation.x = r
 	player_shield.rotation.x = r
 
-func pick_up_bolt():
-	pass
+func pick_up_bolt(materials: int):
+	material_count = min(MAX_MATERIAL, material_count + materials)

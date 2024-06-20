@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://neet5x4flstv"]
+[gd_scene load_steps=43 format=3 uid="uid://neet5x4flstv"]
 
 [ext_resource type="Script" path="res://scripts/level.gd" id="1_7b6qb"]
 [ext_resource type="PackedScene" uid="uid://btp5j8qud4l7o" path="res://scenes/grounds/ground1.tscn" id="2_38keh"]
@@ -29,6 +29,8 @@
 [ext_resource type="Texture2D" uid="uid://bu6wtqvuplis7" path="res://assets/graphics/ui/heat_warn_flames/Flame1.png" id="25_jihjr"]
 [ext_resource type="Texture2D" uid="uid://bwfe3a51qvqub" path="res://assets/graphics/ui/heat_warn_flames/Flame2.png" id="26_lgj6s"]
 [ext_resource type="Texture2D" uid="uid://dgdsdef4bmycl" path="res://assets/graphics/ui/heat_warn_flames/Flame3.png" id="27_u8m12"]
+[ext_resource type="Texture2D" uid="uid://c365r5vwjtp5w" path="res://assets/graphics/ui/Bolt.png" id="30_4ofhw"]
+[ext_resource type="Script" path="res://scripts/ui/materials.gd" id="30_kjw6h"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_x54t6"]
 size = Vector3(1, 14, 660)
@@ -283,3 +285,31 @@ offset_right = -51.0
 offset_bottom = 131.0
 grow_horizontal = 0
 theme_override_constants/separation = 120
+
+[node name="Materials" type="Control" parent="UI"]
+layout_mode = 1
+anchor_left = 0.886
+anchor_top = 1.0
+anchor_right = 0.886
+anchor_bottom = 1.0
+offset_left = -1.12007
+offset_top = -1.0
+offset_right = -0.120071
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("30_kjw6h")
+
+[node name="Bolt" type="Sprite2D" parent="UI/Materials"]
+position = Vector2(2.08165e-12, -100)
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("30_4ofhw")
+
+[node name="Count" type="Label" parent="UI/Materials"]
+auto_translate_mode = 1
+offset_left = -58.0
+offset_top = -141.0
+offset_right = 58.0
+offset_bottom = -58.0
+text = "50"
+label_settings = SubResource("LabelSettings_60y2x")
+horizontal_alignment = 1

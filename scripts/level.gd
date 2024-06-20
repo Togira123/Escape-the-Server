@@ -363,7 +363,7 @@ func spawn_module(n: int, platforms: bool):
 					pad.position = Vector3(xpos, 0, 0)
 					prev_inst.add_child(pad)
 		if not module_0_forced and Client.lobby.members[Client.user_id].gamemode == "ranked":
-			var rand_bolt = Client.ranked_rand.randi() % 6
+			var rand_bolt = Client.ranked_rand.randi() % 8
 			if rand_bolt < 2:
 				var possible_bolt_locations: PackedInt32Array = PackedInt32Array(instance.get_meta("possible_bolt_locations"))
 				var ind = Client.ranked_rand.randi() % possible_bolt_locations.size()
