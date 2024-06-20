@@ -80,7 +80,6 @@ func _process(delta):
 		move_camera_down = false
 
 func restart_game():
-	print(level.str)
 	# make sure floor looks the same again
 	$Constants.ground_pattern_color_change_progress = 0
 	player_soul.get_tree().call_group("module", "change_color_of_pattern")
