@@ -145,7 +145,7 @@ func _physics_process(delta):
 	if player_state == State.DEAD:
 		die_process(delta)
 		return
-	if position.y < -25 or heat > heat_death:
+	if position.y < -45 or heat > heat_death:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
@@ -239,7 +239,14 @@ func _unhandled_key_input(event):
 				camera.distance_to_player = TELEPORT_DISTANCE
 			teleports_used += 1
 			get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("build_ramp"):
+	elif event.is_action_pressed("toggle_build_indicator"):
+		if building_indicator.visible:
+			building_indicator.set_process(false)
+			building_indicator.visible = false
+		else:
+			building_indicator.set_process(true)
+			building_indicator.visible = true
+	if Input.is_action_pressed("build_ramp"):
 		if material_count >= 10:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
@@ -249,12 +256,17 @@ func _unhandled_key_input(event):
 				return
 			var ramp = RAMP.instantiate()
 			ramp.position.x = xpos
-			if position.y < 0:
+			# change the xpos by a little to distinguish different z levels when storing in "built_at"
+			if position.y < -18.55:
+				ramp.position.y = -41.2
+				xpos -= 2
+			elif position.y < 1.5:
 				ramp.position.y = -20.5
+				xpos -= 1
 			module.built_at.append(xpos)
 			module.add_child(ramp)
 			material_count -= 10
-	elif event.is_action_pressed("build_ceiling", true):
+	if Input.is_action_pressed("build_ceiling"):
 		if material_count >= 10:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
@@ -264,20 +276,18 @@ func _unhandled_key_input(event):
 				return
 			var ceiling = CEILING.instantiate()
 			ceiling.position.x = xpos
-			if position.y < 0:
+			# change the xpos by a little to distinguish different z levels when storing in "built_at"
+			if position.y < -18.55:
+				ceiling.position.y = -40.9
+				xpos -= 2
+			elif position.y < 1.5:
 				ceiling.position.y = -20
+				xpos -= 1
 			else:
 				ceiling.position.y = 21
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
 			material_count -= 10
-	elif event.is_action_pressed("toggle_build_indicator"):
-		if building_indicator.visible:
-			building_indicator.set_process(false)
-			building_indicator.visible = false
-		else:
-			building_indicator.set_process(true)
-			building_indicator.visible = true
 
 func run(delta):
 	jumped_in_tunnel = false

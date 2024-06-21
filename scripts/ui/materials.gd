@@ -15,7 +15,7 @@ func _process(delta: float) -> void:
 		count.text = str(cur_count)
 	if player.material_count < 10:
 		count.label_settings.font_color = Color.RED
-	elif player.material_count < 40:
+	elif player.material_count < 40 or player.material_count == player.MAX_MATERIAL:
 		count.label_settings.font_color = Color.ORANGE
 	else:
 		count.label_settings.font_color = Color.WHITE

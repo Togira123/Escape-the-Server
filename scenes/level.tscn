@@ -287,6 +287,7 @@ grow_horizontal = 0
 theme_override_constants/separation = 120
 
 [node name="Materials" type="Control" parent="UI"]
+visible = false
 layout_mode = 1
 anchor_left = 0.886
 anchor_top = 1.0

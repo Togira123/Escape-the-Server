@@ -14,7 +14,9 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	position.x = ceil(player.position.x * 5 / 100) * 20 - 10
 	position.z = ceil((player.position.z - 30) / 40) * 40 + 50
-	if player.position.y < 0:
+	if player.position.y < -18.55:
+		position.y = -40.5
+	elif player.position.y < 1.5:
 		position.y = -19.5
 	else:
 		position.y = 1
