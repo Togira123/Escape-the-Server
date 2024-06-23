@@ -145,7 +145,7 @@ func _physics_process(delta):
 	if player_state == State.DEAD:
 		die_process(delta)
 		return
-	if position.y < -45 or heat > heat_death:
+	if position.y < -21 or heat > heat_death:
 		die()
 		return
 	var cur_tunnel = is_in_tunnel();
@@ -257,10 +257,7 @@ func _unhandled_key_input(event):
 			var ramp = RAMP.instantiate()
 			ramp.position.x = xpos
 			# change the xpos by a little to distinguish different z levels when storing in "built_at"
-			if position.y < -18.55:
-				ramp.position.y = -41.2
-				xpos -= 2
-			elif position.y < 1.5:
+			if position.y < 1.5:
 				ramp.position.y = -20.5
 				xpos -= 1
 			module.built_at.append(xpos)
@@ -277,10 +274,7 @@ func _unhandled_key_input(event):
 			var ceiling = CEILING.instantiate()
 			ceiling.position.x = xpos
 			# change the xpos by a little to distinguish different z levels when storing in "built_at"
-			if position.y < -18.55:
-				ceiling.position.y = -40.9
-				xpos -= 2
-			elif position.y < 1.5:
+			if position.y < 1.5:
 				ceiling.position.y = -20
 				xpos -= 1
 			else:
@@ -320,6 +314,9 @@ func run(delta):
 			if cur_movement == ROLL:
 				# Drop quickly if player is rolling
 				velocity.y -= FALL_ACCELERATION * 3 * delta
+			if cur_node == "run_blend_tree":
+				state_machine.travel("jump")
+				cur_movement = JUMP
 			if armature.rotation.x != 0:
 				set_rotation_for_spin(lerp(armature.rotation.x, 0.0, LERP_VAL / 2.0))
 				#rotation.x = lerp(rotation.x, 0.0, LERP_VAL / 2.0)
