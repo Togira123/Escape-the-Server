@@ -23,6 +23,7 @@ const LOADED_MODULES_SIZE: int = 32
 const CASUAL_TUNNELS = [3000, 6000, 10000]
 # shortly before the max int size the level is finished
 const RANKED_TUNNELS = [4000, 9000, 9223372036854775807 - 100000]
+# 9000 13020 17000 21020 25000
 var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
 

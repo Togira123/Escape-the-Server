@@ -215,6 +215,7 @@ func _process(_delta):
 						lobby.members[member].running = true
 					# start the game
 					if data["players"].has(user_id):
+						Client.ranked_seed = data["seed"]
 						$"/root/Main".start_game()
 				elif data["type"] == ServerMessages.DIED:
 					var died_user_id = data["user_id"]
