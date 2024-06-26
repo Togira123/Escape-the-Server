@@ -26,12 +26,14 @@ func _ready():
 	if Client.is_authorized:
 		Client.return_to_menu()
 		Client.request_stats()
+		Client.request_lb()
 	else:
 		Input.set_use_accumulated_input(false)
 		add_child(CONNECTING_TO_SERVER_SCREEN.instantiate())
 		Client.init()
 		await Client.on_authorize
 		Client.request_stats()
+		Client.request_lb()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

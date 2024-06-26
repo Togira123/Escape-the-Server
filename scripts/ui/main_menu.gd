@@ -4,12 +4,18 @@ signal game_start
 
 @onready var player = $"../Player"
 @onready var leaderboard = $Leaderboard
+@onready var leaderboard_top = $Leaderboard/ScrollContainer
+@onready var leaderboard_top_container = $Leaderboard/ScrollContainer/LeaderboardContent
+@onready var leaderboard_you_name = $Leaderboard/You
+@onready var leaderboard_you_distance = $Leaderboard/DistanceYou
+@onready var leaderboard_loading = $Leaderboard/Loading
 @onready var settings = $Settings
 @onready var shop = $Shop
 @onready var help = $Help
 @onready var ready_button = $Ready
 @onready var not_ready_button = $NotReady
 @onready var not_all_players_ready = $NotAllPlayersReady
+@onready var season_starting_soon = $SeasonStartingSoon
 @onready var you_are_ready = $YouAreReady
 @onready var stats_overview = $StatsOverview
 @onready var stats = $Stats
@@ -28,7 +34,7 @@ signal game_start
 
 @onready var stats_to_node_path = {
 	"micrometers_travelled": ["MicrometersTravelledValue", 0],
-	"highest_rank_ever": ["HighestRankEverValue", 0],
+	"highest_rank": ["HighestRankValue", 0],
 	"shields_obtained": ["ShieldsObtainedValue", -2],
 	"teleports_obtained": ["TeleportsObtainedValue", -2],
 	"games_started": ["GamesStartedValue", 0],
@@ -61,6 +67,7 @@ var player_icon = null
 
 var not_all_players_ready_timer: SceneTreeTimer = null
 var you_are_ready_timer: SceneTreeTimer = null
+var season_starting_soon_timer: SceneTreeTimer = null
 
 func _ready():
 	if not Client.is_authorized:
@@ -92,6 +99,15 @@ func display_not_all_players_ready_message():
 		not_all_players_ready.visible = true
 		await not_all_players_ready_timer.timeout
 		not_all_players_ready.visible = false
+
+func display_season_starting_soon_message():
+	if season_starting_soon_timer and season_starting_soon_timer.time_left > 0.0:
+		season_starting_soon_timer.set_time_left(2.5)
+	else:
+		season_starting_soon_timer = get_tree().create_timer(3.0, true, false, true)
+		season_starting_soon.visible = true
+		await season_starting_soon_timer.timeout
+		season_starting_soon.visible = false
 
 func update_play_button():
 	var user = Client.lobby.members[Client.user_id]
@@ -134,25 +150,27 @@ func update_ranked_casual_button():
 
 func _on_settings_button_pressed():
 	stats_overview.visible = false
+	leaderboard.visible = false
 	settings.visible = true
 	settings.call_deferred("grab_focus")
 	$TransparentBg.visible = true
 
 func _on_shop_button_pressed():
 	settings.visible = false
-	leaderboard.visible = false
 	shop.visible = true
 	await get_tree().create_timer(3.0).timeout
 	shop.visible = false
 
 func _on_help_button_pressed():
 	stats_overview.visible = false
+	leaderboard.visible = false
 	help.visible = true
 	help.call_deferred("grab_focus")
 	$TransparentBg.visible = true
 
 func _on_show_all_pressed():
 	stats_overview.visible = false
+	leaderboard.visible = false
 	stats.visible = true
 	stats.call_deferred("grab_focus")
 	$TransparentBg.visible = true
@@ -161,13 +179,22 @@ func _on_transparent_bg_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
 		if help.visible:
 			help.close()
-			stats_overview.visible = true
+			if Client.lobby.members[Client.user_id].gamemode == "ranked":
+				leaderboard.visible = true
+			else:
+				stats_overview.visible = true
 		elif settings.visible:
 			settings.close()
-			stats_overview.visible = true
+			if Client.lobby.members[Client.user_id].gamemode == "ranked":
+				leaderboard.visible = true
+			else:
+				stats_overview.visible = true
 		elif stats.visible:
 			stats.close()
-			stats_overview.visible = true
+			if Client.lobby.members[Client.user_id].gamemode == "ranked":
+				leaderboard.visible = true
+			else:
+				stats_overview.visible = true
 
 func _on_ready_pressed():
 	Client.set_ready(true)
@@ -282,3 +309,37 @@ func update_stats():
 		stats_overview_loading.visible = false
 		stats_overview_container.visible = true
 		stats_overview_show_all.visible = true
+
+func update_leaderboard():
+	var count = 1
+	for user in Client.leaderboard["top"]:
+		var label_name = Label.new()
+		label_name.name = str(count)
+		label_name.text = ("#0" if count < 10 else "#") + str(count) + " | " + user.global_name
+		label_name.add_theme_font_size_override("font_size", 30)
+		label_name.size = Vector2(300, 41)
+		label_name.position = Vector2(0, 71 * (count - 1))
+		label_name.clip_text = true
+		label_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+		var label_distance = Label.new()
+		label_distance.name = "Distance" + str(count)
+		label_distance.text = str(user.longest_distance_season) + " μm"
+		label_distance.add_theme_font_size_override("font_size", 30)
+		label_distance.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		label_distance.size = Vector2(177, 41)
+		label_distance.position = Vector2(300, 71 * (count - 1))
+		label_distance.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+		leaderboard_top_container.add_child(label_name)
+		leaderboard_top_container.add_child(label_distance)
+		count += 1
+	if Client.leaderboard["you"].rank:
+		leaderboard_you_name.text = ("#0" if Client.leaderboard["you"].rank < 10 else "#") + str(Client.leaderboard["you"].rank) + " | You"
+		leaderboard_you_distance.text = Client.leaderboard["you"].longest_distance_season
+	else:
+		leaderboard_you_name.text = "#>500" + str(Client.leaderboard["you"].rank) + " | You"
+		leaderboard_you_distance.text = str(Client.leaderboard["you"].longest_distance_season) + " μm"
+	leaderboard_you_name.visible = true
+	leaderboard_you_distance.visible = true
+	leaderboard_top_container.custom_minimum_size = Vector2(485, 71 * (count - 1))
+	leaderboard_loading.visible = false
+	leaderboard_top.visible = true

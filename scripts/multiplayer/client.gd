@@ -24,7 +24,8 @@ enum ClientMessages {
 	DEAD,
 	REVIVE,
 	STATS_UPDATE,
-	STATS_REQUEST
+	STATS_REQUEST,
+	LB_REQUEST
 }
 # make sure this is the same as on the server
 enum ServerMessages {
@@ -35,7 +36,8 @@ enum ServerMessages {
 	GAME_START,
 	DIED,
 	REVIVED,
-	STATS
+	STATS,
+	LEADERBOARD
 }
 
 var peer: WebSocketPeer
@@ -100,6 +102,7 @@ var _sent_initial_packet = false
 var lobby: Lobby = null
 var settings: Dictionary = {}
 var stats: Dictionary = {}
+var leaderboard: Dictionary = {}
 # store user icons to not need to always fetch them from discord
 var user_icons = {}
 # keep references to not unload these materials
@@ -197,6 +200,8 @@ func _process(_delta):
 					# handle error
 					if data["message"] == "LOBBY_NOT_READY": # sent as response to START_GAME
 						$"/root/Main/MainMenu".display_not_all_players_ready_message()
+					elif data["message"] == "NO_RANKED":
+						$"/root/Main/MainMenu".display_season_starting_soon_message()
 				elif data["type"] == ServerMessages.USER:
 					if not _received_initial_user_data:
 						_received_initial_user_data = true
@@ -238,6 +243,10 @@ func _process(_delta):
 					stats = data["stats"]
 					if has_node("/root/Main/MainMenu"):
 						$"/root/Main/MainMenu".update_stats()
+				elif data["type"] == ServerMessages.LEADERBOARD:
+					leaderboard = data
+					if has_node("/root/Main/MainMenu"):
+						$"/root/Main/MainMenu".update_leaderboard()
 	elif state == WebSocketPeer.STATE_CLOSED:
 		print("Connection Closed: ", peer.get_close_code())
 		# reconnect
@@ -495,6 +504,13 @@ func request_stats():
 	var msg = {
 		"token": token,
 		"type": ClientMessages.STATS_REQUEST
+	}
+	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
+
+func request_lb():
+	var msg = {
+		"token": token,
+		"type": ClientMessages.LB_REQUEST
 	}
 	peer.put_packet(JSON.stringify(msg).to_utf8_buffer())
 

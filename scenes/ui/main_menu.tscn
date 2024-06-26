@@ -259,6 +259,26 @@ text = "Waiting for all players to be ready"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="SeasonStartingSoon" type="Label" parent="."]
+auto_translate_mode = 1
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.5
+offset_top = 170.0
+offset_right = 250.5
+offset_bottom = 275.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "Next season starting soon"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="YouAreReady" type="Label" parent="."]
 auto_translate_mode = 1
 visible = false
@@ -373,7 +393,6 @@ color = Color(0, 0, 0, 0.439)
 
 [node name="Leaderboard" type="Panel" parent="."]
 auto_translate_mode = 2
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -421,113 +440,42 @@ theme = ExtResource("12_luv01")
 theme_override_font_sizes/font_size = 50
 text = "Loading..."
 
-[node name="GridContainer" type="GridContainer" parent="Leaderboard"]
-auto_translate_mode = 1
-visible = false
-layout_mode = 0
+[node name="ScrollContainer" type="ScrollContainer" parent="Leaderboard"]
+layout_mode = 2
 offset_left = 56.0
 offset_top = 144.0
 offset_right = 541.0
-offset_bottom = 611.0
+offset_bottom = 542.0
+auto_translate = false
+horizontal_scroll_mode = 0
+
+[node name="LeaderboardContent" type="Control" parent="Leaderboard/ScrollContainer"]
+layout_mode = 2
+auto_translate = false
 theme = ExtResource("12_luv01")
-theme_override_constants/h_separation = 30
-theme_override_constants/v_separation = 30
-columns = 2
 
-[node name="1" type="Label" parent="Leaderboard/GridContainer"]
+[node name="You" type="Label" parent="Leaderboard"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance1" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="2" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance2" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="3" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance3" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="4" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance4" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="5" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance5" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="6" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-theme_override_font_sizes/font_size = 30
-text = "Player"
-
-[node name="Distance6" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
-size_flags_horizontal = 3
-theme_override_font_sizes/font_size = 30
-text = "0 μm"
-horizontal_alignment = 2
-
-[node name="You" type="Label" parent="Leaderboard/GridContainer"]
-auto_translate_mode = 1
-layout_mode = 2
+offset_left = 56.0
+offset_top = 570.0
+offset_right = 136.0
+offset_bottom = 631.0
+theme = ExtResource("12_luv01")
 theme_override_font_sizes/font_size = 30
 text = "You"
 
-[node name="DistanceYou" type="Label" parent="Leaderboard/GridContainer"]
+[node name="DistanceYou" type="Label" parent="Leaderboard"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 2
+offset_left = 166.0
+offset_top = 570.0
+offset_right = 533.0
+offset_bottom = 631.0
 size_flags_horizontal = 3
+theme = ExtResource("12_luv01")
 theme_override_font_sizes/font_size = 30
 text = "0 μm"
 horizontal_alignment = 2
@@ -554,6 +502,7 @@ text = "Leaderboard resets in: 0d 0h 0m"
 
 [node name="StatsOverview" type="Panel" parent="."]
 auto_translate_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -628,13 +577,13 @@ theme_override_font_sizes/font_size = 30
 text = "0"
 horizontal_alignment = 2
 
-[node name="HighestRankEver" type="Label" parent="StatsOverview/GridContainer"]
+[node name="HighestRank" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Highest rank:"
 
-[node name="HighestRankEverValue" type="Label" parent="StatsOverview/GridContainer"]
+[node name="HighestRankValue" type="Label" parent="StatsOverview/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1667,13 +1616,13 @@ text = "0
 "
 horizontal_alignment = 2
 
-[node name="HighestRankEver" type="Label" parent="Stats/0/GridContainer"]
+[node name="HighestRank" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Highest rank (ever):"
 
-[node name="HighestRankEverValueSingle" type="Label" parent="Stats/0/GridContainer"]
+[node name="HighestRankValueSingle" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1682,7 +1631,7 @@ theme_override_font_sizes/font_size = 30
 text = "-"
 horizontal_alignment = 2
 
-[node name="HighestRankEverValueMulti" type="Label" parent="Stats/0/GridContainer"]
+[node name="HighestRankValueMulti" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1692,7 +1641,7 @@ text = "-
 "
 horizontal_alignment = 2
 
-[node name="HighestRankEverValueRanked" type="Label" parent="Stats/0/GridContainer"]
+[node name="HighestRankValueRanked" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
@@ -1701,7 +1650,7 @@ text = "None
 "
 horizontal_alignment = 2
 
-[node name="HighestRankEverValueTotal" type="Label" parent="Stats/0/GridContainer"]
+[node name="HighestRankValueTotal" type="Label" parent="Stats/0/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 size_flags_horizontal = 3
