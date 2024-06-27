@@ -9,6 +9,7 @@ signal game_start
 @onready var leaderboard_you_name = $Leaderboard/You
 @onready var leaderboard_you_distance = $Leaderboard/DistanceYou
 @onready var leaderboard_loading = $Leaderboard/Loading
+@onready var leaderboard_resets_in = $Leaderboard/ResetsIn
 @onready var settings = $Settings
 @onready var shop = $Shop
 @onready var help = $Help
@@ -90,6 +91,27 @@ func _ready():
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
 	update_ranked_casual_button()
+
+func _physics_process(delta: float) -> void:
+	if season_starting_soon.visible or leaderboard.visible:
+		# new Date((Math.floor(Date.now()/1000/(86400*7))*(86400*7)+388800)*1000).toUTCString()
+		var now: int = ceil(Time.get_unix_time_from_system())
+		var next_reset: int = floor(now / (86400 * 7)) * (86400 * 7) + 388800
+		var seconds: int = next_reset - now
+		var minutes: int = 0
+		var hours: int = 0
+		var days: int = 0
+		if seconds >= 60:
+			minutes = seconds / 60
+			seconds = seconds % 60
+		if minutes >= 60:
+			hours = minutes / 60
+			minutes = minutes % 60
+		if hours >= 24:
+			days = hours / 24
+			hours = hours % 24
+		season_starting_soon.text = "Next season starting in: %sd %sh %sm %ss" % [days, hours, minutes, seconds]
+		leaderboard_resets_in.text = "Leaderboard resets in: %sd %sh %sm %ss" % [days, hours, minutes, seconds]
 
 func display_not_all_players_ready_message():
 	if not_all_players_ready_timer and not_all_players_ready_timer.time_left > 0.0:
@@ -256,9 +278,18 @@ func update_stats():
 					node.text = Client.stats[mode][stat]
 				0, 1:
 					var node = get_node("Stats/0/GridContainer/" + node_name + mode_to_node_name(mode))
-					if stat == "highest_rank_ever" and mode != "ranked":
-						continue
-					node.text = Client.stats[mode][stat]
+					var value = Client.stats[mode][stat]
+					if stat == "highest_rank":
+						if mode == "ranked":
+							if value > 1000000000000:
+								value = "None"
+							elif value > 500:
+								value = ">500"
+							else:
+								value = "#" + str(value)
+						else:
+							continue
+					node.text = value
 	# another iteration for "total"
 	for stat in Client.stats["singleplayer"]:
 		var node_name = stats_to_node_path[stat][0]
@@ -272,8 +303,15 @@ func update_stats():
 			0:
 				var node = get_node("StatsOverview/GridContainer/" + node_name)
 				var node2 = get_node("Stats/0/GridContainer/" + node_name + "Total")
-				if stat == "highest_rank_ever":
-					node.text = Client.stats["ranked"][stat]
+				if stat == "highest_rank":
+					var value = Client.stats["ranked"][stat]
+					if value > 1000000000000:
+						value = "None"
+					elif value > 500:
+						value = ">500"
+					else:
+						value = "#" + str(value)
+					node.text = value
 				else:
 					node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
 					node2.text = node.text
@@ -295,13 +333,13 @@ func update_stats():
 					var days: int = 0
 					if seconds >= 60:
 						minutes = seconds / 60
-						seconds = minutes % 60
+						seconds = seconds % 60
 					if minutes >= 60:
 						hours = minutes / 60
-						minutes = hours % 60
+						minutes = minutes % 60
 					if hours >= 24:
 						days = hours / 24
-						hours = days % 24
+						hours = hours % 24
 					node.text = "%sd %sh %sm %ss" % [days, hours, minutes, seconds]
 				else:
 					node.text = Client.stats["singleplayer"][stat] + Client.stats["multiplayer"][stat] + Client.stats["ranked"][stat]
@@ -317,7 +355,7 @@ func update_leaderboard():
 		label_name.name = str(count)
 		label_name.text = ("#0" if count < 10 else "#") + str(count) + " | " + user.global_name
 		label_name.add_theme_font_size_override("font_size", 30)
-		label_name.size = Vector2(300, 41)
+		label_name.size = Vector2(290, 41)
 		label_name.position = Vector2(0, 71 * (count - 1))
 		label_name.clip_text = true
 		label_name.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
@@ -343,3 +381,4 @@ func update_leaderboard():
 	leaderboard_top_container.custom_minimum_size = Vector2(485, 71 * (count - 1))
 	leaderboard_loading.visible = false
 	leaderboard_top.visible = true
+	leaderboard_resets_in.visible = true
