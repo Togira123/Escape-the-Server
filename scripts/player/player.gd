@@ -580,6 +580,10 @@ func player_was_hit(area: Area3D):
 		cur_movement = JUMP
 	elif area.name == "BoltArea":
 		area.get_parent_node_3d().start_pick_up()
+	elif area.name == "GroundArea":
+		if position.y < 1.5 and is_on_floor():
+			die()
+			return
 	else:
 		# hit laser
 		if level.stage == 2:

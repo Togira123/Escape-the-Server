@@ -182,3 +182,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.08165e-12, 2.08165e-12
 shape = SubResource("BoxShape3D_jtm4v")
 
 [node name="Sentence" type="Node3D" parent="."]
+
+[node name="GroundArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 80, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_ebwnx")
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="GroundArea"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 2.08165e-12, 2.08165e-12)
+shape = SubResource("BoxShape3D_jtm4v")

@@ -113,3 +113,8 @@ skeleton = NodePath("")
 shape = SubResource("BoxShape3D_ebwnx")
 
 [node name="Sentence" type="Node3D" parent="."]
+
+[node name="GroundArea" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GroundArea"]
+shape = SubResource("BoxShape3D_ebwnx")
