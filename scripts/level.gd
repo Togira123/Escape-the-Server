@@ -22,7 +22,7 @@ const LOADED_MODULES_SIZE: int = 32
 
 const CASUAL_TUNNELS = [3000, 6000, 10000]
 # shortly before the max int size the level is finished
-const RANKED_TUNNELS = [4000, 9000, 9223372036854775807 - 100000]
+const RANKED_TUNNELS = [4000, 9000, 25000, 9223372036854775807 - 100000]
 # 9000 13020 17000 21020 25000
 var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
@@ -54,6 +54,9 @@ var first_plats = [false, false, false]
 var single_holes = []
 var potential_single_holes = []
 
+# for ranked
+var last_tunnel_pos: int = 0
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
@@ -72,7 +75,7 @@ func spawn_module(n: int, platforms: bool):
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	var instance: Node
 	if platforms:
-		if not first_plats[next_tunnel] or n == TUNNELS[next_tunnel]:
+		if not first_plats[next_tunnel] or n == get_next_tunnel():
 			first_plats[next_tunnel] = true
 			instance = EMPTY_PLATFORM.instantiate()
 			instance.position.z = n
@@ -170,7 +173,7 @@ func spawn_module(n: int, platforms: bool):
 			skip = false
 			return
 	else: # not platform
-		var module_0_forced = n < AMOUNT * OFFSET or (next_tunnel > 0 and n >= TUNNELS[next_tunnel - 1] and n <= TUNNELS[next_tunnel - 1] + 26 * OFFSET)
+		var module_0_forced = n < AMOUNT * OFFSET or (next_tunnel > 0 and n >= last_tunnel_pos and n <= last_tunnel_pos + 26 * OFFSET)
 		instance = modules[0 if module_0_forced else Client.ranked_rand.randi() % modules.size()].instantiate()
 		instance.position.z = n
 		if loaded_modules[index]:
@@ -379,14 +382,16 @@ func spawn_module(n: int, platforms: bool):
 					instance.add_child(bolt_inst)
 	loaded_modules[index] = instance
 	if next_tunnel < TUNNELS.size():
-		if n >= TUNNELS[next_tunnel]:
+		var next = get_next_tunnel()
+		if n >= next:
 			# spawn tunnel
+			last_tunnel_pos = next
 			var count = 5 if next_tunnel == TUNNELS.size() - 1 else 2
 			for i in range(count):
 				var tunnel = TUNNEL_SCENE.instantiate()
-				tunnel.position.z = TUNNELS[next_tunnel] + i * 250
+				tunnel.position.z = next + i * 250
 				tunnels.add_child(tunnel)
-			next_tunnel += 1
+			next_tunnel += 1 if TUNNELS.has(next) else 0
 	if instance.has_node("Ground"):
 		var shader: ShaderMaterial = instance.get_node("Ground/Pattern").mesh.surface_get_material(0)
 		shader.set_shader_parameter("progress", constants.ground_pattern_color_change_progress)
@@ -395,6 +400,12 @@ func spawn_module(n: int, platforms: bool):
 		instance.get_node("Ground/Floor").mesh.surface_set_material(0, LOW_RES_FLOOR_MATERIAL)
 	add_child(instance)
 	module_count += 1
+
+func get_next_tunnel() -> int:
+	var next = TUNNELS[next_tunnel]
+	if Client.lobby.members[Client.user_id].gamemode == "ranked" and last_tunnel_pos >= RANKED_TUNNELS[1]:
+		return last_tunnel_pos + 4000
+	return next
 
 enum STATUS_EFFECTS {
 	SHIELD

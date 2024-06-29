@@ -53,7 +53,7 @@ const SHIELD_DURATION = 5.0
 const TELEPORT_DISTANCE = 40
 
 # need these +20 for the platforms to end with the empty module
-const PLATFORM_LENGTH = [1700, 2020, 2020] # length % 40 != 0
+const PLATFORM_LENGTH = [1700, 2020, 2020, 2020] # length % 40 != 0
 
 enum State {
 	IN_LOBBY,
@@ -165,19 +165,20 @@ func _physics_process(delta):
 				lasers.remove_children()
 				lasers.spawn_lasers(level.stage)
 				speed = RUN_SPEEDS[cur_tunnel]
-				dist_to_laser += 6
-				# also increase the max heat by a bit to not die too fast in yellow and red part
-				heat_death += 3
-				var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
-				animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
-				laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
+				if level.TUNNELS.has(level.last_tunnel_pos):
+					dist_to_laser += 6
+					# also increase the max heat by a bit to not die too fast in yellow and red part
+					heat_death += 3
+					var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
+					animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
+					laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
 		if jumped_in_tunnel:
 			tunnel_process(delta, last)
 			return
 	run(delta)
 
 func _process(_delta):
-	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel] > level.TUNNELS[level.next_tunnel]
+	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel] > level.get_next_tunnel()
 	var pos = position.z if player_state != State.FINISHED else camera.position.z
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
@@ -229,7 +230,7 @@ func _unhandled_key_input(event):
 		if teleport_count > 0:
 			teleport_count -= 1
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
-			var next_tunnel_pos = level.TUNNELS[level.next_tunnel - 1]
+			var next_tunnel_pos = level.last_tunnel_pos
 			if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
 				# tp 3 meters before tunnel if there is one in front
 				var tp_dist = 0 if next_tunnel_pos - 3 < position.z else clamp(next_tunnel_pos - position.z - 3, 0, TELEPORT_DISTANCE)
@@ -370,7 +371,7 @@ func run(delta):
 
 func is_in_tunnel():
 	if level.next_tunnel > 0:
-		var t = level.TUNNELS[level.next_tunnel - 1]
+		var t = level.last_tunnel_pos
 		if t < position.z and t + level.TUNNEL_LENGTH > position.z:
 			return level.next_tunnel
 	return -1
@@ -407,7 +408,7 @@ func tunnel_process(delta, is_last: bool):
 				# Gravity
 				velocity.y -= FALL_ACCELERATION * delta
 				animation_tree.set("parameters/spin_blend_tree/TimeScale/scale", 1.5)
-				if level.TUNNELS[level.next_tunnel - 1] + level.TUNNEL_LENGTH - 10 > position.z:
+				if level.last_tunnel_pos + level.TUNNEL_LENGTH - 10 > position.z:
 					# only 10 meters left, make sure to set the progress back to 0
 					constants.ground_pattern_color_change_progress = 0.0
 				else:

@@ -96,8 +96,8 @@ func spawn_sentence():
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
-	elif level.TUNNELS[level.next_tunnel] < constants.next_sentence_position_z + 150:
-		constants.next_sentence_position_z = level.TUNNELS[level.next_tunnel] + level.TUNNEL_LENGTH + 150
+	elif level.get_next_tunnel() < constants.next_sentence_position_z + 150:
+		constants.next_sentence_position_z = level.get_next_tunnel() + level.TUNNEL_LENGTH + 150
 	else:
 		constants.next_sentence_position_z += 60 if not player.spawn_platforms else 120
 
