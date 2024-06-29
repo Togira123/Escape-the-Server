@@ -6,6 +6,10 @@ extends Control
 var change_count = true
 
 func _process(delta: float) -> void:
+	if player.infinite_material:
+		count.text = "∞"
+		count.label_settings.font_color = Color("ffff00")
+		return
 	var cur_count = int(count.text)
 	if change_count:
 		if cur_count < player.material_count:

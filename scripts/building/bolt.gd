@@ -12,9 +12,13 @@ var being_picked_up = false
 var spin_speed = 4
 # amount of materials this bolt gives
 var materials = 0
+var infinite = false
 
 func _ready():
-	if Client.ranked_rand.randi() % 3 == 0:
+	if infinite:
+		bolt.mesh.surface_get_material(1).emission = Color("000000")
+		materials = -1
+	elif Client.ranked_rand.randi() % 3 == 0:
 		bolt.mesh.surface_get_material(1).emission = Color("00ff00")
 		spin_speed = 2
 		materials = 5 + Client.ranked_rand.rand_weighted(WEIGHTS_GREEN)

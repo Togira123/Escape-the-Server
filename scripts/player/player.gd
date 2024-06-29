@@ -123,6 +123,7 @@ const JUMPPAD_ROLL_BOOST = 10
 
 const MAX_MATERIAL = 200
 var material_count = 50
+var infinite_material = false
 
 func _ready():
 	set_process(false)
@@ -247,7 +248,7 @@ func _unhandled_key_input(event):
 			building_indicator.set_process(true)
 			building_indicator.visible = true
 	if Input.is_action_pressed("build_ramp"):
-		if material_count >= 10:
+		if material_count >= 10 or infinite_material:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
@@ -262,9 +263,10 @@ func _unhandled_key_input(event):
 				xpos -= 1
 			module.built_at.append(xpos)
 			module.add_child(ramp)
-			material_count -= 10
+			if not infinite_material:
+				material_count -= 10
 	if Input.is_action_pressed("build_ceiling"):
-		if material_count >= 10:
+		if material_count >= 10 or infinite_material:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
@@ -281,7 +283,8 @@ func _unhandled_key_input(event):
 				ceiling.position.y = 21
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
-			material_count -= 10
+			if not infinite_material:
+				material_count -= 10
 
 func run(delta):
 	jumped_in_tunnel = false
@@ -632,4 +635,7 @@ func set_rotation_for_spin(r: float):
 	player_shield.rotation.x = r
 
 func pick_up_bolt(materials: int):
-	material_count = min(MAX_MATERIAL, material_count + materials)
+	if materials == -1:
+		infinite_material = true
+	else:
+		material_count = min(MAX_MATERIAL, material_count + materials)
