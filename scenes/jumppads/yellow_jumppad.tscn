@@ -52,24 +52,29 @@ metadata/module_number = 2
 
 [node name="HoleHintBack1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 2.08165e-12, 1.05, -10)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_u84qn")
 
 [node name="HoleHintFront1" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, -1, 4.37114e-08, 0, -4.37114e-08, -1, 1, -4.37114e-08, 1.91069e-15, 2.08165e-12, 1.05, 10)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_u84qn")
 
 [node name="HoleHint" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, 10, 1.05, 4.37114e-07)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_u84qn")
 skeleton = NodePath("")
 
 [node name="HoleHint2" type="MeshInstance3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, -3.82137e-15, 0, -4.37114e-08, -1, -8.74228e-08, -1, 4.37114e-08, -10, 1.05, -4.37114e-07)
+cast_shadow = 0
 mesh = SubResource("CylinderMesh_u84qn")
 skeleton = NodePath("")
 
 [node name="Laser" type="MeshInstance3D" parent="."]
 transform = Transform3D(-4.37114e-08, 0.15, -4.37114e-08, -1.5246e-23, -6.55671e-09, -1, -1, -6.55671e-09, 1.91069e-15, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+cast_shadow = 0
 mesh = SubResource("ArrayMesh_s8lc8")
 skeleton = NodePath("")
 

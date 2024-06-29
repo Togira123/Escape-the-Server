@@ -15,6 +15,7 @@ const STATUS_EFFECT_SHIELD = preload("res://scenes/ui/status_effects/shield.tscn
 
 const JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
 const JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
+const JUMPPAD_WHITE = preload("res://scenes/jumppads/white_jumppad.tscn")
 const JUMPPADS = [JUMPPAD_GREEN, JUMPPAD_YELLOW]
 
 const OFFSET: int = 20
@@ -22,7 +23,8 @@ const LOADED_MODULES_SIZE: int = 32
 
 const CASUAL_TUNNELS = [3000, 6000, 10000]
 # shortly before the max int size the level is finished
-const RANKED_TUNNELS = [4000, 9000, 25000, 9223372036854775807 - 100000]
+#const RANKED_TUNNELS = [4000, 9000, 25000, 9223372036854775807 - 100000]
+const RANKED_TUNNELS = [3000, 6000, 10000, 9223372036854775807 - 100000]
 # 9000 13020 17000 21020 25000
 var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
@@ -49,7 +51,7 @@ var stage = 0
 var skip = false # used to only place a platform module every second time
 var last_group = 3
 
-var first_plats = [false, false, false]
+var first_plats = [false, false, false, false]
 
 var single_holes = []
 var potential_single_holes = []
@@ -362,7 +364,11 @@ func spawn_module(n: int, platforms: bool):
 						else: # cur_holes[count_c] > single_holes[count_s]
 							count_s += 1
 				if single_holes.size() > 0 and Client.ranked_rand.randi() % 8 == 1:
-					var pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
+					var pad
+					if n > RANKED_TUNNELS[2] and Client.lobby.members[Client.user_id].gamemode == "ranked" and Client.ranked_rand.randi_range(0, 15) == 10:
+						pad = JUMPPAD_WHITE.instantiate()
+					else:
+						pad = JUMPPADS[Client.ranked_rand.randi_range(0, 1)].instantiate()
 					var xpos = single_holes[Client.ranked_rand.randi() % single_holes.size()]
 					pad.position = Vector3(xpos, 0, 0)
 					prev_inst.add_child(pad)
@@ -386,7 +392,7 @@ func spawn_module(n: int, platforms: bool):
 		if n >= next:
 			# spawn tunnel
 			last_tunnel_pos = next
-			var count = 5 if next_tunnel == TUNNELS.size() - 1 else 2
+			var count = 5 if Client.lobby.members[Client.user_id].gamemode == "casual" and next_tunnel == TUNNELS.size() - 1 else 2
 			for i in range(count):
 				var tunnel = TUNNEL_SCENE.instantiate()
 				tunnel.position.z = next + i * 250

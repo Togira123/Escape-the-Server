@@ -118,7 +118,8 @@ func start_game():
 		player_icon.get_node("Lobby").visible = false
 	# call this to load the first few modules (besides the default ones)
 	level.load_level_start_on_game_start()
-	level.get_node("UI/Materials").visible = true
+	if Client.lobby.members[Client.user_id].gamemode == "ranked":
+		level.get_node("UI/Materials").visible = true
 
 func _on_player_game_over(skip_animation: bool):
 	var ins = LOADING_SCREEN.instantiate()

@@ -27,7 +27,7 @@ const CEILING = preload("res://scenes/building/Ceiling.tscn")
 const RAMP = preload("res://scenes/building/Ramp.tscn")
 
 var speed = 50
-const RUN_SPEEDS = [50, 65, 80]
+const RUN_SPEEDS = [50, 65, 80, 90]
 const WALK_SPEED = 1.5 * 60
 const JUMP_VELOCITY = 40
 const LERP_VAL = 0.3
@@ -42,7 +42,8 @@ const PLAYER_ROLL_OFFSET = -0.5
 const DEATH_BREAK_SPEED = 10
 
 var laser_impulse = 8
-const LASER_IMPULSES = [8, 11]
+# 15 is for white part
+const LASER_IMPULSES = [8, 11, 11, 15]
 const LASER_IMPULSE_BREAK_SPEED = 0.5
 
 const TUNNEL_JUMP_IMPULSE = 80
@@ -119,6 +120,7 @@ var laser_bounce_count = 0
 var roll_started_midair = false
 const JUMPPAD_GREEN = 50
 const JUMPPAD_YELLOW = 65
+const JUMPPAD_WHITE = 80
 const JUMPPAD_ROLL_BOOST = 10
 
 const MAX_MATERIAL = 200
@@ -160,6 +162,7 @@ func _physics_process(delta):
 			state_machine.start("jump", true)
 			started_spinning_in_tunnel = false
 			reached_height = false
+			print("stage: ", level.stage)
 			if not last:
 				var lasers = level.get_child(0)
 				lasers.remove_children()
@@ -171,7 +174,7 @@ func _physics_process(delta):
 					heat_death += 3
 					var old_anim_speed = animation_tree.get("parameters/run_blend_tree/TimeScale/scale")
 					animation_tree.set("parameters/run_blend_tree/TimeScale/scale", old_anim_speed + 0.3)
-					laser_impulse = LASER_IMPULSES[clamp(cur_tunnel, 0, 1)]
+					laser_impulse = LASER_IMPULSES[cur_tunnel]
 		if jumped_in_tunnel:
 			tunnel_process(delta, last)
 			return
@@ -582,6 +585,11 @@ func player_was_hit(area: Area3D):
 		state_machine.travel("jump")
 		velocity.y = JUMPPAD_YELLOW + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_YELLOW
 		cur_movement = JUMP
+	elif area.name == "JumppadWhite":
+		has_spinned = false
+		state_machine.travel("jump")
+		velocity.y = JUMPPAD_WHITE + JUMPPAD_ROLL_BOOST if cur_movement == ROLL and roll_started_midair else JUMPPAD_WHITE
+		cur_movement = JUMP
 	elif area.name == "BoltArea":
 		area.get_parent_node_3d().start_pick_up()
 	elif area.name == "GroundArea":
@@ -593,7 +601,7 @@ func player_was_hit(area: Area3D):
 		if level.stage == 2:
 			die()
 			return
-		velocity.y = laser_impulse * 4
+		velocity.y = laser_impulse * (4 if level.stage < 3 else 6)
 		if (position.x > 0 and position.x < lasers.X_OFFSET) or position.x < -lasers.X_OFFSET:
 			player_laser_impulse = -laser_impulse
 		else:

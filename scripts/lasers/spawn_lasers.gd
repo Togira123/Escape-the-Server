@@ -5,10 +5,10 @@ extends Node3D
 
 const LASER_PIVOT = preload("res://scenes/lasers/laser_pivot.tscn")
 const X_OFFSET = 80
-const LASER_COUNT = [3, 4, 5]
-const LASER_SCALE = [1.67, 1.33, 1]
-const LASER_EMISSION = [10, 14, 18]
-const LASER_EMISSION_COLORS: Array[Color] = [Color(0.0, 1.0, 0.0), Color(1.0, 1.0, 0.0), Color(1.0, 0.0, 0.0)]
+const LASER_COUNT = [3, 4, 5, 5]
+const LASER_SCALE = [1.67, 1.33, 1, 1]
+const LASER_EMISSION = [10, 14, 18, 20]
+const LASER_EMISSION_COLORS: Array[Color] = [Color(0.0, 1.0, 0.0), Color(1.0, 1.0, 0.0), Color(1.0, 0.0, 0.0), Color(1.0, 1.0, 1.0)]
 
 var is_transitioning = false
 var inst
@@ -34,8 +34,8 @@ func _process(delta):
 		mat.set_shader_parameter("albedo", cur_col.lerp(LASER_EMISSION_COLORS[level.stage], 0.02))
 
 func spawn_lasers(stage: int):
-	var floor_offset = (3 + 0.25 * (2 - stage))
-	var space_between_lasers = (3 + (2 - stage))
+	var floor_offset = (3 + 0.25 * (2 - min(stage, 2)))
+	var space_between_lasers = (3 + (2 - min(stage, 2)))
 	for i in range(LASER_COUNT[stage]):
 		inst = LASER_PIVOT.instantiate()
 		inst.position.y = floor_offset + space_between_lasers * i
