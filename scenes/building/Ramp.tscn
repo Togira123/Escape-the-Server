@@ -20,7 +20,7 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6v6ei"]
-size = Vector3(20, 0.5, 45.178)
+size = Vector3(20, 5.08301, 45.178)
 
 [node name="Ramp" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 10)
@@ -36,5 +36,5 @@ mesh = SubResource("ArrayMesh_rptjt")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, -5.10918e-16, 3.08814e-16, 3.08814e-16, 0.885394, 0.464842, -5.10918e-16, -0.464842, 0.885394, 2.08165e-12, 11, 2.08165e-12)
+transform = Transform3D(1, -5.10854e-16, 3.08814e-16, 3.08814e-16, 0.885394, 0.464842, -5.10918e-16, -0.464842, 0.885394, 2.08282e-12, 8.97112, 1.06519)
 shape = SubResource("BoxShape3D_6v6ei")

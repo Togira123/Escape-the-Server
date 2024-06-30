@@ -23,9 +23,9 @@ const LOADED_MODULES_SIZE: int = 32
 
 const CASUAL_TUNNELS = [3000, 6000, 10000]
 # shortly before the max int size the level is finished
-#const RANKED_TUNNELS = [4000, 9000, 25000, 9223372036854775807 - 100000]
-const RANKED_TUNNELS = [3000, 6000, 10000, 9223372036854775807 - 100000]
-# 9000 13020 17000 21020 25000
+const RANKED_TUNNELS = [4000, 10000, 25000, 9223372036854775807 - 100000]
+#const RANKED_TUNNELS = [2520, 5000, 13000, 9223372036854775807 - 100000]
+const RANKED_DIST_TO_TUNNEL = 5000
 var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
 
@@ -59,24 +59,50 @@ var potential_single_holes = []
 # for ranked
 var last_tunnel_pos: int = 0
 
+var started_build_only = 3
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	loaded_modules.resize(LOADED_MODULES_SIZE)
 	if not Client.is_authorized:
 		await Client.on_authorize
 	for n in range(AMOUNT):
-		spawn_module(module_count * OFFSET, false)
+		spawn_module(module_count * OFFSET, false, false)
 
 func load_level_start_on_game_start():
-	for n in LOADED_MODULES_SIZE - AMOUNT: 
-		spawn_module(module_count * OFFSET, false)
+	for n in LOADED_MODULES_SIZE - AMOUNT:
+		spawn_module(module_count * OFFSET, false, false)
 
-func spawn_module(n: int, platforms: bool):
+func spawn_module(n: int, platforms: bool, build_only: bool):
 	@warning_ignore("integer_division")
 	var index = (n / OFFSET) % LOADED_MODULES_SIZE
 	var prev_ind = LOADED_MODULES_SIZE - 1 if index == 0 else index - 1
 	var instance: Node
-	if platforms:
+	if build_only:
+		if started_build_only == 3 or started_build_only == 1:
+			started_build_only -= 1
+			instance = modules[0].instantiate()
+			instance.position.z = n
+			if loaded_modules[index]:
+				loaded_modules[index].queue_free()
+		elif started_build_only == 2:
+			started_build_only = 1
+			instance = modules[0].instantiate()
+			instance.position.z = n
+			if loaded_modules[index]:
+				loaded_modules[index].queue_free()
+			var possible_bolt_locations: PackedInt32Array = PackedInt32Array(instance.get_meta("possible_bolt_locations"))
+			for l in possible_bolt_locations:
+				var bolt_inst = BOLT.instantiate()
+				bolt_inst.infinite = true
+				bolt_inst.position.x = l
+				instance.add_child(bolt_inst)
+		else:
+			instance = EMPTY_PLATFORM.instantiate()
+			instance.position.z = n
+			if loaded_modules[index]:
+				loaded_modules[index].queue_free()
+	elif platforms:
 		if not first_plats[next_tunnel] or n == get_next_tunnel():
 			first_plats[next_tunnel] = true
 			instance = EMPTY_PLATFORM.instantiate()
@@ -120,7 +146,7 @@ func spawn_module(n: int, platforms: bool):
 			if loaded_modules[next_index]:
 				loaded_modules[next_index].queue_free()
 			loaded_modules[next_index] = instance2
-			
+
 			# instance.name is ModulePlat1, ModulePlat2 etc
 			match instance.name:
 				&"ModulePlat1", &"ModulePlat2":
@@ -175,6 +201,7 @@ func spawn_module(n: int, platforms: bool):
 			skip = false
 			return
 	else: # not platform
+		started_build_only = 3
 		var module_0_forced = n < AMOUNT * OFFSET or (next_tunnel > 0 and n >= last_tunnel_pos and n <= last_tunnel_pos + 26 * OFFSET)
 		instance = modules[0 if module_0_forced else Client.ranked_rand.randi() % modules.size()].instantiate()
 		instance.position.z = n
@@ -187,7 +214,7 @@ func spawn_module(n: int, platforms: bool):
 			i.position.x = -95.0
 			i.position.z = 0.0
 			instance.add_child(i)
-		
+
 		if loaded_modules[prev_ind]:
 			single_holes = potential_single_holes
 			potential_single_holes = []
@@ -217,7 +244,6 @@ func spawn_module(n: int, platforms: bool):
 						front_old.position.x -= 5.0
 					else:
 						potential_single_holes = [0]
-					
 				3:
 					cur_holes = [-50, 50]
 					if prev_module_num == 3 or prev_module_num == -1:
@@ -239,7 +265,7 @@ func spawn_module(n: int, platforms: bool):
 						potential_single_holes = [50]
 					else:
 						potential_single_holes = [-50, 50]
-					
+
 				4:
 					cur_holes = [50]
 					if prev_module_num == 4 or prev_module_num == -1:
@@ -250,7 +276,7 @@ func spawn_module(n: int, platforms: bool):
 						prev_inst.get_child(1).visible = false
 					else:
 						potential_single_holes = [50]
-					
+
 				5:
 					cur_holes = [-50]
 					if prev_module_num == 5 or prev_module_num == -1:
@@ -264,7 +290,7 @@ func spawn_module(n: int, platforms: bool):
 						prev_inst.get_child(5).visible = false
 					else:
 						potential_single_holes = [-50]
-					
+
 				6:
 					cur_holes = [-70, -30, 30, 70]
 					if prev_module_num == 6 or prev_module_num == -1:
@@ -286,7 +312,7 @@ func spawn_module(n: int, platforms: bool):
 						potential_single_holes = [-30, 30, 70]
 					else:
 						potential_single_holes = [-70, -30, 30, 70]
-					
+
 				7:
 					cur_holes = [-50, 10, 70]
 					if prev_module_num == 7 or prev_module_num == -1:
@@ -318,7 +344,7 @@ func spawn_module(n: int, platforms: bool):
 						potential_single_holes = [-50, 10]
 					else:
 						potential_single_holes = [-50, 10, 70]
-					
+
 				8:
 					cur_holes = [-70, -10, 50]
 					if prev_module_num == 8 or prev_module_num == -1:
@@ -346,7 +372,7 @@ func spawn_module(n: int, platforms: bool):
 						potential_single_holes = [-10, 50]
 					else:
 						potential_single_holes = [-70, -10, 50]
-			
+
 			if Client.lobby.members[Client.user_id].gamemode == "ranked" and prev_module_num != -1 and single_holes.size() > 0:
 				var cur_holes_size = cur_holes.size()
 				if cur_holes_size > 0:
@@ -410,7 +436,7 @@ func spawn_module(n: int, platforms: bool):
 func get_next_tunnel() -> int:
 	var next = TUNNELS[next_tunnel]
 	if Client.lobby.members[Client.user_id].gamemode == "ranked" and last_tunnel_pos >= RANKED_TUNNELS[1]:
-		return last_tunnel_pos + 4000
+		return last_tunnel_pos + RANKED_DIST_TO_TUNNEL
 	return next
 
 enum STATUS_EFFECTS {

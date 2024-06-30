@@ -99,6 +99,7 @@ var cur_speed = 0.0
 var cur_angle = 0.0
 
 var spawn_platforms = false
+var build_only = false
 
 # used to walk to player around randomly in lobby
 var arrived = false
@@ -162,7 +163,7 @@ func _physics_process(delta):
 			state_machine.start("jump", true)
 			started_spinning_in_tunnel = false
 			reached_height = false
-			print("stage: ", level.stage)
+			infinite_material = false
 			if not last:
 				var lasers = level.get_child(0)
 				lasers.remove_children()
@@ -181,26 +182,28 @@ func _physics_process(delta):
 	run(delta)
 
 func _process(_delta):
-	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel] > level.get_next_tunnel()
+	var next_tun: int = level.get_next_tunnel()
+	spawn_platforms = level.next_tunnel < level.TUNNELS.size() and position.z + PLATFORM_LENGTH[level.next_tunnel] > next_tun
 	var pos = position.z if player_state != State.FINISHED else camera.position.z
+	build_only = Client.lobby.members[Client.user_id].gamemode == "ranked" and spawn_platforms and  next_tun > level.RANKED_TUNNELS[1] and next_tun % (level.RANKED_DIST_TO_TUNNEL * 2) == 0
+	#build_only = spawn_platforms
 	# make sure to spawn in new ground
 	if pos > (level.module_count - level.LOADED_MODULES_SIZE + 2) * level.OFFSET:
-		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms)
+		level.spawn_module(level.module_count * level.OFFSET, spawn_platforms, build_only)
 		for m in level.loaded_modules:
 			if m:
 				m.maybe_drop(pos)
 
 var direction = Vector3(0.0, 0.0, 1.0)
 
-var pressed_right = false
-var pressed_left = false
-func _unhandled_key_input(event):
+
+func movement():
 	direction.x = 0.0
 	if Input.is_action_pressed("move_right"):
 		direction.x = -0.9
 	if Input.is_action_pressed("move_left"):
 		direction.x += 0.9
-	if player_state == State.DEAD and Client.lobby.members.size() <= 1 and event.is_action_pressed("ui_accept"):
+	if player_state == State.DEAD and Client.lobby.members.size() <= 1 and Input.is_action_just_pressed("ui_accept"):
 		# skip death animation
 		set_physics_process(false)
 		game_over.emit(true)
@@ -209,7 +212,7 @@ func _unhandled_key_input(event):
 		return
 	if player_state != State.RUNNING or is_in_tunnel() != -1:
 		return
-	if event.is_action_pressed("jump"):
+	if Input.is_action_just_pressed("jump"):
 		if not is_on_floor():
 			if not has_spinned and state_machine.get_current_node() == "jump" and (position.y > 4 or position.y < 0):
 				state_machine.travel("spin_blend_tree")
@@ -222,14 +225,14 @@ func _unhandled_key_input(event):
 			cur_movement = JUMP
 			jump_count += 1
 		get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("roll"):
+	if Input.is_action_just_pressed("roll"):
 		if state_machine.get_current_node() != "spin_blend_tree":
 			state_machine.travel("roll")
 			cur_movement = ROLL
 			roll_started_midair = not is_on_floor()
 			roll_count += 1
 			get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("use_item"):
+	if Input.is_action_just_pressed("use_item"):
 		if teleport_count > 0:
 			teleport_count -= 1
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
@@ -244,7 +247,9 @@ func _unhandled_key_input(event):
 				camera.distance_to_player = TELEPORT_DISTANCE
 			teleports_used += 1
 			get_viewport().set_input_as_handled()
-	elif event.is_action_pressed("toggle_build_indicator"):
+	if Input.is_action_just_pressed("toggle_build_indicator"):
+		if Client.lobby.members[Client.user_id].gamemode == "casual":
+			return
 		if building_indicator.visible:
 			building_indicator.set_process(false)
 			building_indicator.visible = false
@@ -252,6 +257,8 @@ func _unhandled_key_input(event):
 			building_indicator.set_process(true)
 			building_indicator.visible = true
 	if Input.is_action_pressed("build_ramp"):
+		if Client.lobby.members[Client.user_id].gamemode == "casual":
+			return
 		if material_count >= 10 or infinite_material:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
@@ -270,6 +277,8 @@ func _unhandled_key_input(event):
 			if not infinite_material:
 				material_count -= 10
 	if Input.is_action_pressed("build_ceiling"):
+		if Client.lobby.members[Client.user_id].gamemode == "casual":
+			return
 		if material_count >= 10 or infinite_material:
 			var zpos: int = ceil((position.z - 30) / 40) * 2 + 2
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
@@ -284,7 +293,7 @@ func _unhandled_key_input(event):
 				ceiling.position.y = -20
 				xpos -= 1
 			else:
-				ceiling.position.y = 21
+				ceiling.position.y = 20.9
 			module.built_at.append(xpos)
 			module.add_child(ceiling)
 			if not infinite_material:
@@ -295,6 +304,7 @@ func run(delta):
 	changed_color_in_tunnel = false
 	if animation_tree.get("parameters/conditions/has_crashed"):
 		return
+	movement()
 	match cur_movement:
 		RUN:
 			hitbox_collision_shape.shape.height = lerp(hitbox_collision_shape.shape.height, PLAYER_RUN_HEIGHT, LERP_VAL_MOV_CHANGE)
@@ -337,7 +347,7 @@ func run(delta):
 		if cur_node == "jump" or cur_node == "spin_blend_tree":
 			state_machine.travel("run_blend_tree")
 			cur_movement = RUN
-	
+
 	# apply heat if player is too close to lasers
 	var abs_pos_x = abs(position.x)
 	var d_to_l = abs(lasers.X_OFFSET - abs_pos_x)
@@ -429,7 +439,7 @@ func walk_around(delta):
 			if prev_x != x or prev_z != z:
 				break
 		set_physics_process(false)
-		await get_tree().create_timer(randi() % 3 + 1, true, true).timeout	
+		await get_tree().create_timer(randi() % 3 + 1, true, true).timeout
 		set_physics_process(true)
 		arrived = false
 	else:
@@ -484,8 +494,8 @@ func die_process(delta):
 	if old_val < 1:
 		mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.05)
 	else:
-		armature.visible = false	
-	
+		armature.visible = false
+
 	if velocity.z < speed * 0.9:
 		# do loop
 		if cur_speed < 0:
@@ -510,7 +520,7 @@ func die_process(delta):
 			velocity.y = lerp(velocity.y, JUMP_VELOCITY / 4.0, 0.8)
 		if velocity.z < 0:
 			velocity.z = 0
-	
+
 	move_and_slide()
 
 func revive():
@@ -553,7 +563,7 @@ func _on_hitbox_area_exited(area: Area3D):
 			if letters_passed % 2 == 0:
 				if teleport_count < level.MAX_TELEPORT_ABILITIES:
 					teleports_obtained += 1
-				teleport_count = clamp(teleport_count + 1, 0, level.MAX_TELEPORT_ABILITIES)
+				teleport_count = min(teleport_count + 1, level.MAX_TELEPORT_ABILITIES)
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
 		else:
 			# create a new timer and reset shield when it ends

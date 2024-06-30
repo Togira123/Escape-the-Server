@@ -4,6 +4,9 @@ var sentences
 
 var next_sentence_position_z = 200
 
+# for build only part
+var up = true
+
 var ground_pattern_color_change_progress: float = 0
 
 func get_random_sentence():

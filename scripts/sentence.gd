@@ -93,13 +93,20 @@ func spawn_sentence():
 		drop_at_z = constants.next_sentence_position_z + 10000
 	else:
 		drop_at_z = int(constants.next_sentence_position_z - (sqrt(2*height/9.8)) * player.speed) - player.speed - 40 + (40 - (Client.ranked_rand.randi() % 20))
+		if player.build_only:
+			if constants.up:
+				drop_at_z += 100
+				constants.up = false
+			else:
+				constants.up = true
 	
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
 	elif level.get_next_tunnel() < constants.next_sentence_position_z + 150:
 		constants.next_sentence_position_z = level.get_next_tunnel() + level.TUNNEL_LENGTH + 150
 	else:
-		constants.next_sentence_position_z += 60 if not player.spawn_platforms else 120
+		#constants.next_sentence_position_z += 120 if player.spawn_platforms and not player.build_only else 60
+		constants.next_sentence_position_z += 40 if player.build_only else (120 if player.spawn_platforms else 60)
 
 func maybe_drop(pos):
 	if pos > drop_at_z and not dropped:

@@ -16,7 +16,7 @@ var infinite = false
 
 func _ready():
 	if infinite:
-		bolt.mesh.surface_get_material(1).emission = Color("000000")
+		bolt.mesh.surface_get_material(1).emission = Color("ffffff")
 		materials = -1
 	elif Client.ranked_rand.randi() % 3 == 0:
 		bolt.mesh.surface_get_material(1).emission = Color("00ff00")

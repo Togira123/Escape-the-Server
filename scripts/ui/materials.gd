@@ -10,7 +10,7 @@ func _process(delta: float) -> void:
 		count.text = "∞"
 		count.label_settings.font_color = Color("ffff00")
 		return
-	var cur_count = int(count.text)
+	var cur_count = player.material_count if count.text == "∞" else int(count.text)
 	if change_count:
 		if cur_count < player.material_count:
 			cur_count += 1

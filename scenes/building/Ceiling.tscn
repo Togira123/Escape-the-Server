@@ -20,7 +20,7 @@ _surfaces = [{
 blend_shape_mode = 0
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6v6ei"]
-size = Vector3(20, 0.5, 40)
+size = Vector3(20, 4.03094, 40)
 
 [node name="Ceiling" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 10)
@@ -35,5 +35,5 @@ mesh = SubResource("ArrayMesh_phm7h")
 skeleton = NodePath("")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 0.25, 2.08165e-12)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, -1.51547, 0)
 shape = SubResource("BoxShape3D_6v6ei")
