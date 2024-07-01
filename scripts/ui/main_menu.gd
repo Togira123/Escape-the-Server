@@ -96,7 +96,7 @@ func _physics_process(delta: float) -> void:
 	if season_starting_soon.visible or leaderboard.visible:
 		# new Date((Math.floor(Date.now()/1000/(86400*7))*(86400*7)+388800)*1000).toUTCString()
 		var now: int = ceil(Time.get_unix_time_from_system())
-		var next_reset: int = floor(now / (86400 * 7)) * (86400 * 7) + 388800
+		var next_reset = ceil((now - 388800) / (86400 * 7.0)) * (86400 * 7) + 388800
 		var seconds: int = next_reset - now
 		var minutes: int = 0
 		var hours: int = 0
