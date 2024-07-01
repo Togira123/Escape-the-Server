@@ -606,6 +606,9 @@ func player_was_hit(area: Area3D):
 		if position.y < 1.5 and is_on_floor():
 			die()
 			return
+	elif area.name == "Teleport":
+		var portal = area.get_parent()
+		position = portal.destination.position
 	else:
 		# hit laser
 		if level.stage == 2:

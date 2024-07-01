@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 Discord="*res://plugins/DiscordEmbeddedSDK/DiscordSDK.gd"
 Client="*res://scripts/multiplayer/client.gd"
+Global="*res://scripts/portal/global.gd"
 
 [display]
 
@@ -38,6 +39,7 @@ import/blender/enabled=false
 
 module="Group for all ground modules"
 other_players="all players but the own one are in this group"
+player="The controllable player"
 
 [input]
 
@@ -111,6 +113,7 @@ toggle_build_indicator={
 3d_physics/layer_5="Laser"
 3d_physics/layer_6="Jumppad"
 3d_physics/layer_7="Collectibles"
+3d_physics/layer_8="Portal"
 
 [rendering]
 

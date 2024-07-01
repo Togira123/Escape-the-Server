@@ -1,0 +1,39 @@
+[gd_scene load_steps=6 format=3 uid="uid://bpj8bmkwcjyuy"]
+
+[ext_resource type="Material" uid="uid://dk2bmg31uxo5q" path="res://assets/graphics/materials/StencilMaterial.tres" id="1_x31bv"]
+[ext_resource type="Script" path="res://scripts/portal/portal.gd" id="2_1ldju"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_atbvb"]
+radius = 2.0
+height = 4.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_2tinc"]
+flip_faces = true
+radius = 2.0
+height = 4.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_6nu0q"]
+radius = 1.5
+
+[node name="Portal" type="MeshInstance3D"]
+layers = 16
+cast_shadow = 0
+mesh = SubResource("SphereMesh_atbvb")
+surface_material_override/0 = ExtResource("1_x31bv")
+script = ExtResource("2_1ldju")
+
+[node name="Helper" type="Node3D" parent="."]
+
+[node name="Inside" type="MeshInstance3D" parent="."]
+layers = 16
+cast_shadow = 0
+mesh = SubResource("SphereMesh_2tinc")
+surface_material_override/0 = ExtResource("1_x31bv")
+
+[node name="Teleport" type="Area3D" parent="."]
+collision_layer = 128
+collision_mask = 0
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Teleport"]
+shape = SubResource("SphereShape3D_6nu0q")
