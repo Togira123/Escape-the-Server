@@ -169,7 +169,7 @@ func _physics_process(delta):
 			var portal_setup = main.get_node("PortalSetup")
 			var portal = portal_setup.get_node("Portal")
 			portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
-			
+
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or player_state == State.FINISHED:
 		var last = cur_tunnel == level.TUNNELS.size()
@@ -214,6 +214,12 @@ func _process(_delta):
 
 var direction = Vector3(0.0, 0.0, 1.0)
 
+func _unhandled_key_input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept") and player_state == State.DEAD and Client.lobby.members.size() <= 1 and Client.lobby.members[Client.user_id].gamemode != "ranked":
+		# skip death animation
+		set_physics_process(false)
+		game_over.emit(true)
+		return
 
 func movement():
 	direction.x = 0.0
@@ -221,11 +227,6 @@ func movement():
 		direction.x = -0.9
 	if Input.is_action_pressed("move_left"):
 		direction.x += 0.9
-	if player_state == State.DEAD and Client.lobby.members.size() <= 1 and Input.is_action_just_pressed("ui_accept"):
-		# skip death animation
-		set_physics_process(false)
-		game_over.emit(true)
-		return
 	if not is_physics_processing():
 		return
 	if player_state != State.RUNNING or is_in_tunnel() != -1:
@@ -627,7 +628,7 @@ func player_was_hit(area: Area3D):
 	elif area.name == "Teleport":
 		var portal = area.get_parent()
 		position = portal.destination.position
-		main.get_node("Portal").queue_free()
+		main.get_node("PortalSetup").queue_free()
 	else:
 		# hit laser
 		if level.stage == 2:
