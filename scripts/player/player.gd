@@ -282,15 +282,15 @@ func movement():
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
-			if module.built_at.has(xpos):
+			var built_at_ind = xpos - 1 if position.y < 1.5 else xpos
+			if module.built_at.has(built_at_ind):
 				return
 			var ramp = RAMP.instantiate()
 			ramp.position.x = xpos
 			# change the xpos by a little to distinguish different z levels when storing in "built_at"
 			if position.y < 1.5:
 				ramp.position.y = -20.5
-				xpos -= 1
-			module.built_at.append(xpos)
+			module.built_at.append(built_at_ind)
 			module.add_child(ramp)
 			if not infinite_material:
 				material_count -= 10
@@ -302,17 +302,17 @@ func movement():
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
-			if module.built_at.has(xpos):
+			var built_at_ind = xpos - 1 if position.y < 1.5 else xpos
+			if module.built_at.has(built_at_ind):
 				return
 			var ceiling = CEILING.instantiate()
 			ceiling.position.x = xpos
 			# change the xpos by a little to distinguish different z levels when storing in "built_at"
 			if position.y < 1.5:
 				ceiling.position.y = -20
-				xpos -= 1
 			else:
 				ceiling.position.y = 20.9
-			module.built_at.append(xpos)
+			module.built_at.append(built_at_ind)
 			module.add_child(ceiling)
 			if not infinite_material:
 				material_count -= 10
