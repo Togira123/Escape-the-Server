@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://b7ts0yd67xbb4"]
+[gd_scene load_steps=27 format=3 uid="uid://b7ts0yd67xbb4"]
 
 [ext_resource type="Script" path="res://scripts/main.gd" id="1_16pgg"]
 [ext_resource type="Texture2D" uid="uid://dausgm427ehyf" path="res://assets/graphics/processor_bg.png" id="2_7i5a7"]
@@ -14,15 +14,10 @@
 [ext_resource type="PackedScene" uid="uid://dpeyex6snm677" path="res://scenes/grounds/ground6.tscn" id="8_hii8r"]
 [ext_resource type="PackedScene" uid="uid://c2kswit7e2ru2" path="res://scenes/grounds/ground7.tscn" id="9_1qs3k"]
 [ext_resource type="PackedScene" uid="uid://cou8cypg813uq" path="res://scenes/grounds/ground8.tscn" id="10_tylsd"]
-[ext_resource type="Shader" path="res://shaders/stencil_shader.gdshader" id="12_i1cwy"]
-[ext_resource type="Script" path="res://scripts/portal/stencil_camera.gd" id="12_kyo2m"]
-[ext_resource type="Script" path="res://scripts/portal/portal_camera.gd" id="13_hhrpw"]
-[ext_resource type="PackedScene" uid="uid://bpj8bmkwcjyuy" path="res://scenes/portal/portal.tscn" id="15_rbr5k"]
 [ext_resource type="PackedScene" uid="uid://bia7h84uutp5r" path="res://scenes/ui/loading_screen.tscn" id="16_xa8kq"]
 [ext_resource type="Script" path="res://scripts/ui/loading_screen.gd" id="17_umg6e"]
 [ext_resource type="PackedScene" uid="uid://qfkx5miayyoe" path="res://scenes/ui/main_menu.tscn" id="18_c77vm"]
 [ext_resource type="Script" path="res://scripts/background.gd" id="18_ofg6m"]
-[ext_resource type="PackedScene" uid="uid://b7s4eyib3ml47" path="res://scenes/portal/portal_destination.tscn" id="23_2pomo"]
 
 [sub_resource type="Environment" id="Environment_006tc"]
 background_energy_multiplier = 0.0
@@ -35,21 +30,6 @@ fog_density = 1.0
 fog_depth_curve = 0.176778
 fog_depth_begin = 173.4
 fog_depth_end = 1224.1
-
-[sub_resource type="Environment" id="Environment_wrby2"]
-background_mode = 1
-background_energy_multiplier = 0.0
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_j1i7u"]
-viewport_path = NodePath("Player/StencilViewport")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_osmpv"]
-resource_local_to_scene = true
-shader = ExtResource("12_i1cwy")
-shader_parameter/stencil_tex = SubResource("ViewportTexture_j1i7u")
-
-[sub_resource type="ViewportTexture" id="ViewportTexture_4yj0w"]
-viewport_path = NodePath("Player/PortalViewport")
 
 [sub_resource type="Curve" id="Curve_yk5os"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
@@ -96,39 +76,6 @@ modules = Array[PackedScene]([ExtResource("3_nlg22"), ExtResource("4_7yjwl"), Ex
 [node name="Player" parent="." groups=["player"] instance=ExtResource("5_7gqat")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2, 2.08165e-12)
 
-[node name="StencilViewport" type="SubViewport" parent="Player"]
-size = Vector2i(1920, 1080)
-render_target_update_mode = 4
-
-[node name="StencilCamera" type="Camera3D" parent="Player/StencilViewport"]
-cull_mask = 16
-environment = SubResource("Environment_wrby2")
-script = ExtResource("12_kyo2m")
-main_cam_path = NodePath("../../../PlayerCamera")
-
-[node name="PortalViewport" type="SubViewport" parent="Player"]
-screen_space_aa = 1
-size = Vector2i(1920, 1080)
-render_target_update_mode = 4
-
-[node name="PortalCamera" type="Camera3D" parent="Player/PortalViewport"]
-cull_mask = 1048559
-script = ExtResource("13_hhrpw")
-
-[node name="TextureRect" type="TextureRect" parent="Player"]
-auto_translate_mode = 1
-material = SubResource("ShaderMaterial_osmpv")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = SubResource("ViewportTexture_4yj0w")
-
-[node name="Portal" parent="." node_paths=PackedStringArray("destination") instance=ExtResource("15_rbr5k")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.91238, 232.74)
-destination = NodePath("../PortalDestination")
-
 [node name="PlayerCamera" type="Camera3D" parent="."]
 transform = Transform3D(-1, -8.44439e-08, 2.26267e-08, 9.02727e-17, 0.258819, 0.965926, -8.74228e-08, 0.965926, -0.258819, 2.08165e-12, 7, -2.072)
 cull_mask = 1048559
@@ -163,9 +110,6 @@ script = ExtResource("18_ofg6m")
 transform = Transform3D(-1, -8.74228e-08, 6.40765e-15, -1.51662e-15, -3.11581e-08, -1, 8.74228e-08, -1, 2.74311e-08, -2480, 2.08165e-12, 550)
 mesh = SubResource("PlaneMesh_18kqy")
 script = ExtResource("18_ofg6m")
-
-[node name="PortalDestination" parent="." instance=ExtResource("23_2pomo")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1946, 6.3812, 298.639)
 
 [connection signal="game_over" from="Player" to="." method="_on_player_game_over"]
 [connection signal="game_start" from="MainMenu" to="." method="_on_main_menu_game_start"]

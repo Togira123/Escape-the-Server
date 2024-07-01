@@ -22,9 +22,12 @@ signal game_over(skip_animation: bool)
 @onready var camera = $"../PlayerCamera"
 @onready var name_tag = $NameTag
 @onready var hitbox = $Hitbox
+@onready var main = $"../../Main"
 
 const CEILING = preload("res://scenes/building/Ceiling.tscn")
 const RAMP = preload("res://scenes/building/Ramp.tscn")
+
+const PORTAL_SETUP = preload("res://scenes/portal/portal_setup.tscn")
 
 var speed = 50
 const RUN_SPEEDS = [50, 65, 80, 90]
@@ -152,6 +155,21 @@ func _physics_process(delta):
 	if position.y < -21 or heat > heat_death:
 		die()
 		return
+	var distance_to_next_tunnel = level.last_tunnel_pos - position.z
+	if distance_to_next_tunnel > 0 and distance_to_next_tunnel < 40:
+		# player is shortly before tunnel
+		if position.y < 1.5 or abs(position.x) > 120:
+			# player is outside bounds
+			if not main.has_node("PortalSetup"):
+				var portal_setup = PORTAL_SETUP.instantiate()
+				var dest = portal_setup.get_node("PortalDestination")
+				portal_setup.get_node("StencilViewport/StencilCamera").main_cam = camera
+				dest.position = Vector3(0, 2.1, level.last_tunnel_pos + 1)
+				main.add_child(portal_setup)
+			var portal_setup = main.get_node("PortalSetup")
+			var portal = portal_setup.get_node("Portal")
+			portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
+			
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or player_state == State.FINISHED:
 		var last = cur_tunnel == level.TUNNELS.size()
@@ -609,6 +627,7 @@ func player_was_hit(area: Area3D):
 	elif area.name == "Teleport":
 		var portal = area.get_parent()
 		position = portal.destination.position
+		main.get_node("Portal").queue_free()
 	else:
 		# hit laser
 		if level.stage == 2:

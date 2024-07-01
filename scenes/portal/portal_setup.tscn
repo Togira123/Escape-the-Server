@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=3 uid="uid://bqpx7kmcvhh80"]
+
+[ext_resource type="PackedScene" uid="uid://b7s4eyib3ml47" path="res://scenes/portal/portal_destination.tscn" id="1_p0ova"]
+[ext_resource type="PackedScene" uid="uid://bpj8bmkwcjyuy" path="res://scenes/portal/portal.tscn" id="2_k8n1g"]
+[ext_resource type="Script" path="res://scripts/portal/stencil_camera.gd" id="3_nayyx"]
+[ext_resource type="Script" path="res://scripts/portal/portal_camera.gd" id="4_dplo0"]
+[ext_resource type="Shader" path="res://shaders/stencil_shader.gdshader" id="5_usy1f"]
+
+[sub_resource type="Environment" id="Environment_wrby2"]
+background_mode = 1
+background_energy_multiplier = 0.0
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_j1i7u"]
+viewport_path = NodePath("StencilViewport")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_osmpv"]
+resource_local_to_scene = true
+shader = ExtResource("5_usy1f")
+shader_parameter/stencil_tex = SubResource("ViewportTexture_j1i7u")
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_4yj0w"]
+viewport_path = NodePath("PortalViewport")
+
+[node name="PortalSetup" type="Node"]
+
+[node name="PortalDestination" parent="." instance=ExtResource("1_p0ova")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1946, 6.3812, 298.639)
+
+[node name="Portal" parent="." instance=ExtResource("2_k8n1g")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.91238, 232.74)
+skeleton = NodePath("../..")
+
+[node name="StencilViewport" type="SubViewport" parent="."]
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="StencilCamera" type="Camera3D" parent="StencilViewport"]
+cull_mask = 16
+environment = SubResource("Environment_wrby2")
+script = ExtResource("3_nayyx")
+
+[node name="PortalViewport" type="SubViewport" parent="."]
+screen_space_aa = 1
+size = Vector2i(1920, 1080)
+render_target_update_mode = 4
+
+[node name="PortalCamera" type="Camera3D" parent="PortalViewport"]
+cull_mask = 1048559
+script = ExtResource("4_dplo0")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_osmpv")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ViewportTexture_4yj0w")

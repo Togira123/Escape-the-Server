@@ -4,16 +4,16 @@
 [ext_resource type="Script" path="res://scripts/portal/portal.gd" id="2_1ldju"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_atbvb"]
-radius = 2.0
-height = 4.0
+radius = 4.0
+height = 8.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_2tinc"]
 flip_faces = true
-radius = 2.0
-height = 4.0
+radius = 4.0
+height = 8.0
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_6nu0q"]
-radius = 1.5
+radius = 3.5
 
 [node name="Portal" type="MeshInstance3D"]
 layers = 16

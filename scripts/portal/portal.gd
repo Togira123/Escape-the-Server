@@ -2,12 +2,11 @@ extends MeshInstance3D
  
 class_name CamPortal
  
-@export var destination: Node3D
+@onready var destination = $"../PortalDestination"
 
-var helper: Node3D
+@onready var helper = $Helper
  
 func _ready():
-	helper = $Helper
 	visible = true
 	$Inside.visible = true
  
