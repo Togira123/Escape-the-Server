@@ -57,7 +57,7 @@ var single_holes = []
 var potential_single_holes = []
 
 # for ranked
-var last_tunnel_pos: int = 0
+var last_tunnel_pos: int = -1000
 
 var started_build_only = 3
 

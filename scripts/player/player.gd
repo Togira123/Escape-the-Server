@@ -172,15 +172,11 @@ func _physics_process(delta):
 			var portal = portal_setup.get_node("Portal")
 			var s = 1 + (distance_to_next_tunnel / 100.0) * 0.5
 			portal.scale = Vector3(s, s, s)
-			if level.last_tunnel_pos - position.z < 8:
-				var v1 = Vector2(portal.position.x, portal.position.y)
-				var v2 = Vector2(position.x, position.y)
-				var radius = portal_setup.get_node("Portal/Teleport/CollisionShape3D").shape.radius * portal.scale.x
-				if v1.distance_squared_to(v2) > radius * radius:
-					portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
-
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or player_state == State.FINISHED:
+		if position.y < 1.5 or abs(position.x) > 80:
+			die()
+			return
 		var last = cur_tunnel == level.TUNNELS.size()
 		if not jumped_in_tunnel:
 			level.stage = cur_tunnel
