@@ -443,6 +443,7 @@ theme_override_font_sizes/font_size = 50
 text = "Loading..."
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Leaderboard"]
+auto_translate_mode = 2
 layout_mode = 2
 offset_left = 56.0
 offset_top = 144.0
@@ -452,6 +453,7 @@ auto_translate = false
 horizontal_scroll_mode = 0
 
 [node name="LeaderboardContent" type="Control" parent="Leaderboard/ScrollContainer"]
+auto_translate_mode = 2
 layout_mode = 2
 auto_translate = false
 theme = ExtResource("12_luv01")

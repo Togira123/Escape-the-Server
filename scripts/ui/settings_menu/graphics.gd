@@ -14,9 +14,9 @@ func _on_radio_normal_toggled(toggled_on: bool, update_settings = true):
 	if toggled_on:
 		environment.environment.set_glow_enabled(true)
 		light.set_shadow(true)
-		light.set_shadow_mode(2)
-		player_mesh.set_cast_shadows_setting(1)
-		player_mesh.set_gi_mode(1)
+		light.set_shadow_mode(DirectionalLight3D.SHADOW_PARALLEL_4_SPLITS)
+		player_mesh.set_cast_shadows_setting(GeometryInstance3D.SHADOW_CASTING_SETTING_ON)
+		player_mesh.set_gi_mode(GeometryInstance3D.GI_MODE_STATIC)
 		if update_settings:
 			for inst in level.loaded_modules:
 				if not inst:
@@ -33,9 +33,9 @@ func _on_radio_low_toggled(toggled_on: bool, update_settings = true):
 	if toggled_on:
 		environment.environment.set_glow_enabled(false)
 		light.set_shadow(false)
-		light.set_shadow_mode(0)
-		player_mesh.set_cast_shadows_setting(0)
-		player_mesh.set_gi_mode(0)
+		light.set_shadow_mode(DirectionalLight3D.SHADOW_ORTHOGONAL)
+		player_mesh.set_cast_shadows_setting(GeometryInstance3D.SHADOW_CASTING_SETTING_OFF)
+		player_mesh.set_gi_mode(GeometryInstance3D.GI_MODE_DISABLED)
 		if update_settings:
 			for inst in level.loaded_modules:
 				if not inst:

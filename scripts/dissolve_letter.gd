@@ -11,13 +11,17 @@ func _physics_process(_delta):
 	var old_val = mesh.material_override.get_shader_parameter("dissolve_amount")
 	if old_val == 1:
 		set_physics_process(false)
-		self.get_parent().remove_child(self)
-	mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.025)
+		queue_free()
+	else:
+		mesh.material_override.set_shader_parameter("dissolve_amount", old_val + 0.025)
 
 func dissolve():
 	set_physics_process(true)
 	for c in letter_hitbox.get_children():
 		c.set_deferred("disabled", true)
+	for c in get_children():
+		if c.name.begins_with("GroundCollisionDetector"):
+			c.set_deferred("disabled", true)
 	if has_node("ShieldHitbox"):
 		for c in $ShieldHitbox.get_children():
 			c.set_deferred("disabled", true)

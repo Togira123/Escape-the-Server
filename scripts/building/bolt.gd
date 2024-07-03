@@ -21,9 +21,9 @@ func _ready():
 	elif Client.ranked_rand.randi() % 3 == 0:
 		bolt.mesh.surface_get_material(1).emission = Color("00ff00")
 		spin_speed = 2
-		materials = 5 + Client.ranked_rand.rand_weighted(WEIGHTS_GREEN)
+		materials = 5 + Client.ranked_rand.rand_with_weight(WEIGHTS_GREEN)
 	else:
-		materials = 9 + Client.ranked_rand.rand_weighted(WEIGHTS_GREEN)
+		materials = 9 + Client.ranked_rand.rand_with_weight(WEIGHTS_GREEN)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

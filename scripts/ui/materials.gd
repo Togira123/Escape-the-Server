@@ -5,7 +5,7 @@ extends Control
 
 var change_count = true
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if player.infinite_material:
 		count.text = "∞"
 		count.label_settings.font_color = Color("ffff00")

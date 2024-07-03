@@ -18,7 +18,7 @@ func _ready():
 	spawn_lasers(level.stage)
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	# make all lasers move with the player
 	if player.player_state != player.State.FINISHED:
 		position.z = player.position.z - 20

@@ -10,7 +10,7 @@ func _ready():
 	visible = true
 	$Inside.visible = true
  
-func _process(delta):
+func _process(_delta):
 	var main_cam = get_viewport().get_camera_3d()
 	helper.global_transform = main_cam.global_transform
 	destination.get_child(0).transform = helper.transform

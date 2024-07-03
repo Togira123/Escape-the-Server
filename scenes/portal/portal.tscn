@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://bpj8bmkwcjyuy"]
+[gd_scene load_steps=8 format=3 uid="uid://bpj8bmkwcjyuy"]
 
 [ext_resource type="Material" uid="uid://dk2bmg31uxo5q" path="res://assets/graphics/materials/StencilMaterial.tres" id="1_x31bv"]
 [ext_resource type="Script" path="res://scripts/portal/portal.gd" id="2_1ldju"]
@@ -6,6 +6,16 @@
 [sub_resource type="SphereMesh" id="SphereMesh_atbvb"]
 radius = 4.0
 height = 8.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rkpr5"]
+emission_enabled = true
+emission = Color(1, 1, 1, 1)
+emission_energy_multiplier = 2.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_loj8q"]
+material = SubResource("StandardMaterial3D_rkpr5")
+radius = 4.5
+height = 9.0
 
 [sub_resource type="SphereMesh" id="SphereMesh_2tinc"]
 flip_faces = true
@@ -21,6 +31,10 @@ cast_shadow = 0
 mesh = SubResource("SphereMesh_atbvb")
 surface_material_override/0 = ExtResource("1_x31bv")
 script = ExtResource("2_1ldju")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+cast_shadow = 0
+mesh = SubResource("SphereMesh_loj8q")
 
 [node name="Helper" type="Node3D" parent="."]
 

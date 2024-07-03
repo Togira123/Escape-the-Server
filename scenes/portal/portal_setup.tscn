@@ -27,7 +27,7 @@ viewport_path = NodePath("PortalViewport")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 51.1946, 6.3812, 298.639)
 
 [node name="Portal" parent="." instance=ExtResource("2_k8n1g")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 2.91238, 232.74)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.91238, 232.74)
 skeleton = NodePath("../..")
 
 [node name="StencilViewport" type="SubViewport" parent="."]

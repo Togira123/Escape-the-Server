@@ -156,9 +156,9 @@ func _physics_process(delta):
 		die()
 		return
 	var distance_to_next_tunnel = level.last_tunnel_pos - position.z
-	if distance_to_next_tunnel > 0 and distance_to_next_tunnel < 40:
+	if distance_to_next_tunnel > 0 and distance_to_next_tunnel < 100:
 		# player is shortly before tunnel
-		if position.y < 1.5 or abs(position.x) > 120:
+		if position.y < 1.5 or abs(position.x) > 80:
 			# player is outside bounds
 			if not main.has_node("PortalSetup"):
 				var portal_setup = PORTAL_SETUP.instantiate()
@@ -166,9 +166,18 @@ func _physics_process(delta):
 				portal_setup.get_node("StencilViewport/StencilCamera").main_cam = camera
 				dest.position = Vector3(0, 2.1, level.last_tunnel_pos + 1)
 				main.add_child(portal_setup)
+				var portal = portal_setup.get_node("Portal")
+				portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
 			var portal_setup = main.get_node("PortalSetup")
 			var portal = portal_setup.get_node("Portal")
-			portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
+			var s = 1 + (distance_to_next_tunnel / 100.0) * 0.5
+			portal.scale = Vector3(s, s, s)
+			if level.last_tunnel_pos - position.z < 8:
+				var v1 = Vector2(portal.position.x, portal.position.y)
+				var v2 = Vector2(position.x, position.y)
+				var radius = portal_setup.get_node("Portal/Teleport/CollisionShape3D").shape.radius * portal.scale.x
+				if v1.distance_squared_to(v2) > radius * radius:
+					portal.position = Vector3(position.x, position.y, level.last_tunnel_pos)
 
 	var cur_tunnel = is_in_tunnel();
 	if cur_tunnel != -1 or player_state == State.FINISHED:
@@ -283,6 +292,9 @@ func movement():
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
+			var t = level.last_tunnel_pos
+			if t <= module.position.z and t + level.TUNNEL_LENGTH > module.position.z:
+				return
 			var built_at_ind = xpos - 1 if position.y < 1.5 else xpos
 			if module.built_at.has(built_at_ind):
 				return
@@ -303,6 +315,9 @@ func movement():
 			var xpos: int = ceil(position.x * 5 / 100) * 20 - 10
 			var needed_ind = zpos % level.LOADED_MODULES_SIZE
 			var module = level.loaded_modules[needed_ind]
+			var t = level.last_tunnel_pos
+			if t <= module.position.z and t + level.TUNNEL_LENGTH > module.position.z:
+				return
 			var built_at_ind = xpos - 1 if position.y < 1.5 else xpos
 			if module.built_at.has(built_at_ind):
 				return
@@ -417,7 +432,7 @@ func tunnel_process(delta, is_last: bool):
 		constants.ground_pattern_color_change_progress = clamp(constants.ground_pattern_color_change_progress + delta * 2, 0.0, 1.0)
 	if position.y > TUNNEL_SPIN_HEIGHT:
 		reached_height = true
-	if is_last and position.y > TUNNEL_SPIN_HEIGHT / 2:
+	if is_last and position.y > TUNNEL_SPIN_HEIGHT / 2.0:
 		player_state = State.FINISHED
 		set_process(false)
 	if reached_height:

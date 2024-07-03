@@ -40,11 +40,9 @@ extends Node3D
 const LETTER_SCALE = 7
 
 var spawned_letters: Array[Node] = []
-var frozen_letters: Array[Node] = []
-var frozen_letters_vel = 0.0
 var drop_at_z = 9223372036854775807
 var dropped = false
-# stores x coor of built things
+# stores x coord of built things
 var built_at: Array[int] = []
 static var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 
@@ -53,11 +51,6 @@ func _ready():
 	set_physics_process(false)
 	if position.z > constants.next_sentence_position_z:
 		spawn_sentence()
-
-func _physics_process(delta):
-	frozen_letters_vel += gravity * delta
-	for letter in frozen_letters:
-		letter.position.y -= frozen_letters_vel * delta
 
 func spawn_sentence():
 	var sentence = constants.get_random_sentence().to_upper()
@@ -69,18 +62,11 @@ func spawn_sentence():
 			continue
 		if not letter_dict.has(sentence[i]):
 			continue
-		#var letter = letter_dict[sentence[i]]
 		var letter = letter_dict[sentence[i]]
 		var instance = letter.instantiate()
 		var width = abs(instance.get_node("Pivot/MeshInstance3D").get_aabb().size.x) * LETTER_SCALE
-		
+
 		instance.position.x = cur_x_pos - width / 2
-		#if abs(instance.position.x) > 120:
-			#instance.get_node("LetterHitbox").queue_free()
-			#instance.get_node("GroundCollisionDetector").queue_free()
-			#if instance.has_node("ShieldHitbox"):
-				#instance.get_node("ShieldHitbox").queue_free()
-			#frozen_letters.append(instance)
 		cur_x_pos -= width + 2
 		instance.position.y = height
 		instance.rotation.y = PI + ((8 - (Client.ranked_rand.randi() % 16)) * (PI / 180.0))
@@ -99,7 +85,7 @@ func spawn_sentence():
 				constants.up = false
 			else:
 				constants.up = true
-	
+
 	if level.next_tunnel >= level.TUNNELS.size():
 		constants.next_sentence_position_z += 10000
 	elif level.get_next_tunnel() < constants.next_sentence_position_z + 150:
@@ -114,12 +100,10 @@ func maybe_drop(pos):
 		var count = 0
 		shuffle(spawned_letters)
 		for inst in spawned_letters:
-			if abs(inst.position.x - player.position.x) <= 150:
-				inst.freeze = false
-			else:
-				if count % 4 == 0:
-					await get_tree().create_timer(0.1).timeout
-				count += 1
+			inst.freeze = false
+			if count % 4 == 0:
+				await get_tree().create_timer(0.1).timeout
+			count += 1
 		set_physics_process(true)
 
 func change_color_of_pattern():

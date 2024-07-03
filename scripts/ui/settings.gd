@@ -96,5 +96,5 @@ func _on_arrow_right_pressed():
 	tab_bar.switch_to_right()
 
 
-func _on_hex_text_submitted(new_text: String) -> void:
+func _on_hex_text_submitted(_new_text: String) -> void:
 	call_deferred("grab_focus")

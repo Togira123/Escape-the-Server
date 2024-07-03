@@ -23,8 +23,8 @@ const LOADED_MODULES_SIZE: int = 32
 
 const CASUAL_TUNNELS = [3000, 6000, 10000]
 # shortly before the max int size the level is finished
-const RANKED_TUNNELS = [4000, 10000, 25000, 9223372036854775807 - 100000]
-#const RANKED_TUNNELS = [2520, 5000, 13000, 9223372036854775807 - 100000]
+const RANKED_TUNNELS = [4000, 10000, 20000, 9223372036854775807 - 100000]
+#const RANKED_TUNNELS = [2520, 5000, 15000, 9223372036854775807 - 100000]
 const RANKED_DIST_TO_TUNNEL = 5000
 var TUNNELS = CASUAL_TUNNELS
 const TUNNEL_LENGTH = 500
@@ -193,7 +193,6 @@ func spawn_module(n: int, platforms: bool, build_only: bool):
 							instance.add_child(bolt_inst)
 						else:
 							instance2.add_child(bolt_inst)
-			var possible_bolt_locations: Array[int] = []
 			add_child(instance2)
 			module_count += 1
 			skip = true

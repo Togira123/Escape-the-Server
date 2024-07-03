@@ -92,7 +92,7 @@ func _ready():
 		settings_graphics._on_radio_normal_toggled(true, false)
 	update_ranked_casual_button()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if season_starting_soon.visible or leaderboard.visible:
 		# new Date((Math.floor(Date.now()/1000/(86400*7))*(86400*7)+388800)*1000).toUTCString()
 		var now: int = ceil(Time.get_unix_time_from_system())
@@ -102,12 +102,15 @@ func _physics_process(delta: float) -> void:
 		var hours: int = 0
 		var days: int = 0
 		if seconds >= 60:
+			@warning_ignore("integer_division")
 			minutes = seconds / 60
 			seconds = seconds % 60
 		if minutes >= 60:
+			@warning_ignore("integer_division")
 			hours = minutes / 60
 			minutes = minutes % 60
 		if hours >= 24:
+			@warning_ignore("integer_division")
 			days = hours / 24
 			hours = hours % 24
 		season_starting_soon.text = "Next season starting in: %sd %sh %sm %ss" % [days, hours, minutes, seconds]
@@ -226,7 +229,7 @@ func _on_ready_pressed():
 		player_icon = get_node("../Level/UI/Players/" + Client.user_id)
 	player_icon.get_node("Ready").visible = true
 	player_icon.get_node("NotReady").visible = false
-	
+
 	you_are_ready.size.x = 300
 	you_are_ready.position.x = 810
 	you_are_ready.text = "You are ready"
@@ -246,7 +249,7 @@ func _on_not_ready_pressed():
 		player_icon = get_node("../Level/UI/Players/" + Client.user_id)
 	player_icon.get_node("Ready").visible = false
 	player_icon.get_node("NotReady").visible = true
-	
+
 	you_are_ready.size.x = 370
 	you_are_ready.position.x = 775
 	you_are_ready.text = "You are not ready"
@@ -332,12 +335,15 @@ func update_stats():
 					var hours: int = 0
 					var days: int = 0
 					if seconds >= 60:
+						@warning_ignore("integer_division")
 						minutes = seconds / 60
 						seconds = seconds % 60
 					if minutes >= 60:
+						@warning_ignore("integer_division")
 						hours = minutes / 60
 						minutes = minutes % 60
 					if hours >= 24:
+						@warning_ignore("integer_division")
 						days = hours / 24
 						hours = hours % 24
 					node.text = "%sd %sh %sm %ss" % [days, hours, minutes, seconds]
@@ -374,7 +380,7 @@ func update_leaderboard():
 		leaderboard_you_name.text = ("#0" if Client.leaderboard["you"].rank < 10 else "#") + str(Client.leaderboard["you"].rank) + " | You"
 		leaderboard_you_distance.text = Client.leaderboard["you"].longest_distance_season
 	else:
-		leaderboard_you_name.text = "#>500" + str(Client.leaderboard["you"].rank) + " | You"
+		leaderboard_you_name.text = "#>500 | You"
 		leaderboard_you_distance.text = str(Client.leaderboard["you"].longest_distance_season) + " μm"
 	leaderboard_you_name.visible = true
 	leaderboard_you_distance.visible = true

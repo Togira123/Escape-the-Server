@@ -121,9 +121,22 @@ var token
 
 var ranked_seed = 1
 var season_ends_in = 0
-var ranked_rand = RandomNumberGenerator.new()
+
+class RNG extends RandomNumberGenerator:
+	func rand_with_weight(weights: PackedFloat32Array) -> int:
+		var weights_sum: float = 0.0
+		for w in weights:
+			weights_sum += w
+		var remaining_dist = self.randf() * weights_sum
+		for i in range(weights.size()):
+			remaining_dist -= weights[i]
+			if remaining_dist <= 0:
+				return i
+		return -1
+
+var ranked_rand = RNG.new()
 # generator used to drop letters randomly
-var ranked_rand_drop = RandomNumberGenerator.new()
+var ranked_rand_drop = RNG.new()
 
 func _ready():
 	set_process(false)
