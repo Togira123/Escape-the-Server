@@ -102,8 +102,10 @@ func start_game():
 		Client.ranked_rand.set_seed(Client.ranked_seed)
 		Client.ranked_rand_drop.set_seed(Client.ranked_seed)
 		level.TUNNELS = level.RANKED_TUNNELS
+		player.PLATFORM_LENGTH = player.RANKED_PLATFORM_LENGTH
 	else:
 		level.TUNNELS = level.CASUAL_TUNNELS
+		player.PLATFORM_LENGTH = player.CASUAL_PLATFORM_LENGTH
 	set_process(true)
 	# remove main menu from scene tree
 	$MainMenu.queue_free()

@@ -57,7 +57,9 @@ const SHIELD_DURATION = 5.0
 const TELEPORT_DISTANCE = 40
 
 # need these +20 for the platforms to end with the empty module
-const PLATFORM_LENGTH = [1700, 2020, 2020, 2020] # length % 40 != 0
+const CASUAL_PLATFORM_LENGTH = [1700, 2020, 2020, 2020] # length % 40 != 0
+const RANKED_PLATFORM_LENGTH = [2500, 3020, 3020, 3020]
+var PLATFORM_LENGTH = CASUAL_PLATFORM_LENGTH
 
 enum State {
 	IN_LOBBY,
@@ -180,6 +182,8 @@ func _physics_process(delta):
 		var last = cur_tunnel == level.TUNNELS.size()
 		if not jumped_in_tunnel:
 			level.stage = cur_tunnel
+			if (Client.lobby.members[Client.user_id].gamemode == "casual"):
+				level.stage = min(2, level.stage)
 			jumped_in_tunnel = true
 			velocity.y = TUNNEL_JUMP_IMPULSE
 			# use this here to force jump node immediately
