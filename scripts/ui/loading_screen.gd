@@ -3,11 +3,14 @@ extends Control
 @onready var player_camera = $"../PlayerCamera"
 @onready var level_ui = $"../Level/UI/"
 @onready var building_indicator = $"../Level/BuildingIndicator"
-var TUNNEL = preload("res://scenes/tunnel.tscn")
-var JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
-var JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
-var BUILD_CEILING = preload("res://scenes/building/Ceiling.tscn")
-var BUILD_RAMP = preload("res://scenes/building/Ramp.tscn")
+
+const TUNNEL = preload("res://scenes/tunnel.tscn")
+const JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
+const JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
+const BUILD_CEILING = preload("res://scenes/building/Ceiling.tscn")
+const BUILD_RAMP = preload("res://scenes/building/Ramp.tscn")
+
+const LOBBY_MUSIC = preload("res://assets/audio/music/Lobby.mp3")
 
 @onready var player = $"../Player"
 
@@ -51,6 +54,7 @@ func _process(_delta):
 		ceiling.position.y = 10
 		add_child(ceiling)
 		frames -= 1
+		AudioServer.register_stream_as_sample(LOBBY_MUSIC)
 	elif frames > 0:
 		if frames == 4:
 			prev_shield_val = player.get_node("PlayerShield").mesh.material.get_shader_parameter("alpha")
