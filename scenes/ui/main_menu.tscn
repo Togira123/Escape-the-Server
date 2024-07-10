@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=64 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -37,6 +37,7 @@
 [ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/stats.gd" id="35_hnlbj"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/tab_bar.gd" id="36_3et13"]
+[ext_resource type="AudioStream" uid="uid://bh8o7a1f8otiv" path="res://assets/audio/music/Lobby.mp3" id="38_0j30a"]
 
 [sub_resource type="Theme" id="Theme_c745d"]
 default_font = ExtResource("4_meqxb")
@@ -797,6 +798,7 @@ text = "Arrow Keys"
 
 [node name="GridContainer2" type="GridContainer" parent="Help/1"]
 auto_translate_mode = 1
+layout_mode = 0
 offset_left = 774.0
 offset_top = 222.0
 offset_right = 1354.0
@@ -2472,6 +2474,11 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_fgvb6")
 text = "You are not ready"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("38_0j30a")
+bus = &"Music"
+parameters/looping = true
 
 [connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]
 [connection signal="pressed" from="Ready" to="." method="_on_ready_pressed"]

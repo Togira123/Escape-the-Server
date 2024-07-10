@@ -33,6 +33,8 @@ signal game_start
 @onready var stats_overview_container = $StatsOverview/GridContainer
 @onready var stats_overview_show_all = $StatsOverview/ShowAll
 
+@onready var music = $LobbyMusic
+
 @onready var stats_to_node_path = {
 	"micrometers_travelled": ["MicrometersTravelledValue", 0],
 	"highest_rank": ["HighestRankValue", 0],
@@ -91,6 +93,7 @@ func _ready():
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
 	update_ranked_casual_button()
+	music.play()
 
 func _physics_process(_delta: float) -> void:
 	if season_starting_soon.visible or leaderboard.visible:
