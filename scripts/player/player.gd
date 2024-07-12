@@ -284,6 +284,7 @@ func movement():
 		if teleport_count > 0:
 			teleport_count -= 1
 			level.change_ability_count(level.ABILITIES.TELEPORT, teleport_count)
+			activate_shield(SHIELD_DURATION / 2.5)
 			var next_tunnel_pos = level.last_tunnel_pos
 			if next_tunnel_pos < position.z + TELEPORT_DISTANCE and next_tunnel_pos + TELEPORT_DISTANCE > position.z:
 				# tp 3 meters before tunnel if there is one in front
