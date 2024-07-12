@@ -9,6 +9,7 @@ const JUMPPAD_GREEN = preload("res://scenes/jumppads/green_jumppad.tscn")
 const JUMPPAD_YELLOW = preload("res://scenes/jumppads/yellow_jumppad.tscn")
 const BUILD_CEILING = preload("res://scenes/building/Ceiling.tscn")
 const BUILD_RAMP = preload("res://scenes/building/Ramp.tscn")
+const BOLT = preload("res://scenes/building/Bolt.tscn")
 
 const LOBBY_MUSIC = preload("res://assets/audio/music/Lobby.mp3")
 const TRACK1 = preload("res://assets/audio/music/Track1.mp3")
@@ -58,6 +59,12 @@ func _process(_delta):
 		ceiling.position.z = 30
 		ceiling.position.y = 10
 		add_child(ceiling)
+		for i in range(5):
+			var bolt = BOLT.instantiate()
+			bolt.position.y = 5
+			bolt.position.x = -20 + i * 10
+			bolt.position.z = 25
+			add_child(bolt)
 		frames -= 1
 		AudioServer.register_stream_as_sample(LOBBY_MUSIC)
 		AudioServer.register_stream_as_sample(TRACK1)
