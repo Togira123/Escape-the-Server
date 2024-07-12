@@ -11,6 +11,11 @@ const BUILD_CEILING = preload("res://scenes/building/Ceiling.tscn")
 const BUILD_RAMP = preload("res://scenes/building/Ramp.tscn")
 
 const LOBBY_MUSIC = preload("res://assets/audio/music/Lobby.mp3")
+const TRACK1 = preload("res://assets/audio/music/Track1.mp3")
+const TRACK2 = preload("res://assets/audio/music/Track2.mp3")
+const TRACK3 = preload("res://assets/audio/music/Track3.mp3")
+const WIN_MUSIC = preload("res://assets/audio/music/Win.mp3")
+const DEATH_MUSIC = preload("res://assets/audio/music/Death.mp3")
 
 @onready var player = $"../Player"
 
@@ -55,6 +60,11 @@ func _process(_delta):
 		add_child(ceiling)
 		frames -= 1
 		AudioServer.register_stream_as_sample(LOBBY_MUSIC)
+		AudioServer.register_stream_as_sample(TRACK1)
+		AudioServer.register_stream_as_sample(TRACK2)
+		AudioServer.register_stream_as_sample(TRACK3)
+		AudioServer.register_stream_as_sample(WIN_MUSIC)
+		AudioServer.register_stream_as_sample(DEATH_MUSIC)
 	elif frames > 0:
 		if frames == 4:
 			prev_shield_val = player.get_node("PlayerShield").mesh.material.get_shader_parameter("alpha")

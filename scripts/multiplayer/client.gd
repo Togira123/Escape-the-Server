@@ -10,7 +10,7 @@ const APP_ID = "1221502156880744499"
 const DISCORDSAYS = APP_ID + ".discordsays.com"
 const DISCORDCDN = "https://cdn.discordapp.com"
 
-const PLAYER = preload("res://scenes/player/player.tscn")
+const OTHER_PLAYER = preload("res://scenes/player/other_player.tscn")
 const PLAYER_ICON = preload("res://scenes/ui/player_icon.tscn")
 
 # make sure this is the same as on the server
@@ -306,9 +306,8 @@ func update_lobby(json):
 		var exists = other_players.any(func(p): return p.user_id == member.id)
 		# there's no player node for this lobby member, create one
 		if not exists:
-			var inst = PLAYER.instantiate()
+			var inst = OTHER_PLAYER.instantiate()
 			inst.user_id = member.id
-			inst.add_to_group("other_players")
 			var is_running = member.running
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("half_transparent", is_running or lobby.members[user_id].gamemode == "ranked")
 			inst.get_node("Armature/Skeleton3D/Skin").material_override.set_shader_parameter("albedo", Color(lobby.members[inst.user_id].color))

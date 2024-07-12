@@ -11,8 +11,6 @@ const END_MENU_VICTORY = preload("res://scenes/ui/end_menu_victory.tscn")
 @onready var mesh = $Player/Armature/Skeleton3D/Skin
 @onready var level = $Level
 
-var in_level = false
-
 var start_running = true
 var move_camera_down = true
 
@@ -61,12 +59,14 @@ func _process(delta):
 			if player.player_state == player.State.FINISHED:
 				# player has won
 				var end_menu = END_MENU_VICTORY.instantiate()
+				player.win_music.play()
 				add_child(end_menu)
 				stats_to_update["levels_finished"] = 1
 				stats_to_update["micrometers_travelled"] = level.TUNNELS[level.TUNNELS.size() - 1]
 			else:
 				# player died
 				var end_menu = END_MENU_DEFEAT.instantiate()
+				player.death_music.play()
 				add_child(end_menu)
 				stats_to_update["micrometers_travelled"] = round(player.position.z)
 			Client.update_stats(stats_to_update)
@@ -109,7 +109,6 @@ func start_game():
 	set_process(true)
 	# remove main menu from scene tree
 	$MainMenu.queue_free()
-	in_level = true
 	Input.set_mouse_mode(Input.MOUSE_MODE_HIDDEN)
 	for player_icon in $"Level/UI/Players/".get_children():
 		player_icon.get_node("Ready").visible = false
@@ -124,6 +123,24 @@ func start_game():
 		level.get_node("UI/Materials").visible = true
 
 func _on_player_game_over(skip_animation: bool):
+	if skip_animation:
+		if player.track1.playing:
+			player.track1.stop()
+		elif player.track2.playing:
+			player.track2.stop()
+		elif player.track3.playing:
+			player.track3.stop()
+		else:
+			player.track3_1.stop()
+	else:
+		if player.track1.playing:
+			player.track1.fade_out()
+		elif player.track2.playing:
+			player.track2.fade_out()
+		elif player.track3.playing:
+			player.track3.fade_out()
+		else:
+			player.track3_1.fade_out()
 	var ins = LOADING_SCREEN.instantiate()
 	black_screen = ins.get_child(0)
 	black_screen.set_color(Color(0, 0, 0, 1 if skip_animation else 0))

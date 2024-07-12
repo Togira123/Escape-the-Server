@@ -2443,7 +2443,6 @@ vertical_alignment = 1
 [node name="LobbyMusic" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("38_0j30a")
 bus = &"Music"
-parameters/looping = true
 
 [connection signal="pressed" from="GameStartButton" to="." method="_on_game_start_button_pressed"]
 [connection signal="pressed" from="Ready" to="." method="_on_ready_pressed"]

@@ -24,6 +24,13 @@ signal game_over(skip_animation: bool)
 @onready var hitbox = $Hitbox
 @onready var main = $"../../Main"
 
+@onready var track1 = $Track1
+@onready var track2 = $Track2
+@onready var track3 = $Track3
+@onready var track3_1 = $Track3_1
+@onready var win_music = $WinMusic
+@onready var death_music = $DeathMusic
+
 const CEILING = preload("res://scenes/building/Ceiling.tscn")
 const RAMP = preload("res://scenes/building/Ramp.tscn")
 
@@ -192,6 +199,19 @@ func _physics_process(delta):
 			reached_height = false
 			infinite_material = false
 			if not last:
+				if level.stage == 1:
+					track1.fade_out()
+					track2.play()
+				else:
+					if track2.playing:
+						track2.fade_out()
+						track3.play()
+					elif track3.playing:
+						track3.fade_out()
+						track3_1.play()
+					else:
+						track3_1.fade_out()
+						track3.play()
 				var lasers = level.get_child(0)
 				lasers.remove_children()
 				lasers.spawn_lasers(level.stage)
@@ -480,6 +500,8 @@ func walk_around(delta):
 		arrived = move_to_random_point(x, z, delta)
 
 func start_running(delta):
+	if not track1.playing:
+		track1.play()
 	name_tag.visible = false
 	set_physics_process(false)
 	player_state = State.RUNNING
