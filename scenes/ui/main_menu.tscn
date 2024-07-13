@@ -673,7 +673,7 @@ text = "Your Discord Server has been hacked. Escape before it's too late! Watch 
 
 Use the green and yellow lasers to your advantage to help you dodge the letters (but do NOT touch the red ones). Also, make sure to not stay too close to them for too long or things will get hot.
 
-Additionally, it might be worth the risk flying straight through an 'O', a 'D' or other closed letters to get a temporary shield protecting you from other letters. Do this twice in a short time to receive a teleport ability you can use with 'E'.
+Additionally, it might be worth the risk flying straight through an 'O', a 'D' or other closed letters to get a temporary shield protecting you from other letters. Do this twice in a short time to receive a teleport ability.
 
 Focus, because it's going to get harder the closer you are to escaping!
 
@@ -758,13 +758,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Shift"
 
-[node name="UseItem" type="Label" parent="Help/1/GridContainer"]
+[node name="UseAbility" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Use Item"
+text = "Use Ability"
 
-[node name="UseItemKey" type="Label" parent="Help/1/GridContainer"]
+[node name="UseAbilityKey" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
