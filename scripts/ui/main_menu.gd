@@ -92,6 +92,7 @@ func _ready():
 		settings_graphics._on_radio_low_toggled(true, false)
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
+	settings_graphics._on_volume_slider_value_changed(Client.settings["master_volume"], false)
 	update_ranked_casual_button()
 	music.play()
 

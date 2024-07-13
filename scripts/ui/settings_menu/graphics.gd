@@ -6,6 +6,8 @@ extends Control
 @onready var level = $"/root/Main/Level"
 @onready var radio_normal = $"RadioNormal"
 @onready var radio_low = $"RadioLow"
+@onready var volume_value = $VolumeValue
+@onready var volume_slider = $VolumeSlider
 
 const LOW_RES_FLOOR_MATERIAL = preload("res://assets/graphics/materials/LowResGroundMaterial.tres")
 const NORMAL_RES_FLOOR_MATERIAL = preload("res://assets/graphics/materials/GroundMaterialCartoon.tres")
@@ -47,3 +49,22 @@ func _on_radio_low_toggled(toggled_on: bool, update_settings = true):
 			# in this case the function was called in ready() of the main_menu script
 			radio_low.set_pressed_no_signal(true)
 			radio_normal.set_pressed_no_signal(false)
+
+var queue_timer: SceneTreeTimer = null
+func queue_volume_setting_change():
+	if queue_timer:
+		return
+	queue_timer = get_tree().create_timer(2.0, true, false, true)
+	await queue_timer.timeout
+	Client.update_settings()
+	queue_timer = null
+
+func _on_volume_slider_value_changed(value, update_settings = true):
+	volume_value.text = str(value)
+	AudioServer.set_bus_volume_db(0, linear_to_db(value))
+	AudioServer.set_bus_mute(0, value < 0.05)
+	if update_settings:
+		Client.settings["master_volume"] = value
+		queue_volume_setting_change()
+	else:
+		volume_slider.set_value_no_signal(value)

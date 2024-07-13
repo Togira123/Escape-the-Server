@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=67 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -35,6 +35,7 @@
 [ext_resource type="Texture2D" uid="uid://c41ui28uweore" path="res://assets/graphics/ui/main_menu/RadioButtonSelected.png" id="31_ig5lv"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/graphics.gd" id="31_on4tt"]
 [ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
+[ext_resource type="FontFile" uid="uid://b5ty3j5a744ms" path="res://assets/graphics/fonts/gg sans SemiBold.woff2" id="33_yrkh6"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/stats.gd" id="35_hnlbj"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/tab_bar.gd" id="36_3et13"]
 [ext_resource type="AudioStream" uid="uid://bh8o7a1f8otiv" path="res://assets/audio/music/Lobby.mp3" id="38_0j30a"]
@@ -167,6 +168,10 @@ corner_detail = 6
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7xc4"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tvmjn"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x6p4r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_dvfpw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fgvb6"]
 content_margin_left = 30.0
@@ -1161,24 +1166,34 @@ grow_vertical = 2
 theme = ExtResource("12_luv01")
 script = ExtResource("31_on4tt")
 
-[node name="Graphics" type="Label" parent="Settings/2"]
+[node name="OtherSettings" type="Label" parent="Settings/2"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 117.0
 offset_top = 75.0
-offset_right = 440.0
+offset_right = 325.0
 offset_bottom = 183.0
 theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
+text = "Other"
+
+[node name="Graphics" type="Label" parent="Settings/2"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 215.0
+offset_right = 273.0
+offset_bottom = 269.0
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 40
 text = "Graphics"
 
 [node name="Normal" type="Label" parent="Settings/2"]
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 194.0
-offset_top = 239.0
+offset_top = 298.0
 offset_right = 738.0
-offset_bottom = 280.0
+offset_bottom = 339.0
 theme_override_font_sizes/font_size = 30
 text = "Normal (Lower FPS)"
 autowrap_mode = 3
@@ -1186,9 +1201,9 @@ autowrap_mode = 3
 [node name="RadioNormal" type="CheckButton" parent="Settings/2"]
 layout_mode = 0
 offset_left = 117.0
-offset_top = 232.0
+offset_top = 291.0
 offset_right = 337.0
-offset_bottom = 452.0
+offset_bottom = 511.0
 scale = Vector2(0.25, 0.25)
 focus_mode = 0
 mouse_default_cursor_shape = 2
@@ -1201,9 +1216,9 @@ button_group = SubResource("ButtonGroup_tvmjn")
 auto_translate_mode = 1
 layout_mode = 0
 offset_left = 194.0
-offset_top = 311.0
+offset_top = 370.0
 offset_right = 738.0
-offset_bottom = 352.0
+offset_bottom = 411.0
 theme_override_font_sizes/font_size = 30
 text = "Low (Higher FPS)"
 autowrap_mode = 3
@@ -1211,15 +1226,57 @@ autowrap_mode = 3
 [node name="RadioLow" type="CheckButton" parent="Settings/2"]
 layout_mode = 0
 offset_left = 117.0
-offset_top = 304.0
+offset_top = 363.0
 offset_right = 337.0
-offset_bottom = 524.0
+offset_bottom = 583.0
 scale = Vector2(0.25, 0.25)
 focus_mode = 0
 mouse_default_cursor_shape = 2
 theme_override_icons/checked = ExtResource("31_ig5lv")
 theme_override_icons/unchecked = ExtResource("32_0jdvx")
 button_group = SubResource("ButtonGroup_tvmjn")
+
+[node name="Audio" type="Label" parent="Settings/2"]
+offset_left = 117.0
+offset_top = 450.0
+offset_right = 273.0
+offset_bottom = 504.0
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 40
+text = "Audio"
+
+[node name="Volume" type="Label" parent="Settings/2"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 509.0
+offset_right = 213.0
+offset_bottom = 550.0
+theme_override_font_sizes/font_size = 30
+text = "Volume"
+
+[node name="VolumeSlider" type="HSlider" parent="Settings/2"]
+modulate = Color(100, 100, 100, 1)
+layout_mode = 0
+offset_left = 117.0
+offset_top = 543.0
+offset_right = 417.0
+offset_bottom = 583.0
+theme_override_styles/grabber_area = SubResource("StyleBoxEmpty_x6p4r")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxEmpty_dvfpw")
+max_value = 1.0
+step = 0.05
+value = 1.0
+scrollable = false
+
+[node name="VolumeValue" type="Label" parent="Settings/2"]
+layout_mode = 0
+offset_left = 430.0
+offset_top = 543.0
+offset_right = 470.0
+offset_bottom = 577.0
+theme_override_font_sizes/font_size = 25
+text = "1
+"
 
 [node name="TabBar" type="TabBar" parent="Settings"]
 auto_translate_mode = 1
@@ -2468,6 +2525,7 @@ bus = &"Music"
 [connection signal="toggled" from="Settings/1/CheckButton" to="Settings" method="_on_check_button_toggled"]
 [connection signal="toggled" from="Settings/2/RadioNormal" to="Settings/2" method="_on_radio_normal_toggled"]
 [connection signal="toggled" from="Settings/2/RadioLow" to="Settings/2" method="_on_radio_low_toggled"]
+[connection signal="value_changed" from="Settings/2/VolumeSlider" to="Settings/2" method="_on_volume_slider_value_changed"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Settings/ArrowLeft" to="Settings" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Settings/ArrowRight" to="Settings" method="_on_arrow_right_pressed"]
