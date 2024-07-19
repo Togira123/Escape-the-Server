@@ -1,4 +1,4 @@
-[gd_scene load_steps=67 format=3 uid="uid://qfkx5miayyoe"]
+[gd_scene load_steps=74 format=3 uid="uid://qfkx5miayyoe"]
 
 [ext_resource type="Script" path="res://scripts/ui/main_menu.gd" id="1_0j2i0"]
 [ext_resource type="Theme" uid="uid://btq2v8xwqub83" path="res://assets/graphics/themes/main_menu.tres" id="2_4tsm1"]
@@ -21,8 +21,6 @@
 [ext_resource type="Texture2D" uid="uid://d4fqqa1eiyn4q" path="res://assets/graphics/ui/main_menu/ArrowRight.png" id="18_bsjgq"]
 [ext_resource type="Script" path="res://scripts/ui/settings.gd" id="19_ejji2"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/tab_bar.gd" id="20_4yxtl"]
-[ext_resource type="Texture2D" uid="uid://dwee2sd4syc3i" path="res://assets/graphics/ui/main_menu/CheckOn.png" id="20_olcb7"]
-[ext_resource type="Texture2D" uid="uid://dm4cagtduw47l" path="res://assets/graphics/ui/main_menu/CheckOff.png" id="21_7gwww"]
 [ext_resource type="Material" uid="uid://t6m1uwsq5o2l" path="res://assets/graphics/materials/ui/ColorPicker.tres" id="21_xspsu"]
 [ext_resource type="Texture2D" uid="uid://e661nlbi4pbr" path="res://assets/graphics/ui/main_menu/WhiteCircle.png" id="22_kpu46"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/color_picker.gd" id="22_uxsbl"]
@@ -33,8 +31,10 @@
 [ext_resource type="Material" uid="uid://c3jmw1h0h4bnt" path="res://assets/graphics/materials/ui/SliderBlue.tres" id="27_khk1j"]
 [ext_resource type="Material" uid="uid://dddc3clo0lujy" path="res://assets/graphics/materials/ui/SliderBlackWhite.tres" id="28_ck2x4"]
 [ext_resource type="Texture2D" uid="uid://c41ui28uweore" path="res://assets/graphics/ui/main_menu/RadioButtonSelected.png" id="31_ig5lv"]
+[ext_resource type="Script" path="res://scripts/ui/settings_menu/press_key.gd" id="31_j4sku"]
 [ext_resource type="Script" path="res://scripts/ui/settings_menu/graphics.gd" id="31_on4tt"]
 [ext_resource type="Texture2D" uid="uid://ch8s3u5fklygt" path="res://assets/graphics/ui/main_menu/RadioButtonDeselected.png" id="32_0jdvx"]
+[ext_resource type="Script" path="res://scripts/ui/settings_menu/show_key_input.gd" id="32_88bji"]
 [ext_resource type="FontFile" uid="uid://b5ty3j5a744ms" path="res://assets/graphics/fonts/gg sans SemiBold.woff2" id="33_yrkh6"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/stats.gd" id="35_hnlbj"]
 [ext_resource type="Script" path="res://scripts/ui/stats_menu/tab_bar.gd" id="36_3et13"]
@@ -166,6 +166,40 @@ corner_detail = 6
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7eu2r"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_i7xc4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pam6u"]
+bg_color = Color(0, 0, 0, 0.315)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_avbeh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_04wtp"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5jfg1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4mi3v"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2kmon"]
+
+[sub_resource type="Theme" id="Theme_ysias"]
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/font_sizes/font_size = 30
+Button/fonts/font = ExtResource("4_meqxb")
+Button/styles/disabled = SubResource("StyleBoxEmpty_avbeh")
+Button/styles/focus = SubResource("StyleBoxEmpty_04wtp")
+Button/styles/hover = SubResource("StyleBoxEmpty_5jfg1")
+Button/styles/normal = SubResource("StyleBoxEmpty_4mi3v")
+Button/styles/pressed = SubResource("StyleBoxEmpty_2kmon")
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_tvmjn"]
 
@@ -467,7 +501,6 @@ text = "Stats"
 
 [node name="Loading" type="Label" parent="StatsOverview"]
 auto_translate_mode = 2
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -486,6 +519,7 @@ text = "Loading..."
 
 [node name="GridContainer" type="GridContainer" parent="StatsOverview"]
 auto_translate_mode = 1
+visible = false
 layout_mode = 0
 offset_left = 56.0
 offset_top = 144.0
@@ -599,6 +633,7 @@ horizontal_alignment = 2
 
 [node name="ShowAll" type="Button" parent="StatsOverview"]
 auto_translate_mode = 2
+visible = false
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -700,7 +735,7 @@ offset_right = 440.0
 offset_bottom = 183.0
 theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
-text = "Keybinds"
+text = "Default Keybinds"
 
 [node name="GridContainer" type="GridContainer" parent="Help/1"]
 layout_mode = 0
@@ -768,7 +803,7 @@ text = "Use Ability"
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "F"
+text = "E"
 
 [node name="Revive" type="Label" parent="Help/1/GridContainer"]
 auto_translate_mode = 1
@@ -799,11 +834,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Build Ramp (ranked only)"
 
-[node name="QKey" type="Label" parent="Help/1/GridContainer2"]
+[node name="BuildRampKey" type="Label" parent="Help/1/GridContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "Q"
+text = "Arrow Left"
 
 [node name="BuildPlatform" type="Label" parent="Help/1/GridContainer2"]
 auto_translate_mode = 1
@@ -811,11 +846,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Build Platform (ranked only)"
 
-[node name="EKey" type="Label" parent="Help/1/GridContainer2"]
+[node name="BuildPlatformKey" type="Label" parent="Help/1/GridContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "E"
+text = "Arrow Right"
 
 [node name="ToggleBuildHelp" type="Label" parent="Help/1/GridContainer2"]
 auto_translate_mode = 1
@@ -823,11 +858,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Toggle Build Help (ranked only)"
 
-[node name="RKey" type="Label" parent="Help/1/GridContainer2"]
+[node name="ToggleBuildHelpKey" type="Label" parent="Help/1/GridContainer2"]
 auto_translate_mode = 1
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
-text = "R"
+text = "Arrow Up"
 
 [node name="SwapKeybinds" type="Label" parent="Help/1"]
 layout_mode = 0
@@ -836,7 +871,7 @@ offset_top = 694.0
 offset_right = 158.0
 offset_bottom = 717.0
 theme_override_font_sizes/font_size = 30
-text = "You can swap the movement and revive keybinds in settings"
+text = "You can change keybinds in settings"
 
 [node name="TabBar" type="TabBar" parent="Help"]
 auto_translate_mode = 2
@@ -1120,39 +1155,230 @@ theme_override_fonts/font = ExtResource("13_jhkct")
 theme_override_font_sizes/font_size = 80
 text = "Keybinds"
 
-[node name="ButtonText" type="Label" parent="Settings/1"]
-auto_translate_mode = 1
+[node name="ResetKeybinds" type="Button" parent="Settings/1"]
 layout_mode = 0
-offset_left = 235.0
-offset_top = 239.0
-offset_right = 779.0
-offset_bottom = 280.0
-theme_override_font_sizes/font_size = 30
-text = "Use A/D/Shift/Space to control the player"
-autowrap_mode = 3
-
-[node name="Description" type="Label" parent="Settings/1"]
-auto_translate_mode = 1
-layout_mode = 0
-offset_left = 117.0
-offset_top = 297.0
-offset_right = 1361.0
-offset_bottom = 426.0
-theme_override_font_sizes/font_size = 30
-text = "If unchecked, the four arrow keys are used to control the player instead. Note that in that case the W/A/S/D keys are used to revive other players in multiplayer mode."
-autowrap_mode = 3
-
-[node name="CheckButton" type="CheckButton" parent="Settings/1"]
-layout_mode = 0
-offset_left = 117.0
-offset_top = 204.0
-offset_right = 337.0
-offset_bottom = 424.0
-scale = Vector2(0.5, 0.5)
+offset_left = 1164.0
+offset_top = 160.0
+offset_right = 1321.0
+offset_bottom = 208.0
 focus_mode = 0
 mouse_default_cursor_shape = 2
-theme_override_icons/checked = ExtResource("20_olcb7")
-theme_override_icons/unchecked = ExtResource("21_7gwww")
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 20
+theme_override_styles/normal = SubResource("StyleBoxFlat_pam6u")
+text = "Reset to default"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Settings/1"]
+layout_mode = 0
+offset_left = 117.0
+offset_top = 222.0
+offset_right = 1334.0
+offset_bottom = 760.0
+
+[node name="GridContainer" type="GridContainer" parent="Settings/1/ScrollContainer"]
+layout_mode = 2
+theme = SubResource("Theme_ysias")
+theme_override_constants/h_separation = 500
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="General" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 45
+text = "General"
+
+[node name="Empty" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+text = "                                                                                                       "
+
+[node name="StriveLeft" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Strive Left"
+
+[node name="move_left" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "A"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="StriveRight" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Strive Right"
+
+[node name="move_right" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "D"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="Jump" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Jump/Spin (when mid-air)"
+
+[node name="jump" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Space"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="Roll" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Roll"
+
+[node name="roll" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Shift"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="UseAbility" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Use Ability"
+
+[node name="use_item" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "F"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="Casual" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 45
+text = "Casual"
+
+[node name="Empty2" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+
+[node name="ReviveDown" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Revive Down"
+
+[node name="revive_down" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Arrow Down"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="ReviveUp" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Revive Up"
+
+[node name="revive_up" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Arrow Up"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="ReviveRight" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Revive Right"
+
+[node name="revive_right" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Arrow Right"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="ReviveLeft" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Revive Left"
+
+[node name="revive_left" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Arrow Left"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="Ranked" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 45
+text = "Ranked"
+
+[node name="Empty3" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+
+[node name="BuildRamp" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Build Ramp"
+
+[node name="build_ramp" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "Q"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="BuildPlatform" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Build Platform"
+
+[node name="build_ceiling" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "E"
+alignment = 2
+script = ExtResource("32_88bji")
+
+[node name="ToggleBuildHelp" type="Label" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 30
+text = "Toggle Build Help"
+
+[node name="toggle_build_indicator" type="Button" parent="Settings/1/ScrollContainer/GridContainer"]
+layout_mode = 2
+focus_mode = 0
+mouse_default_cursor_shape = 2
+text = "R"
+alignment = 2
+script = ExtResource("32_88bji")
 
 [node name="2" type="Control" parent="Settings"]
 auto_translate_mode = 1
@@ -1237,6 +1463,7 @@ theme_override_icons/unchecked = ExtResource("32_0jdvx")
 button_group = SubResource("ButtonGroup_tvmjn")
 
 [node name="Audio" type="Label" parent="Settings/2"]
+layout_mode = 0
 offset_left = 117.0
 offset_top = 450.0
 offset_right = 273.0
@@ -1340,6 +1567,61 @@ mouse_default_cursor_shape = 2
 theme_override_styles/hover = SubResource("StyleBoxTexture_p1hbu")
 icon = ExtResource("18_bsjgq")
 icon_alignment = 1
+
+[node name="PressKey" type="Control" parent="Settings"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("12_luv01")
+script = ExtResource("31_j4sku")
+
+[node name="Bg" type="ColorRect" parent="Settings/PressKey"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 2
+color = Color(0, 0, 0, 0.439216)
+
+[node name="Label" type="Label" parent="Settings/PressKey"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -21.5
+offset_right = 20.0
+offset_bottom = 21.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("33_yrkh6")
+theme_override_font_sizes/font_size = 40
+text = "Press any key or mouse button"
+
+[node name="Label2" type="Label" parent="Settings/PressKey"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -10.5
+offset_top = 26.5
+offset_right = 10.5
+offset_bottom = 69.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_meqxb")
+theme_override_font_sizes/font_size = 20
+text = "or wait 5 seconds if you don't want to change any keybinds"
 
 [node name="Stats" type="Panel" parent="."]
 auto_translate_mode = 2
@@ -2522,13 +2804,14 @@ bus = &"Music"
 [connection signal="value_changed" from="Settings/0/SliderG" to="Settings/0" method="_on_slider_g_value_changed"]
 [connection signal="value_changed" from="Settings/0/SliderB" to="Settings/0" method="_on_slider_b_value_changed"]
 [connection signal="value_changed" from="Settings/0/SliderV" to="Settings/0" method="_on_slider_v_value_changed"]
-[connection signal="toggled" from="Settings/1/CheckButton" to="Settings" method="_on_check_button_toggled"]
+[connection signal="pressed" from="Settings/1/ResetKeybinds" to="Settings" method="_on_reset_keybinds_pressed"]
 [connection signal="toggled" from="Settings/2/RadioNormal" to="Settings/2" method="_on_radio_normal_toggled"]
 [connection signal="toggled" from="Settings/2/RadioLow" to="Settings/2" method="_on_radio_low_toggled"]
 [connection signal="value_changed" from="Settings/2/VolumeSlider" to="Settings/2" method="_on_volume_slider_value_changed"]
 [connection signal="tab_changed" from="Settings/TabBar" to="Settings" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Settings/ArrowLeft" to="Settings" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Settings/ArrowRight" to="Settings" method="_on_arrow_right_pressed"]
+[connection signal="gui_input" from="Settings/PressKey/Bg" to="Settings/PressKey" method="_on_bg_gui_input"]
 [connection signal="tab_changed" from="Stats/TabBar" to="Stats" method="_on_tab_bar_tab_changed"]
 [connection signal="pressed" from="Stats/ArrowLeft" to="Stats" method="_on_arrow_left_pressed"]
 [connection signal="pressed" from="Stats/ArrowRight" to="Stats" method="_on_arrow_right_pressed"]

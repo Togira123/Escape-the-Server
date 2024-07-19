@@ -24,7 +24,6 @@ signal game_start
 @onready var leaderboard_button = $LeaderboardButton
 @onready var casual_button = $CasualButton
 
-@onready var settings_check_button = $"Settings/1/CheckButton"
 @onready var settings_player_customization = $"Settings/0"
 @onready var settings_player_customization_hex_field = $"Settings/0/Hex"
 @onready var settings_graphics = $"Settings/2"
@@ -80,8 +79,6 @@ func _ready():
 		stats_overview_container.visible = true
 		stats_overview_show_all.visible = true
 	update_play_button()
-	settings_check_button.set_pressed_no_signal(Client.settings["default_keybinds"])
-	settings._on_check_button_toggled(Client.settings["default_keybinds"], false)
 	var player_color = Client.lobby.members[Client.user_id].color
 	player.set_color(Color(player_color))
 	settings_player_customization_hex_field.text = player_color
@@ -93,6 +90,7 @@ func _ready():
 	else:
 		settings_graphics._on_radio_normal_toggled(true, false)
 	settings_graphics._on_volume_slider_value_changed(Client.settings["master_volume"], false)
+	settings.load_keybinds_from_settings()
 	update_ranked_casual_button()
 	music.play()
 
