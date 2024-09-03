@@ -35,6 +35,7 @@
         const statusProgressInner = document.getElementById('status-progress-inner');
 
         engine.startGame({
+            'executable': '.proxy/index',
             'onProgress': function (current, total) {
                 if (total > 0) {
                     statusProgressInner.style.width = `${(current / total) * 100}%`;
