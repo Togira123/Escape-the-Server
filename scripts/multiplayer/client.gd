@@ -436,7 +436,7 @@ func fetch_avatar(user_id: String, avatar_hash: String):
 	var http_req = HTTPRequest.new()
 	add_child(http_req)
 	http_req.request_completed.connect(_set_avatar.bind(user_id))
-	http_req.request(DISCORDCDN + "/avatars/%s/%s.png?size=256" % [user_id, avatar_hash])
+	http_req.request("https://" + DISCORDSAYS + "/discordcdn/avatars/%s/%s.png?size=256" % [user_id, avatar_hash])
 
 func _set_avatar(result: int, _response_code: int, _headers: PackedStringArray, body: PackedByteArray, user_id: String):
 	if result != HTTPRequest.RESULT_SUCCESS:
